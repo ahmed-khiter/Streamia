@@ -1,0 +1,174 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    @RenderSection("Styles", required: false)
+
+    <link href="~/css/site.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="wrapper">
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fa fa-podcast"></i> Streamia</h3>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="/"><i class="fa fa-home"></i> Home</a>
+                </li>
+                <li>
+                    <a href="#servers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-server"></i> Servers
+                    </a>
+                    <ul class="collapse list-unstyled" id="servers">
+                        <li>
+                            <a href="/server/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/server/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#streams" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-tv"></i> Streams
+                    </a>
+                    <ul class="collapse list-unstyled" id="streams">
+                        <li>
+                            <a href="/stream/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/stream/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#channles" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-podcast"></i> Channles
+                    </a>
+                    <ul class="collapse list-unstyled" id="channles">
+                        <li>
+                            <a href="/channle/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/channle/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#movies" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-film"></i> Movies
+                    </a>
+                    <ul class="collapse list-unstyled" id="movies">
+                        <li>
+                            <a href="/Movie/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/Movie/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#serieses" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-video-camera"></i> Serieses
+                    </a>
+                    <ul class="collapse list-unstyled" id="serieses">
+                        <li>
+                            <a href="/seriese/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/seriese/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#bouquets" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-cubes"></i> Bouquets
+                    </a>
+                    <ul class="collapse list-unstyled" id="bouquets">
+                        <li>
+                            <a href="/bouquet/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/bouquet/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#categories" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-share-alt"></i> Categories
+                    </a>
+                    <ul class="collapse list-unstyled" id="categories">
+                        <li>
+                            <a href="/categorie/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/categorie/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#iptv-users" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-user"></i> IPTV Users
+                    </a>
+                    <ul class="collapse list-unstyled" id="iptv-users">
+                        <li>
+                            <a href="/IptvUser/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/IptvUser/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#resellers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-users"></i> Resellers
+                    </a>
+                    <ul class="collapse list-unstyled" id="resellers">
+                        <li>
+                            <a href="/reseller/add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a href="/reseller/manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/setting"><i class="fa fa-gears"></i> Settings</a>
+                </li>
+            </ul>
+        </nav>
+
+        <div id="content">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <span class="page-title"><i class="fa fa-@ViewData["Icon"]"></i> @ViewData["Title"]</span>
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item active profile-container">
+                        <span class="profile-name">Admin</span>
+                        <img class="profile-picture" src="~/imgs/user.png" />
+                    </li>
+                </ul>
+            </nav>
+            <div class="main-content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/jquery/jquery.js"></script>
+    <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: true)
+    }
+
+</body>
+</html>
+
+

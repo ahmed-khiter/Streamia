@@ -1,0 +1,160 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = "Add";
+}
+
+<form method="post">
+    <div class="row">
+
+        <div class="form-group col-md-3">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" id="movie-name" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Path"></label>
+            <input asp-for="Path" class="form-control" />
+            <span class="text-danger" asp-validation-for="Path"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Category"></label>
+            <input asp-for="Category" class="form-control" />
+            <span class="text-danger" asp-validation-for="Category"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="BouquetSources"></label>
+            <input asp-for="BouquetSources" class="form-control" />
+            <span class="text-danger" asp-validation-for="BouquetSources"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Note"></label>
+            <input asp-for="Note" class="form-control" />
+            <span class="text-danger" asp-validation-for="Note"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="PosterUrl"></label>
+            <input asp-for="PosterUrl" class="form-control" />
+            <span class="text-danger" asp-validation-for="PosterUrl"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="BackdropUrl"></label>
+            <input asp-for="BackdropUrl" class="form-control" />
+            <span class="text-danger" asp-validation-for="BackdropUrl"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Plot"></label>
+            <input asp-for="Plot" class="form-control" />
+            <span class="text-danger" asp-validation-for="Plot"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Cast"></label>
+            <input asp-for="Cast" class="form-control" />
+            <span class="text-danger" asp-validation-for="Cast"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Director"></label>
+            <input asp-for="Director" class="form-control" />
+            <span class="text-danger" asp-validation-for="Director"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Genres"></label>
+            <input asp-for="Genres" class="form-control" />
+            <span class="text-danger" asp-validation-for="Genres"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="ReleaseDate"></label>
+            <input asp-for="ReleaseDate" class="form-control" />
+            <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Runtime"></label>
+            <input asp-for="Runtime" class="form-control" />
+            <span class="text-danger" asp-validation-for="Runtime"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Rating"></label>
+            <input asp-for="Rating" class="form-control" />
+            <span class="text-danger" asp-validation-for="Rating"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Country"></label>
+            <input asp-for="Country" class="form-control" />
+            <span class="text-danger" asp-validation-for="Country"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="TranscodingProfile"></label>
+            <input asp-for="TranscodingProfile" class="form-control" />
+            <span class="text-danger" asp-validation-for="TranscodingProfile"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Servers"></label>
+            <input asp-for="Servers" class="form-control" />
+            <span class="text-danger" asp-validation-for="Servers"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="SidDevice"></label>
+            <input asp-for="SidDevice" class="form-control" />
+            <span class="text-danger" asp-validation-for="SidDevice"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="TargetContainer"></label>
+            <input asp-for="TargetContainer" class="form-control" />
+            <span class="text-danger" asp-validation-for="TargetContainer"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="SubtitleLocation"></label>
+            <input asp-for="SubtitleLocation" class="form-control" />
+            <span class="text-danger" asp-validation-for="SubtitleLocation"></span>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <input asp-for="DirectSource" class="custom-checkbox" />
+                <label asp-for="DirectSource"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <input asp-for="NativeFrame" class="custom-checkbox" />
+                <label asp-for="NativeFrame"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <input asp-for="CreateSymlink" class="custom-checkbox" />
+                <label asp-for="CreateSymlink"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <input asp-for="RemoveExistingSubtitle" class="custom-checkbox" />
+                <label asp-for="RemoveExistingSubtitle"></label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group col-md-12">
+                <input asp-for="ProcessMovie" class="custom-checkbox" />
+                <label asp-for="ProcessMovie"></label>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <button class="btn btn-success">
+        <i class="fa fa-plus"></i> Add
+    </button>
+</form>
+
+@section Scripts
+{
+    <script>
+        $('#movie-name').on('keyup', function () {
+            var inputVal = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: `https://api.themoviedb.org/3/search/movie?api_key=415e9238d5188172426c3858b367e468&query=${inputVal}&append_to_response=videos`,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+        });
+    </script>
+}

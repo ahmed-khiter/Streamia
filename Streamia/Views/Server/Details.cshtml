@@ -1,0 +1,107 @@
+﻿
+@model Server
+@{
+    ViewData["Title"] = "Server Details";
+    ViewData["Icon"] = "info-circle";
+}
+
+<div class="row">
+
+    <div class="col-md-3">
+
+        <table class="table table-striped">
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.Name)</strong></td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.Ip)</strong></td>
+                <td>@Model.Ip</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.RootPassword)</strong></td>
+                <td>@Model.RootPassword</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.MaxClients)</strong></td>
+                <td>@Model.MaxClients</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <table class="table table-striped">
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.HttpPort)</strong></td>
+                <td>@Model.HttpPort</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.HttpsPort)</strong></td>
+                <td>@Model.HttpsPort</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.SshPort)</strong></td>
+                <td>@Model.SshPort</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.RtmpPort)</strong></td>
+                <td>@Model.RtmpPort</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <table class="table table-striped">
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.IsRTMP)</strong></td>
+                <td>
+                    @{ string iconClass = "close text-danger"; }
+                    @if (Model.IsRTMP)
+                    {
+                        iconClass = "check text-success";
+                    }
+                    <i class="fa fa-@iconClass"></i>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.State)</strong></td>
+                <td>
+                    @{ iconClass = "warning"; }
+                    @if (Model.State == State.ONLINE)
+                    {
+                        iconClass = "success";
+                    }
+                    else if (Model.State == State.OFFLINE)
+                    {
+                        iconClass = "danger";
+                    }
+                    <i class="fa fa-circle text-@iconClass"></i> @Model.State
+                </td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="col-md-3 text-center pt-5">
+
+        <i class="fa fa-linux fa-5x"></i>
+        <h3 class="text-secondary font-weight-bold">Linux</h3>
+
+    </div>
+
+</div>
+
+<hr />
+
+<div class="pull-left">
+    <a href="javascript:window.location.back" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> Go back</a>
+</div>
+<div class="pull-right">
+    <a href="/servers/edit/@Model.Id" class="btn btn-warning"><i class="fa fa-pencil"></i> Edit</a>
+    <a href="/servers/delete/@Model.Id" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+</div>
+<div class="clearfix"></div>

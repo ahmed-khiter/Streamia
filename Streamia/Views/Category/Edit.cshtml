@@ -1,0 +1,38 @@
+﻿@model Category
+@{
+    ViewData["Title"] = "Add Category";
+    ViewData["Icon"] = "plus";
+}
+
+@if (ViewData["Success"] != null)
+{
+    <div class="alert alert-success">
+        <i class="fa fa-info-circle"></i> <strong>@ViewData["Success"]</strong>
+    </div>
+}
+
+<form method="post">
+
+    <input type="hidden" asp-for="Id" />
+
+    <div class="row">
+
+        <div class="form-group col-md-3">
+
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+
+        </div>
+
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-warning">
+        <i class="fa fa-pencil"></i> Edit
+    </button>
+
+</form>
+
+
