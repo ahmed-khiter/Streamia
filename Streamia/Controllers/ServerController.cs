@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Renci.SshNet;
@@ -12,6 +13,7 @@ using Streamia.Repositories;
 
 namespace Streamia.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ServerController : Controller
     {
         private readonly ILogger<ServerController> _logger;

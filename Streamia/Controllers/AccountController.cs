@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Streamia.Models;
 using Streamia.ViewModels;
 
 namespace Streamia.Controllers
@@ -16,12 +17,12 @@ namespace Streamia.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IWebHostEnvironment _hostingEnviroment;
-        public UserManager<IdentityUser> UserManager { get; }
-        public SignInManager<IdentityUser> SignInManager { get; }
+        public UserManager<AdminUser> UserManager { get; }
+        public SignInManager<AdminUser> SignInManager { get; }
 
 
-        public AccountController(UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager
+        public AccountController(UserManager<AdminUser> userManager,
+            SignInManager<AdminUser> signInManager
             , IWebHostEnvironment env,
             ILogger<AccountController> logger)
         {
@@ -106,7 +107,7 @@ namespace Streamia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new IdentityUser
+                    var user = new AdminUser
                     {
                         UserName = model.Email,
                         Email = model.Email,                       
@@ -118,7 +119,7 @@ namespace Streamia.Controllers
                     {
                         if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                         {
-                            return RedirectToAction("ListUsers", "Adminstration");
+                            return RedirectToAction("Index", "Home");
                         }
                         await SignInManager.SignInAsync(user, isPersistent: false);
                         return RedirectToAction("index", "Home");
@@ -191,13 +192,7 @@ namespace Streamia.Controllers
                 {
                     ModelState.AddModelError(String.Empty, "Invalid Login ");
                     return View(model);
-                }
-                if (checkState != null && !checkState.EmailConfirmed &&
-                            (await UserManager.CheckPasswordAsync(checkState, model.Password)))
-                {
-                    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
-                    return View(model);
-                }
+                }                
 
                 var result = await SignInManager
                     .PasswordSignInAsync(checkState.UserName, model.Password, model.RememberMe, true);
@@ -222,7 +217,7 @@ namespace Streamia.Controllers
         }
 
 
-        [Authorize(Roles = "Admin"), Authorize(Roles = "Company")]
+        [Authorize(Roles = "Admin")]
         [AllowAnonymous]
         public async Task<IActionResult> LogOut()
         {
@@ -256,7 +251,7 @@ namespace Streamia.Controllers
 
                     if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
-                        return RedirectToAction("ListUsers", "Adminstration");
+                        return RedirectToAction("Index", "Home");
                     }
 
                     //string linkk = $"<a href=\"{passwordResetLink}\">Click here</a>";

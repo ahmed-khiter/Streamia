@@ -47,7 +47,7 @@ namespace Streamia.Database
         public static async void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
             if (await roleManager.FindByNameAsync("Admin") == null
-                || await roleManager.FindByNameAsync("Company") == null)
+                || await roleManager.FindByNameAsync("Reseller") == null)
             {
                 IdentityRole identityRoleAdmin = new IdentityRole
                 {
@@ -57,14 +57,14 @@ namespace Streamia.Database
                 await roleManager.CreateAsync(identityRoleAdmin);
                 IdentityRole identityRoleCompany = new IdentityRole
                 {
-                    Name = "Company",
-                    NormalizedName = "COMPANY"
+                    Name = "Reseller",
+                    NormalizedName = "RESELLER"
                 };
                 await roleManager.CreateAsync(identityRoleCompany);
             }
         }
 
-        public static async void SeedUsers(UserManager<IdentityUser> userManager)
+        public static async void SeedUsers(UserManager<AdminUser> userManager)
         {
 
             if (await userManager.FindByEmailAsync("Ahmed@gmail.com") == null)
@@ -74,7 +74,7 @@ namespace Streamia.Database
                 GuidString = GuidString.Replace("=", "");
                 GuidString = GuidString.Replace("+", "");
 
-                var user = new IdentityUser
+                var user = new AdminUser
                 {
 
                     Id = GuidString,

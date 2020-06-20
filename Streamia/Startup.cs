@@ -19,6 +19,7 @@ using Streamia.Realtime;
 using Streamia.Repositories;
 using Streamia.Security;
 using Streamia.Services;
+using Streamia.Utilies;
 
 namespace Streamia
 {
@@ -34,7 +35,30 @@ namespace Streamia
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.Configure<IdentityOptions>(option =>
+            {
+                option.Password.RequiredLength = 3;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.SignIn.RequireConfirmedEmail = false;
+                option.Password.RequireDigit = false;
+            });
+
+            services.AddIdentity<AdminUser, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 3;
+                option.Password.RequireUppercase = false;
+                option.Password.RequireNonAlphanumeric = false;
+                option.SignIn.RequireConfirmedEmail = false;
+                option.SignIn.RequireConfirmedEmail = true;
+                option.Password.RequireDigit = false;
+            }).AddEntityFrameworkStores<StreamiaContext>()
+              .AddRoles<IdentityRole>()
+              .AddDefaultTokenProviders();
+
             services.AddRazorPages();
+            services.AddMvc();
             services.AddSignalR();
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddDbContext<StreamiaContext>(options => 
@@ -56,31 +80,15 @@ namespace Streamia
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
 
-            services.Configure<IdentityOptions>(option =>
-            {
-                option.Password.RequiredLength = 3;
-                option.Password.RequireUppercase = false;
-                option.Password.RequireNonAlphanumeric = false;
-                option.SignIn.RequireConfirmedEmail = false;
-                option.Password.RequireDigit = false;
-            });
+           
 
-            services.AddIdentity<IdentityUser, IdentityRole>(option =>
-            {
-                option.Password.RequiredLength = 3;
-                option.Password.RequireUppercase = false;
-                option.Password.RequireNonAlphanumeric = false;
-                option.SignIn.RequireConfirmedEmail = false;
-                option.SignIn.RequireConfirmedEmail = true;
-                option.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<StreamiaContext>()
-              .AddRoles<IdentityRole>()
-              .AddDefaultTokenProviders();
+            // add local AppClaimsPrincipalFactory class to customize user
+            services.AddScoped<IUserClaimsPrincipalFactory<AdminUser>, AppClaimsPrincipalFactory>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env
-                    , UserManager<IdentityUser> userManager, RoleManager<IdentityRole> role)
+                    , UserManager<AdminUser> userManager, RoleManager<IdentityRole> role)
         {
             if (env.IsDevelopment())
             {
@@ -97,12 +105,8 @@ namespace Streamia
             ModelBuilderExtensions.SeedUsers(userManager);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
-            app.UseAuthentication();
-
-            app.UseAuthorization();
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -111,7 +115,6 @@ namespace Streamia
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-                endpoints.MapRazorPages();
                 endpoints.MapHub<ServerStatusHub>("/server-status-hub");
                 endpoints.MapControllerRoute(
                     name: "TmdbApi",
