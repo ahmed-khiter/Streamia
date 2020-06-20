@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
@@ -9,6 +10,7 @@ using Streamia.Repositories;
 
 namespace Streamia.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class MovieController : Controller
     {
         private readonly ILogger<MovieController> _logger;

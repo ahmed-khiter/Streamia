@@ -15,6 +15,7 @@ namespace Streamia.Database
         }
 
         public DbSet<Server> Servers { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
         public DbSet<Stream> Streams { get; set; }
         public DbSet<Bouquet> Bouquets { get; set; }
         public DbSet<IptvUser> UsersIptv { get; set; }

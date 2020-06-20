@@ -34,8 +34,8 @@
                 <div class="form-group col-md-6">
                     <label asp-for="BouquetSources"></label>
                     <select asp-for="BouquetSources" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
-                </div>
-            </div>*@
+                </div>*@
+            </div>
             <div class="row">
                 <div class="form-group col-md-12">
                     <input type="hidden" asp-for="Source" id="master-source" />
