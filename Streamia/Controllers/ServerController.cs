@@ -109,7 +109,8 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await _service.GetAll());
+            var servers = await _service.GetAll();
+            return View(servers);
         }
 
         [HttpPost]

@@ -22,9 +22,11 @@
                 <td>@bouquet.Name</td>
                 <td>
                     <a class="btn btn-warning" href="/bouquets/edit/@bouquet.Id"><i class="fa fa-edit"></i></a>
-                    <a asp-page="./Manage" onclick="return confirm('Are you sure you want to delete this item?');"
-                       asp-page-handler="Delete" asp-route-id="@bouquet.Id"
-                       class="btn btn-danger" id="delete" value="Delete"><i class="fa fa-trash"></i></a>
+                    <form asp-action="Delete" asp-route-id="@bouquet.Id">
+                        <a onclick="return confirm('Are you sure you want to delete this item?');"
+                           class="btn btn-danger" id="delete" value="Delete"><i class="fa fa-trash"></i></a>
+                    </form>
+                 
                 </td>
             </tr>
         }
