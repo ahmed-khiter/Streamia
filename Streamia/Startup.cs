@@ -101,7 +101,6 @@ namespace Streamia
             }
 
             ModelBuilderExtensions.SeedRoles(role);
-            Thread.Sleep(1000);
             ModelBuilderExtensions.SeedUsers(userManager);
             app.UseHttpsRedirection();
             app.UseStaticFiles();
