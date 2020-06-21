@@ -4,18 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>@ViewData["Title"]</title>
+
     <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
 
     <link href="~/css/site.css" rel="stylesheet" />
+
 </head>
 <body>
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3><i class="fa fa-podcast"></i> Streamia</h3>
+                <h3 class="m-0 p-0"><i class="fa fa-podcast"></i> Streamia</h3>
             </div>
             <ul class="list-unstyled components">
                 <li>
@@ -133,12 +137,12 @@
                         </ul>
                     </li>
                     <li>
-                        <a asp-action="CreateReseller" asp-controller="Reseller" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <a href="#resellers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <i class="fa fa-users"></i> Resellers
                         </a>
                         <ul class="collapse list-unstyled" id="resellers">
                             <li>
-                                <a asp-action="CreateReseller" asp-controller="Reseller"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-action="Add" asp-controller="Reseller"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
                                 <a asp-action="Manage" asp-controller="Reseller"><i class="fa fa-list"></i> Manage</a>
@@ -156,11 +160,18 @@
 
         <div id="content">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <span class="page-title"><i class="fa fa-@ViewData["Icon"]"></i> @ViewData["Title"]</span>
+                <span class="page-title"><i class="fa fa-@ViewData["Icon"]"></i> <strong>@ViewData["Title"]</strong></span>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item active profile-container">
                         <span class="profile-name">@User.Identity.GetName()</span>
-                        <img class="profile-picture" src="~/Pictures/@User.Identity.ProfilePicture()" />
+                        @{ 
+                            string profilePicture = User.Identity.ProfilePicture();
+                        }
+                        @if(string.IsNullOrEmpty(profilePicture))
+                        {
+                            profilePicture = "user.png";
+                        } 
+                        <img class="profile-picture" src="~/Pictures/@profilePicture" />
                     </li>
                 </ul>
             </nav>

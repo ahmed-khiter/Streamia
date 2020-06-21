@@ -1,50 +1,53 @@
 ﻿@model RegisterViewModel
 @{
-    ViewBag.Title = "Reseller ";
-    ViewData["Title"] = "Create";
+    ViewBag.Title = "Reseller";
+    ViewData["Title"] = "Add Reseller";
+    ViewData["Icon"] = "plus";
 }
 
-<h1>User Register</h1>
-<div class="row">
-    <div class="col-sm-12">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+<form method="post">
+    <div class="row">
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="Password"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+        </div>
+        <div class="col-md-3">
             <div class="form-group">
                 <label asp-for="ConfirmPassword"></label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
             </div>
-
-            <div class="form-group row">
-                <label asp-for="ProfilePicture" class="col-sm-2 col-form-label">Profile Picture</label>
-                <div class="col-sm-10">
-                    <div class="custom-file">
-                        <input multiple asp-for="ProfilePicture" name="ProfilePicture" class="form-control custom-file-input" />
-                        <label class="custom-file-label">Choose File...</label>
-                    </div>
-                </div>
-            </div>
-
-            <button type="submit" class="btn btn-primary">Register</button>
-        </form>
-
+        </div>
     </div>
-</div>
+    <div class="form-group">
+        <label asp-for="ProfilePicture">Profile Picture</label>
+        <div class="custom-file">
+            <input multiple asp-for="ProfilePicture" name="ProfilePicture" class="form-control custom-file-input" />
+            <label class="custom-file-label">Choose File...</label>
+        </div>
+    </div>
+    <hr/>
+    <button type="submit" class="btn btn-success">
+        <i class="fa fa-plus"></i> Add
+    </button>
+</form>
 
 @section Scripts{
     <script>

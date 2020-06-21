@@ -91,7 +91,9 @@ a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: #7386D5;
+    /*    background: #7c52b4;*/
+    background: rgb(158,0,255);
+    background: linear-gradient(0deg, rgba(158,0,255,1) 0%, rgba(124,82,176,1) 49%, rgba(128,49,154,1) 100%);
     color: #fff;
     transition: all 0.3s;
     height: 100vh;
@@ -102,8 +104,10 @@ a:focus {
 }
 
 #sidebar .sidebar-header {
-    padding: 20px;
-    background: #6d7fcc;
+    padding: 10px;
+    background: rgb(158,0,255);
+    background: linear-gradient(180deg, rgba(158,0,255,1) 0%, rgba(124,82,176,1) 49%, rgba(128,49,154,1) 100%);
+    border-bottom: 1px solid #FFF;
 }
 
 #sidebar ul.components {
@@ -129,7 +133,8 @@ a:focus {
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: #6d7fcc;
+    background: rgb(158,0,255);
+    background: linear-gradient(180deg, rgba(158,0,255,1) 0%, rgba(124,82,176,1) 49%, rgba(128,49,154,1) 100%);
 }
 
 a[data-toggle="collapse"] {
@@ -147,7 +152,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #6d7fcc;
+    background: rgb(158,0,255);
 }
 
 #content {

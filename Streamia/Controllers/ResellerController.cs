@@ -32,7 +32,7 @@ namespace Streamia.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult CreateReseller()
+        public IActionResult Add()
         {
 
             if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
@@ -45,7 +45,7 @@ namespace Streamia.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateReseller(RegisterViewModel model)
+        public async Task<IActionResult> Add(RegisterViewModel model)
         {
             if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
             {
