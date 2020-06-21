@@ -44,30 +44,29 @@ namespace Streamia.Database
                 .HasForeignKey(bs => bs.SeriesId);
         }
 
-        public static async void SeedRoles(RoleManager<IdentityRole> roleManager)
+        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            if (await roleManager.FindByNameAsync("Admin") == null
-                || await roleManager.FindByNameAsync("Reseller") == null)
+            if (roleManager.FindByNameAsync("Admin").Result == null
+                || roleManager.FindByNameAsync("Reseller").Result == null)
             {
                 IdentityRole identityRoleAdmin = new IdentityRole
                 {
                     Name = "Admin",
                     NormalizedName = "ADMIN"
                 };
-                await roleManager.CreateAsync(identityRoleAdmin);
+                roleManager.CreateAsync(identityRoleAdmin).Wait();
                 IdentityRole identityRoleCompany = new IdentityRole
                 {
                     Name = "Reseller",
                     NormalizedName = "RESELLER"
                 };
-                await roleManager.CreateAsync(identityRoleCompany);
+                roleManager.CreateAsync(identityRoleCompany).Wait();
             }
         }
 
-        public static async void SeedUsers(UserManager<AdminUser> userManager)
+        public static void SeedUsers(UserManager<AdminUser> userManager)
         {
-
-            if (await userManager.FindByEmailAsync("dev@streamia.com") == null)
+            if (userManager.FindByEmailAsync("dev@streamia.com").Result == null)
             {
                 Guid g = Guid.NewGuid();
                 string GuidString = Convert.ToBase64String(g.ToByteArray());
@@ -88,12 +87,10 @@ namespace Streamia.Database
                     PhoneNumber = "0123456789",
 
                 };
-
-                IdentityResult result = await userManager.CreateAsync(user, "Streamia0123456789");
-
+                IdentityResult result = userManager.CreateAsync(user, "qaz2wsxedc").Result;
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, "Admin");
+                     userManager.AddToRoleAsync(user, "Admin").Wait();
                 }
             }
         }
