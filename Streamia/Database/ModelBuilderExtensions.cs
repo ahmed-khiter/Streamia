@@ -87,7 +87,7 @@ namespace Streamia.Database
                     PhoneNumber = "0123456789",
 
                 };
-                IdentityResult result = userManager.CreateAsync(user, "qaz2wsxedc").Result;
+                IdentityResult result = userManager.CreateAsync(user, "Streamia0123456789").Result;
                 if (result.Succeeded)
                 {
                      userManager.AddToRoleAsync(user, "Admin").Wait();
