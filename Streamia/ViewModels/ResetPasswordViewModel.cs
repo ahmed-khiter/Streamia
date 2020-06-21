@@ -18,10 +18,9 @@ namespace Streamia.ViewModels
 
         [Required]
         [Display(Name ="Confirm password")]
-        [Compare("Password" , ErrorMessage ="Password and confirm password must match")]
+        [Compare("Password" , ErrorMessage ="Passwords don't match")]
         public string ConfirmPassword { get; set; }
 
         public string Token { get; set; }
-
     }
 }

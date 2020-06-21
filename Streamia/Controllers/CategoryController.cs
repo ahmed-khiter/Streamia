@@ -13,12 +13,10 @@ namespace Streamia.Controllers
     [Authorize(Roles ="Admin")]
     public class CategoryController : Controller
     {
-        private readonly ILogger<CategoryController> _logger;
         private readonly ICategoryRepository<Category> _service;
-        public CategoryController(ILogger<CategoryController> logger,
-                                     ICategoryRepository<Category> service)
+
+        public CategoryController(ICategoryRepository<Category> service)
         {
-            _logger = logger;
             _service = service;
         }
 
@@ -34,10 +32,10 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await _service.Add(model);
-                ViewData["Success"] = "Category has been added successfully";
+                ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
-            ViewData["Faild"] = "Category Faild";
+            ViewData["Faild"] = "Failed to complete the operation";
             return View();
         }
 
@@ -71,10 +69,10 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await _service.Edit(model);
-                ViewData["Success"] = "Category has been updated successfully";
+                ViewData["Success"] = "Operation is successfully completed";
                 return View("Manager");
             }
-            ViewData["Faild"] = "Category Faild To edit";
+            ViewData["Faild"] = "Failed to complete the operation";
             return View("Manager");
         }
 

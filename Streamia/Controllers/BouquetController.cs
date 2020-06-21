@@ -15,12 +15,8 @@ namespace Streamia.Controllers
     {
         private readonly IGenericRepository<Bouquet> _bouquetService;
 
-        private readonly ILogger<BouquetController> _logger;
-
-        public BouquetController(ILogger<BouquetController> logger ,
-                             IGenericRepository<Bouquet> bouquetService)
+        public BouquetController(IGenericRepository<Bouquet> bouquetService)
         {
-            _logger = logger;
             _bouquetService = bouquetService;
         }
         public IActionResult Index()
@@ -40,10 +36,10 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await _bouquetService.Add(model);
-                ViewData["Success"] = "Bouquet has been added successfully";
+                ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
-            ViewData["Faild"] = "Faild to add bouquets";
+            ViewData["Faild"] = "Failed to complete the operation";
             return View();
         }
 
@@ -65,10 +61,10 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await _bouquetService.Edit(model);
-                ViewData["Success"] = "Bouquet has been updated successfully";
+                ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
-            ViewData["Faild"] = "Bouquet Faild To Update";
+            ViewData["Faild"] = "Failed to complete the operation";
             return View();
         }
 
@@ -86,7 +82,7 @@ namespace Streamia.Controllers
                 await _bouquetService.Delete(id);
                 return RedirectToAction("Manage");
             }
-            ViewBag.Faild = "Faild to delete ";
+            ViewBag.Faild = "Failed to complete the operation";
             return View();
         }
     }

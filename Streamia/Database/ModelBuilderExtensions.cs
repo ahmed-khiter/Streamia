@@ -67,7 +67,7 @@ namespace Streamia.Database
         public static async void SeedUsers(UserManager<AdminUser> userManager)
         {
 
-            if (await userManager.FindByEmailAsync("Ahmed@gmail.com") == null)
+            if (await userManager.FindByEmailAsync("dev@streamia.com") == null)
             {
                 Guid g = Guid.NewGuid();
                 string GuidString = Convert.ToBase64String(g.ToByteArray());
@@ -76,20 +76,21 @@ namespace Streamia.Database
 
                 var user = new AdminUser
                 {
-
                     Id = GuidString,
-                    UserName = "Ahmed@gmail.com",
-                    Email = "Ahmed@gmail.com",
+                    UserName = "dev@streamia.com",
+                    Email = "dev@streamia.com",
 
                     EmailConfirmed = true,
                   
-                    NormalizedEmail = "AHMED@GMAIL.COM",
-                    NormalizedUserName = "AHMED@GMAIL.COM",
+                    NormalizedEmail = "DEV@STREAMIA.COM",
+                    NormalizedUserName = "DEV@STREAMIA.COM",
                     PhoneNumberConfirmed = true,
-                    PhoneNumber = "01100811024",
+                    PhoneNumber = "0123456789",
 
                 };
-                IdentityResult result = await userManager.CreateAsync(user, "qaz2wsxedc");
+
+                IdentityResult result = await userManager.CreateAsync(user, "Streamia0123456789");
+
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(user, "Admin");

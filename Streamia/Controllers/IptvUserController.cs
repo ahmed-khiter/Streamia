@@ -13,17 +13,16 @@ namespace Streamia.Controllers
     [Authorize(Roles = "Admin")]
     public class IptvUserController : Controller
     {
-        private readonly ILogger<IptvUserController> _logger;
         public IEnumerable<Bouquet> Bouquets { get; set; }
 
         private readonly IGenericRepository<IptvUser> _iptvService;
         private readonly IGenericRepository<Bouquet> _bouquetService;
-        public IptvUserController(ILogger<IptvUserController> logger,
-             IGenericRepository<Bouquet> bouquetService,
-              IGenericRepository<IptvUser> iptvService
-                        )
+
+        public IptvUserController(
+            IGenericRepository<Bouquet> bouquetService,
+            IGenericRepository<IptvUser> iptvService
+        )
         {
-            _logger = logger;
             _iptvService = iptvService;
             _bouquetService = bouquetService;
 
@@ -43,10 +42,10 @@ namespace Streamia.Controllers
             {
                 await _iptvService.Add(model);
 
-                ViewBag.Success = "Done added";
+                ViewBag.Success = "Operation is successfully completed";
                 return View("Manage");
             }
-            ViewBag.Faild = "Faild";
+            ViewBag.Faild = "Failed to complete the operation";
             return View();
         }
 

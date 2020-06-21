@@ -16,7 +16,7 @@ namespace Streamia.ViewModels
         public string Name { get; set; }
 
         [Required, DataType(DataType.EmailAddress)]
-        [Display(Name = "E-mail")]
+        [Display(Name = "Email")]
         [Remote(action: "IsEmailInUse", controller: "Account")]
         public string Email { get; set; }
 
@@ -25,11 +25,10 @@ namespace Streamia.ViewModels
         public string Password { get; set; }
 
         [Required, DataType(DataType.Password)
-         , Compare("Password", ErrorMessage = "your confirm password doesn't match with password")]
+         , Compare("Password", ErrorMessage = "Passwords don't match")]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
         public IFormFile ProfilePicture { get; set; }
-
     }
 }

@@ -20,7 +20,7 @@ namespace Streamia.ViewModels
 
         [Display(Name ="Confirm Password")]
         [DataType(DataType.Password)]
-        [Compare("NewPassword" , ErrorMessage ="the new password and confirmation password do not match")]
+        [Compare("NewPassword" , ErrorMessage ="Passwords don't match")]
         public string ConfirmPassword { get; set; }
 
     }

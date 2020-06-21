@@ -57,9 +57,9 @@
             <span class="text-danger" asp-validation-for="Director"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="Genres"></label>
-            <input asp-for="Genres" class="form-control" />
-            <span class="text-danger" asp-validation-for="Genres"></span>
+            <label asp-for="Gener"></label>
+            <input asp-for="Gener" class="form-control" />
+            <span class="text-danger" asp-validation-for="Gener"></span>
         </div>
         <div class="form-group col-md-3">
             <label asp-for="ReleaseDate"></label>
@@ -145,7 +145,7 @@
 
 @section Scripts
 {
-    <script>
+    @*<script>
         $('#movie-name').on('keyup', function () {
             var inputVal = $(this).val();
             $.ajax({
@@ -156,5 +156,5 @@
                 }
             });
         });
-    </script>
+    </script>*@
 }

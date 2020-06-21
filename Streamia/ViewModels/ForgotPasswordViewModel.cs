@@ -11,6 +11,5 @@ namespace Streamia.ViewModels
         [Required]
         [EmailAddress]
         public string Email { get; set; }
-
     }
 }

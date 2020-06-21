@@ -16,13 +16,10 @@ namespace Streamia.Controllers
     [Authorize(Roles = "Admin")]
     public class ServerController : Controller
     {
-        private readonly ILogger<ServerController> _logger;
         private readonly IServerRepository<Server> _service;
 
-        public ServerController(ILogger<ServerController> logger,
-            IServerRepository<Server> service)
+        public ServerController(IServerRepository<Server> service)
         {
-            _logger = logger;
             _service = service;
         }
 
@@ -38,7 +35,7 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 var server = await _service.Add(model);
-                ViewData["Success"] = "Server has been added successfully";
+                ViewData["Success"] = "Operation is successfully completed";
                 GetPublicIp getPublicIp = new GetPublicIp();
                 string panelPublicIp = await getPublicIp.GetIPV4();
                 Action runCommand = () =>
@@ -66,11 +63,10 @@ namespace Streamia.Controllers
                         client.Dispose();
                     }
                 };
-                ThreadPool.QueueUserWorkItem(x => runCommand());
+                ThreadPool.QueueUserWorkItem(queue => runCommand());
                 return View("Manage");
             }
             return View(model);
-
         }
 
         [HttpGet]
@@ -101,10 +97,10 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await _service.Edit(model);
-                ViewData["Success"] = "Server has been updated successfully";
+                ViewData["Success"] = "Operation is successfully completed";
                 return View("Manage");
             }
-            ViewData["Faild"] = "Server Faild";
+            ViewData["Faild"] = "Operation failed to complete";
             return View(model);
         }
 
@@ -123,13 +119,9 @@ namespace Streamia.Controllers
                 await _service.Delete(id);
                 return View("Manage");
             }
-            ViewBag.Faild = "Faild to delete";
+            ViewBag.Faild = "Operation failed to complete";
             return View("Manage");
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

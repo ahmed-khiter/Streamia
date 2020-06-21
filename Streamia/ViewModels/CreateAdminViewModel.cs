@@ -11,9 +11,8 @@ namespace Streamia.ViewModels
     public class CreateAdminViewModel
     {
         [Required]
-        [Display(Name ="User name")]
-        [Remote(action: "IsCompanyInUse", controller: "Account")]
-        public string UserName { get; set; }
+        [Display(Name ="Username")]
+        public string Username { get; set; }
 
         [Required]
         [EmailAddress]
@@ -24,7 +23,7 @@ namespace Streamia.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Compare("Password",ErrorMessage ="Password doesn't match")]
+        [Compare("Password", ErrorMessage ="Passwords don't match")]
         [DataType(DataType.Password)]
         [Required]
         public string ConfirmPassword { get; set; }

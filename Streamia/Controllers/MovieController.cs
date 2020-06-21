@@ -13,14 +13,11 @@ namespace Streamia.Controllers
     [Authorize(Roles = "Admin")]
     public class MovieController : Controller
     {
-        private readonly ILogger<MovieController> _logger;
         private readonly IGenericRepository<Movie> _services;
-        public MovieController(ILogger<MovieController> logger,
-                   IGenericRepository<Movie> services)
-        {
-            _logger = logger;
-            _services = services;
 
+        public MovieController(IGenericRepository<Movie> services)
+        {
+            _services = services;
         }
 
         [HttpGet]
@@ -37,10 +34,10 @@ namespace Streamia.Controllers
             {
                 await _services.Add(model);
 
-                ViewBag.Success = "Done added";
+                ViewBag.Success = "Operation is successfully completed";
                 return View("Manage");
             }
-            ViewBag.Faild = "Faild";
+            ViewBag.Faild = "Operation failed to complete";
             return View();
         }
 

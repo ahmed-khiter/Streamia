@@ -8,28 +8,26 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
-using Streamia.Utilies;
+using Streamia.Helpers;
 using Streamia.ViewModels;
 
 namespace Streamia.Controllers
 {
     public class ResellerController : Controller
     {
-        private readonly ILogger<ResellerController> _logger;
         private readonly IWebHostEnvironment _hostingEnviroment;
-        public UserManager<AdminUser> UserManager { get; }
-        public SignInManager<AdminUser> SignInManager { get; }
 
+        public UserManager<AdminUser> UserManager { get; }
+
+        public SignInManager<AdminUser> SignInManager { get; }
 
         public ResellerController(UserManager<AdminUser> userManager,
             SignInManager<AdminUser> signInManager
-            , IWebHostEnvironment env,
-            ILogger<ResellerController> logger)
+            , IWebHostEnvironment env)
         {
             UserManager = userManager;
             SignInManager = signInManager;
             _hostingEnviroment = env;
-            _logger = logger;
         }
 
         [HttpGet]
@@ -58,12 +56,12 @@ namespace Streamia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string uniqueProfilePicture = Upload.UploadProfilePicture(model, _hostingEnviroment);
+                    string profilePicture = Upload.UploadProfilePicture(model, _hostingEnviroment);
                     var user = new AdminUser
                     {
                         UserName = model.Email,
                         Email = model.Email,
-                        ProfilePicture = uniqueProfilePicture,
+                        ProfilePicture = profilePicture,
                         Name = model.Name,
                     };
 
@@ -76,7 +74,6 @@ namespace Streamia.Controllers
                         {
                             return RedirectToAction("index", "Home");
                         }
-
                         else
                         {
                             foreach (var error in result.Errors)
@@ -93,7 +90,6 @@ namespace Streamia.Controllers
                 return View();
             }
         }
-
 
     }
 }

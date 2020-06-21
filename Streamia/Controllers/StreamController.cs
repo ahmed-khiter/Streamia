@@ -14,25 +14,25 @@ namespace Streamia.Controllers
     [Authorize(Roles = "Admin")]
     public class StreamController : Controller
     {
-        private readonly ILogger<StreamController> _logger;
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<Server> Servers { get; set; }
         public IEnumerable<Bouquet> Bouquets { get; set; }
 
         private readonly IGenericRepository<Stream> _streamService;
+
         private readonly IGenericRepository<Bouquet> _bouquetService;
+
         private readonly ICategoryRepository<Category> _categoryService;
+
         private readonly IServerRepository<Server> _serverService;
 
 
-        public StreamController(ILogger<StreamController> logger,
-                IGenericRepository<Stream> StreamService,
+        public StreamController(IGenericRepository<Stream> StreamService,
                 IGenericRepository<Bouquet> BouquetService,
                  ICategoryRepository<Category> CategoryService,
                  IServerRepository<Server> ServerService
                 )
         {
-            _logger = logger;
             _streamService = StreamService;
             _bouquetService = BouquetService;
             _categoryService = CategoryService;
@@ -124,7 +124,7 @@ namespace Streamia.Controllers
                 await _streamService.Delete(id);
                 return RedirectToAction(nameof(Manage));
             }
-            ViewBag.Delete = "Faild Delete";
+            ViewBag.Delete = "Operation failed to complete";
             return View(nameof(Manage));
         }
 
