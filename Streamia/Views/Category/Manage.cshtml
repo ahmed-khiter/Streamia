@@ -25,11 +25,7 @@
                 <td>@category.CategoryType</td>
                 <td>
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@category.Id"><i class="fa fa-edit"></i></a>
-                    <form asp-action="Delete" asp-route-id="@category.Id"> 
-                        <a  onclick="return confirm('Are you sure you want to delete this item?');"
-                           class="btn btn-danger" id="delete" value="Delete"><i class="fa fa-trash"></i></a>
-
-                    </form>
+                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger del" data-id="@category.Id"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
         }
@@ -43,6 +39,9 @@
     <script>
         $('table').DataTable();
         $('.del').on('click', function (e) {
+            if (!confirm('Are you sure you want to delete?')) {
+                return;
+            }
             e.preventDefault();
             var url = $(this).attr('href');
             var id = $(this).data('id');
