@@ -25,10 +25,10 @@ namespace Streamia.Services
         }
         public async Task Delete(int id)
         {
-            var entity = await Context.Streams.FindAsync(id);
+            var entity = await Context.Categories.FindAsync(id);
             if (entity != null)
             {
-                Context.Streams.Remove(entity);
+                Context.Categories.Remove(entity);
                 await Context.SaveChangesAsync();
             }
         }
