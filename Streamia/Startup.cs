@@ -80,8 +80,6 @@ namespace Streamia
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
 
-           
-
             // add local AppClaimsPrincipalFactory class to customize user
             services.AddScoped<IUserClaimsPrincipalFactory<AdminUser>, AppClaimsPrincipalFactory>();
         }

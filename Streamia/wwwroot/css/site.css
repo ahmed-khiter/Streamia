@@ -183,3 +183,29 @@ ul ul a {
 .custom-control-input {
     background-color: #fefeff !important;
 }
+
+/* Login */
+.login-container {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 999999;
+    background-image: url('../Pictures/streamia.gif');
+    background-position: center center;
+    background-size: cover;
+}
+
+.login-container .login-overlay {
+    padding-top: 25vh;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .8);
+}
+
+.login-container .login-box {
+    border-radius: 10px;
+    padding: 25px;
+    background-color: rgba(255, 255, 255, .6);
+}
