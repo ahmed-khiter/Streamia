@@ -20,7 +20,9 @@ namespace Streamia.Models
         public long Subscription { get; set; }
 
         [Required]
-        public Bouquet Bouquet { get; set; }
+        [Display(Name = "Bouqet is required")]
+        public int BouquetId { get; set; }
 
+        public Bouquet Bouquet { get; set; }
     }
 }

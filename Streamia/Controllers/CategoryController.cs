@@ -75,56 +75,25 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await _service.Delete(id);
-                return StatusCode(200);
             }
-            return StatusCode(500);
+            return RedirectToAction(nameof(Manage));
         }
 
         [HttpGet]
-        public IActionResult Manage()
+        public async Task<IActionResult> Manage(string keyword)
         {
-            return View();
+            IEnumerable<Category> data;
+            if (keyword != null)
+            {
+                data = await _service.Search(keyword);
+                ViewBag.Keyword = keyword;
+            } 
+            else
+            {
+                data = await _service.GetAll();
+            }
+            return View(data);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> List()
-        {
-            try
-            {
-                var draw = Request.Form["draw"].FirstOrDefault();
-                var start = Request.Form["start"].FirstOrDefault();
-                var length = Request.Form["length"].FirstOrDefault();
-                var sortColumn = Request.Form["columns[" + Request.Form["order[0][column]"].FirstOrDefault() + "][name]"].FirstOrDefault();
-                var sortColumnDirection = Request.Form["order[0][dir]"].FirstOrDefault();
-                var searchValue = Request.Form["search[value]"].FirstOrDefault();
-                int pageSize = length != null ? Convert.ToInt32(length) : 0;
-                int skip = start != null ? Convert.ToInt32(start) : 0;
-                int recordsTotal = 0;
-
-                var data = from tempData in _context.Categories select tempData;
-
-                //if (!(string.IsNullOrEmpty(sortColumn) && string.IsNullOrEmpty(sortColumnDirection)))
-                //{
-                //    data = data.OrderBy(r => r.Name);
-                //}
-
-                if (!string.IsNullOrEmpty(searchValue))
-                {
-                    data = data.Where(m => m.Name == searchValue);
-                }
-
-                recordsTotal = data.Count();
-
-                var output = await data.Skip(skip).Take(pageSize).ToListAsync();
-
-                return Json(new { draw, recordsFiltered = recordsTotal, recordsTotal, data = output });
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            //return await _service.GetAll();
-        }
     }
 }

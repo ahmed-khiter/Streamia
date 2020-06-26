@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Services
 {
-    public class CategoryService : ICategoryRepository<Category>
+    public class CategoryService : ICategoryRepository<Category>, ISearch<Category>
     {
         private readonly StreamiaContext Context;
 
@@ -55,6 +55,12 @@ namespace Streamia.Services
         public async Task<IEnumerable<Category>> GetByType(CategoryType type)
         {
             var record = await Context.Categories.Where(c => c.CategoryType == type).ToListAsync();
+            return record;
+        }
+
+        public async Task<IEnumerable<Category>> Search(string keyword)
+        {
+            var record = await Context.Categories.Where(c => c.Name.Contains(keyword)).ToListAsync();
             return record;
         }
     }

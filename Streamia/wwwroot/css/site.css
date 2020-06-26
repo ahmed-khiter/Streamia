@@ -209,3 +209,14 @@ ul ul a {
     padding: 25px;
     background-color: rgba(255, 255, 255, .6);
 }
+
+/* Search module */
+#search-module {
+    position: relative;
+}
+
+#search-module button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}

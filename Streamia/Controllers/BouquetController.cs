@@ -13,12 +13,13 @@ namespace Streamia.Controllers
     [Authorize(Roles ="Admin")]
     public class BouquetController : Controller
     {
-        private readonly IGenericRepository<Bouquet> _bouquetService;
+        private readonly IBouquet<Bouquet> _service;
 
-        public BouquetController(IGenericRepository<Bouquet> bouquetService)
+        public BouquetController(IBouquet<Bouquet> service)
         {
-            _bouquetService = bouquetService;
+            _service = service;
         }
+
         public IActionResult Index()
         {
             return View();
@@ -35,7 +36,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bouquetService.Add(model);
+                await _service.Add(model);
                 ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
@@ -46,7 +47,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            Bouquet bouquet = await _bouquetService.GetById(id.Value);
+            Bouquet bouquet = await _service.GetById(id.Value);
             if (bouquet == null)
             {
                 Response.StatusCode = 404;
@@ -60,7 +61,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _bouquetService.Edit(model);
+                await _service.Edit(model);
                 ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
@@ -68,22 +69,32 @@ namespace Streamia.Controllers
             return View();
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Manage()
-        {
-            return View(await _bouquetService.GetAll());
-        }
-
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             if (ModelState.IsValid && id != 0)
             {
-                await _bouquetService.Delete(id);
+                await _service.Delete(id);
                 return RedirectToAction("Manage");
             }
             ViewBag.Faild = "Failed to complete the operation";
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Manage(string keyword)
+        {
+            IEnumerable<Bouquet> data;
+            if (keyword != null)
+            {
+                data = await _service.Search(keyword);
+                ViewBag.Keyword = keyword;
+            }
+            else
+            {
+                data = await _service.GetAll();
+            }
+            return View(data);
         }
     }
 }

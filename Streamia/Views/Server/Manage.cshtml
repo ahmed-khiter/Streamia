@@ -4,10 +4,9 @@
     ViewData["Icon"] = "server";
 }
 
-@section Styles {
-    <link href="~/datatables/css/jquery.dataTables.css" rel="stylesheet" />
-    <link href="~/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
-}
+<partial name="~/Views/Partials/_Search.cshtml" />
+
+<hr />
 
 <table class="table table-striped">
     <thead>
@@ -43,11 +42,16 @@
                 <td>-</td>
                 <td>-</td>
                 <td>
-                    <a class="btn btn-info" href="/servers/details/@server.Id"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-warning" href="/servers/edit/@server.Id"><i class="fa fa-edit"></i></a>
-                    <a onclick="return confirm('Are you sure you want to delete this item?');"
-                       asp-action="Delete" asp-route-id="@server.Id" class="btn btn-danger"
-                       id="delete" value="Delete"><i class="fa fa-trash"></i></a>
+                    <a class="btn btn-info" asp-action="details" asp-route-id="@server.Id"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-warning" asp-action="edit" asp-route-id="@server.Id"><i class="fa fa-edit"></i></a>
+                    <form asp-action="Delete"
+                          asp-route-id="@server.Id"
+                          style="display:inline"
+                          onsubmit="return confirm('Are you sure you want to proceed?')">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
         }
@@ -55,12 +59,8 @@
 </table>
 
 @section Scripts{
-
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
-    <script src="~/datatables/js/jquery.dataTables.js"></script>
-    <script src="~/datatables/js/dataTables.bootstrap4.js"></script>
     <script>
-        $('table').DataTable();
         var connection = new signalR.HubConnectionBuilder().withUrl("/server-status-hub").build();
         connection.on("UpdateSignal", function (data) {
             var className = 'warning';

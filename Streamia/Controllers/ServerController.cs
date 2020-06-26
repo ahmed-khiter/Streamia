@@ -16,9 +16,9 @@ namespace Streamia.Controllers
     [Authorize(Roles = "Admin")]
     public class ServerController : Controller
     {
-        private readonly IServerRepository<Server> _service;
+        private readonly IServer<Server> _service;
 
-        public ServerController(IServerRepository<Server> service)
+        public ServerController(IServer<Server> service)
         {
             _service = service;
         }
@@ -36,8 +36,6 @@ namespace Streamia.Controllers
             {
                 var server = await _service.Add(model);
                 ViewData["Success"] = "Operation is successfully completed";
-                GetPublicIp getPublicIp = new GetPublicIp();
-                string panelPublicIp = await getPublicIp.GetIPV4();
                 Action runCommand = () =>
                 {
                     var client = new SshClient(server.Ip, "root", server.RootPassword);
@@ -50,12 +48,16 @@ namespace Streamia.Controllers
                     serverCommands = serverCommands.Replace("NGINX_CONFIG", nginxConfig);
                     serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
                     serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
-                    serverCommands = serverCommands.Replace("PUBLIC_IP", panelPublicIp);
+                    serverCommands = serverCommands.Replace("PUBLIC_IP", null);
                     serverCommands = serverCommands.Replace("SERVER_ID", server.Id.ToString());
                     try
                     {
                         client.Connect();
                         client.RunCommand(serverCommands);
+                    } 
+                    catch
+                    {
+                        
                     }
                     finally
                     {
@@ -64,7 +66,6 @@ namespace Streamia.Controllers
                     }
                 };
                 ThreadPool.QueueUserWorkItem(queue => runCommand());
-                return View("Manage");
             }
             return View(model);
         }
@@ -72,12 +73,12 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var Server = await _service.GetById(id);
-            if (Server == null)
+            var data = await _service.GetById(id);
+            if (data == null)
             {
                 return NotFound();
             }
-            return View();
+            return View(data);
         }
 
         [HttpGet]
@@ -104,24 +105,32 @@ namespace Streamia.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Manage()
-        {
-            var servers = await _service.GetAll();
-            return View(servers);
-        }
-
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
             if (ModelState.IsValid && id != 0)
             {
                 await _service.Delete(id);
-                return View("Manage");
+                RedirectToAction(nameof(Manage));
             }
             ViewBag.Faild = "Operation failed to complete";
-            return View("Manage");
+            return RedirectToAction(nameof(Manage));
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Manage(string keyword)
+        {
+            IEnumerable<Server> data;
+            if (keyword != null)
+            {
+                data = await _service.Search(keyword);
+                ViewBag.Keyword = keyword;
+            }
+            else
+            {
+                data = await _service.GetAll();
+            }
+            return View(data);
+        }
     }
 }

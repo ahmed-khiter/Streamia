@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Services
 {
-    public class BouquetService : IGenericRepository<Bouquet>
+    public class BouquetService : IBouquet<Bouquet>
     {
         private readonly StreamiaContext Context;
 
@@ -51,6 +51,12 @@ namespace Streamia.Services
         public async Task<Bouquet> GetById(int id)
         {
             var record = await Context.Bouquets.FirstOrDefaultAsync(s => s.Id == id);
+            return record;
+        }
+
+        public async Task<IEnumerable<Bouquet>> Search(string keyword)
+        {
+            var record = await Context.Bouquets.Where(c => c.Name.Contains(keyword)).ToListAsync();
             return record;
         }
     }

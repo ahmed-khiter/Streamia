@@ -1,7 +1,43 @@
-﻿    
+﻿@model IEnumerable<IptvUser>
 @{
-    ViewData["Title"] = "Manage";
+    ViewData["Title"] = "Manage IPTV Users";
+    ViewData["Icon"] = "list";
 }
 
-<h1>Manage</h1>
+<partial name="~/Views/Partials/_Search.cshtml" />
 
+<hr />
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Bouquet</th>
+            <th>Subscription</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var iptvUser in Model)
+        {
+            <tr id="@iptvUser.Id">
+                <td>@iptvUser.Username</td>
+                <td>@iptvUser.Bouquet.Name</td>
+                <td>@iptvUser.Subscription</td>
+                <td>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@iptvUser.Id">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <form asp-action="Delete"
+                          asp-route-id="@iptvUser.Id"
+                          style="display:inline"
+                          onsubmit="return confirm('Are you sure you want to proceed?')">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

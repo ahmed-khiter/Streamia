@@ -1,21 +1,13 @@
 ﻿@model IEnumerable<Category>
-@inject Microsoft.AspNetCore.Antiforgery.IAntiforgery Xsrf
 @{
     ViewData["Title"] = "Manage Categories";
     ViewData["Icon"] = "list";
 }
-@functions{
-    public string GetAntiXsrfRequestToken()
-    {
-        return Xsrf.GetAndStoreTokens(Context).RequestToken;
-    }
-}
 
-@section Styles {
-    <link href="~/datatables/css/jquery.dataTables.css" rel="stylesheet" />
-    <link href="~/datatables/css/dataTables.bootstrap4.css" rel="stylesheet" />
-}
-<form method="post"></form>
+<partial name="~/Views/Partials/_Search.cshtml"/>
+
+<hr />
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -25,74 +17,26 @@
         </tr>
     </thead>
     <tbody>
-        @*@foreach (var category in Model)
+        @foreach (var category in Model)
         {
             <tr id="@category.Id">
                 <td>@category.Name</td>
                 <td>@category.CategoryType</td>
                 <td>
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@category.Id"><i class="fa fa-edit"></i></a>
-                    <a asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger del" data-id="@category.Id" data-token="@GetAntiXsrfRequestToken()"><i class="fa fa-trash"></i></a>
-                    <form></form>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@category.Id">
+                        <i class="fa fa-edit"></i>
+                    </a>
+                    <form asp-action="Delete" 
+                          asp-route-id="@category.Id" 
+                          style="display:inline" 
+                          onsubmit="return confirm('Are you sure you want to proceed?')">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
                 </td>
             </tr>
-        }*@
+        }
     </tbody>
 </table>
-
-@section Scripts{
-
-    <script src="~/datatables/js/jquery.dataTables.js"></script>
-    <script src="~/datatables/js/dataTables.bootstrap4.js"></script>
-    <script>
-        $('table').DataTable({
-            processing: true,
-            serverSide: true,
-            orderMulti: false,
-            ajax: {
-                url: "/Category/List",
-                type: "POST",
-                dataType: "json"
-            },
-            columns: [
-                {
-                    data: "name"
-                },
-                {
-                    data: "categoryType"
-                },
-                {
-                    data: null,
-                    render: function (data, type, row) {
-                        return `
-                            <a class="btn btn-warning" href="/Category/Edit/${row.id}"><i class="fa fa-edit"></i></a>
-                            <a class="btn btn-danger del" onclick="event.preventDefault();deleteData(${row.id}, '/Category/Delete')"><i class="fa fa-trash"></i></a>
-                        `;
-                    }
-                }
-            ]
-        });
-
-        function deleteData(id, url) {
-            if (!confirm('Are you sure you want to delete?')) {
-                return;
-            }
-            $.ajax({
-                method: 'POST',
-                url: url,
-                beforeSend: function (xhr) {
-                    xhr.setRequestHeader("XSRF-TOKEN", '@GetAntiXsrfRequestToken()');
-                },
-                data: JSON.stringify({ Id: id }),
-                contentType: "application/json; charset=utf-8",
-                success: function () {
-                    var retable = $('#example').DataTable();
-                    retable.draw(); 
-                }
-            })
-        }
-
-    </script>
-
-}
 

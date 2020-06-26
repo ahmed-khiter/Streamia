@@ -163,15 +163,24 @@
                 <span class="page-title"><i class="fa fa-@ViewData["Icon"]"></i> <strong>@ViewData["Title"]</strong></span>
                 <ul class="nav navbar-nav ml-auto">
                     <li class="nav-item active profile-container">
-                        <span class="profile-name">@User.Identity.GetName()</span>
-                        @{ 
+                        @{
+                            string profileName = User.Identity.GetName();
                             string profilePicture = User.Identity.ProfilePicture();
+
+                            if (string.IsNullOrEmpty(profileName))
+                            {
+                                profileName = "DEV ACCOUNT";
+                            }
+                            if (string.IsNullOrEmpty(profilePicture))
+                            {
+                                profilePicture = "user.png";
+                            }
                         }
-                        @if(string.IsNullOrEmpty(profilePicture))
-                        {
-                            profilePicture = "user.png";
-                        } 
+                        <span class="profile-name">@profileName</span>
                         <img class="profile-picture" src="~/Pictures/@profilePicture" />
+                        @*<a asp-controller="Account" asp-action="Logout" class="btn btn-danger">
+                            <i class="fa fa-close"></i> Logout
+                        </a>*@
                     </li>
                 </ul>
             </nav>
@@ -188,7 +197,6 @@
     {
         @RenderSection("Scripts", required: true)
     }
-
 </body>
 </html>
 

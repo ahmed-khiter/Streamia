@@ -63,10 +63,10 @@ namespace Streamia
             services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddDbContext<StreamiaContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
-            services.AddScoped<IGenericRepository<Bouquet>, BouquetService>();
-            services.AddScoped<IGenericRepository<IptvUser>, IptvUserService>();
+            services.AddScoped<IBouquet<Bouquet>, BouquetService>();
+            services.AddScoped<IIptvUser<IptvUser>, IptvUserService>();
             services.AddScoped<IGenericRepository<Stream>, StreamService>();
-            services.AddScoped<IServerRepository<Server>, ServerService>();
+            services.AddScoped<IServer<Server>, ServerService>();
             services.AddScoped<ICategoryRepository<Category>, CategoryService>();
             services.AddScoped<IGenericRepository<Movie>, MovieService>();
             services.AddScoped<ServerService>();

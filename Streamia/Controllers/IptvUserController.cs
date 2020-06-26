@@ -15,12 +15,12 @@ namespace Streamia.Controllers
     {
         public IEnumerable<Bouquet> Bouquets { get; set; }
 
-        private readonly IGenericRepository<IptvUser> _iptvService;
-        private readonly IGenericRepository<Bouquet> _bouquetService;
+        private readonly IIptvUser<IptvUser> _iptvService;
+        private readonly IBouquet<Bouquet> _bouquetService;
 
         public IptvUserController(
-            IGenericRepository<Bouquet> bouquetService,
-            IGenericRepository<IptvUser> iptvService
+            IBouquet<Bouquet> bouquetService,
+            IIptvUser<IptvUser> iptvService
         )
         {
             _iptvService = iptvService;
@@ -43,20 +43,27 @@ namespace Streamia.Controllers
                 await _iptvService.Add(model);
 
                 ViewBag.Success = "Operation is successfully completed";
-                return View("Manage");
+                return RedirectToAction(nameof(Manage));
             }
             ViewBag.Faild = "Failed to complete the operation";
-            return View();
+            ViewBag.Bouquets = await _bouquetService.GetAll();
+            return View(model);
         }
 
         [HttpGet]
-        public async Task<IActionResult> Manage()
+        public async Task<IActionResult> Manage(string keyword)
         {
-            return View(await _iptvService.GetAll());
-        }
-        public IActionResult Index()
-        {
-            return View();
+            IEnumerable<IptvUser> data;
+            if (keyword != null)
+            {
+                data = await _iptvService.Search(keyword);
+                ViewBag.Keyword = keyword;
+            }
+            else
+            {
+                data = await _iptvService.GetAll();
+            }
+            return View(data);
         }
     }
 }

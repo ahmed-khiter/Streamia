@@ -20,17 +20,17 @@ namespace Streamia.Controllers
 
         private readonly IGenericRepository<Stream> _streamService;
 
-        private readonly IGenericRepository<Bouquet> _bouquetService;
+        private readonly IBouquet<Bouquet> _bouquetService;
 
         private readonly ICategoryRepository<Category> _categoryService;
 
-        private readonly IServerRepository<Server> _serverService;
+        private readonly IServer<Server> _serverService;
 
 
         public StreamController(IGenericRepository<Stream> StreamService,
-                IGenericRepository<Bouquet> BouquetService,
+                IBouquet<Bouquet> BouquetService,
                  ICategoryRepository<Category> CategoryService,
-                 IServerRepository<Server> ServerService
+                 IServer<Server> ServerService
                 )
         {
             _streamService = StreamService;

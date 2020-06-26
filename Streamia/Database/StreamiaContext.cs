@@ -22,7 +22,7 @@ namespace Streamia.Database
 
         public DbSet<Bouquet> Bouquets { get; set; }
 
-        public DbSet<IptvUser> UsersIptv { get; set; }
+        public DbSet<IptvUser> IptvUsers { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 

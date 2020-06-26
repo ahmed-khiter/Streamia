@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Streamia.Services
 {
-    public class ServerService : IServerRepository<Server>
+    public class ServerService : IServer<Server>
     {
         private readonly StreamiaContext Context;
 
@@ -56,6 +56,12 @@ namespace Streamia.Services
         public async Task<Server> GetById(int id)
         {
             var record = await Context.Servers.FirstOrDefaultAsync(s => s.Id == id);
+            return record;
+        }
+
+        public async Task<IEnumerable<Server>> Search(string keyword)
+        {
+            var record = await Context.Servers.Where(s => s.Name.Contains(keyword) || s.Ip.Contains(keyword)).ToListAsync();
             return record;
         }
     }
