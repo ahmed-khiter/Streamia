@@ -91,9 +91,7 @@ a:focus {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    /*    background: #7c52b4;*/
-    background: rgb(158,0,255);
-    background: linear-gradient(0deg, rgba(158,0,255,1) 0%, rgba(124,82,176,1) 49%, rgba(128,49,154,1) 100%);
+    background: linear-gradient(0deg, rgb(100, 40, 137) 0%, rgb(31, 6, 63) 49%, rgb(0, 0, 0) 100%);
     color: #fff;
     transition: all 0.3s;
     height: 100vh;
@@ -105,9 +103,8 @@ a:focus {
 
 #sidebar .sidebar-header {
     padding: 10px;
-    background: rgb(158,0,255);
-    background: linear-gradient(180deg, rgba(158,0,255,1) 0%, rgba(124,82,176,1) 49%, rgba(128,49,154,1) 100%);
-    border-bottom: 1px solid #FFF;
+    background: #000;
+    border-bottom: 1px solid #555;
 }
 
 #sidebar ul.components {
@@ -133,8 +130,7 @@ a:focus {
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
     color: #fff;
-    background: rgb(158,0,255);
-    background: linear-gradient(180deg, rgba(158,0,255,1) 0%, rgba(124,82,176,1) 49%, rgba(128,49,154,1) 100%);
+    background: linear-gradient(0deg, rgb(100, 40, 137) 0%, rgb(31, 6, 63) 49%, rgb(0, 0, 0) 100%);
 }
 
 a[data-toggle="collapse"] {
@@ -152,16 +148,26 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: rgb(158,0,255);
+    background: #000;
 }
 
 #content {
     width: 100%;
-    padding: 20px;
     min-height: 100vh;
     transition: all 0.3s;
     overflow: auto;
     background-color: #e3e3e3;
+    background-image: url('../Pictures/clouds.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+#content .content-overlay {
+    padding: 20px;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(237, 237, 237, 0.89);
 }
 
 .main-content {
