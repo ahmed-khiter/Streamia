@@ -9,18 +9,18 @@ using Microsoft.Extensions.Logging;
 using Renci.SshNet;
 using Streamia.Helpers;
 using Streamia.Models;
-using Streamia.Repositories;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class ServerController : Controller
     {
-        private readonly IServer<Server> _service;
+        private readonly IRepository<Server> serverRepository;
 
-        public ServerController(IServer<Server> service)
+        public ServerController(IRepository<Server> serverRepository)
         {
-            _service = service;
+            this.serverRepository = serverRepository;
         }
 
         [HttpGet]
@@ -34,7 +34,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                var server = await _service.Add(model);
+                var server = await serverRepository.Add(model);
                 ViewData["Success"] = "Operation is successfully completed";
                 Action runCommand = () =>
                 {
@@ -73,7 +73,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var data = await _service.GetById(id);
+            var data = await serverRepository.GetById(id);
             if (data == null)
             {
                 return NotFound();
@@ -84,7 +84,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var Server = await _service.GetById(id);
+            var Server = await serverRepository.GetById(id);
             if(Server == null)
             {
                 return NotFound();
@@ -97,7 +97,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Edit(model);
+                await serverRepository.Edit(model);
                 ViewData["Success"] = "Operation is successfully completed";
                 return View("Manage");
             }
@@ -110,7 +110,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid && id != 0)
             {
-                await _service.Delete(id);
+                await serverRepository.Delete(id);
                 RedirectToAction(nameof(Manage));
             }
             ViewBag.Faild = "Operation failed to complete";
@@ -123,12 +123,12 @@ namespace Streamia.Controllers
             IEnumerable<Server> data;
             if (keyword != null)
             {
-                data = await _service.Search(keyword);
+                data = await serverRepository.Search(m => m.Name.Contains(keyword) || m.Ip.Contains(keyword));
                 ViewBag.Keyword = keyword;
             }
             else
             {
-                data = await _service.GetAll();
+                data = await serverRepository.GetAll();
             }
             return View(data);
         }

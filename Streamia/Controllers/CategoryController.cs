@@ -8,20 +8,18 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Streamia.Database;
 using Streamia.Models;
-using Streamia.Repositories;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
     [Authorize(Roles ="Admin")]
     public class CategoryController : Controller
     {
-        private readonly ICategoryRepository<Category> _service;
-        private readonly StreamiaContext _context;
+        private readonly IRepository<Category> categoryRepository;
 
-        public CategoryController(ICategoryRepository<Category> service, StreamiaContext context)
+        public CategoryController(IRepository<Category> categoryRepository)
         {
-            _service = service;
-            _context = context;
+            this.categoryRepository = categoryRepository;
         }
 
         [HttpGet]
@@ -35,18 +33,16 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Add(model);
-                ViewData["Success"] = "Operation is successfully completed";
-                return View();
+                await categoryRepository.Add(model);
+                return RedirectToAction(nameof(Manage));
             }
-            ViewData["Faild"] = "Failed to complete the operation";
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            var category = await _service.GetById(id.Value);
+            var category = await categoryRepository.GetById(id.Value);
 
             if (category == null)
             {
@@ -61,11 +57,9 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Edit(model);
-                ViewData["Success"] = "Operation is successfully completed";
-                return View(model);
+                await categoryRepository.Edit(model);
+                return RedirectToAction(nameof(Manage));
             }
-            ViewData["Faild"] = "Failed to complete the operation";
             return View(model);
         }
 
@@ -74,7 +68,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Delete(id);
+                await categoryRepository.Delete(id);
             }
             return RedirectToAction(nameof(Manage));
         }
@@ -83,15 +77,17 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Manage(string keyword)
         {
             IEnumerable<Category> data;
+
             if (keyword != null)
             {
-                data = await _service.Search(keyword);
+                data = await categoryRepository.Search(m => m.Name.Contains(keyword));
                 ViewBag.Keyword = keyword;
             } 
             else
             {
-                data = await _service.GetAll();
+                data = await categoryRepository.GetAll();
             }
+
             return View(data);
         }
 

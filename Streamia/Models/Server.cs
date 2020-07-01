@@ -13,10 +13,8 @@ namespace Streamia.Models
         OFFLINE
     }
 
-    public class Server
+    public class Server : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
 

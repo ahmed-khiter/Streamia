@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Series
+    public class Series : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }     
 

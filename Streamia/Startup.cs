@@ -15,10 +15,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Streamia.Database;
 using Streamia.Models;
+using Streamia.Models.Interfaces;
+using Streamia.Models.Repositories;
 using Streamia.Realtime;
-using Streamia.Repositories;
 using Streamia.Security;
-using Streamia.Services;
 using Streamia.Utilies;
 
 namespace Streamia
@@ -60,17 +60,9 @@ namespace Streamia
             services.AddRazorPages();
             services.AddMvc();
             services.AddSignalR();
-            services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
             services.AddDbContext<StreamiaContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
-            services.AddScoped<IBouquet<Bouquet>, BouquetService>();
-            services.AddScoped<IIptvUser<IptvUser>, IptvUserService>();
-            services.AddScoped<IGenericRepository<Stream>, StreamService>();
-            services.AddScoped<IServer<Server>, ServerService>();
-            services.AddScoped<ICategoryRepository<Category>, CategoryService>();
-            services.AddScoped<IGenericRepository<Movie>, MovieService>();
-            services.AddScoped<ServerService>();
-            services.AddScoped<CategoryService>();
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddSingleton<IAuthorizationHandler, AdminHandler>();
             services.AddControllersWithViews(config =>
             {

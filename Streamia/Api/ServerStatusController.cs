@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Renci.SshNet;
 using Streamia.Models;
+using Streamia.Models.Interfaces;
 using Streamia.Realtime;
-using Streamia.Repositories;
 
 namespace Streamia.Api
 {
@@ -16,10 +16,10 @@ namespace Streamia.Api
     [ApiController]
     public class ServerStatusController : ControllerBase
     {
-        private readonly IGenericRepository<Server> serverService;
+        private readonly IRepository<Server> serverService;
         private readonly IHubContext<ServerStatusHub> serverHub;
 
-        public ServerStatusController(IGenericRepository<Server> serverService, IHubContext<ServerStatusHub> serverHub)
+        public ServerStatusController(IRepository<Server> serverService, IHubContext<ServerStatusHub> serverHub)
         {
             this.serverService = serverService;
             this.serverHub = serverHub;
@@ -52,7 +52,10 @@ namespace Streamia.Api
                     var command = client.CreateCommand(dir);
                     command.Execute();
                     response = command.Result;
-                } finally
+                } 
+                catch
+                {}
+                finally
                 {
                     client.Dispose();
                 }

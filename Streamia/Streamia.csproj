@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <Folder Include="Api\" />
-    <Folder Include="ViewModels\" />
+    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
 
   <ItemGroup>

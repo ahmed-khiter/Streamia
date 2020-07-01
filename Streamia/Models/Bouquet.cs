@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Bouquet
+    public class Bouquet : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         public string Name { get; set; }
-
         public List<BouquetSource> BouquetSources { get; set; }
     }
 }

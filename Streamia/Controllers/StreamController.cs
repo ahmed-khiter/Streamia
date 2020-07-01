@@ -6,46 +6,39 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
-using Streamia.Repositories;
-using Streamia.Services;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class StreamController : Controller
     {
-        public IEnumerable<Category> Categories { get; set; }
-        public IEnumerable<Server> Servers { get; set; }
-        public IEnumerable<Bouquet> Bouquets { get; set; }
+        private readonly IRepository<Stream> streamRepository;
 
-        private readonly IGenericRepository<Stream> _streamService;
+        private readonly IRepository<Bouquet> bouquetRepository;
 
-        private readonly IBouquet<Bouquet> _bouquetService;
+        private readonly IRepository<Category> categoryRepository;
 
-        private readonly ICategoryRepository<Category> _categoryService;
-
-        private readonly IServer<Server> _serverService;
+        private readonly IRepository<Server> serverRepository;
 
 
-        public StreamController(IGenericRepository<Stream> StreamService,
-                IBouquet<Bouquet> BouquetService,
-                 ICategoryRepository<Category> CategoryService,
-                 IServer<Server> ServerService
-                )
+        public StreamController(
+            IRepository<Stream> streamRepository,
+            IRepository<Bouquet> bouquetRepository,
+            IRepository<Category> categoryRepository,
+            IRepository<Server> serverRepository
+        )
         {
-            _streamService = StreamService;
-            _bouquetService = BouquetService;
-            _categoryService = CategoryService;
-            _serverService = ServerService;
-
+            this.streamRepository = streamRepository;
+            this.bouquetRepository = bouquetRepository;
+            this.categoryRepository = categoryRepository;
+            this.serverRepository = serverRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            ViewBag.Categories = await _categoryService.GetByType(CategoryType.LIVE);
-            ViewBag.Servers = await _serverService.GetAllActive();
-            ViewBag.Bouquets = await _bouquetService.GetAll();
+            await PrepareViewBag();
             return View();
         }
 
@@ -54,46 +47,49 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _streamService.Add(model);
+                await streamRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }
-            ViewBag.Categories = await _categoryService.GetByType(CategoryType.LIVE);
-            ViewBag.Servers = await _serverService.GetAllActive();
-            ViewBag.Bouquets = await _bouquetService.GetAll();
+
+            await PrepareViewBag();
+
             return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await _streamService.GetAll());
+            return View(await streamRepository.GetAll());
         }
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var Stream = await _streamService.GetById(id);
-            if (Stream == null)
+            var stream = await streamRepository.GetById(id);
+
+            if (stream == null)
             {
                 Response.StatusCode = 404;
                 return NotFound();
             }
+
             return View();
         }
 
         [HttpGet]
-          public async Task<IActionResult> Edit(int id)
-          {
-                ViewBag.Categories = await _categoryService.GetByType(CategoryType.LIVE);
-                ViewBag.Servers = await _serverService.GetAllActive();
-                ViewBag.Bouquets = await _bouquetService.GetAll();
-                var stream = await _streamService.GetById(id);
-                if(stream == null)
-                {
-                    return NotFound();
-                }
-                return View(stream);
-          }
+        public async Task<IActionResult> Edit(int id)
+        {
+            await PrepareViewBag();
+
+            var stream = await streamRepository.GetById(id);
+
+            if(stream == null)
+            {
+                return NotFound();
+            }
+
+            return View(stream);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Edit(Stream model)
@@ -101,18 +97,16 @@ namespace Streamia.Controllers
 
             if (ModelState.IsValid)
             {
-                var Stream = await _streamService.GetById(model.Id);
-                if (Stream != null)
+                var stream = await streamRepository.GetById(model.Id);
+                if (stream != null)
                 {
-                    await _streamService.Edit(model);
+                    await streamRepository.Edit(model);
                     return RedirectToAction(nameof(Manage));
                 }
 
                 return NotFound();
             }
-            ViewBag.Categories = await _categoryService.GetByType(CategoryType.LIVE);
-            ViewBag.Servers = await _serverService.GetAllActive();
-            ViewBag.Bouquets = await _bouquetService.GetAll();
+            await PrepareViewBag();
             return View(model);
         }
 
@@ -121,12 +115,17 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _streamService.Delete(id);
+                await streamRepository.Delete(id);
                 return RedirectToAction(nameof(Manage));
             }
-            ViewBag.Delete = "Operation failed to complete";
             return View(nameof(Manage));
         }
 
+        private async Task PrepareViewBag()
+        {
+            ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.LIVE);
+            ViewBag.Servers = await serverRepository.Search(m => m.State == State.ONLINE);
+            ViewBag.Bouquets = await bouquetRepository.GetAll();
+        }
     }
 }

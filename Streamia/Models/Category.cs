@@ -13,10 +13,8 @@ namespace Streamia.Models
         SERIES
     }
 
-    public class Category
+    public class Category : BaseEntity
     {
-        public int Id { get; set; }
-
         [Required]
         [Display(Name = "Type")]
         public CategoryType CategoryType { get; set; }

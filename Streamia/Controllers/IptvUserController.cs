@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
-using Streamia.Repositories;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
@@ -15,23 +15,22 @@ namespace Streamia.Controllers
     {
         public IEnumerable<Bouquet> Bouquets { get; set; }
 
-        private readonly IIptvUser<IptvUser> _iptvService;
-        private readonly IBouquet<Bouquet> _bouquetService;
+        private readonly IRepository<IptvUser> iptvRepository;
+        private readonly IRepository<Bouquet> bouquetRepository;
 
         public IptvUserController(
-            IBouquet<Bouquet> bouquetService,
-            IIptvUser<IptvUser> iptvService
+            IRepository<IptvUser> iptvRepository,
+            IRepository<Bouquet> bouquetRepository
         )
         {
-            _iptvService = iptvService;
-            _bouquetService = bouquetService;
-
+            this.iptvRepository = iptvRepository;
+            this.bouquetRepository = bouquetRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> Add()
         {
-            ViewBag.Bouquets = await _bouquetService.GetAll();
+            ViewBag.Bouquets = await bouquetRepository.GetAll();
             return View();
         }
 
@@ -40,13 +39,12 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _iptvService.Add(model);
-
+                await iptvRepository.Add(model);
                 ViewBag.Success = "Operation is successfully completed";
                 return RedirectToAction(nameof(Manage));
             }
             ViewBag.Faild = "Failed to complete the operation";
-            ViewBag.Bouquets = await _bouquetService.GetAll();
+            ViewBag.Bouquets = await bouquetRepository.GetAll();
             return View(model);
         }
 
@@ -56,12 +54,12 @@ namespace Streamia.Controllers
             IEnumerable<IptvUser> data;
             if (keyword != null)
             {
-                data = await _iptvService.Search(keyword);
+                data = await iptvRepository.Search(m => m.Username.Contains(keyword));
                 ViewBag.Keyword = keyword;
             }
             else
             {
-                data = await _iptvService.GetAll();
+                data = await iptvRepository.GetAllIncluding("Bouquet");
             }
             return View(data);
         }

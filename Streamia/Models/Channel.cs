@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Channel
+    public class Channel : BaseEntity
     {
-        public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         public string Path { get; set; }
@@ -18,7 +17,6 @@ namespace Streamia.Models
         public bool StartChannel { get; set; } = false;
         [Required]
         public List<Server> Servers { get; set; }
-
         public List<BouquetSource> BouquetSources { get; set; }
     }
 }

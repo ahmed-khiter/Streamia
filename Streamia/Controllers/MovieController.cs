@@ -6,24 +6,23 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
-using Streamia.Repositories;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class MovieController : Controller
     {
-        private readonly IGenericRepository<Movie> _services;
+        private readonly IRepository<Movie> movieRepository;
 
-        public MovieController(IGenericRepository<Movie> services)
+        public MovieController(IRepository<Movie> movieRepository)
         {
-            _services = services;
+            this.movieRepository = movieRepository;
         }
 
         [HttpGet]
         public IActionResult Add()
         {
-            
             return View();
         }
 
@@ -32,8 +31,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _services.Add(model);
-
+                await movieRepository.Add(model);
                 ViewBag.Success = "Operation is successfully completed";
                 return View("Manage");
             }
@@ -44,7 +42,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await _services.GetAll());
+            return View(await movieRepository.GetAll());
         }
         public IActionResult Index()
         {

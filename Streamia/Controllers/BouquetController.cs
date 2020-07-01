@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
-using Streamia.Repositories;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
     [Authorize(Roles ="Admin")]
     public class BouquetController : Controller
     {
-        private readonly IBouquet<Bouquet> _service;
+        private readonly IRepository<Bouquet> bouquetRepository;
 
-        public BouquetController(IBouquet<Bouquet> service)
+        public BouquetController(IRepository<Bouquet> bouquetRepository)
         {
-            _service = service;
+            this.bouquetRepository = bouquetRepository;
         }
 
         public IActionResult Index()
@@ -36,7 +36,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Add(model);
+                await bouquetRepository.Add(model);
                 ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
@@ -47,7 +47,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            Bouquet bouquet = await _service.GetById(id.Value);
+            Bouquet bouquet = await bouquetRepository.GetById(id.Value);
             if (bouquet == null)
             {
                 Response.StatusCode = 404;
@@ -61,7 +61,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _service.Edit(model);
+                await bouquetRepository.Edit(model);
                 ViewData["Success"] = "Operation is successfully completed";
                 return View();
             }
@@ -74,7 +74,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid && id != 0)
             {
-                await _service.Delete(id);
+                await bouquetRepository.Delete(id);
                 return RedirectToAction("Manage");
             }
             ViewBag.Faild = "Failed to complete the operation";
@@ -87,12 +87,12 @@ namespace Streamia.Controllers
             IEnumerable<Bouquet> data;
             if (keyword != null)
             {
-                data = await _service.Search(keyword);
+                data = await bouquetRepository.Search(m => m.Name.Contains(keyword));
                 ViewBag.Keyword = keyword;
             }
             else
             {
-                data = await _service.GetAll();
+                data = await bouquetRepository.GetAll();
             }
             return View(data);
         }
