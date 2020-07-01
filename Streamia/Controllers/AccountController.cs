@@ -100,9 +100,6 @@ namespace Streamia.Controllers
             {
                 return RedirectToAction("AccessDenied");
             }
-
-            
-
             else
             {
                 if (ModelState.IsValid)

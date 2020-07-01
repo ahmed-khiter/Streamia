@@ -11,14 +11,14 @@ using Streamia.Models.Interfaces;
 namespace Streamia.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class IptvUserController : Controller
+    public class IptvUsersController : Controller
     {
         public IEnumerable<Bouquet> Bouquets { get; set; }
 
         private readonly IRepository<IptvUser> iptvRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
 
-        public IptvUserController(
+        public IptvUsersController(
             IRepository<IptvUser> iptvRepository,
             IRepository<Bouquet> bouquetRepository
         )

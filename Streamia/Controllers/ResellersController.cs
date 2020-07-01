@@ -13,7 +13,7 @@ using Streamia.ViewModels;
 
 namespace Streamia.Controllers
 {
-    public class ResellerController : Controller
+    public class ResellersController : Controller
     {
         private readonly IWebHostEnvironment _hostingEnviroment;
 
@@ -21,7 +21,7 @@ namespace Streamia.Controllers
 
         public SignInManager<AdminUser> SignInManager { get; }
 
-        public ResellerController(UserManager<AdminUser> userManager,
+        public ResellersController(UserManager<AdminUser> userManager,
             SignInManager<AdminUser> signInManager
             , IWebHostEnvironment env)
         {

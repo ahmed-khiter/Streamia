@@ -7,18 +7,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Renci.SshNet;
-using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class ServerController : Controller
+    public class ServersController : Controller
     {
         private readonly IRepository<Server> serverRepository;
 
-        public ServerController(IRepository<Server> serverRepository)
+        public ServersController(IRepository<Server> serverRepository)
         {
             this.serverRepository = serverRepository;
         }
@@ -26,7 +25,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            return View(new Server());
         }
 
         [HttpPost]
@@ -47,8 +46,7 @@ namespace Streamia.Controllers
                     nginxConfig = nginxConfig.Replace("RTMP_PORT", server.RtmpPort.ToString());
                     serverCommands = serverCommands.Replace("NGINX_CONFIG", nginxConfig);
                     serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
-                    serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
-                    serverCommands = serverCommands.Replace("PUBLIC_IP", null);
+                    serverCommands = serverCommands.Replace("DOMAIN", null);
                     serverCommands = serverCommands.Replace("SERVER_ID", server.Id.ToString());
                     try
                     {

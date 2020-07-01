@@ -11,11 +11,11 @@ using Streamia.Models.Interfaces;
 namespace Streamia.Controllers
 {
     [Authorize(Roles ="Admin")]
-    public class BouquetController : Controller
+    public class BouquetsController : Controller
     {
         private readonly IRepository<Bouquet> bouquetRepository;
 
-        public BouquetController(IRepository<Bouquet> bouquetRepository)
+        public BouquetsController(IRepository<Bouquet> bouquetRepository)
         {
             this.bouquetRepository = bouquetRepository;
         }

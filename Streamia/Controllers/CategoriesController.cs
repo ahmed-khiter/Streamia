@@ -13,11 +13,11 @@ using Streamia.Models.Interfaces;
 namespace Streamia.Controllers
 {
     [Authorize(Roles ="Admin")]
-    public class CategoryController : Controller
+    public class CategoriesController : Controller
     {
         private readonly IRepository<Category> categoryRepository;
 
-        public CategoryController(IRepository<Category> categoryRepository)
+        public CategoriesController(IRepository<Category> categoryRepository)
         {
             this.categoryRepository = categoryRepository;
         }

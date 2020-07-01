@@ -14,4 +14,4 @@ printf "NGINX_CONFIG" >> /usr/local/nginx/conf/nginx.conf ; \
 printf "NGINX_SERVICE" >> /etc/systemd/system/nginx.service ; \
 systemctl start nginx.service ; \
 systemctl enable nginx.service ; \
-curl -i -X GET http://PUBLIC_IP:52030/api/server/edit/SERVER_ID/online
+curl -i -X GET http://DOMAIN/api/server/edit/SERVER_ID/online

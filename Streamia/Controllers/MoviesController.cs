@@ -11,11 +11,11 @@ using Streamia.Models.Interfaces;
 namespace Streamia.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class MovieController : Controller
+    public class MoviesController : Controller
     {
         private readonly IRepository<Movie> movieRepository;
 
-        public MovieController(IRepository<Movie> movieRepository)
+        public MoviesController(IRepository<Movie> movieRepository)
         {
             this.movieRepository = movieRepository;
         }

@@ -34,10 +34,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="servers">
                             <li>
-                                <a href="/server/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="servers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/server/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="servers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -47,10 +47,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="streams">
                             <li>
-                                <a href="/stream/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="streams" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/stream/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="streams" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -60,10 +60,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="channles">
                             <li>
-                                <a href="/channle/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="channels" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/channle/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="channels" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -73,10 +73,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="movies">
                             <li>
-                                <a href="/Movie/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="movies" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/Movie/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="movies" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -86,10 +86,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="serieses">
                             <li>
-                                <a href="/seriese/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="serieses" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/seriese/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="serieses" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -99,10 +99,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="bouquets">
                             <li>
-                                <a asp-action="Add" asp-controller="bouquet"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="bouquets" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/bouquet/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="bouquets" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -112,10 +112,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="categories">
                             <li>
-                                <a href="/category/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="categories" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/category/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="categories" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -129,10 +129,10 @@
                         </a>
                         <ul class="collapse list-unstyled" id="iptv-users">
                             <li>
-                                <a href="/IptvUser/add"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="iptvusers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a href="/IptvUser/manage"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="iptvusers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
@@ -142,15 +142,15 @@
                         </a>
                         <ul class="collapse list-unstyled" id="resellers">
                             <li>
-                                <a asp-action="Add" asp-controller="Reseller"><i class="fa fa-plus"></i> Add</a>
+                                <a asp-controller="resellers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
                             </li>
                             <li>
-                                <a asp-action="Manage" asp-controller="Reseller"><i class="fa fa-list"></i> Manage</a>
+                                <a asp-controller="resellers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="/setting"><i class="fa fa-gears"></i> Settings</a>
+                        <a asp-controller="settings" asp-action="general"><i class="fa fa-gears"></i> Settings</a>
                     </li>
 
                 }
