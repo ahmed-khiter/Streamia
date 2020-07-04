@@ -1,5 +1,14 @@
 {
   "version": "1.0",
   "defaultProvider": "cdnjs",
-  "libraries": []
+  "libraries": [
+    {
+      "provider": "jsdelivr",
+      "library": "@ttskch/select2-bootstrap4-theme@1.4.0",
+      "destination": "wwwroot/ttskch/select2-bootstrap4-theme/",
+      "files": [
+        "dist/select2-bootstrap4.min.css"
+      ]
+    }
+  ]
 }

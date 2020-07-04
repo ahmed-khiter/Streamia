@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200704222039_updateModels.cs" />
+    <Compile Remove="Migrations\20200704222039_updateModels.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Api\" />
   </ItemGroup>
 

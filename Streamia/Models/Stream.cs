@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,7 @@ namespace Streamia.Models
         [Required]
         public string Source { get; set; }
 
-        public string Note { get; set; }
+        public string Notes { get; set; }
 
         [Display(Name = "Generate PTS")]
         public bool GeneratePts { get; set; } = true;
@@ -37,12 +38,19 @@ namespace Streamia.Models
         [Display(Name = "Minutes to Delay")]
         public int MinuteDelay { get; set; }
 
-        [Required]
-        public List<Server> Servers { get; set; }
+        [Display(Name = "Category")]
+        public int CategoryId { get; set; }
 
         public Category Category { get; set; }
 
-        [Display(Name = "Add to Bouquet")]
-        public List<BouquetSource> BouquetSources { get; set; }
+        [NotMapped]
+        [Required]
+        [Display(Name = "Servers")]
+        public List<int> ServerIds { get; set; }
+
+        [NotMapped]
+        [Required]
+        [Display(Name = "Bouquets")]
+        public List<int> BouquetIds { get; set; }
     }
 }

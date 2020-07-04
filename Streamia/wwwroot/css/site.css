@@ -11,6 +11,21 @@ a:focus {
     transition: all 0.3s;
 }
 
+input,
+.btn,
+.select2-selection,
+textarea {
+    border-radius: 0 !important;
+}
+
+.main-btn {
+    background: linear-gradient(0deg, rgb(100, 40, 137) 0%, rgb(31, 6, 63) 49%, rgb(0, 0, 0) 100%);
+    color: #fff;
+    border: none;
+    min-height: 37px;
+    min-width: 37px;
+}
+
 .menu-button {
     display: none !important;
     position: fixed !important;
@@ -47,7 +62,6 @@ a:focus {
 .navbar {
     background: #fefeff;
     border: none;
-    border-radius: 10px;
 }
 
 
@@ -99,6 +113,10 @@ a:focus {
 
 #sidebar.active {
     margin-left: -250px;
+}
+
+#sidebar i {
+    width: 30px;
 }
 
 #sidebar .sidebar-header {
@@ -157,7 +175,7 @@ ul ul a {
     transition: all 0.3s;
     overflow: auto;
     background-color: #e3e3e3;
-    background-image: url('../Pictures/clouds.jpg');
+    background-image: url('../Pictures/test.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -167,14 +185,13 @@ ul ul a {
     padding: 20px;
     height: 100%;
     width: 100%;
-    background-color: rgba(237, 237, 237, 0.89);
+    background-color: rgba(237, 237, 237, 0.90);
 }
 
 .main-content {
     margin-top: 25px;
     padding: 25px;
     background-color: #FFF;
-    border-radius: 10px;
 }
 
 .form-group label {

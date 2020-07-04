@@ -68,18 +68,18 @@
                 </td>
             </tr>
             <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.State)</strong></td>
+                <td><strong>@Html.DisplayNameFor(m => m.ServerState)</strong></td>
                 <td>
                     @{ iconClass = "warning"; }
-                    @if (Model.State == State.ONLINE)
+                    @if (Model.ServerState == ServerState.ONLINE)
                     {
                         iconClass = "success";
                     }
-                    else if (Model.State == State.OFFLINE)
+                    else if (Model.ServerState == ServerState.OFFLINE)
                     {
                         iconClass = "danger";
                     }
-                    <i class="fa fa-circle text-@iconClass"></i> @Model.State
+                    <i class="fa fa-circle text-@iconClass"></i> @Model.ServerState
                 </td>
             </tr>
         </table>

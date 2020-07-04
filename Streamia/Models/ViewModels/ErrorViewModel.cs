@@ -1,6 +1,6 @@
 using System;
 
-namespace Streamia.Models
+namespace Streamia.ViewModels
 {
     public class ErrorViewModel
     {

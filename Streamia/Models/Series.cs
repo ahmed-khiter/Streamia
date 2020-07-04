@@ -9,11 +9,7 @@ namespace Streamia.Models
     public class Series : BaseEntity
     {
         [Required]
-        public string Name { get; set; }     
-
-        [Required]
-        public List<Server> Servers { get; set; }
-
-        public List<BouquetSource> BouquetSources { get; set; }
+        public string Name { get; set; }
+        public Category Category { get; set; }
     }
 }

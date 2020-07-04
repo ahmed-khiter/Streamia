@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Streamia.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -6,13 +7,6 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public enum State
-    { 
-        PROCESSING,
-        ONLINE,
-        OFFLINE
-    }
-
     public class Server : BaseEntity
     {
         [Required]
@@ -44,7 +38,7 @@ namespace Streamia.Models
         [Display(Name = "Is RTMP?")]
         public bool IsRTMP { get; set; } = false;
 
-        public State State { get; set; } = State.PROCESSING;
+        public ServerState ServerState { get; set; } = ServerState.PROCESSING;
 
     }
 }

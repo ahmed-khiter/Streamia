@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Streamia.Database;
+using Streamia.Models.Contexts;
 using Streamia.Models.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -39,6 +39,7 @@ namespace Streamia.Models.Repositories
 
         public async Task<T> Edit(T entity)
         {
+            entitySet.Update(entity);
             await context.SaveChangesAsync();
             return entity;
         }

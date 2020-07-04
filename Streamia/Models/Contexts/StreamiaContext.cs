@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Streamia.Models;
+using Streamia.Models.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Streamia.Database
+namespace Streamia.Models.Contexts
 {
     public class StreamiaContext : IdentityDbContext
     {
@@ -32,7 +33,9 @@ namespace Streamia.Database
 
         public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<BouquetSource> BouquetSources { get; set; }
+        public DbSet<SourceServers> SourceServers { get; set; }
+
+        public DbSet<BouquetSources> BouquetSources { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

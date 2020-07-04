@@ -12,14 +12,14 @@
 
     @RenderSection("Styles", required: false)
 
-    <link href="~/css/site.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true"/>
 
 </head>
 <body>
     <div class="wrapper">
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3 class="m-0 p-0"><i class="fa fa-podcast"></i> Streamia</h3>
+                <h3 class="m-0 p-0 font-weight-bold"><i class="fa fa-podcast"></i> Streamia</h3>
             </div>
             <ul class="list-unstyled components">
                 <li>
@@ -121,38 +121,41 @@
                     </li>
                 }
 
-                @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin") || User.IsInRole("Reseller")))
+                <li>
+                    <a href="#iptv-users" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-user"></i> IPTV Users
+                    </a>
+                    <ul class="collapse list-unstyled" id="iptv-users">
+                        <li>
+                            <a asp-controller="iptvusers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a asp-controller="iptvusers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#resellers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        <i class="fa fa-users"></i> Resellers
+                    </a>
+                    <ul class="collapse list-unstyled" id="resellers">
+                        <li>
+                            <a asp-controller="resellers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
+                        </li>
+                        <li>
+                            <a asp-controller="resellers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
+                        </li>
+                    </ul>
+                </li>
+
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")) 
                 {
-                    <li>
-                        <a href="#iptv-users" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fa fa-user"></i> IPTV Users
-                        </a>
-                        <ul class="collapse list-unstyled" id="iptv-users">
-                            <li>
-                                <a asp-controller="iptvusers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
-                            </li>
-                            <li>
-                                <a asp-controller="iptvusers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="#resellers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fa fa-users"></i> Resellers
-                        </a>
-                        <ul class="collapse list-unstyled" id="resellers">
-                            <li>
-                                <a asp-controller="resellers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
-                            </li>
-                            <li>
-                                <a asp-controller="resellers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
-                            </li>
-                        </ul>
-                    </li>
                     <li>
                         <a asp-controller="settings" asp-action="general"><i class="fa fa-gears"></i> Settings</a>
                     </li>
-
+                    <li>
+                        <a asp-controller="logs" asp-action="general"><i class="fa fa-file-archive-o"></i> Log Center</a>
+                    </li>
                 }
 
             </ul>

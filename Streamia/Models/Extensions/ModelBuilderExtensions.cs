@@ -6,42 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Streamia.Database
+namespace Streamia.Models.Extensions
 {
     public static class ModelBuilderExtensions
     {
         public static void ConfigRelationships(this ModelBuilder modelBuilder)
         {
-
-            //config manual M-T-M relationship between stream and bouquet
-            modelBuilder.Entity<BouquetSource>()
-                 .HasOne(bs => bs.Bouquet)
-                 .WithMany(b => b.BouquetSources)
-                 .HasForeignKey(bs => bs.BouquetId);
-
-            modelBuilder.Entity<BouquetSource>()
-                .HasOne(bs => bs.Stream)
-                .WithMany(b => b.BouquetSources)
-                .HasForeignKey(bs => bs.StreamId);
-
-
-            //config manual M-T-M relationship between Channel and bouquet
-            modelBuilder.Entity<BouquetSource>()
-                .HasOne(bs => bs.Channel)
-                .WithMany(b => b.BouquetSources)
-                .HasForeignKey(bs => bs.ChannelId);
-
-            //config manual M-T-M relationship between Movie and bouquet
-            modelBuilder.Entity<BouquetSource>()
-               .HasOne(bs => bs.Movie)
-               .WithMany(b => b.BouquetSources)
-               .HasForeignKey(bs => bs.MovieId);
-
-            //config manual M-T-M relationship between Series and bouquet
-            modelBuilder.Entity<BouquetSource>()
-                .HasOne(bs => bs.Series)
-                .WithMany(s => s.BouquetSources)
-                .HasForeignKey(bs => bs.SeriesId);
+            modelBuilder.Entity<SourceServers>().HasKey(m => new { m.SourceId, m.ServerId });
+            modelBuilder.Entity<BouquetSources>().HasKey(m => new { m.SourceId, m.BouquetId });
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)

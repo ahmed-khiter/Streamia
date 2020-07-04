@@ -10,7 +10,6 @@ namespace Streamia.Models
     public class AdminUser : IdentityUser
     {
         public string Name { get; set; }
-
         public string ProfilePicture { get; set; }
     }
 

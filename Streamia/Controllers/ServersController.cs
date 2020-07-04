@@ -97,7 +97,7 @@ namespace Streamia.Controllers
             {
                 await serverRepository.Edit(model);
                 ViewData["Success"] = "Operation is successfully completed";
-                return View("Manage");
+                return RedirectToAction(nameof(Manage));
             }
             ViewData["Faild"] = "Operation failed to complete";
             return View(model);
