@@ -62,7 +62,7 @@ namespace Streamia.Controllers
                     });
                 }
 
-                var entity = await streamRepository.Add(model);
+                await streamRepository.Add(model);
 
                 return RedirectToAction(nameof(Manage));
             }
