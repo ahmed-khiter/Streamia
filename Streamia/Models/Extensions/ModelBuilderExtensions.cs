@@ -12,8 +12,31 @@ namespace Streamia.Models.Extensions
     {
         public static void ConfigRelationships(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<SourceServers>().HasKey(m => new { m.SourceId, m.ServerId });
-            modelBuilder.Entity<BouquetSources>().HasKey(m => new { m.SourceId, m.BouquetId });
+            // stream servers
+            modelBuilder.Entity<StreamServer>().HasKey(m => new { m.StreamId, m.ServerId });
+
+            modelBuilder.Entity<StreamServer>()
+                .HasOne(ss => ss.Stream)
+                .WithMany(ss => ss.StreamServers)
+                .HasForeignKey(ss => ss.StreamId);
+
+            modelBuilder.Entity<StreamServer>()
+                .HasOne(ss => ss.Server)
+                .WithMany(ss => ss.StreamServers)
+                .HasForeignKey(ss => ss.ServerId);
+
+            // bouquet streams
+            modelBuilder.Entity<BouquetStream>().HasKey(m => new { m.BouquetId, m.StreamId });
+
+            modelBuilder.Entity<BouquetStream>()
+                .HasOne(ss => ss.Bouquet)
+                .WithMany(ss => ss.BouquetStreams)
+                .HasForeignKey(ss => ss.BouquetId);
+
+            modelBuilder.Entity<BouquetStream>()
+                .HasOne(ss => ss.Stream)
+                .WithMany(ss => ss.BouquetStreams)
+                .HasForeignKey(ss => ss.StreamId);
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)

@@ -38,10 +38,14 @@ namespace Streamia.Models
         [Display(Name = "Minutes to Delay")]
         public int MinuteDelay { get; set; }
 
+        [Required]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
+
+        public ICollection<StreamServer> StreamServers { get; set; }
+        public ICollection<BouquetStream> BouquetStreams { get; set; }
 
         [NotMapped]
         [Required]
@@ -52,5 +56,11 @@ namespace Streamia.Models
         [Required]
         [Display(Name = "Bouquets")]
         public List<int> BouquetIds { get; set; }
+
+        public Stream()
+        {
+            StreamServers = new List<StreamServer>();
+            BouquetStreams = new List<BouquetStream>();
+        }
     }
 }

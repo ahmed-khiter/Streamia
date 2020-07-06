@@ -237,22 +237,19 @@ namespace Streamia.Migrations
                     b.ToTable("Bouquets");
                 });
 
-            modelBuilder.Entity("Streamia.Models.BouquetSources", b =>
+            modelBuilder.Entity("Streamia.Models.BouquetStream", b =>
                 {
-                    b.Property<int>("SourceId")
-                        .HasColumnType("int");
-
                     b.Property<int>("BouquetId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SourceType")
+                    b.Property<int>("StreamId")
                         .HasColumnType("int");
 
-                    b.HasKey("SourceId", "BouquetId");
+                    b.HasKey("BouquetId", "StreamId");
 
-                    b.HasIndex("BouquetId");
+                    b.HasIndex("StreamId");
 
-                    b.ToTable("BouquetSources");
+                    b.ToTable("BouquetStream");
                 });
 
             modelBuilder.Entity("Streamia.Models.Category", b =>
@@ -485,24 +482,6 @@ namespace Streamia.Migrations
                     b.ToTable("Servers");
                 });
 
-            modelBuilder.Entity("Streamia.Models.SourceServers", b =>
-                {
-                    b.Property<int>("SourceId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SourceType")
-                        .HasColumnType("int");
-
-                    b.HasKey("SourceId", "ServerId");
-
-                    b.HasIndex("ServerId");
-
-                    b.ToTable("SourceServers");
-                });
-
             modelBuilder.Entity("Streamia.Models.Stream", b =>
                 {
                     b.Property<int>("Id")
@@ -550,6 +529,21 @@ namespace Streamia.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Streams");
+                });
+
+            modelBuilder.Entity("Streamia.Models.StreamServer", b =>
+                {
+                    b.Property<int>("StreamId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("StreamId", "ServerId");
+
+                    b.HasIndex("ServerId");
+
+                    b.ToTable("StreamServer");
                 });
 
             modelBuilder.Entity("Streamia.Models.AdminUser", b =>
@@ -616,11 +610,17 @@ namespace Streamia.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Streamia.Models.BouquetSources", b =>
+            modelBuilder.Entity("Streamia.Models.BouquetStream", b =>
                 {
                     b.HasOne("Streamia.Models.Bouquet", "Bouquet")
-                        .WithMany("BouquetSources")
+                        .WithMany("BouquetStreams")
                         .HasForeignKey("BouquetId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Streamia.Models.Stream", "Stream")
+                        .WithMany("BouquetStreams")
+                        .HasForeignKey("StreamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -655,20 +655,26 @@ namespace Streamia.Migrations
                         .HasForeignKey("CategoryId");
                 });
 
-            modelBuilder.Entity("Streamia.Models.SourceServers", b =>
-                {
-                    b.HasOne("Streamia.Models.Server", "Server")
-                        .WithMany()
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Streamia.Models.Stream", b =>
                 {
                     b.HasOne("Streamia.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Streamia.Models.StreamServer", b =>
+                {
+                    b.HasOne("Streamia.Models.Server", "Server")
+                        .WithMany("StreamServers")
+                        .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Streamia.Models.Stream", "Stream")
+                        .WithMany("StreamServers")
+                        .HasForeignKey("StreamId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

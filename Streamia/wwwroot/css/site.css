@@ -24,6 +24,8 @@ textarea {
     border: none;
     min-height: 37px;
     min-width: 37px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .menu-button {
@@ -173,7 +175,7 @@ ul ul a {
     width: 100%;
     min-height: 100vh;
     transition: all 0.3s;
-    overflow: auto;
+    overflow: hidden;
     background-color: #e3e3e3;
     background-image: url('../Pictures/content-bg.jpg');
     background-repeat: no-repeat;
@@ -189,9 +191,11 @@ ul ul a {
 }
 
 .main-content {
+    max-height: calc(100% - 80px);
     margin-top: 25px;
     padding: 25px;
     background-color: #FFF;
+    overflow-y: auto;
 }
 
 .form-group label {

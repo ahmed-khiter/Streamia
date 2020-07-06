@@ -10,6 +10,6 @@ namespace Streamia.Models
     {
         [Required]
         public string Name { get; set; }
-        public ICollection<BouquetSources> BouquetSources { get; set; }
+        public ICollection<BouquetStream> BouquetStreams { get; set; }
     }
 }

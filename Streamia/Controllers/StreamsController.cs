@@ -19,21 +19,18 @@ namespace Streamia.Controllers
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Server> serverRepository;
-        private readonly StreamiaContext context;
 
         public StreamsController(
             IRepository<Stream> streamRepository,
             IRepository<Bouquet> bouquetRepository,
             IRepository<Category> categoryRepository,
-            IRepository<Server> serverRepository,
-            StreamiaContext context
+            IRepository<Server> serverRepository
         )
         {
             this.streamRepository = streamRepository;
             this.bouquetRepository = bouquetRepository;
             this.categoryRepository = categoryRepository;
             this.serverRepository = serverRepository;
-            this.context = context;
         }
 
         [HttpGet]
@@ -48,32 +45,24 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                var entity = await streamRepository.Add(model);
-                var sourceServers = new List<SourceServers>();
-                var bouquetSources = new List<BouquetSources>();
-
                 foreach (var server in model.ServerIds)
                 {
-                    sourceServers.Add(new SourceServers { 
+                    model.StreamServers.Add(new StreamServer { 
                         ServerId = server, 
-                        SourceId = entity.Id, 
-                        SourceType = SourceType.STREAM 
+                        StreamId = model.Id
                     });
                 }
 
                 foreach (var bouquet in model.BouquetIds)
                 {
-                    bouquetSources.Add(new BouquetSources { 
+                    model.BouquetStreams.Add(new BouquetStream
+                    {
                         BouquetId = bouquet,
-                        SourceId = entity.Id,
-                        SourceType = SourceType.STREAM
+                        StreamId = model.Id
                     });
                 }
 
-                context.SourceServers.AddRange(sourceServers);
-                context.BouquetSources.AddRange(bouquetSources);
-
-                await context.SaveChangesAsync();
+                var entity = await streamRepository.Add(model);
 
                 return RedirectToAction(nameof(Manage));
             }

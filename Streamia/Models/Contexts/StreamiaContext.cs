@@ -33,10 +33,6 @@ namespace Streamia.Models.Contexts
 
         public DbSet<Movie> Movies { get; set; }
 
-        public DbSet<SourceServers> SourceServers { get; set; }
-
-        public DbSet<BouquetSources> BouquetSources { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
