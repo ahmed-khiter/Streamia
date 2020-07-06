@@ -75,7 +75,8 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await streamRepository.GetAll());
+            var result = await streamRepository.GetAll(new string[] { "Category" });
+            return View(result);
         }
 
         [HttpGet]

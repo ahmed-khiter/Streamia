@@ -42,8 +42,8 @@
                 <td>1.6GB</td>
                 <td>10:36:12</td>
                 <td>
-                    <a class="btn btn-secondary" asp-controller="servers" asp-action="details" asp-route-id="@server.Id"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-success" asp-controller="servers" asp-action="edit" asp-route-id="@server.Id"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@server.Id"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-success" asp-action="edit" asp-route-id="@server.Id"><i class="fa fa-edit"></i></a>
                     <form asp-action="delete"
                           asp-route-id="@server.Id"
                           style="display:inline"

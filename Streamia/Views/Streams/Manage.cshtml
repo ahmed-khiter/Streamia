@@ -1,7 +1,43 @@
-﻿
+﻿@model IEnumerable<Stream>
 @{
-    ViewData["Title"] = "Manage";
+    ViewData["Title"] = "Manage Streams";
+    ViewData["Icon"] = "tv";
 }
 
-<h1>Manage</h1>
+<partial name="~/Views/Partials/_Search.cshtml" />
+
+<hr />
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var stream in Model)
+        {
+            <tr>
+                <td>@stream.Name</td>
+                <td>@stream.Category.Name</td>
+                <td>@stream.State</td>
+                <td>
+                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@stream.Id"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-success" asp-action="edit" asp-route-id="@stream.Id"><i class="fa fa-edit"></i></a>
+                    <form asp-action="delete"
+                          asp-route-id="@stream.Id"
+                          style="display:inline"
+                          onsubmit="return confirm('Are you sure you want to proceed?')">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
 

@@ -59,7 +59,7 @@ namespace Streamia.Controllers
             }
             else
             {
-                data = await iptvRepository.GetAllIncluding("Bouquet");
+                data = await iptvRepository.GetAll(new string[] { "Bouquet" });
             }
             return View(data);
         }

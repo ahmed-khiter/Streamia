@@ -49,9 +49,14 @@ namespace Streamia.Models.Repositories
             return await entitySet.ToListAsync();
         }
 
-        public async Task<IEnumerable<T>> GetAllIncluding(string model)
+        public async Task<IEnumerable<T>> GetAll(string[] models)
         {
-            return await entitySet.Include(model).ToListAsync();
+            IQueryable<T> record = null;
+            foreach (var model in models)
+            {
+                record = entitySet.Include(model);
+            }
+            return await record.ToListAsync();
         }
 
         public async Task<T> GetById(int id)
