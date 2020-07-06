@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Streamia.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -43,7 +44,7 @@ namespace Streamia.Models
         public int CategoryId { get; set; }
 
         public Category Category { get; set; }
-
+        public StreamState State { get; set; } = StreamState.STOPPED;
         public ICollection<StreamServer> StreamServers { get; set; }
         public ICollection<BouquetStream> BouquetStreams { get; set; }
 

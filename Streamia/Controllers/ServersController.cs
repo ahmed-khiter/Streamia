@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;
 using Renci.SshNet;
 using Streamia.Models;
+using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
+using Streamia.Realtime;
 
 namespace Streamia.Controllers
 {
@@ -34,8 +38,9 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 var server = await serverRepository.Add(model);
-                ViewData["Success"] = "Operation is successfully completed";
-                Action runCommand = () =>
+                var hostUrl = $"{Request.Scheme}://{Request.Host}/api/serverstatus/edit/{server.Id}/{ServerState.OFFLINE}";
+
+                Action runCommand = async () =>
                 {
                     var client = new SshClient(server.Ip, "root", server.RootPassword);
 
@@ -52,18 +57,19 @@ namespace Streamia.Controllers
                     {
                         client.Connect();
                         client.RunCommand(serverCommands);
+                        client.Disconnect();
+                        client.Dispose();
                     } 
                     catch
                     {
-                        
-                    }
-                    finally
-                    {
-                        client.Disconnect();
-                        client.Dispose();
+                        var httpClient = new HttpClient();
+                        await httpClient.GetAsync(hostUrl);
                     }
                 };
+
                 ThreadPool.QueueUserWorkItem(queue => runCommand());
+
+                return RedirectToAction(nameof(Manage));
             }
             return View(model);
         }
@@ -96,10 +102,8 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await serverRepository.Edit(model);
-                ViewData["Success"] = "Operation is successfully completed";
                 return RedirectToAction(nameof(Manage));
             }
-            ViewData["Faild"] = "Operation failed to complete";
             return View(model);
         }
 
@@ -111,7 +115,6 @@ namespace Streamia.Controllers
                 await serverRepository.Delete(id);
                 RedirectToAction(nameof(Manage));
             }
-            ViewBag.Faild = "Operation failed to complete";
             return RedirectToAction(nameof(Manage));
         }
 
