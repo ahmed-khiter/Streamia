@@ -23,7 +23,14 @@
             <tr>
                 <td>@stream.Name</td>
                 <td>@stream.Category.Name</td>
-                <td>@stream.State</td>
+                <td id="@stream.Id">
+                    @{ string stateClass = "danger"; }
+                    @if (stream.State == StreamState.STARTED)
+                    {
+                        stateClass = "success";
+                    }
+                    <i class="fa fa-circle text-@stateClass"></i> @stream.State
+                </td>
                 <td>
                     <a class="btn btn-secondary" asp-action="details" asp-route-id="@stream.Id"><i class="fa fa-info-circle"></i></a>
                     <a class="btn btn-success" asp-action="edit" asp-route-id="@stream.Id"><i class="fa fa-edit"></i></a>
