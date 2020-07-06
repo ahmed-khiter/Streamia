@@ -45,19 +45,19 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                foreach (var server in model.ServerIds)
+                foreach (var serverId in model.ServerIds)
                 {
                     model.StreamServers.Add(new StreamServer { 
-                        ServerId = server, 
+                        ServerId = serverId, 
                         StreamId = model.Id
                     });
                 }
 
-                foreach (var bouquet in model.BouquetIds)
+                foreach (var bouquetId in model.BouquetIds)
                 {
                     model.BouquetStreams.Add(new BouquetStream
                     {
-                        BouquetId = bouquet,
+                        BouquetId = bouquetId,
                         StreamId = model.Id
                     });
                 }
