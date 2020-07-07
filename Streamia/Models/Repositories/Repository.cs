@@ -37,6 +37,16 @@ namespace Streamia.Models.Repositories
             }
         }
 
+        public async Task Delete(Expression<Func<T, bool>> expression)
+        {
+            var entity = await entitySet.FirstOrDefaultAsync(expression);
+            if (entity != null)
+            {
+                entitySet.Remove(entity);
+                await context.SaveChangesAsync();
+            }
+        }
+
         public async Task<T> Edit(T entity)
         {
             entitySet.Update(entity);
@@ -51,10 +61,10 @@ namespace Streamia.Models.Repositories
 
         public async Task<IEnumerable<T>> GetAll(string[] models)
         {
-            IQueryable<T> record = null;
+            IQueryable<T> record = entitySet;
             foreach (var model in models)
             {
-                record = entitySet.Include(model);
+                record = record.Include(model);
             }
             return await record.ToListAsync();
         }
@@ -62,6 +72,16 @@ namespace Streamia.Models.Repositories
         public async Task<T> GetById(int id)
         {
             return await entitySet.FirstOrDefaultAsync(m => m.Id == id);
+        }
+
+        public async Task<T> GetById(int id, string[] models)
+        {
+            IQueryable<T> record = entitySet;
+            foreach (var model in models)
+            {
+                record = record.Include(model);
+            }
+            return await record.FirstOrDefaultAsync(m => m.Id == id);
         }
 
         public async Task<IEnumerable<T>> Search(Expression<Func<T, bool>> expression)

@@ -205,24 +205,6 @@ namespace Streamia.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BouquetSources",
-                columns: table => new
-                {
-                    BouquetId = table.Column<int>(nullable: false),
-                    SourceId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_BouquetSources", x => new { x.SourceId, x.BouquetId });
-                    table.ForeignKey(
-                        name: "FK_BouquetSources_Bouquets_BouquetId",
-                        column: x => x.BouquetId,
-                        principalTable: "Bouquets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "IptvUsers",
                 columns: table => new
                 {
@@ -345,7 +327,8 @@ namespace Streamia.Migrations
                     DirectSource = table.Column<bool>(nullable: false),
                     EnigmaSID = table.Column<string>(nullable: true),
                     MinuteDelay = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true)
+                    CategoryId = table.Column<int>(nullable: false),
+                    State = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -355,23 +338,53 @@ namespace Streamia.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "SourceServers",
+                name: "BouquetStreams",
                 columns: table => new
                 {
-                    SourceId = table.Column<int>(nullable: false),
+                    BouquetId = table.Column<int>(nullable: false),
+                    StreamId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BouquetStreams", x => new { x.BouquetId, x.StreamId });
+                    table.ForeignKey(
+                        name: "FK_BouquetStreams_Bouquets_BouquetId",
+                        column: x => x.BouquetId,
+                        principalTable: "Bouquets",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BouquetStreams_Streams_StreamId",
+                        column: x => x.StreamId,
+                        principalTable: "Streams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StreamServers",
+                columns: table => new
+                {
+                    StreamId = table.Column<int>(nullable: false),
                     ServerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SourceServers", x => new { x.SourceId, x.ServerId });
+                    table.PrimaryKey("PK_StreamServers", x => new { x.StreamId, x.ServerId });
                     table.ForeignKey(
-                        name: "FK_SourceServers_Servers_ServerId",
+                        name: "FK_StreamServers_Servers_ServerId",
                         column: x => x.ServerId,
                         principalTable: "Servers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StreamServers_Streams_StreamId",
+                        column: x => x.StreamId,
+                        principalTable: "Streams",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -416,9 +429,9 @@ namespace Streamia.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BouquetSources_BouquetId",
-                table: "BouquetSources",
-                column: "BouquetId");
+                name: "IX_BouquetStreams_StreamId",
+                table: "BouquetStreams",
+                column: "StreamId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Channels_CategoryId",
@@ -441,14 +454,14 @@ namespace Streamia.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SourceServers_ServerId",
-                table: "SourceServers",
-                column: "ServerId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Streams_CategoryId",
                 table: "Streams",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StreamServers_ServerId",
+                table: "StreamServers",
+                column: "ServerId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -469,7 +482,7 @@ namespace Streamia.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BouquetSources");
+                name: "BouquetStreams");
 
             migrationBuilder.DropTable(
                 name: "Channels");
@@ -484,10 +497,7 @@ namespace Streamia.Migrations
                 name: "Series");
 
             migrationBuilder.DropTable(
-                name: "SourceServers");
-
-            migrationBuilder.DropTable(
-                name: "Streams");
+                name: "StreamServers");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -500,6 +510,9 @@ namespace Streamia.Migrations
 
             migrationBuilder.DropTable(
                 name: "Servers");
+
+            migrationBuilder.DropTable(
+                name: "Streams");
 
             migrationBuilder.DropTable(
                 name: "Categories");

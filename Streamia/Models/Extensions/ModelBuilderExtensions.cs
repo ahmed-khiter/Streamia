@@ -14,6 +14,7 @@ namespace Streamia.Models.Extensions
         {
             // stream servers
             modelBuilder.Entity<StreamServer>().HasKey(m => new { m.StreamId, m.ServerId });
+            modelBuilder.Entity<StreamServer>().Ignore(m => m.Id);
 
             modelBuilder.Entity<StreamServer>()
                 .HasOne(ss => ss.Stream)
@@ -27,6 +28,7 @@ namespace Streamia.Models.Extensions
 
             // bouquet streams
             modelBuilder.Entity<BouquetStream>().HasKey(m => new { m.BouquetId, m.StreamId });
+            modelBuilder.Entity<BouquetStream>().Ignore(m => m.Id);
 
             modelBuilder.Entity<BouquetStream>()
                 .HasOne(ss => ss.Bouquet)

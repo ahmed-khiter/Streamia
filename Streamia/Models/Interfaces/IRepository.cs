@@ -11,9 +11,11 @@ namespace Streamia.Models.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> GetAll(string[] models);
         Task<T> GetById(int id);
+        Task<T> GetById(int id, string[] models);
         Task<T> Add(T entity);
         Task<T> Edit(T entity);
         Task Delete(int id);
+        Task Delete(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> Search(Expression<Func<T, bool>> expression);
     }
 }

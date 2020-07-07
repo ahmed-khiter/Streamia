@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class BouquetStream
+    public class BouquetStream : BaseEntity
     {
         public int BouquetId { get; set; }
         public int StreamId { get; set; }

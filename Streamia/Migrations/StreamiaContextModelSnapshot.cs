@@ -249,7 +249,7 @@ namespace Streamia.Migrations
 
                     b.HasIndex("StreamId");
 
-                    b.ToTable("BouquetStream");
+                    b.ToTable("BouquetStreams");
                 });
 
             modelBuilder.Entity("Streamia.Models.Category", b =>
@@ -546,7 +546,7 @@ namespace Streamia.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("StreamServer");
+                    b.ToTable("StreamServers");
                 });
 
             modelBuilder.Entity("Streamia.Models.AdminUser", b =>

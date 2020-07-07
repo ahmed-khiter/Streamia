@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class StreamServer
+    public class StreamServer : BaseEntity
     {
         public int StreamId { get; set; }
         public int ServerId { get; set; }

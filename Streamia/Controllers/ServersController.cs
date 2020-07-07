@@ -75,17 +75,6 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
-        {
-            var data = await serverRepository.GetById(id);
-            if (data == null)
-            {
-                return NotFound();
-            }
-            return View(data);
-        }
-
-        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var Server = await serverRepository.GetById(id);
@@ -110,12 +99,19 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            if (ModelState.IsValid && id != 0)
-            {
-                await serverRepository.Delete(id);
-                RedirectToAction(nameof(Manage));
-            }
+            await serverRepository.Delete(id);
             return RedirectToAction(nameof(Manage));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var data = await serverRepository.GetById(id);
+            if (data == null)
+            {
+                return NotFound();
+            }
+            return View(data);
         }
 
         [HttpGet]

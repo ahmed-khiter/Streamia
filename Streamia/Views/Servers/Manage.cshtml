@@ -14,9 +14,6 @@
             <th>Name</th>
             <th>Ip</th>
             <th>State</th>
-            <th>CPU</th>
-            <th>RAM</th>
-            <th>Uptime</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -38,9 +35,6 @@
                     }
                     <i class="fa fa-circle text-@stateClass"></i> @server.ServerState
                 </td>
-                <td>18%</td>
-                <td>1.6GB</td>
-                <td>10:36:12</td>
                 <td>
                     <a class="btn btn-secondary" asp-action="details" asp-route-id="@server.Id"><i class="fa fa-info-circle"></i></a>
                     <a class="btn btn-success" asp-action="edit" asp-route-id="@server.Id"><i class="fa fa-edit"></i></a>

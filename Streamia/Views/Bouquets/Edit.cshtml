@@ -3,15 +3,6 @@
     ViewData["Title"] = "Edit Bouquet";
     ViewData["Icon"] = "edit";
 }
-
-@if (ViewData["Success"] != null)
-{
-    <div class="alert alert-success">
-        <i class="fa fa-info-circle"></i> <strong>@ViewData["Success"]</strong>
-        <i class="fa fa-info-circle"></i> <strong>@ViewData["Faild"]</strong>
-    </div>
-}
-
 <form method="post">
 
     <input type="hidden" asp-for="Id" />

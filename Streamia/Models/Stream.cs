@@ -40,6 +40,7 @@ namespace Streamia.Models
         public int MinuteDelay { get; set; }
 
         [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Category is required")]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 

@@ -40,14 +40,8 @@
             </div>
             <div class="row">
                 <div class="form-group col-md-12">
-                    <input type="hidden" asp-for="Source" id="master-source" />
                     <label asp-for="Source"></label>
-                    <div id="sources-container">
-                        <input type="text" class="form-control source" />
-                    </div>
-                    <!--
-                        <button class="btn btn-success" type="button" id="add-more">Add More</button>
-                    -->
+                    <input asp-for="Source" class="form-control"/>
                     <span class="text-danger" asp-validation-for="Source"></span>
                 </div>
             </div>
@@ -126,16 +120,6 @@
 
         elems.forEach(function (html) {
             new Switchery(html);
-        });
-
-        $('#add-more').on('click', () => {
-            $('#sources-container').append('<input name="Stream.Source" class="input source" />');
-        });
-        $('form').on('submit', function (e) {
-            $('.source').each(function () {
-                $('#master-source').val($(this).val() + ',' + $('#master-source').val());
-            });
-            $('#master-source').val($('#master-source').val().slice(0, -1));
         });
     </script>
 }

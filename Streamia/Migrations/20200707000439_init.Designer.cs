@@ -10,8 +10,8 @@ using Streamia.Models.Contexts;
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    [Migration("20200706013242_m2mBouquetStreams")]
-    partial class m2mBouquetStreams
+    [Migration("20200707000439_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -251,7 +251,7 @@ namespace Streamia.Migrations
 
                     b.HasIndex("StreamId");
 
-                    b.ToTable("BouquetStream");
+                    b.ToTable("BouquetStreams");
                 });
 
             modelBuilder.Entity("Streamia.Models.Category", b =>
@@ -523,6 +523,9 @@ namespace Streamia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
                     b.Property<bool>("StreamAll")
                         .HasColumnType("bit");
 
@@ -545,7 +548,7 @@ namespace Streamia.Migrations
 
                     b.HasIndex("ServerId");
 
-                    b.ToTable("StreamServer");
+                    b.ToTable("StreamServers");
                 });
 
             modelBuilder.Entity("Streamia.Models.AdminUser", b =>

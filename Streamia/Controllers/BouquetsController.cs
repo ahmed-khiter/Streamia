@@ -20,11 +20,6 @@ namespace Streamia.Controllers
             this.bouquetRepository = bouquetRepository;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         [HttpGet]
         public IActionResult Add()
         {
@@ -37,10 +32,8 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await bouquetRepository.Add(model);
-                ViewData["Success"] = "Operation is successfully completed";
-                return View();
+                return RedirectToAction(nameof(Manage));
             }
-            ViewData["Faild"] = "Failed to complete the operation";
             return View();
         }
 
@@ -50,7 +43,6 @@ namespace Streamia.Controllers
             Bouquet bouquet = await bouquetRepository.GetById(id.Value);
             if (bouquet == null)
             {
-                Response.StatusCode = 404;
                 return NotFound();
             }
             return View(bouquet);
@@ -62,23 +54,16 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await bouquetRepository.Edit(model);
-                ViewData["Success"] = "Operation is successfully completed";
-                return View();
+                return RedirectToAction(nameof(Manage));
             }
-            ViewData["Faild"] = "Failed to complete the operation";
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
-            if (ModelState.IsValid && id != 0)
-            {
-                await bouquetRepository.Delete(id);
-                return RedirectToAction("Manage");
-            }
-            ViewBag.Faild = "Failed to complete the operation";
-            return View();
+            await bouquetRepository.Delete(id);
+            return RedirectToAction(nameof(Manage));
         }
 
         [HttpGet]

@@ -1,7 +1,129 @@
-﻿
+﻿@model Stream
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Stream";
+    ViewData["Icon"] = "tv";
 }
 
-<h1>Edit</h1>
+@section Styles {
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="row">
+        <div class="col-md-6">
+            <h5 class="font-weight-bold text-secondary"><i class="fa fa-info-circle"></i> Basic Information</h5>
+            <hr />
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="ServerIds"></label>
+                    <select asp-for="ServerIds" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="ServerIds"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
+                    </select>
+                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="BouquetIds"></label>
+                    <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="BouquetIds"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <input type="hidden" asp-for="Source" id="master-source" />
+                    <label asp-for="Source"></label>
+                    <input asp-for="Source" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Source"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h5 class="font-weight-bold text-secondary"><i class="fa fa-gear"></i> Additional Options</h5>
+            <hr />
+
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label asp-for="EnigmaSID"></label>
+                    <input asp-for="EnigmaSID" class="form-control" />
+                    <span class="text-danger" asp-validation-for="EnigmaSID"></span>
+                </div>
+                <div class="form-group col-md-6">
+                    <label asp-for="MinuteDelay"></label>
+                    <input asp-for="MinuteDelay" class="form-control" />
+                    <span class="text-danger" asp-validation-for="MinuteDelay"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label asp-for="Notes"></label>
+                    <input asp-for="Notes" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Notes"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label asp-for="GeneratePts"></label>
+                    <div>
+                        <input asp-for="GeneratePts" class="js-switch" />
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="DirectSource"></label>
+                    <div>
+                        <input asp-for="DirectSource" class="js-switch" />
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="AllowRtmp"></label>
+                    <div>
+                        <input asp-for="AllowRtmp" class="js-switch" />
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="AllowRecording"></label>
+                    <div>
+                        <input asp-for="AllowRecording" class="js-switch" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <hr />
+
+    <button class="main-btn">
+        <i class="fa fa-pencil"></i> Edit
+    </button>
+
+</form>
+@section Scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/switchery/switchery.js"></script>
+    <script>
+        $('select:not(#Stream_Category)').select2({
+            theme: 'bootstrap4'
+        });
+
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function (html) {
+            new Switchery(html);
+        });
+    </script>
+}
+
 
