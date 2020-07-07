@@ -1,8 +1,116 @@
 ﻿
 @model Stream
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Stream Details";
+    ViewData["Icon"] = "tv";
 }
 
-<h1>Details</h1>
+<div class="row">
 
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.Name)</strong></td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td><strong>Category</strong></td>
+                <td>@Model.Category.Name</td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.State)</strong></td>
+                <td>
+                    @if (Model.State == StreamState.STARTED)
+                    {
+                        <i class="fa fa-circle text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-circle text-danger"></i>
+                    }
+                    @Model.State
+                </td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.GeneratePts)</strong></td>
+                <td>
+                    @if (Model.GeneratePts)
+                    {
+                        <i class="fa fa-check text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-close text-danger"></i>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.AllowRtmp)</strong></td>
+                <td>
+                    @if (Model.AllowRtmp)
+                    {
+                        <i class="fa fa-check text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-close text-danger"></i>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.AllowRecording)</strong></td>
+                <td>
+                    @if (Model.AllowRecording)
+                    {
+                        <i class="fa fa-check text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-close text-danger"></i>
+                    }
+                </td>
+            </tr>
+            <tr>
+                <td><strong>@Html.DisplayNameFor(m => m.StreamAll)</strong></td>
+                <td>
+                    @if (Model.StreamAll)
+                    {
+                        <i class="fa fa-check text-success"></i>
+                    }
+                    else
+                    {
+                        <i class="fa fa-close text-danger"></i>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table table-striped">
+            <tr>
+                <td><strong>Servers</strong></td>
+                <td>
+                    <ul>
+                        @foreach (var server in Model.StreamServers)
+                        {
+                            <li>@server.Server.Name - @server.Server.Ip</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Bouquets</strong></td>
+                <td>
+                    <ul>
+                        @foreach (var bouquet in Model.BouquetStreams)
+                        {
+                            <li>@bouquet.Bouquet.Name</li>
+                        }
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</div>

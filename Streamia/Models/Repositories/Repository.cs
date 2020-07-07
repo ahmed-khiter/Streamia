@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Streamia.Models.Contexts;
 using Streamia.Models.Interfaces;
 using System;

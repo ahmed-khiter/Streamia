@@ -158,14 +158,22 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var stream = await streamRepository.GetById(id);
+            var dataToLoad = new string[]
+            {
+                "Category",
+                "BouquetStreams",
+                "BouquetStreams.Bouquet",
+                "StreamServers",
+                "StreamServers.Server"
+            };
+            var stream = await streamRepository.GetById(id, dataToLoad);
 
             if (stream == null)
             {
                 return NotFound();
             }
 
-            return View();
+            return View(stream);
         }
 
         [HttpGet]
