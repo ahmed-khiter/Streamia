@@ -39,10 +39,10 @@ namespace Streamia.Models.Repositories
 
         public async Task Delete(Expression<Func<T, bool>> expression)
         {
-            var entity = await entitySet.FirstOrDefaultAsync(expression);
-            if (entity != null)
+            var entities = await entitySet.Where(expression).ToListAsync();
+            if (entities != null)
             {
-                entitySet.Remove(entity);
+                entitySet.RemoveRange(entities);
                 await context.SaveChangesAsync();
             }
         }

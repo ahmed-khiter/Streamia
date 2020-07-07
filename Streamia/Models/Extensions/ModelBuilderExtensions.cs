@@ -19,12 +19,14 @@ namespace Streamia.Models.Extensions
             modelBuilder.Entity<StreamServer>()
                 .HasOne(ss => ss.Stream)
                 .WithMany(ss => ss.StreamServers)
-                .HasForeignKey(ss => ss.StreamId);
+                .HasForeignKey(ss => ss.StreamId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<StreamServer>()
                 .HasOne(ss => ss.Server)
                 .WithMany(ss => ss.StreamServers)
-                .HasForeignKey(ss => ss.ServerId);
+                .HasForeignKey(ss => ss.ServerId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             // bouquet streams
             modelBuilder.Entity<BouquetStream>().HasKey(m => new { m.BouquetId, m.StreamId });
@@ -33,12 +35,14 @@ namespace Streamia.Models.Extensions
             modelBuilder.Entity<BouquetStream>()
                 .HasOne(ss => ss.Bouquet)
                 .WithMany(ss => ss.BouquetStreams)
-                .HasForeignKey(ss => ss.BouquetId);
+                .HasForeignKey(ss => ss.BouquetId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<BouquetStream>()
                 .HasOne(ss => ss.Stream)
                 .WithMany(ss => ss.BouquetStreams)
-                .HasForeignKey(ss => ss.StreamId);
+                .HasForeignKey(ss => ss.StreamId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
