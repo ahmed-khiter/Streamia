@@ -1,5 +1,5 @@
 [Unit]
-Description=A high performance web server and a reverse proxy server
+Description=Streamia automated service generation
 After=network.target
 [Service]
 Type=forking

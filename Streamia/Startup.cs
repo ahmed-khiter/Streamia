@@ -93,7 +93,7 @@ namespace Streamia
 
             ModelBuilderExtensions.SeedRoles(role);
             ModelBuilderExtensions.SeedUsers(userManager);
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
             app.UseAuthentication();

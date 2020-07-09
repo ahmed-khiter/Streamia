@@ -1,12 +1,16 @@
 apt-get update ; \
 apt-get install curl git ffmpeg build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev -y ; \
+rm -f -R /usr/local/nginx ; \ 
+rm -f /usr/local/sbin/nginx ; \
+rm -rf ~/build ; \
 mkdir ~/build ; \
 cd ~/build ; \
 git clone git://github.com/arut/nginx-rtmp-module.git ; \
+git clone git://github.com/perusio/nginx-auth-request-module.git ; \
 wget http://nginx.org/download/nginx-1.14.2.tar.gz ; \
 tar xzf nginx-1.14.2.tar.gz ; \
 cd nginx-1.14.2 ; \
-./configure --with-http_ssl_module --add-module=../nginx-rtmp-module ; \
+./configure --with-http_ssl_module --add-module=../nginx-rtmp-module --add-module=../nginx-auth-request-module; \
 make ; \
 make install ; \
 unlink /usr/local/nginx/conf/nginx.conf ; \
@@ -14,4 +18,5 @@ printf "NGINX_CONFIG" >> /usr/local/nginx/conf/nginx.conf ; \
 printf "NGINX_SERVICE" >> /etc/systemd/system/nginx.service ; \
 systemctl start nginx.service ; \
 systemctl enable nginx.service ; \
-curl -i -X GET http://DOMAIN/api/server/edit/SERVER_ID/online
+rm -rf ~/build ; \
+curl -i -X GET DOMAIN/api/serverstatus/edit/SERVER_ID/online

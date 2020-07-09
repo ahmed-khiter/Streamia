@@ -38,20 +38,21 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 var server = await serverRepository.Add(model);
-                var hostUrl = $"{Request.Scheme}://{Request.Host}/api/serverstatus/edit/{server.Id}/{ServerState.OFFLINE}";
+                var host = $"{Request.Scheme}://{Request.Host}";
+                var hostUrl = $"{host}/api/serverstatus/edit/{server.Id}/{ServerState.OFFLINE}";
 
                 Action runCommand = async () =>
                 {
                     var client = new SshClient(server.Ip, "root", server.RootPassword);
 
-                    string serverCommands = System.IO.File.ReadAllText("InstallScripts/server");
-                    string nginxConfig = System.IO.File.ReadAllText("InstallScripts/nginx-config");
-                    string nginxService = System.IO.File.ReadAllText("InstallScripts/nginx-service");
+                    string serverCommands = await System.IO.File.ReadAllTextAsync("InstallScripts/server");
+                    string nginxConfig = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-config");
+                    string nginxService = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-service");
                     nginxConfig = nginxConfig.Replace("MAX_CLIENTS", server.MaxClients.ToString());
                     nginxConfig = nginxConfig.Replace("RTMP_PORT", server.RtmpPort.ToString());
                     serverCommands = serverCommands.Replace("NGINX_CONFIG", nginxConfig);
                     serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
-                    serverCommands = serverCommands.Replace("DOMAIN", null);
+                    serverCommands = serverCommands.Replace("DOMAIN", host);
                     serverCommands = serverCommands.Replace("SERVER_ID", server.Id.ToString());
                     try
                     {

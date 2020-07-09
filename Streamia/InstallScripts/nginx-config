@@ -1,5 +1,8 @@
 worker_processes  1;
-worker_connections  MAX_CLIENTS;
+
+events {
+    worker_connections  MAX_CLIENTS;
+}
 
 http {
     include       mime.types;

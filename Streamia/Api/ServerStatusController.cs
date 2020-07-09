@@ -41,6 +41,13 @@ namespace Streamia.Api
             return Ok();
         }
 
+        [Route("test")]
+        public IActionResult Test()
+        {
+            Console.WriteLine($"New auth request {DateTime.Now.Hour}:{DateTime.Now.Minute}:{DateTime.Now.Second}");
+            return Ok();
+        }
+
         [Route("path/{id}/{dir}")]
         public async Task<string> GetPath(int id, string dir)
         {
