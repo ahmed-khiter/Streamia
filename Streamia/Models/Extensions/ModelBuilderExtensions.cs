@@ -50,18 +50,24 @@ namespace Streamia.Models.Extensions
             if (roleManager.FindByNameAsync("Admin").Result == null
                 || roleManager.FindByNameAsync("Reseller").Result == null)
             {
-                IdentityRole identityRoleAdmin = new IdentityRole
+                if (roleManager.FindByNameAsync("Admin").Result == null) 
                 {
-                    Name = "Admin",
-                    NormalizedName = "ADMIN"
-                };
-                roleManager.CreateAsync(identityRoleAdmin).Wait();
-                IdentityRole identityRoleCompany = new IdentityRole
+                    IdentityRole identityRoleAdmin = new IdentityRole
+                    {
+                        Name = "Admin",
+                        NormalizedName = "ADMIN"
+                    };
+                    roleManager.CreateAsync(identityRoleAdmin).Wait();
+                }
+                else
                 {
-                    Name = "Reseller",
-                    NormalizedName = "RESELLER"
-                };
-                roleManager.CreateAsync(identityRoleCompany).Wait();
+                    IdentityRole identityRoleCompany = new IdentityRole
+                    {
+                        Name = "Reseller",
+                        NormalizedName = "RESELLER"
+                    };
+                    roleManager.CreateAsync(identityRoleCompany).Wait();
+                }       
             }
         }
 

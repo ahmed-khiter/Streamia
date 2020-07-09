@@ -41,34 +41,7 @@ namespace Streamia.Controllers
                 var host = $"{Request.Scheme}://{Request.Host}";
                 var hostUrl = $"{host}/api/serverstatus/edit/{server.Id}/{ServerState.OFFLINE}";
 
-                Action runCommand = async () =>
-                {
-                    var client = new SshClient(server.Ip, "root", server.RootPassword);
-
-                    string serverCommands = await System.IO.File.ReadAllTextAsync("InstallScripts/server");
-                    string nginxConfig = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-config");
-                    string nginxService = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-service");
-                    nginxConfig = nginxConfig.Replace("MAX_CLIENTS", server.MaxClients.ToString());
-                    nginxConfig = nginxConfig.Replace("RTMP_PORT", server.RtmpPort.ToString());
-                    serverCommands = serverCommands.Replace("NGINX_CONFIG", nginxConfig);
-                    serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
-                    serverCommands = serverCommands.Replace("DOMAIN", host);
-                    serverCommands = serverCommands.Replace("SERVER_ID", server.Id.ToString());
-                    try
-                    {
-                        client.Connect();
-                        client.RunCommand(serverCommands);
-                        client.Disconnect();
-                        client.Dispose();
-                    } 
-                    catch
-                    {
-                        var httpClient = new HttpClient();
-                        await httpClient.GetAsync(hostUrl);
-                    }
-                };
-
-                ThreadPool.QueueUserWorkItem(queue => runCommand());
+                ThreadPool.QueueUserWorkItem(queue => RunCommandAsync(server, host, hostUrl));
 
                 return RedirectToAction(nameof(Manage));
             }
@@ -79,7 +52,7 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var Server = await serverRepository.GetById(id);
-            if(Server == null)
+            if (Server == null)
             {
                 return NotFound();
             }
@@ -130,5 +103,35 @@ namespace Streamia.Controllers
             }
             return View(data);
         }
+
+        #region Help
+        Action<Server, string, string> RunCommandAsync = async (server, host, hostUrl) =>
+        {
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+
+            string serverCommands = await System.IO.File.ReadAllTextAsync("InstallScripts/server");
+            string nginxConfig = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-config");
+            string nginxService = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-service");
+            nginxConfig = nginxConfig.Replace("MAX_CLIENTS", server.MaxClients.ToString());
+            nginxConfig = nginxConfig.Replace("RTMP_PORT", server.RtmpPort.ToString());
+            serverCommands = serverCommands.Replace("NGINX_CONFIG", nginxConfig);
+            serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
+            serverCommands = serverCommands.Replace("DOMAIN", host);
+            serverCommands = serverCommands.Replace("SERVER_ID", server.Id.ToString());
+            try
+            {
+                client.Connect();
+                client.RunCommand(serverCommands);
+                client.Disconnect();
+                client.Dispose();
+            }
+            catch
+            {
+                var httpClient = new HttpClient();
+                await httpClient.GetAsync(hostUrl);
+            }
+        };
+        
+        #endregion
     }
 }
