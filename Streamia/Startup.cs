@@ -61,7 +61,7 @@ namespace Streamia
             services.AddRazorPages();
             services.AddMvc();
             services.AddSignalR();
-            services.AddDbContext<StreamiaContext>(options => 
+            services.AddDbContextPool<StreamiaContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddSingleton<IAuthorizationHandler, AdminHandler>();

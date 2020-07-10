@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models.Contexts
 {
-    public class StreamiaContext : IdentityDbContext
+    public class StreamiaContext : IdentityDbContext<AdminUser>
     {
         public StreamiaContext (DbContextOptions<StreamiaContext> options) : base(options)
         {
