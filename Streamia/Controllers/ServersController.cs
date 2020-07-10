@@ -41,7 +41,7 @@ namespace Streamia.Controllers
                 var host = $"{Request.Scheme}://{Request.Host}";
                 var hostUrl = $"{host}/api/serverstatus/edit/{server.Id}/{ServerState.OFFLINE}";
 
-                ThreadPool.QueueUserWorkItem(queue => RunCommandAsync(server, host, hostUrl));
+                ThreadPool.QueueUserWorkItem(queue => RunCommand(server, host, hostUrl));
 
                 return RedirectToAction(nameof(Manage));
             }
@@ -104,8 +104,7 @@ namespace Streamia.Controllers
             return View(data);
         }
 
-        #region Help
-        Action<Server, string, string> RunCommandAsync = async (server, host, hostUrl) =>
+        private async void RunCommand(Server server, string host, string hostUrl)
         {
             var client = new SshClient(server.Ip, "root", server.RootPassword);
 
@@ -130,8 +129,6 @@ namespace Streamia.Controllers
                 var httpClient = new HttpClient();
                 await httpClient.GetAsync(hostUrl);
             }
-        };
-        
-        #endregion
+        }
     }
 }
