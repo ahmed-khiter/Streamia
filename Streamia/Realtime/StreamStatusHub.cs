@@ -13,10 +13,12 @@ namespace Streamia.Realtime
     public class StreamStatusHub : Hub
     {
         private readonly IRepository<Stream> streamRepository;
+        private readonly IRepository<StreamServerPid> streamServerPidRepository;
 
-        public StreamStatusHub(IRepository<Stream> streamRepository)
+        public StreamStatusHub(IRepository<Stream> streamRepository, IRepository<StreamServerPid> streamServerPidRepository)
         {
             this.streamRepository = streamRepository;
+            this.streamServerPidRepository = streamServerPidRepository;
         }
 
         public async Task UpdateState(int streamId, StreamState streamState)
@@ -33,11 +35,12 @@ namespace Streamia.Realtime
                             foreach(var server in stream.StreamServers)
                             {
                                 var client = new SshClient(server.Server.Ip, "root", server.Server.RootPassword);
-                                string command = $"nohup ffmpeg -stream_loop -1 -i {stream.Source} -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://localhost/live/stream 2> /dev/null & echo $!";
+                                string command = $"nohup ffmpeg -stream_loop -1 -i {stream.Source} -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://localhost/live/stream >/dev/null 2>&1 & echo $!";
                                 client.Connect();
                                 var cmd = client.CreateCommand(command);
                                 var result = cmd.Execute();
-                                Console.WriteLine(result.Trim());
+                                Console.WriteLine(int.Parse(result));
+                                client.RunCommand($"disown -h {int.Parse(result)}");
                                 client.Disconnect();
                                 client.Dispose();
                             }

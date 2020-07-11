@@ -37,6 +37,8 @@ namespace Streamia.Models.Contexts
 
         public DbSet<BouquetStream> BouquetStreams { get; set; }
 
+        public DbSet<StreamServerPid> StreamServerPids { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

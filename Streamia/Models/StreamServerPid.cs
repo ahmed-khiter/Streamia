@@ -9,7 +9,7 @@ namespace Streamia.Models
     {
         public int StreamId { get; set; }
         public int ServerId { get; set; }
-        public string Pid { get; set; }
+        public int Pid { get; set; }
         public Stream Stream { get; set; }
         public Server Server { get; set; }
     }
