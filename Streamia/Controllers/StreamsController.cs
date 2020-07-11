@@ -21,6 +21,7 @@ namespace Streamia.Controllers
         private readonly IRepository<Server> serverRepository;
         private readonly IRepository<StreamServer> streamServersRepository;
         private readonly IRepository<BouquetStream> bouquetStreamsRepository;
+        private readonly IRepository<StreamServerPid> streamServerPidsRepository;
 
         public StreamsController(
             IRepository<Stream> streamRepository,
@@ -28,7 +29,8 @@ namespace Streamia.Controllers
             IRepository<Category> categoryRepository,
             IRepository<Server> serverRepository,
             IRepository<StreamServer> streamServersRepository,
-            IRepository<BouquetStream> bouquetStreamsRepository
+            IRepository<BouquetStream> bouquetStreamsRepository,
+            IRepository<StreamServerPid> streamServerPidsRepository
         )
         {
             this.streamRepository = streamRepository;
@@ -37,6 +39,7 @@ namespace Streamia.Controllers
             this.serverRepository = serverRepository;
             this.streamServersRepository = streamServersRepository;
             this.bouquetStreamsRepository = bouquetStreamsRepository;
+            this.streamServerPidsRepository = streamServerPidsRepository;
         }
 
         [HttpGet]
@@ -145,6 +148,9 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            await streamServerPidsRepository.Delete(m => m.StreamId == id);
+            await streamServersRepository.Delete(m => m.StreamId == id);
+            await bouquetStreamsRepository.Delete(m => m.StreamId == id);
             await streamRepository.Delete(id);
             return RedirectToAction(nameof(Manage));
         }
