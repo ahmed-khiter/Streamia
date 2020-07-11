@@ -23,7 +23,7 @@ namespace Streamia.Realtime
 
         public async Task UpdateState(int streamId, StreamState streamState)
         {
-            var stream = await streamRepository.GetById(streamId, new string[] { "StreamServers", "StreamServers.Server" });
+            var stream = await streamRepository.GetById(streamId, new string[] { "StreamServers", "StreamServers.Server", "StreamServerPids", "StreamServerPids.Server" });
             if (stream != null)
             {
                 if (stream.State != streamState)
@@ -32,6 +32,7 @@ namespace Streamia.Realtime
                     {
                         if (streamState == StreamState.STARTED)
                         {
+                            var pidsList = new List<StreamServerPid>();
                             foreach(var server in stream.StreamServers)
                             {
                                 var client = new SshClient(server.Server.Ip, "root", server.Server.RootPassword);
@@ -39,15 +40,32 @@ namespace Streamia.Realtime
                                 client.Connect();
                                 var cmd = client.CreateCommand(command);
                                 var result = cmd.Execute();
-                                Console.WriteLine(int.Parse(result));
-                                client.RunCommand($"disown -h {int.Parse(result)}");
+                                int pid = int.Parse(result);
+                                client.RunCommand($"disown -h {pid}");
                                 client.Disconnect();
                                 client.Dispose();
+                                pidsList.Add(new StreamServerPid
+                                {
+                                    StreamId = stream.Id,
+                                    ServerId = server.Server.Id,
+                                    Pid = pid
+                                });
                             }
                             stream.State = StreamState.STARTED;
+                            await streamServerPidRepository.Add(pidsList);
                         }
                         else if (streamState == StreamState.STOPPED)
                         {
+                            foreach (var pid in stream.StreamServerPids)
+                            {
+                                var client = new SshClient(pid.Server.Ip, "root", pid.Server.RootPassword);
+                                string command = $"kill -9 {pid.Pid}";
+                                client.Connect();
+                                client.RunCommand(command);
+                                client.Disconnect();
+                                client.Dispose();
+                            }
+                            await streamServerPidRepository.Delete(m => m.StreamId == stream.Id);
                             stream.State = StreamState.STOPPED;
                         }
                         await streamRepository.Edit(stream);
