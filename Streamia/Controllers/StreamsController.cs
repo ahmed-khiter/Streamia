@@ -71,8 +71,6 @@ namespace Streamia.Controllers
                     });
                 }
 
-                model.StreamKey = model.Name.Replace(' ', '_').ToLower();
-
                 await streamRepository.Add(model);
 
                 return RedirectToAction(nameof(Manage));
@@ -136,8 +134,6 @@ namespace Streamia.Controllers
                         StreamId = model.Id
                     });
                 }
-
-                model.StreamKey = model.Name.Replace(' ', '_').ToLower();
 
                 await streamServersRepository.Add(model.StreamServers);
                 await bouquetStreamsRepository.Add(model.BouquetStreams);

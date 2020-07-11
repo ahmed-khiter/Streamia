@@ -16,7 +16,7 @@ namespace Streamia.Models
         [Required]
         public string Source { get; set; }
 
-        public string StreamKey { get; set; }
+        public string StreamKey { get; set; } = Guid.NewGuid().ToString();
 
         public string Notes { get; set; }
 
