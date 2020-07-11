@@ -28,6 +28,13 @@ namespace Streamia.Models.Repositories
             return entity;
         }
 
+        public async Task<IEnumerable<T>> Add(IEnumerable<T> entities)
+        {
+            entitySet.AddRange(entities);
+            await context.SaveChangesAsync();
+            return entities;
+        }
+
         public async Task Delete(int id)
         {
             var entity = await entitySet.FirstOrDefaultAsync(e => e.Id == id);

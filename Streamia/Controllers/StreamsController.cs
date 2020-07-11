@@ -109,38 +109,32 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Stream model)
         {
-
             if (ModelState.IsValid)
             {
-                var stream = await streamRepository.GetById(model.Id);
-
-                if (stream == null)
-                {
-                    return NotFound();
-                }
-
-                await streamServersRepository.Delete(m => m.StreamId == stream.Id);
-                await bouquetStreamsRepository.Delete(m => m.StreamId == stream.Id);
+                await streamServersRepository.Delete(m => m.StreamId == model.Id);
+                await bouquetStreamsRepository.Delete(m => m.StreamId == model.Id);
 
                 foreach (var serverId in model.ServerIds)
                 {
-                    stream.StreamServers.Add(new StreamServer
+                    model.StreamServers.Add(new StreamServer
                     {
                         ServerId = serverId,
-                        StreamId = stream.Id
+                        StreamId = model.Id
                     });
                 }
 
                 foreach (var bouquetId in model.BouquetIds)
                 {
-                    stream.BouquetStreams.Add(new BouquetStream
+                    model.BouquetStreams.Add(new BouquetStream
                     {
                         BouquetId = bouquetId,
-                        StreamId = stream.Id
+                        StreamId = model.Id
                     });
                 }
 
-                await streamRepository.Edit(stream);
+                await streamServersRepository.Add(model.StreamServers);
+                await bouquetStreamsRepository.Add(model.BouquetStreams);
+                await streamRepository.Edit(model);
 
                 return RedirectToAction(nameof(Manage));
             }

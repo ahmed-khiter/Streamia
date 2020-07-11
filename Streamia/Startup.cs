@@ -33,7 +33,6 @@ namespace Streamia
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -60,7 +59,7 @@ namespace Streamia
 
             services.AddRazorPages();
             services.AddMvc();
-            services.AddSignalR();
+            services.AddSignalR(options => options.EnableDetailedErrors = true);
             services.AddDbContextPool<StreamiaContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -77,7 +76,6 @@ namespace Streamia
             services.AddScoped<IUserClaimsPrincipalFactory<AdminUser>, AppClaimsPrincipalFactory>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env
                     , UserManager<AdminUser> userManager, RoleManager<IdentityRole> role)
         {
@@ -106,6 +104,8 @@ namespace Streamia
                     pattern: "{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapHub<ServerStatusHub>("/server-status-hub");
+                endpoints.MapHub<StreamStatusHub>("/stream-status-hub");
+
                 endpoints.MapControllerRoute(
                     name: "TmdbApi",
                     pattern: "{controller=TmdbApi}/{action=Index}/{id?}");
