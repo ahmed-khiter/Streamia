@@ -36,7 +36,7 @@ namespace Streamia.Realtime
                             foreach(var server in stream.StreamServers)
                             {
                                 var client = new SshClient(server.Server.Ip, "root", server.Server.RootPassword);
-                                string command = $"nohup ffmpeg -stream_loop -1 -i {stream.Source} -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://localhost/live/stream >/dev/null 2>&1 & echo $!";
+                                string command = $"nohup ffmpeg -stream_loop -1 -i {stream.Source} -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://localhost/live/{stream.StreamKey} >/dev/null 2>&1 & echo $!";
                                 client.Connect();
                                 var cmd = client.CreateCommand(command);
                                 var result = cmd.Execute();
