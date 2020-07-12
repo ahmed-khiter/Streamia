@@ -6,6 +6,7 @@
 
 @section Styles {
     <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
 }
 
 <form method="post" asp-action="Add">
@@ -32,9 +33,16 @@
         </div>
     </div>
 
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label asp-for="Notes"></label>
+            <textarea asp-for="Notes" class="form-control"></textarea>
+        </div>
+    </div>
+
     <hr />
 
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="main-btn">
         <i class="fa fa-plus"></i> Add
     </button>
 </form>
@@ -47,7 +55,8 @@
 
     <script>
         $('select').select2({
-            placeholder: 'Select one or more bouquets'
+            placeholder: 'Select Bouquet',
+            theme: 'bootstrap4'
         });
     </script>
 
