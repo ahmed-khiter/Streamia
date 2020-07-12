@@ -1,5 +1,6 @@
 apt-get update ; \
 apt-get install curl git ffmpeg build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev -y ; \
+unlink /etc/systemd/system/nginx.service ; \
 rm -f -R /usr/local/nginx ; \ 
 rm -f /usr/local/sbin/nginx ; \
 rm -rf ~/build ; \
@@ -16,7 +17,7 @@ make install ; \
 unlink /usr/local/nginx/conf/nginx.conf ; \
 printf "NGINX_CONFIG" >> /usr/local/nginx/conf/nginx.conf ; \
 printf "NGINX_SERVICE" >> /etc/systemd/system/nginx.service ; \
-systemctl start nginx.service ; \
-systemctl enable nginx.service ; \
+systemctl start nginx ; \
+systemctl enable nginx ; \
 rm -rf ~/build ; \
 curl -i -X GET DOMAIN/api/serverstatus/edit/SERVER_ID/online
