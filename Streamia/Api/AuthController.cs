@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Streamia.Models;
@@ -26,15 +27,15 @@ namespace Streamia.Api
             this.streamRepository = streamRepository;
         }
 
-        [HttpGet]
-        [Route("authenticate/{username}/{passowrd}/{categoryType}/{sourceId}")]
+        [Route("authenticate/{username}/{password}/{categoryType}/{sourceId}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Authenticate(string username, string password, CategoryType categoryType, int sourceId)
         {
             if (!await iptvUserRepository.Exists(m => m.Username.Equals(username) && m.Password.Equals(password)))
             {
                 return NotFound();
             }
-            return Ok();
+            return Redirect("https://mnmedias.api.telequebec.tv/m3u8/29880.m3u8");
         }
     }
 }
