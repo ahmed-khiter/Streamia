@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Streamia.Models.Contexts;
 
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    partial class StreamiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200712204333_updateIptvUser")]
+    partial class updateIptvUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -317,13 +319,11 @@ namespace Streamia.Migrations
                     b.Property<long>("Connections")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("DaysToExpire")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("Expiration")
+                    b.Property<DateTime>("Expiration")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Notes")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")

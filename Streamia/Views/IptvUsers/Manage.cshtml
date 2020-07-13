@@ -13,7 +13,7 @@
         <tr>
             <th>Username</th>
             <th>Bouquet</th>
-            <th>Subscription</th>
+            <th>Connections</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -23,8 +23,11 @@
             <tr id="@iptvUser.Id">
                 <td>@iptvUser.Username</td>
                 <td>@iptvUser.Bouquet.Name</td>
-                <td>@iptvUser.Subscription</td>
+                <td>@iptvUser.Connections</td>
                 <td>
+                    <a class="btn btn-success" asp-action="Download" asp-route-id="@iptvUser.Id">
+                        <i class="fa fa-download"></i>
+                    </a>
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@iptvUser.Id">
                         <i class="fa fa-edit"></i>
                     </a>

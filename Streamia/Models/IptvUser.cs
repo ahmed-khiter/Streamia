@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Streamia.Models
@@ -13,11 +14,18 @@ namespace Streamia.Models
         [UsernameUnique]
         public string Username { get; set; }
 
-        [Required,DataType(DataType.Password)]
+        [Required]
+        [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Required]
-        public long Subscription { get; set; }
+        public uint Connections { get; set; }
+
+        [Required]
+        [Display(Name = "Subscription duration in days")]
+        public uint DaysToExpire { get; set; }
+
+        public DateTime? Expiration { get; set; } = null;
 
         public string Notes { get; set; }
 
