@@ -74,7 +74,14 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Download(int id)
         {
             var user = await iptvRepository.GetById(id, new string[] { "Bouquet", "Bouquet.BouquetStreams", "Bouquet.BouquetStreams.Stream" });
-            return File(Encoding.UTF8.GetBytes("test"), "text/m3u8", "tv-file.m3u8");
+            var m3u8Builder = new StringBuilder();
+            m3u8Builder.AppendLine("#EXTM3U");
+            foreach (var bouquetStream in user.Bouquet.BouquetStreams)
+            {
+                m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetStream.Stream.Name}");
+                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/authenticate/{user.Username}/{user.Password}/{bouquetStream.Stream.Id}");
+            }
+            return File(Encoding.UTF8.GetBytes(m3u8Builder.ToString()), "text/m3u8", "tv-file.m3u8");
         }
     }
 }
