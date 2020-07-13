@@ -35,7 +35,19 @@ namespace Streamia.Api
             {
                 return NotFound();
             }
-            return Redirect("https://mnmedias.api.telequebec.tv/m3u8/29880.m3u8");
+            string url = null;
+            switch (categoryType)
+            {
+                case CategoryType.LIVE:
+                    var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
+                    foreach (var server in stream.StreamServers)
+                    {
+                        url = $"http://{server.Server.Ip}/hls/{stream.StreamKey}.m3u8";
+                        break;
+                    }
+                    break;
+            }
+            return Redirect(url);
         }
     }
 }
