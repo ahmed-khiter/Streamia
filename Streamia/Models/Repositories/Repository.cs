@@ -96,5 +96,10 @@ namespace Streamia.Models.Repositories
         {
             return await entitySet.Where(expression).ToListAsync();
         }
+
+        public async Task<bool> Exists(Expression<Func<T, bool>> expression)
+        {
+            return await entitySet.AnyAsync(expression);
+        }
     }
 }

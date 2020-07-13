@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
+using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
@@ -79,7 +80,7 @@ namespace Streamia.Controllers
             foreach (var bouquetStream in user.Bouquet.BouquetStreams)
             {
                 m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetStream.Stream.Name}");
-                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/authenticate/{user.Username}/{user.Password}/{bouquetStream.Stream.Id}");
+                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.LIVE}/{bouquetStream.Stream.Id}");
             }
             return File(Encoding.UTF8.GetBytes(m3u8Builder.ToString()), "text/m3u8", "tv-file.m3u8");
         }
