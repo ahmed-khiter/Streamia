@@ -47,7 +47,6 @@ namespace Streamia.Realtime
                                     Format = "flv"
                                 };
                                 client.Connect();
-                                var tst = command.Generate();
                                 var cmd = client.CreateCommand(command.Generate());
                                 var result = cmd.Execute();
                                 int pid = int.Parse(result);

@@ -26,7 +26,7 @@ namespace Streamia.Helpers
 
         public string Generate()
         {
-            commandBuilder.Append($" stream_loop {StreamLoop}");
+            commandBuilder.Append($" -stream_loop {StreamLoop}");
             commandBuilder.Append($" -i {InputSource}");
             commandBuilder.Append($" -vcodec {VideoCodec}");
             commandBuilder.Append($" -vprofile {VideoProfile}");
