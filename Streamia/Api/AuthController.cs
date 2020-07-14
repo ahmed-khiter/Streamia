@@ -36,16 +36,14 @@ namespace Streamia.Api
                 return NotFound();
             }
             string url = null;
-            switch (categoryType)
+            if (categoryType == CategoryType.LIVE)
             {
-                case CategoryType.LIVE:
-                    var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
-                    foreach (var server in stream.StreamServers)
-                    {
-                        url = $"http://{server.Server.Ip}/hls/{stream.StreamKey}.m3u8";
-                        break;
-                    }
+                var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
+                foreach (var server in stream.StreamServers)
+                {
+                    url = $"http://{server.Server.Ip}:{server.Server.HttpPort}/hls/{stream.StreamKey}.m3u8";
                     break;
+                }
             }
             return Redirect(url);
         }
