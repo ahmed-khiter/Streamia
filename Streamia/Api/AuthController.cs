@@ -31,6 +31,10 @@ namespace Streamia.Api
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate(string username, string password, CategoryType categoryType, int sourceId)
         {
+            // we should activate user subscriotion on first use
+            // we should monitor user connection
+            // we should check if user subscription is still running
+            // we should load balance connections
             if (!await iptvUserRepository.Exists(m => m.Username.Equals(username) && m.Password.Equals(password)))
             {
                 return NotFound();

@@ -82,7 +82,7 @@ namespace Streamia.Controllers
                 m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetStream.Stream.Name}");
                 m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.LIVE}/{bouquetStream.Stream.Id}");
             }
-            return File(Encoding.UTF8.GetBytes(m3u8Builder.ToString()), "text/m3u8", "tv-file.m3u8");
+            return File(Encoding.UTF8.GetBytes(m3u8Builder.ToString()), "text/m3u8", "iptv-playlist.m3u8");
         }
     }
 }
