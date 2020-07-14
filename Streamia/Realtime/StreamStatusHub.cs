@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Renci.SshNet;
+using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -36,9 +37,18 @@ namespace Streamia.Realtime
                             foreach(var server in stream.StreamServers)
                             {
                                 var client = new SshClient(server.Server.Ip, "root", server.Server.RootPassword);
-                                string command = $"nohup ffmpeg -stream_loop -1 -i {stream.Source} -vcodec libx264 -vprofile baseline -g 30 -acodec aac -strict -2 -f flv rtmp://localhost/live/{stream.StreamKey} >/dev/null 2>&1 & echo $!";
+                                var command = new FFMPEGCommandGenerator {
+                                    InputSource = stream.Source,
+                                    OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
+                                    StreamLoop = "-1",
+                                    VideoCodec = "libx264",
+                                    VideoProfile = "baseline",
+                                    AudioCodec = "aac",
+                                    Format = "flv"
+                                };
                                 client.Connect();
-                                var cmd = client.CreateCommand(command);
+                                var tst = command.Generate();
+                                var cmd = client.CreateCommand(command.Generate());
                                 var result = cmd.Execute();
                                 int pid = int.Parse(result);
                                 client.RunCommand($"disown -h {pid}");

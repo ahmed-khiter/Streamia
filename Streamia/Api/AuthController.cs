@@ -45,7 +45,7 @@ namespace Streamia.Api
                 var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
                 foreach (var server in stream.StreamServers)
                 {
-                    url = $"http://{server.Server.Ip}:{server.Server.HttpPort}/hls/{stream.StreamKey}.m3u8";
+                    url = $"http://{server.Server.Ip}:{server.Server.HttpPort}/hls/{stream.StreamKey}/index.m3u8";
                     break;
                 }
             }

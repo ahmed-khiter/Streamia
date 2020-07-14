@@ -43,6 +43,7 @@ rtmp {
 			hls_path /var/hls/;
 			hls_fragment 10;
 			hls_playlist_length 60;
+            hls_nested on;
 			deny play all;
 		}
 	}
