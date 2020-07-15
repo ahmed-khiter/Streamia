@@ -43,20 +43,6 @@ namespace Streamia.Models.Extensions
                 .WithMany(ss => ss.BouquetStreams)
                 .HasForeignKey(ss => ss.StreamId)
                 .OnDelete(DeleteBehavior.NoAction);
-
-            // stream server pids (process ids)
-            //modelBuilder.Entity<StreamServerPid>().HasKey(m => new { m.StreamId, m.ServerId });
-            //modelBuilder.Entity<StreamServerPid>().Ignore(m => m.Id);
-
-            //modelBuilder.Entity<StreamServerPid>()
-            //    .HasOne(ssp => ssp.Stream)
-            //    .WithMany(ssp => ssp.StreamServerPids)
-            //    .HasForeignKey(ssp => ssp.StreamId);
-
-            //modelBuilder.Entity<StreamServerPid>()
-            //    .HasOne(ssp => ssp.Server)
-            //    .WithMany(ssp => ssp.StreamServerPids)
-            //    .HasForeignKey(ssp => ssp.ServerId);
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
