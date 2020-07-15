@@ -4,6 +4,7 @@ using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
+using Streamia.Realtime.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,108 +12,102 @@ using System.Threading.Tasks;
 
 namespace Streamia.Realtime
 {
-    public class StreamStatusHub : Hub
+    public class StreamStatusHub : Hub, IState<StreamServer>
     {
         private readonly IRepository<Stream> streamRepository;
-        private readonly IRepository<StreamServerPid> streamServerPidRepository;
+        private readonly IRepository<StreamServer> streamServerRepository;
 
-        public StreamStatusHub(IRepository<Stream> streamRepository, IRepository<StreamServerPid> streamServerPidRepository)
+        public StreamStatusHub(IRepository<Stream> streamRepository, IRepository<StreamServer> streamServerRepository)
         {
             this.streamRepository = streamRepository;
-            this.streamServerPidRepository = streamServerPidRepository;
+            this.streamServerRepository = streamServerRepository;
         }
 
-        private int Start(Server server, string command)
+        public async Task Update(int sourceId, StreamState state)
         {
-            var client = new SshClient(server.Ip, "root", server.RootPassword);
-            try
-            {
-                client.Connect();
-                var cmd = client.CreateCommand(command);
-                var result = cmd.Execute();
-                int pid = int.Parse(result);
-                client.RunCommand($"disown -h {pid}");
-                client.Disconnect();
-                client.Dispose();
-                return pid;
-            } 
-            catch
-            {
-                throw new Exception($"Failed to start stream on server {server.Name}@{server.Ip}");
-            }
-        }
-
-        private void Stop(Server server, int pid)
-        {
-            var client = new SshClient(server.Ip, "root", server.RootPassword);
-            try
-            {
-                client.Connect();
-                client.RunCommand($"kill -9 {pid}");
-                client.Disconnect();
-                client.Dispose();
-            } 
-            catch
-            {
-                throw new Exception($"Failed to stop stream on server {server.Name}@{server.Ip}");
-            }
-        }
-
-        public async Task UpdateState(int streamId, StreamState streamState)
-        {
-            var stream = await streamRepository.GetById(streamId, new string[] { "StreamServers", "StreamServers.Server", "StreamServerPids", "StreamServerPids.Server" });
+            var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
 
             if (stream == null)
             {
                 return;
             }
 
-            if (stream.State != streamState)
+            if (stream.State == state)
             {
                 return;
             }
 
-            switch (streamState)
+            List<StreamServer> streamServersEdited = null;
+
+            if (state == StreamState.STARTED)
             {
-                case StreamState.STARTED:
-                    var pidsList = new List<StreamServerPid>();
-                    var command = new FFMPEGCommandGenerator
-                    {
-                        InputSource = stream.Source,
-                        OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
-                        StreamLoop = "-1",
-                        VideoCodec = "libx264",
-                        VideoProfile = "baseline",
-                        AudioCodec = "aac",
-                        Format = "flv"
-                    };
-                    foreach (var server in stream.StreamServers)
-                    {
-                        int pid = Start(server.Server, command.Generate());
-                        if (pid > 0)
-                        {
-                            pidsList.Add(new StreamServerPid
-                            {
-                                StreamId = stream.Id,
-                                ServerId = server.Server.Id,
-                                Pid = pid
-                            });
-                        }
-                    }
-                    await streamServerPidRepository.Add(pidsList);
-                break;
-                case StreamState.STOPPED:
-                    foreach (var pid in stream.StreamServerPids)
-                    {
-                        Stop(pid.Server, pid.Pid);
-                    }
-                    await streamServerPidRepository.Delete(m => m.StreamId == stream.Id);
-                break;
+                var command = new FFMPEGCommandGenerator
+                {
+                    InputSource = stream.Source,
+                    OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
+                    StreamLoop = "-1",
+                    VideoCodec = "libx264",
+                    VideoProfile = "baseline",
+                    AudioCodec = "aac",
+                    Format = "flv"
+                };
+                streamServersEdited = (List<StreamServer>) Start((IList<StreamServer>) stream.StreamServers, command.Generate());
+            } 
+            else if (state == StreamState.STOPPED)
+            {
+                streamServersEdited = (List<StreamServer>) Stop((IList<StreamServer>) stream.StreamServers);
             }
 
-            stream.State = streamState;
+            stream.State = state;
             await streamRepository.Edit(stream);
-            await Clients.All.SendAsync("UpdateStreamState", new { streamId, streamState = (int) streamState });
+            await streamServerRepository.Edit(streamServersEdited);
+            await Clients.All.SendAsync("Update", new { sourceId, state = (int) state });
         }
+
+        public IList<StreamServer> Start(IList<StreamServer> servers, string command)
+        {
+            for (int i = 0; i < servers.Count; i++)
+            {
+                try
+                {
+                    var client = new SshClient(servers[i].Server.Ip, "root", servers[i].Server.RootPassword);
+                    client.Connect();
+                    var cmd = client.CreateCommand(command);
+                    var result = cmd.Execute();
+                    int pid = int.Parse(result);
+                    client.RunCommand($"disown -h {pid}");
+                    client.Disconnect();
+                    client.Dispose();
+                    servers[i].Pid = pid;
+                }
+                catch
+                {
+                    throw new Exception($"Failed to start on server {servers[i].Server.Name}@{servers[i].Server.Ip}");
+                }
+            }
+            return servers;
+        }
+
+        public IList<StreamServer> Stop(IList<StreamServer> servers)
+        {
+            for (int i = 0; i < servers.Count; i++)
+            {
+                try
+                {
+                    var client = new SshClient(servers[i].Server.Ip, "root", servers[i].Server.RootPassword);
+                    client.Connect();
+                    client.RunCommand($"kill -9 {servers[i].Pid}");
+                    client.Disconnect();
+                    client.Dispose();
+                    servers[i].Pid = 0;
+                }
+                catch
+                {
+                    throw new Exception($"Failed to stop on server {servers[i].Server.Name}@{servers[i].Server.Ip}");
+                }
+            }
+            return servers;
+        }
+        
     }
 }

@@ -35,33 +35,6 @@ namespace Streamia.Models.Repositories
             return entities;
         }
 
-        public async Task Delete(int id)
-        {
-            var entity = await entitySet.FirstOrDefaultAsync(e => e.Id == id);
-            if (entity != null)
-            {
-                entitySet.Remove(entity);
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task Delete(Expression<Func<T, bool>> expression)
-        {
-            var entities = await entitySet.Where(expression).ToListAsync();
-            if (entities != null)
-            {
-                entitySet.RemoveRange(entities);
-                await context.SaveChangesAsync();
-            }
-        }
-
-        public async Task<T> Edit(T entity)
-        {
-            entitySet.Update(entity);
-            await context.SaveChangesAsync();
-            return entity;
-        }
-
         public async Task<IEnumerable<T>> GetAll()
         {
             return await entitySet.ToListAsync();
@@ -95,6 +68,40 @@ namespace Streamia.Models.Repositories
         public async Task<IEnumerable<T>> Search(Expression<Func<T, bool>> expression)
         {
             return await entitySet.Where(expression).ToListAsync();
+        }
+
+        public async Task<T> Edit(T entity)
+        {
+            entitySet.Update(entity);
+            await context.SaveChangesAsync();
+            return entity;
+        }
+
+        public async Task<IEnumerable<T>> Edit(IEnumerable<T> entities)
+        {
+            entitySet.UpdateRange(entities);
+            await context.SaveChangesAsync();
+            return entities;
+        }
+
+        public async Task Delete(int id)
+        {
+            var entity = await entitySet.FirstOrDefaultAsync(e => e.Id == id);
+            if (entity != null)
+            {
+                entitySet.Remove(entity);
+                await context.SaveChangesAsync();
+            }
+        }
+
+        public async Task Delete(Expression<Func<T, bool>> expression)
+        {
+            var entities = await entitySet.Where(expression).ToListAsync();
+            if (entities != null)
+            {
+                entitySet.RemoveRange(entities);
+                await context.SaveChangesAsync();
+            }
         }
 
         public async Task<bool> Exists(Expression<Func<T, bool>> expression)

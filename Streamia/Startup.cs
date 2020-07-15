@@ -105,10 +105,6 @@ namespace Streamia
 
                 endpoints.MapHub<ServerStatusHub>("/server-status-hub");
                 endpoints.MapHub<StreamStatusHub>("/stream-status-hub");
-
-                endpoints.MapControllerRoute(
-                    name: "TmdbApi",
-                    pattern: "{controller=TmdbApi}/{action=Index}/{id?}");
             });
         }
     }

@@ -8,13 +8,14 @@ namespace Streamia.Models.Interfaces
 {
     public interface IRepository<T> where T : BaseEntity
     {
+        Task<T> Add(T entity);
+        Task<IEnumerable<T>> Add(IEnumerable<T> entities);
+        Task<T> Edit(T entity);
+        Task<IEnumerable<T>> Edit(IEnumerable<T> entities);
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> GetAll(string[] models);
         Task<T> GetById(int id);
         Task<T> GetById(int id, string[] models);
-        Task<T> Add(T entity);
-        Task<IEnumerable<T>> Add(IEnumerable<T> entities);
-        Task<T> Edit(T entity);
         Task Delete(int id);
         Task Delete(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> Search(Expression<Func<T, bool>> expression);

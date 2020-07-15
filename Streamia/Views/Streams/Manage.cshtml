@@ -80,17 +80,17 @@
     <script>
         window.addEventListener('load', function () {
             var connection = new signalR.HubConnectionBuilder().withUrl("/stream-status-hub").build();
-            connection.on("UpdateStreamState", function (data) {
-                var btn = $(`#btn-${data.streamId}`);
-                var stateIndicator = $(`#state-${data.streamId}`);
+            connection.on("Update", function (data) {
+                var btn = $(`#btn-${data.sourceId}`);
+                var stateIndicator = $(`#state-${data.state}`);
                 btn.removeAttr("disabled");
-                if (data.streamState === 1) {
+                if (data.state === 1) {
                     stateIndicator.html('<i class="fa fa-circle text-success"></i> STARTED');
                     btn.attr("data-stream-state", "0")
                         .removeClass("btn-primary")
                         .addClass("btn-warning")
                         .html('<i class="fa fa-pause"></i>');
-                } else if (data.streamState === 0) {
+                } else if (data.state === 0) {
                     stateIndicator.html('<i class="fa fa-circle text-danger"></i> STOPPED');
                     btn.attr("data-stream-state", "1")
                         .removeClass("btn-warning")
@@ -104,7 +104,7 @@
                 var streamId = parseInt($(this).attr("data-stream-id"));
                 var streamState = parseInt($(this).attr("data-stream-state"));
                 $(this).attr("disabled", "disabled").html('<i class="fa fa-fw fa-spinner fa-pulse"></i>');
-                connection.invoke("UpdateState", streamId, streamState);
+                connection.invoke("Update", streamId, streamState);
             });
         });
     </script>

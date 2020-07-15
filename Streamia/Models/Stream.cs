@@ -50,7 +50,6 @@ namespace Streamia.Models
         public StreamState State { get; set; } = StreamState.STOPPED;
         public ICollection<StreamServer> StreamServers { get; set; }
         public ICollection<BouquetStream> BouquetStreams { get; set; }
-        public ICollection<StreamServerPid> StreamServerPids { get; set; }
 
         [NotMapped]
         [Required]
@@ -66,7 +65,6 @@ namespace Streamia.Models
         {
             StreamServers = new List<StreamServer>();
             BouquetStreams = new List<BouquetStream>();
-            StreamServerPids = new List<StreamServerPid>();
         }
     }
 }
