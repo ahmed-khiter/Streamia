@@ -22,70 +22,97 @@ namespace Streamia.Realtime
             this.streamServerPidRepository = streamServerPidRepository;
         }
 
+        private int Start(Server server, string command)
+        {
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+            try
+            {
+                client.Connect();
+                var cmd = client.CreateCommand(command);
+                var result = cmd.Execute();
+                int pid = int.Parse(result);
+                client.RunCommand($"disown -h {pid}");
+                client.Disconnect();
+                client.Dispose();
+                return pid;
+            } 
+            catch
+            {
+                throw new Exception($"Failed to start stream on server {server.Name}@{server.Ip}");
+            }
+        }
+
+        private void Stop(Server server, int pid)
+        {
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+            try
+            {
+                client.Connect();
+                client.RunCommand($"kill -9 {pid}");
+                client.Disconnect();
+                client.Dispose();
+            } 
+            catch
+            {
+                throw new Exception($"Failed to stop stream on server {server.Name}@{server.Ip}");
+            }
+        }
+
         public async Task UpdateState(int streamId, StreamState streamState)
         {
             var stream = await streamRepository.GetById(streamId, new string[] { "StreamServers", "StreamServers.Server", "StreamServerPids", "StreamServerPids.Server" });
-            if (stream != null)
+
+            if (stream == null)
             {
-                if (stream.State != streamState)
-                {
-                    try
-                    {
-                        if (streamState == StreamState.STARTED)
-                        {
-                            var pidsList = new List<StreamServerPid>();
-                            foreach(var server in stream.StreamServers)
-                            {
-                                var client = new SshClient(server.Server.Ip, "root", server.Server.RootPassword);
-                                var command = new FFMPEGCommandGenerator {
-                                    InputSource = stream.Source,
-                                    OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
-                                    StreamLoop = "-1",
-                                    VideoCodec = "libx264",
-                                    VideoProfile = "baseline",
-                                    AudioCodec = "aac",
-                                    Format = "flv"
-                                };
-                                client.Connect();
-                                var cmd = client.CreateCommand(command.Generate());
-                                var result = cmd.Execute();
-                                int pid = int.Parse(result);
-                                client.RunCommand($"disown -h {pid}");
-                                client.Disconnect();
-                                client.Dispose();
-                                pidsList.Add(new StreamServerPid
-                                {
-                                    StreamId = stream.Id,
-                                    ServerId = server.Server.Id,
-                                    Pid = pid
-                                });
-                            }
-                            stream.State = StreamState.STARTED;
-                            await streamServerPidRepository.Add(pidsList);
-                        }
-                        else if (streamState == StreamState.STOPPED)
-                        {
-                            foreach (var pid in stream.StreamServerPids)
-                            {
-                                var client = new SshClient(pid.Server.Ip, "root", pid.Server.RootPassword);
-                                string command = $"kill -9 {pid.Pid}";
-                                client.Connect();
-                                client.RunCommand(command);
-                                client.Disconnect();
-                                client.Dispose();
-                            }
-                            await streamServerPidRepository.Delete(m => m.StreamId == stream.Id);
-                            stream.State = StreamState.STOPPED;
-                        }
-                        await streamRepository.Edit(stream);
-                        await Clients.All.SendAsync("UpdateStreamState", new { streamId, streamState = (int) streamState });
-                    } 
-                    catch
-                    {
-                        // this is really a joke
-                    }
-                }
+                return;
             }
+
+            if (stream.State != streamState)
+            {
+                return;
+            }
+
+            switch (streamState)
+            {
+                case StreamState.STARTED:
+                    var pidsList = new List<StreamServerPid>();
+                    var command = new FFMPEGCommandGenerator
+                    {
+                        InputSource = stream.Source,
+                        OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
+                        StreamLoop = "-1",
+                        VideoCodec = "libx264",
+                        VideoProfile = "baseline",
+                        AudioCodec = "aac",
+                        Format = "flv"
+                    };
+                    foreach (var server in stream.StreamServers)
+                    {
+                        int pid = Start(server.Server, command.Generate());
+                        if (pid > 0)
+                        {
+                            pidsList.Add(new StreamServerPid
+                            {
+                                StreamId = stream.Id,
+                                ServerId = server.Server.Id,
+                                Pid = pid
+                            });
+                        }
+                    }
+                    await streamServerPidRepository.Add(pidsList);
+                break;
+                case StreamState.STOPPED:
+                    foreach (var pid in stream.StreamServerPids)
+                    {
+                        Stop(pid.Server, pid.Pid);
+                    }
+                    await streamServerPidRepository.Delete(m => m.StreamId == stream.Id);
+                break;
+            }
+
+            stream.State = streamState;
+            await streamRepository.Edit(stream);
+            await Clients.All.SendAsync("UpdateStreamState", new { streamId, streamState = (int) streamState });
         }
     }
 }
