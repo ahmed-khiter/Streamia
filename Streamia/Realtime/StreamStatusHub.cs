@@ -15,12 +15,10 @@ namespace Streamia.Realtime
     public class StreamStatusHub : Hub, IState<StreamServer>
     {
         private readonly IRepository<Stream> streamRepository;
-        private readonly IRepository<StreamServer> streamServerRepository;
 
-        public StreamStatusHub(IRepository<Stream> streamRepository, IRepository<StreamServer> streamServerRepository)
+        public StreamStatusHub(IRepository<Stream> streamRepository)
         {
             this.streamRepository = streamRepository;
-            this.streamServerRepository = streamServerRepository;
         }
 
         public async Task Update(int sourceId, StreamState state)
@@ -37,8 +35,6 @@ namespace Streamia.Realtime
                 return;
             }
 
-            List<StreamServer> streamServersEdited = null;
-
             if (state == StreamState.STARTED)
             {
                 var command = new FFMPEGCommandGenerator
@@ -51,16 +47,15 @@ namespace Streamia.Realtime
                     AudioCodec = "aac",
                     Format = "flv"
                 };
-                streamServersEdited = (List<StreamServer>) Start((IList<StreamServer>) stream.StreamServers, command.Generate());
+                stream.StreamServers = (List<StreamServer>) Start((IList<StreamServer>) stream.StreamServers, command.Generate());
             } 
             else if (state == StreamState.STOPPED)
             {
-                streamServersEdited = (List<StreamServer>) Stop((IList<StreamServer>) stream.StreamServers);
+                stream.StreamServers = (List<StreamServer>) Stop((IList<StreamServer>) stream.StreamServers);
             }
 
             stream.State = state;
             await streamRepository.Edit(stream);
-            await streamServerRepository.Edit(streamServersEdited);
             await Clients.All.SendAsync("Update", new { sourceId, state = (int) state });
         }
 
