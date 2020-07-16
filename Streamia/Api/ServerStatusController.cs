@@ -55,13 +55,10 @@ namespace Streamia.Api
                     var command = client.CreateCommand(dir);
                     command.Execute();
                     response = command.Result;
+                    client.Dispose();
                 } 
                 catch
                 {}
-                finally
-                {
-                    client.Dispose();
-                }
             }
             return response;
         }
