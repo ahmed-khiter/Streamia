@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Streamia.Models.Contexts;
 
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    partial class StreamiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200717231150_updateBouquetMovie")]
+    partial class updateBouquetMovie
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -249,7 +251,7 @@ namespace Streamia.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("BouquetMovies");
+                    b.ToTable("BouquetMovie");
                 });
 
             modelBuilder.Entity("Streamia.Models.BouquetStream", b =>
@@ -420,9 +422,6 @@ namespace Streamia.Migrations
                         .HasColumnType("bit");
 
                     b.Property<int>("Runtime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("State")
                         .HasColumnType("int");
 
                     b.Property<string>("SubtitleLocation")

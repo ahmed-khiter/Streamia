@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class TMDBResult : BaseEntity
+    public class TMDBResult : StreamBase
     {
         [Required]
         public string Name { get; set; }

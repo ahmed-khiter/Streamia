@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
+using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
@@ -14,15 +15,24 @@ namespace Streamia.Controllers
     public class MoviesController : Controller
     {
         private readonly IRepository<Movie> movieRepository;
+        private readonly IRepository<Category> categoryRepository;
+        private readonly IRepository<Bouquet> bouquetRepository;
 
-        public MoviesController(IRepository<Movie> movieRepository)
+        public MoviesController(
+            IRepository<Movie> movieRepository, 
+            IRepository<Category> categoryRepository,
+            IRepository<Bouquet> bouquetRepository
+        )
         {
             this.movieRepository = movieRepository;
+            this.categoryRepository = categoryRepository;
+            this.bouquetRepository = bouquetRepository;
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            await PrepareViewBag();
             return View();
         }
 
@@ -45,6 +55,12 @@ namespace Streamia.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        private async Task PrepareViewBag()
+        {
+            ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.MOVIE);
+            ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
     }
 }

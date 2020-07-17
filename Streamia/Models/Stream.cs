@@ -8,15 +8,13 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Stream : BaseEntity
+    public class Stream : StreamBase
     {
         [Required]
         public string Name { get; set; }
 
         [Required]
         public string Source { get; set; }
-
-        public string StreamKey { get; set; } = Guid.NewGuid().ToString();
 
         public string Notes { get; set; }
 
@@ -41,13 +39,6 @@ namespace Streamia.Models
         [Display(Name = "Minutes to Delay")]
         public int MinuteDelay { get; set; }
 
-        [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Category is required")]
-        [Display(Name = "Category")]
-        public int CategoryId { get; set; }
-
-        public Category Category { get; set; }
-        public StreamState State { get; set; } = StreamState.STOPPED;
         public ICollection<StreamServer> StreamServers { get; set; }
         public ICollection<BouquetStream> BouquetStreams { get; set; }
 
@@ -55,11 +46,6 @@ namespace Streamia.Models
         [Required]
         [Display(Name = "Servers")]
         public List<int> ServerIds { get; set; }
-
-        [NotMapped]
-        [Required]
-        [Display(Name = "Bouquets")]
-        public List<int> BouquetIds { get; set; }
 
         public Stream()
         {

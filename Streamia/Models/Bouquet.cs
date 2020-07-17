@@ -11,5 +11,6 @@ namespace Streamia.Models
         [Required]
         public string Name { get; set; }
         public ICollection<BouquetStream> BouquetStreams { get; set; }
+        public ICollection<BouquetMovie> BouquetMovies { get; set; }
     }
 }

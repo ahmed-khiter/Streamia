@@ -43,6 +43,23 @@ namespace Streamia.Models.Extensions
                 .WithMany(ss => ss.BouquetStreams)
                 .HasForeignKey(ss => ss.StreamId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // bouquet movies
+            modelBuilder.Entity<BouquetMovie>().HasKey(m => new { m.BouquetId, m.MovieId });
+            modelBuilder.Entity<BouquetMovie>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<BouquetMovie>()
+                .HasOne(ss => ss.Bouquet)
+                .WithMany(ss => ss.BouquetMovies)
+                .HasForeignKey(ss => ss.BouquetId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BouquetMovie>()
+                .HasOne(ss => ss.Movie)
+                .WithMany(ss => ss.BouquetMovies)
+                .HasForeignKey(ss => ss.MovieId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
