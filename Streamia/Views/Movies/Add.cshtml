@@ -182,6 +182,7 @@
                             break;
                         }
                     }
+                    $('#movie-name').val(response.title);
                     $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${response.poster_path}`);
                     $('#BackdropUrl').val(`https://image.tmdb.org/t/p/w1280/${response.poster_path}`);
                     $('#Overview').val(response.overview);
