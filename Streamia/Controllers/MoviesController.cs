@@ -32,11 +32,9 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await movieRepository.Add(model);
-                ViewBag.Success = "Operation is successfully completed";
                 return View("Manage");
             }
-            ViewBag.Faild = "Operation failed to complete";
-            return View();
+            return View(model);
         }
 
         [HttpGet]

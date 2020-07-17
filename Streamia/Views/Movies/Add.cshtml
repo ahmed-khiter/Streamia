@@ -4,12 +4,20 @@
     ViewData["Icon"] = "plus";
 }
 
+@section Styles {
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
+}
+
 <form method="post">
     <div class="row">
-
         <div class="form-group col-md-3">
             <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" id="movie-name" />
+            <div class="api-search-container">
+                <input asp-for="Name" id="movie-name" class="form-control" autocomplete="off"/>
+                <div class="api-search-dropdown"></div>
+            </div>
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
         <div class="form-group col-md-3">
@@ -22,11 +30,6 @@
             <input asp-for="Category" class="form-control" />
             <span class="text-danger" asp-validation-for="Category"></span>
         </div>
-        @*<div class="form-group col-md-3">
-            <label asp-for="BouquetSources"></label>
-            <input asp-for="BouquetSources" class="form-control" />
-            <span class="text-danger" asp-validation-for="BouquetSources"></span>
-        </div>*@
         <div class="form-group col-md-3">
             <label asp-for="Note"></label>
             <input asp-for="Note" class="form-control" />
@@ -43,9 +46,9 @@
             <span class="text-danger" asp-validation-for="BackdropUrl"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="Plot"></label>
-            <input asp-for="Plot" class="form-control" />
-            <span class="text-danger" asp-validation-for="Plot"></span>
+            <label asp-for="Overview"></label>
+            <input asp-for="Overview" class="form-control" />
+            <span class="text-danger" asp-validation-for="Overview"></span>
         </div>
         <div class="form-group col-md-3">
             <label asp-for="Cast"></label>
@@ -78,29 +81,14 @@
             <span class="text-danger" asp-validation-for="Rating"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="Country"></label>
-            <input asp-for="Country" class="form-control" />
-            <span class="text-danger" asp-validation-for="Country"></span>
+            <label asp-for="ChannelSid"></label>
+            <input asp-for="ChannelSid" class="form-control" />
+            <span class="text-danger" asp-validation-for="ChannelSid"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="TranscodingProfile"></label>
-            <input asp-for="TranscodingProfile" class="form-control" />
-            <span class="text-danger" asp-validation-for="TranscodingProfile"></span>
-        </div>
-        @*<div class="form-group col-md-3">
-            <label asp-for="SourceServers"></label>
-            <input asp-for="SourceServers" class="form-control" />
-            <span class="text-danger" asp-validation-for="SourceServers"></span>
-        </div>*@
-        <div class="form-group col-md-3">
-            <label asp-for="SidDevice"></label>
-            <input asp-for="SidDevice" class="form-control" />
-            <span class="text-danger" asp-validation-for="SidDevice"></span>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="TargetContainer"></label>
-            <input asp-for="TargetContainer" class="form-control" />
-            <span class="text-danger" asp-validation-for="TargetContainer"></span>
+            <label asp-for="Extension"></label>
+            <input asp-for="Extension" class="form-control" />
+            <span class="text-danger" asp-validation-for="Extension"></span>
         </div>
         <div class="form-group col-md-3">
             <label asp-for="SubtitleLocation"></label>
@@ -117,12 +105,6 @@
             <div class="form-group col-md-12">
                 <input asp-for="NativeFrame" class="custom-checkbox" />
                 <label asp-for="NativeFrame"></label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <input asp-for="CreateSymlink" class="custom-checkbox" />
-                <label asp-for="CreateSymlink"></label>
             </div>
         </div>
         <div class="row">
@@ -146,16 +128,88 @@
 
 @section Scripts
 {
-    @*<script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/switchery/switchery.js"></script>
+    <script>
+
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function (html) {
+            new Switchery(html);
+        });
+
+        var timeout = null;
+        var inputVal = null;
+
         $('#movie-name').on('keyup', function () {
-            var inputVal = $(this).val();
+            $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
+
+            inputVal = $(this).val();
+
+            if (timeout === null) {
+                timeout = setTimeout(function () {
+                    TMDBSearch(inputVal);
+                    timeout = null;
+                }, 500);
+            }
+
+        });
+
+        $('body').on('click', '.api-search-result', function () {
+            $('.api-search-dropdown').hide();
+            var movieId = $(this).data('id');
+            TMDBMovie(movieId);
+        });
+
+        function TMDBMovie(movieId) {
             $.ajax({
                 type: 'GET',
-                url: `https://api.themoviedb.org/3/search/movie?api_key=415e9238d5188172426c3858b367e468&query=${inputVal}&append_to_response=videos`,
+                url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=415e9238d5188172426c3858b367e468&language=en-US&append_to_response=credits%2Cvideos`,
                 success: function (response) {
                     console.log(response);
+                    let genres = [];
+                    let cast = [];
+                    let director = null;
+                    response.genres.forEach(v => {
+                        genres.push(v.name);
+                    });
+                    response.credits.cast.forEach(v => {
+                        cast.push(v.name);
+                    });
+                    for (let v of response.credits.crew) {
+                        if (v.department === "Directing") {
+                            director = v.name;
+                            break;
+                        }
+                    }
+                    $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${response.poster_path}`);
+                    $('#BackdropUrl').val(`https://image.tmdb.org/t/p/w1280/${response.poster_path}`);
+                    $('#Overview').val(response.overview);
+                    $('#Rating').val(response.vote_average);
+                    $('#Runtime').val(response.runtime);
+                    $('#Gener').val(genres.join(','));
+                    $('#Cast').val(cast.join(','));
+                    $('#ReleaseDate').val(response.release_date);
+                    $('#Director').val(director);
                 }
             });
-        });
-    </script>*@
+        }
+
+        function TMDBSearch(keyword) {
+            $.ajax({
+                type: 'GET',
+                url: `https://api.themoviedb.org/3/search/movie?api_key=415e9238d5188172426c3858b367e468&query=${keyword}`,
+                success: function (response) {
+                    $('.api-search-dropdown').html('');
+                    response.results.forEach(v => {
+                        $('.api-search-dropdown').append(`
+                            <div class="api-search-result" data-id="${v.id}">
+                                ${v.title} (${v.release_date ? v.release_date.split('-')[0] : ''})
+                            </div>
+                        `);
+                    });
+                }
+            });
+        }
+    </script>
 }

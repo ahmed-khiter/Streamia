@@ -40,27 +40,5 @@ namespace Streamia.Api
             }
             return Ok();
         }
-
-        [Route("path/{id}/{dir}")]
-        public async Task<string> GetPath(int id, string dir)
-        {
-            var server = await serverService.GetById(id);
-            var response = string.Empty;
-            if (server != null)
-            {
-                var client = new SshClient(server.Ip, "root", server.RootPassword);
-                try
-                {
-                    client.Connect();
-                    var command = client.CreateCommand(dir);
-                    command.Execute();
-                    response = command.Result;
-                    client.Dispose();
-                } 
-                catch
-                {}
-            }
-            return response;
-        }
     }
 }

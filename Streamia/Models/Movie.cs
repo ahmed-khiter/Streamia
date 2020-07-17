@@ -7,31 +7,30 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Movie : BaseEntity
+    public class Movie : TMDBResult
     {
         [Required]
-        public string Name { get; set; }
         public string Path { get; set; }
-        public string Note { get; set; }
-        public string PosterUrl { get; set; }
-        public string BackdropUrl { get; set; }
-        public string Plot { get; set; }
-        public string Cast { get; set; }
-        public string Director { get; set; }
-        public string Gener { get; set; }
-        public string ReleaseDate { get; set; }
-        public int Runtime { get; set; }
-        public float Rating { get; set; }
-        public string Country { get; set; }
-        public bool NativeFrame { get; set; }
-        public bool DirectSource { get; set; }
-        public bool CreateSymlink { get; set; }
-        public string SidDevice { get; set; }
-        public string TargetContainer { get; set; }
-        public bool RemoveExistingSubtitle { get; set; }
+
+        public string Extension { get; set; }
+
+        [Display(Name = "Subtitle Path")]
         public string SubtitleLocation { get; set; }
+
+        [Display(Name = "Channel SID")]
+        public string ChannelSid { get; set; }
+
+        [Display(Name = "Native Frame")]
+        public bool NativeFrame { get; set; }
+
+        [Display(Name = "Direct Source")]
+        public bool DirectSource { get; set; }
+
+        [Display(Name = "Remove Existing Subtitle")]
+        public bool RemoveExistingSubtitle { get; set; }
+
+        [Display(Name = "Process Movie")]
         public bool ProcessMovie { get; set; }
-        public TranscodeProfile TranscodingProfile { get; set; }
         public Category Category { get; set; }
     }
 }
