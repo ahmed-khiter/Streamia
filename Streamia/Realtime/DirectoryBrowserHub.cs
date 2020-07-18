@@ -25,10 +25,10 @@ namespace Streamia.Realtime
 
         public async Task ListServerDirectory(int id, string path)
         {
-            string directoryList = string.Empty;
-            SshClient sshClient = null;
+            string directoryList;
+            SshClient sshClient;
             Server server = null;
-            if (remoteConnection.ConnectionsList[$"{id}"] == null)
+            if (!remoteConnection.ConnectionsList.ContainsKey($"{id}"))
             {
                 server = await serverRepository.GetById(id);
                 if (server == null)
@@ -63,7 +63,7 @@ namespace Streamia.Realtime
         {
             try
             {
-                if (remoteConnection.ConnectionsList[id.ToString()] != null)
+                if (remoteConnection.ConnectionsList.ContainsKey(id.ToString()))
                 {
                     remoteConnection.ConnectionsList[id.ToString()].Disconnect();
                     remoteConnection.ConnectionsList[id.ToString()].Dispose();
