@@ -19,6 +19,8 @@ using Streamia.Models.Extensions;
 using Streamia.Models.Interfaces;
 using Streamia.Models.Repositories;
 using Streamia.Realtime;
+using Streamia.Realtime.Containers;
+using Streamia.Realtime.Interfaces;
 using Streamia.Security;
 using Streamia.Utilies;
 
@@ -63,6 +65,7 @@ namespace Streamia
             services.AddDbContextPool<StreamiaContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddSingleton(typeof(IRemoteConnection), typeof(SshContainer));
             services.AddSingleton<IAuthorizationHandler, AdminHandler>();
             services.AddControllersWithViews(config =>
             {

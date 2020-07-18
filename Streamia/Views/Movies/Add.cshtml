@@ -300,8 +300,12 @@
                     let currentServer = $('#directory-browser-server').val();
                     $('#Path').val(`${currentServer + latestPath}`);
                     $('.modal').modal('hide');
+                    $('.loader').hide();
                 }
             });
+            window.onbeforeunload = function () {
+                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
+            };
             connection.start();
         });
     </script>
