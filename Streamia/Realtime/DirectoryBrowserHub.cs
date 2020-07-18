@@ -37,30 +37,24 @@ namespace Streamia.Realtime
                 }
                 sshClient = new SshClient(server.Ip, "root", server.RootPassword);
                 remoteConnection.ConnectionsList.Add(id.ToString(), sshClient);
-                try
-                {
-                    sshClient.Connect();
-                    var command = sshClient.CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$' ; ls -d */");
-                    command.Execute();
-                    directoryList = command.Result;
-                }
-                catch
-                {
-                    throw new Exception($"Failed to connect to {server.Ip}");
-                }
             }
             else
             {
-                try
+                sshClient = remoteConnection.ConnectionsList[$"{id}"];
+            }
+            try
+            {
+                if (!sshClient.IsConnected)
                 {
-                    var command = remoteConnection.ConnectionsList[$"{id}"].CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$' ; ls -d */");
-                    command.Execute();
-                    directoryList = command.Result;
+                    sshClient.Connect();
                 }
-                catch
-                {
-                    throw new Exception($"Disconnected to the server");
-                }
+                var command = remoteConnection.ConnectionsList[$"{id}"].CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$' ; ls -d */");
+                command.Execute();
+                directoryList = command.Result;
+            }
+            catch
+            {
+                throw new Exception($"Failed to connect to {server.Ip ?? "server"}");
             }
             await Clients.All.SendAsync("DirectoryList", new { directoryList });
         }
