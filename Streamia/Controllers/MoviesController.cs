@@ -17,16 +17,19 @@ namespace Streamia.Controllers
         private readonly IRepository<Movie> movieRepository;
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
+        private readonly IRepository<Server> serverRepository;
 
         public MoviesController(
             IRepository<Movie> movieRepository, 
             IRepository<Category> categoryRepository,
-            IRepository<Bouquet> bouquetRepository
+            IRepository<Bouquet> bouquetRepository,
+            IRepository<Server> serverRepository
         )
         {
             this.movieRepository = movieRepository;
             this.categoryRepository = categoryRepository;
             this.bouquetRepository = bouquetRepository;
+            this.serverRepository = serverRepository;
         }
 
         [HttpGet]
@@ -44,6 +47,7 @@ namespace Streamia.Controllers
                 await movieRepository.Add(model);
                 return View("Manage");
             }
+            await PrepareViewBag();
             return View(model);
         }
 
@@ -60,6 +64,7 @@ namespace Streamia.Controllers
         private async Task PrepareViewBag()
         {
             ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.MOVIE);
+            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.ONLINE);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
     }

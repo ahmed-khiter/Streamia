@@ -22,7 +22,12 @@
         </div>
         <div class="form-group col-md-3">
             <label asp-for="Path"></label>
-            <input asp-for="Path" class="form-control" />
+            <div class="directory-browser-container">
+                <input asp-for="Path" class="form-control" placeholder="URL or browse servers"/>
+                <button type="button" class="directory-browser-btn main-btn" data-toggle="modal" data-target="#directory-browser">
+                    <i class="fa fa-folder-open"></i>
+                </button>
+            </div>
             <span class="text-danger" asp-validation-for="Path"></span>
         </div>
         <div class="form-group col-md-3">
@@ -132,8 +137,44 @@
     </button>
 </form>
 
+<!-- Directory Browser -->
+<div class="modal fade" id="directory-browser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Directory Browser</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="loader text-center">
+                    <i class="fa fa-5x fa-fw fa-spinner fa-pulse"></i>
+                </div>
+                <select id="directory-browser-server" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control mb-2">
+                    <option value="0">-- Server to browse --</option>
+                </select>
+                <hr/>
+                <div class="directory-browser-content">
+                    <h3 class="text-secondary text-center">Files & Folders will show here</h3>
+                    @*<div class="server-directory" data-path="/home">
+                        <i class="fa fa-folder text-warning"></i> home
+                    </div>
+                    <div class="server-directory" data-path="/bin">
+                        <i class="fa fa-folder text-warning"></i> bin
+                    </div>
+                    <div class="server-directory" data-path="/bin">
+                        <i class="fa fa-file text-secondary"></i> video.mp4
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
     <script>
@@ -222,5 +263,46 @@
                 }
             });
         }
+
+        window.addEventListener('load', function () {
+            var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
+            var latestPath = '/';
+            connection.on('DirectoryList', function (data) {
+                $('.directory-browser-content').html('');
+                $('.loader').hide();
+                var directories = data.directoryList.split(/\r?\n/g);
+                console.log(directories);
+                directories.forEach(v => {
+                    if (v != '') {
+                        $('.directory-browser-content').append(`
+                            <div class="server-directory" data-path="${v}">
+                                <i class="fa fa-${v.slice(-1) == '/' ? 'folder text-warning' : 'file text-secondary'}"></i> ${v.slice(-1) == '/' ? v.slice(0, v.length - 1) : v}
+                            </div>
+                        `);
+                    }
+                });
+            });
+            $('#directory-browser-server').on('change', function () {
+                latestPath = '/';
+                if ($(this).val() == 0) {
+                    return;
+                }
+                $('.loader').show();
+                connection.invoke('ListServerDirectory', parseInt($(this).val()), "/");
+            });
+            $('body').on('click', '.server-directory', function () {
+                $('.loader').show();
+                latestPath += $(this).data('path');
+                console.log(latestPath);
+                if (latestPath.slice(-1) == '/') {
+                    connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), latestPath);
+                } else {
+                    let currentServer = $('#directory-browser-server').val();
+                    $('#Path').val(`${currentServer + latestPath}`);
+                    $('.modal').modal('hide');
+                }
+            });
+            connection.start();
+        });
     </script>
 }
