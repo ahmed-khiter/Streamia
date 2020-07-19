@@ -44,6 +44,14 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
+                foreach (var bouquetId in model.BouquetIds)
+                {
+                    model.BouquetMovies.Add(new BouquetMovie
+                    {
+                        BouquetId = bouquetId,
+                        MovieId = model.Id
+                    });
+                }
                 await movieRepository.Add(model);
                 return View("Manage");
             }
@@ -54,11 +62,8 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await movieRepository.GetAll());
-        }
-        public IActionResult Index()
-        {
-            return View();
+            var model = await movieRepository.GetAll(new string[] { "Category" });
+            return View(model);
         }
 
         private async Task PrepareViewBag()

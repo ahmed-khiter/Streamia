@@ -1,0 +1,110 @@
+﻿@model IEnumerable<Movie>
+@{
+    ViewData["Title"] = "Manage Movies";
+    ViewData["Icon"] = "movie";
+}
+
+<partial name="~/Views/Partials/_Search.cshtml" />
+
+<hr />
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>State</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>@movie.Name</td>
+                <td>@movie.Category.Name</td>
+                <td id="state-@movie.Id">
+                    @{
+                        string stateClass = "danger";
+                        if (movie.State == StreamState.STARTED)
+                        {
+                            stateClass = "success";
+                        }
+                    }
+                    <i class="fa fa-circle text-@stateClass"></i> @movie.State
+                </td>
+                <td>
+                    @{
+                        string className = null;
+                        string iconName = null;
+                        int currentStreamState = (int)StreamState.STARTED;
+                        if (movie.State == StreamState.STARTED)
+                        {
+                            className = "warning";
+                            iconName = "pause";
+                            currentStreamState = (int)StreamState.STOPPED;
+                        }
+                        else if (movie.State == StreamState.STOPPED)
+                        {
+                            className = "primary";
+                            iconName = "play";
+                            currentStreamState = (int)StreamState.STARTED;
+                        }
+                    }
+                    <button id="btn-@movie.Id"
+                            class="stream-state-btn btn btn-@className"
+                            data-stream-id="@movie.Id"
+                            data-stream-state="@currentStreamState">
+                        <i class="fa fa-@iconName"></i>
+                    </button>
+
+                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@movie.Id"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-success" asp-action="edit" asp-route-id="@movie.Id"><i class="fa fa-edit"></i></a>
+                    <form asp-action="delete"
+                          asp-route-id="@movie.Id"
+                          style="display:inline"
+                          onsubmit="return confirm('Are you sure you want to proceed?')">
+                        <button class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        //window.addEventListener('load', function () {
+        //    var connection = new signalR.HubConnectionBuilder().withUrl("/stream-status-hub").build();
+        //    connection.on("Update", function (data) {
+        //        var btn = $(`#btn-${data.sourceId}`);
+        //        var stateIndicator = $(`#state-${data.state}`);
+        //        btn.removeAttr("disabled");
+        //        if (data.state === 1) {
+        //            stateIndicator.html('<i class="fa fa-circle text-success"></i> STARTED');
+        //            btn.attr("data-stream-state", "0")
+        //                .removeClass("btn-primary")
+        //                .addClass("btn-warning")
+        //                .html('<i class="fa fa-pause"></i>');
+        //        } else if (data.state === 0) {
+        //            stateIndicator.html('<i class="fa fa-circle text-danger"></i> STOPPED');
+        //            btn.attr("data-stream-state", "1")
+        //                .removeClass("btn-warning")
+        //                .addClass("btn-primary")
+        //                .html('<i class="fa fa-play"></i>');
+        //        }
+        //    });
+        //    connection.start();
+        //    $(".stream-state-btn").on("click", function () {
+        //        var currentHTML = $(this).html();
+        //        var streamId = parseInt($(this).attr("data-stream-id"));
+        //        var streamState = parseInt($(this).attr("data-stream-state"));
+        //        $(this).attr("disabled", "disabled").html('<i class="fa fa-fw fa-spinner fa-pulse"></i>');
+        //        connection.invoke("Update", streamId, streamState);
+        //    });
+        //});
+    </script>
+}

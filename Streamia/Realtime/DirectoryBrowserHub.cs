@@ -23,6 +23,13 @@ namespace Streamia.Realtime
             this.remoteConnection = remoteConnection;
         }
 
+        /*
+         
+            DONT FORGET TO ADD USER ID AS IDENTIFIER AMONG SERVER ID
+            TO AVOID MULTI AGENT DATABASE SYSTEM CONFLICT <<< Ayman
+         
+         */
+
         public async Task ListServerDirectory(int id, string path)
         {
             string directoryList;
@@ -48,7 +55,7 @@ namespace Streamia.Realtime
                 {
                     sshClient.Connect();
                 }
-                var command = remoteConnection.ConnectionsList[$"{id}"].CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$' ; ls -d */");
+                var command = remoteConnection.ConnectionsList[$"{id}"].CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$|\\.mkv$|\\.flv$|\\.avi$|\\.mpg$' ; ls -d */");
                 command.Execute();
                 directoryList = command.Result;
             }
