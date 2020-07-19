@@ -320,6 +320,10 @@ ul ul a {
     position: relative;
 }
 
+.directory-browser-back-btn {
+    display: none;
+}
+
 .loader {
     display: none;
     padding-top: 20%;
