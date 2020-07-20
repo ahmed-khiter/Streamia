@@ -13,14 +13,8 @@ namespace Streamia.Models
         [Required]
         public string Source { get; set; }
 
-        [Display(Name = "Subtitle Path")]
-        public string SubtitleLocation { get; set; }
-
         [Display(Name = "Direct Source")]
         public bool DirectSource { get; set; }
-
-        [Display(Name = "Remove Existing Subtitle")]
-        public bool RemoveExistingSubtitle { get; set; }
 
         public ICollection<MovieServer> MovieServers { get; set; }
 

@@ -82,16 +82,6 @@ namespace Streamia.Realtime
 
             if (state == StreamState.STARTED)
             {
-                //var command = new FFMPEGCommandGenerator
-                //{
-                //    InputSource = movie.Source,
-                //    OutputSource = $"rtmp://localhost/live/{movie.StreamKey}",
-                //    StreamLoop = "-1",
-                //    VideoCodec = "libx264",
-                //    VideoProfile = "baseline",
-                //    AudioCodec = "aac",
-                //    Format = "flv"
-                //};
                 string command = $"nohup ffmpeg -re -stream_loop -1 -i {movie.Source} -codec copy -f flv rtmp://localhost/live/{movie.StreamKey} >/dev/null 2>&1 & echo $!";
                 movie.MovieServers = (List<MovieServer>) Start((IList<MovieServer>) movie.MovieServers, command);
             }

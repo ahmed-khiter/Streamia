@@ -44,6 +44,22 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ServerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // movie servers
+            modelBuilder.Entity<SeriesServer>().HasKey(m => new { m.SeriesId, m.ServerId });
+            modelBuilder.Entity<SeriesServer>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<SeriesServer>()
+                .HasOne(ss => ss.Series)
+                .WithMany(ss => ss.SeriesServers)
+                .HasForeignKey(ss => ss.SeriesId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<SeriesServer>()
+                .HasOne(ss => ss.Server)
+                .WithMany(ss => ss.SeriesServers)
+                .HasForeignKey(ss => ss.ServerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             // bouquet streams
             modelBuilder.Entity<BouquetStream>().HasKey(m => new { m.BouquetId, m.StreamId });
             modelBuilder.Entity<BouquetStream>().Ignore(m => m.Id);
@@ -74,6 +90,22 @@ namespace Streamia.Models.Extensions
                 .HasOne(ss => ss.Movie)
                 .WithMany(ss => ss.BouquetMovies)
                 .HasForeignKey(ss => ss.MovieId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // bouquet series
+            modelBuilder.Entity<BouquetSeries>().HasKey(m => new { m.BouquetId, m.SeriesId });
+            modelBuilder.Entity<BouquetSeries>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<BouquetSeries>()
+                .HasOne(ss => ss.Bouquet)
+                .WithMany(ss => ss.BouquetSeries)
+                .HasForeignKey(ss => ss.BouquetId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BouquetSeries>()
+                .HasOne(ss => ss.Movie)
+                .WithMany(ss => ss.BouquetSeries)
+                .HasForeignKey(ss => ss.SeriesId)
                 .OnDelete(DeleteBehavior.NoAction);
 
         }

@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Series : BaseEntity
+    public class Series : TMDBResult
     {
-        [Required]
-        public string Name { get; set; }
-        public Category Category { get; set; }
+        public string Source { get; set; }
+
+        public ICollection<BouquetSeries> BouquetSeries { get; set; }
+        public ICollection<SeriesServer> SeriesServers { get; set; }
+
+        public Series()
+        {
+            BouquetSeries = new List<BouquetSeries>();
+            SeriesServers = new List<SeriesServer>();
+        }
     }
 }
