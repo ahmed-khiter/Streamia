@@ -10,7 +10,6 @@ namespace Streamia.Models
     {
         [Required]
         public string Name { get; set; }
-        public string Note { get; set; }
 
         [Display(Name = "Poster URL")]
         public string PosterUrl { get; set; }
