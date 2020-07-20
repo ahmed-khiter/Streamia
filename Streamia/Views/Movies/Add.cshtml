@@ -47,11 +47,6 @@
             <span class="text-danger" asp-validation-for="PosterUrl"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="BackdropUrl"></label>
-            <input asp-for="BackdropUrl" class="form-control" />
-            <span class="text-danger" asp-validation-for="BackdropUrl"></span>
-        </div>
-        <div class="form-group col-md-3">
             <label asp-for="Overview"></label>
             <input asp-for="Overview" class="form-control" />
             <span class="text-danger" asp-validation-for="Overview"></span>
@@ -206,7 +201,6 @@
                     }
                     $('#movie-name').val(response.title);
                     $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${response.poster_path}`);
-                    $('#BackdropUrl').val(`https://image.tmdb.org/t/p/w1280/${response.poster_path}`);
                     $('#Overview').val(response.overview);
                     $('#Rating').val(response.vote_average);
                     $('#Runtime').val(response.runtime);

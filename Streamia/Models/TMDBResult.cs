@@ -14,9 +14,6 @@ namespace Streamia.Models
 
         [Display(Name = "Poster URL")]
         public string PosterUrl { get; set; }
-
-        [Display(Name = "Backdrop URL")]
-        public string BackdropUrl { get; set; }
         public string Overview { get; set; }
         public string Cast { get; set; }
         public string Director { get; set; }
