@@ -41,5 +41,7 @@ namespace Streamia.Models
         public ServerState ServerState { get; set; } = ServerState.PROCESSING;
 
         public ICollection<StreamServer> StreamServers { get; set; }
+
+        public ICollection<MovieServer> MovieServers { get; set; }
     }
 }

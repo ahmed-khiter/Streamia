@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Streamia.Models.Contexts;
 
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    partial class StreamiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200720050216_updateMovieModelAddMovieServers")]
+    partial class updateMovieModelAddMovieServers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,6 +393,10 @@ namespace Streamia.Migrations
                     b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PosterUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -405,10 +411,6 @@ namespace Streamia.Migrations
 
                     b.Property<int>("Runtime")
                         .HasColumnType("int");
-
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")
                         .HasColumnType("int");

@@ -28,6 +28,22 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ServerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // movie servers
+            modelBuilder.Entity<MovieServer>().HasKey(m => new { m.MovieId, m.ServerId });
+            modelBuilder.Entity<MovieServer>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<MovieServer>()
+                .HasOne(ss => ss.Movie)
+                .WithMany(ss => ss.MovieServers)
+                .HasForeignKey(ss => ss.MovieId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<MovieServer>()
+                .HasOne(ss => ss.Server)
+                .WithMany(ss => ss.MovieServers)
+                .HasForeignKey(ss => ss.ServerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             // bouquet streams
             modelBuilder.Entity<BouquetStream>().HasKey(m => new { m.BouquetId, m.StreamId });
             modelBuilder.Entity<BouquetStream>().Ignore(m => m.Id);

@@ -18,18 +18,24 @@ namespace Streamia.Controllers
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Server> serverRepository;
+        private readonly IRepository<MovieServer> movieServerRepository;
+        private readonly IRepository<BouquetMovie> bouquetMovieRepository;
 
         public MoviesController(
             IRepository<Movie> movieRepository, 
             IRepository<Category> categoryRepository,
             IRepository<Bouquet> bouquetRepository,
-            IRepository<Server> serverRepository
+            IRepository<Server> serverRepository,
+            IRepository<MovieServer> movieServerRepository,
+            IRepository<BouquetMovie> bouquetMovieRepository
         )
         {
             this.movieRepository = movieRepository;
             this.categoryRepository = categoryRepository;
             this.bouquetRepository = bouquetRepository;
             this.serverRepository = serverRepository;
+            this.movieServerRepository = movieServerRepository;
+            this.bouquetMovieRepository = bouquetMovieRepository;
         }
 
         [HttpGet]
@@ -52,11 +58,34 @@ namespace Streamia.Controllers
                         MovieId = model.Id
                     });
                 }
+
+                var sourceComponents = model.Source.Split('/');
+
+                if (int.TryParse(sourceComponents[0], out int serverId))
+                {
+                    model.MovieServers.Add(new MovieServer
+                    {
+                        MovieId = model.Id,
+                        ServerId = serverId
+                    });
+                    sourceComponents[0] = "/";
+                    model.Source = string.Join('/', sourceComponents);
+                }
+
                 await movieRepository.Add(model);
                 return View("Manage");
             }
             await PrepareViewBag();
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await movieServerRepository.Delete(m => m.MovieId == id);
+            await bouquetMovieRepository.Delete(m => m.MovieId == id);
+            await movieRepository.Delete(id);
+            return RedirectToAction(nameof(Manage));
         }
 
         [HttpGet]

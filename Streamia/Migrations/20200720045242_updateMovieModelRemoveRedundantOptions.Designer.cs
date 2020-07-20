@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Streamia.Models.Contexts;
 
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    partial class StreamiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200720045242_updateMovieModelRemoveRedundantOptions")]
+    partial class updateMovieModelRemoveRedundantOptions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -391,6 +393,10 @@ namespace Streamia.Migrations
                     b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PosterUrl")
                         .HasColumnType("nvarchar(max)");
 
@@ -406,10 +412,6 @@ namespace Streamia.Migrations
                     b.Property<int>("Runtime")
                         .HasColumnType("int");
 
-                    b.Property<string>("Source")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -424,24 +426,6 @@ namespace Streamia.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Movies");
-                });
-
-            modelBuilder.Entity("Streamia.Models.MovieServer", b =>
-                {
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Pid")
-                        .HasColumnType("int");
-
-                    b.HasKey("MovieId", "ServerId");
-
-                    b.HasIndex("ServerId");
-
-                    b.ToTable("MovieServers");
                 });
 
             modelBuilder.Entity("Streamia.Models.Series", b =>
@@ -686,21 +670,6 @@ namespace Streamia.Migrations
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Streamia.Models.MovieServer", b =>
-                {
-                    b.HasOne("Streamia.Models.Movie", "Movie")
-                        .WithMany("MovieServers")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Streamia.Models.Server", "Server")
-                        .WithMany("MovieServers")
-                        .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 

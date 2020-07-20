@@ -21,14 +21,14 @@
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="Path"></label>
+            <label asp-for="Source"></label>
             <div class="directory-browser-container">
-                <input asp-for="Path" class="form-control" placeholder="URL or browse servers"/>
+                <input asp-for="Source" class="form-control" placeholder="URL or browse servers"/>
                 <button type="button" class="directory-browser-btn main-btn" data-toggle="modal" data-target="#directory-browser">
                     <i class="fa fa-folder-open"></i>
                 </button>
             </div>
-            <span class="text-danger" asp-validation-for="Path"></span>
+            <span class="text-danger" asp-validation-for="Source"></span>
         </div>
         <div class="form-group col-md-3">
             <label asp-for="CategoryId"></label>
@@ -87,16 +87,6 @@
             <span class="text-danger" asp-validation-for="Rating"></span>
         </div>
         <div class="form-group col-md-3">
-            <label asp-for="ChannelSid"></label>
-            <input asp-for="ChannelSid" class="form-control" />
-            <span class="text-danger" asp-validation-for="ChannelSid"></span>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="Extension"></label>
-            <input asp-for="Extension" class="form-control" />
-            <span class="text-danger" asp-validation-for="Extension"></span>
-        </div>
-        <div class="form-group col-md-3">
             <label asp-for="SubtitleLocation"></label>
             <input asp-for="SubtitleLocation" class="form-control" />
             <span class="text-danger" asp-validation-for="SubtitleLocation"></span>
@@ -106,29 +96,15 @@
             <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
             <span class="text-danger" asp-validation-for="BouquetIds"></span>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <input asp-for="DirectSource" class="js-switch" />
-                <label asp-for="DirectSource"></label>
-            </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <input asp-for="DirectSource" class="js-switch" />
+            <label asp-for="DirectSource"></label>
         </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <input asp-for="NativeFrame" class="js-switch" />
-                <label asp-for="NativeFrame"></label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <input asp-for="RemoveExistingSubtitle" class="js-switch" />
-                <label asp-for="RemoveExistingSubtitle"></label>
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-12">
-                <input asp-for="ProcessMovie" class="js-switch" />
-                <label asp-for="ProcessMovie"></label>
-            </div>
+        <div class="form-group col-md-3">
+            <input asp-for="RemoveExistingSubtitle" class="js-switch" />
+            <label asp-for="RemoveExistingSubtitle"></label>
         </div>
     </div>
     <hr />
@@ -311,6 +287,9 @@
                 $('.loader').show();
                 $('.directory-browser-back-btn').hide();
                 pathStack.push($(this).attr('data-path'));
+                console.log(pathStack[pathStack.length - 1]);
+                console.log(pathStack[pathStack.length - 1].split('.'));
+                console.log(pathStack[pathStack.length - 1].split('.').length);
                 if (pathStack[pathStack.length - 1].split('.').length < 2) {
                     connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
                 } else {

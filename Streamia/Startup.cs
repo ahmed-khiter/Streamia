@@ -108,6 +108,7 @@ namespace Streamia
 
                 endpoints.MapHub<ServerStatusHub>("/server-status-hub");
                 endpoints.MapHub<StreamStatusHub>("/stream-status-hub");
+                endpoints.MapHub<MovieStatusHub>("/movie-status-hub");
                 endpoints.MapHub<DirectoryBrowserHub>("/directory-browser-hub");
             });
         }
