@@ -17,14 +17,17 @@ namespace Streamia.Api
     {
         private readonly IRepository<IptvUser> iptvUserRepository;
         private readonly IRepository<Stream> streamRepository;
+        private readonly IRepository<Movie> movieRepository;
 
         public AuthController(
             IRepository<IptvUser> iptvUserRepository,
-            IRepository<Stream> streamRepository
+            IRepository<Stream> streamRepository,
+            IRepository<Movie> movieRepository
         )
         {
             this.iptvUserRepository = iptvUserRepository;
             this.streamRepository = streamRepository;
+            this.movieRepository = movieRepository;
         }
 
         [Route("authenticate/{username}/{password}/{categoryType}/{sourceId}")]
@@ -46,6 +49,15 @@ namespace Streamia.Api
                 foreach (var server in stream.StreamServers)
                 {
                     url = $"http://{server.Server.Ip}:{server.Server.HttpPort}/hls/{stream.StreamKey}/index.m3u8";
+                    break;
+                }
+            } 
+            else if (categoryType == CategoryType.MOVIE)
+            {
+                var movie = await movieRepository.GetById(sourceId, new string[] { "MovieServers", "MovieServers.Server" });
+                foreach (var server in movie.MovieServers)
+                {
+                    url = $"http://{server.Server.Ip}:{server.Server.HttpPort}/hls/{movie.StreamKey}/index.m3u8";
                     break;
                 }
             }

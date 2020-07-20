@@ -68,12 +68,12 @@ namespace Streamia.Controllers
                         MovieId = model.Id,
                         ServerId = serverId
                     });
-                    sourceComponents[0] = "/";
+                    sourceComponents[0] = string.Empty;
                     model.Source = string.Join('/', sourceComponents);
                 }
 
                 await movieRepository.Add(model);
-                return View("Manage");
+                return RedirectToAction(nameof(Manage));
             }
             await PrepareViewBag();
             return View(model);

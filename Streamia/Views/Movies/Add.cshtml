@@ -287,14 +287,11 @@
                 $('.loader').show();
                 $('.directory-browser-back-btn').hide();
                 pathStack.push($(this).attr('data-path'));
-                console.log(pathStack[pathStack.length - 1]);
-                console.log(pathStack[pathStack.length - 1].split('.'));
-                console.log(pathStack[pathStack.length - 1].split('.').length);
                 if (pathStack[pathStack.length - 1].split('.').length < 2) {
                     connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
                 } else {
                     let currentServer = $('#directory-browser-server').val();
-                    $('#Path').val(`${currentServer + createPath(pathStack)}`);
+                    $('#Source').val(`${currentServer + createPath(pathStack)}`);
                     $('.modal').modal('hide');
                     $('.loader').hide();
                     $('.directory-browser-back-btn').show();

@@ -82,7 +82,7 @@
             var connection = new signalR.HubConnectionBuilder().withUrl("/stream-status-hub").build();
             connection.on("Update", function (data) {
                 var btn = $(`#btn-${data.sourceId}`);
-                var stateIndicator = $(`#state-${data.state}`);
+                var stateIndicator = $(`#state-${data.sourceId}`);
                 btn.removeAttr("disabled");
                 if (data.state === 1) {
                     stateIndicator.html('<i class="fa fa-circle text-success"></i> STARTED');

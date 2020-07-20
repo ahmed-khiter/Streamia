@@ -74,13 +74,24 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Download(int id)
         {
-            var user = await iptvRepository.GetById(id, new string[] { "Bouquet", "Bouquet.BouquetStreams", "Bouquet.BouquetStreams.Stream" });
+            var user = await iptvRepository.GetById(id, new string[] { 
+                "Bouquet",
+                "Bouquet.BouquetStreams",
+                "Bouquet.BouquetStreams.Stream",
+                "Bouquet.BouquetMovies",
+                "Bouquet.BouquetMovies.Movie"
+            });
             var m3u8Builder = new StringBuilder();
             m3u8Builder.AppendLine("#EXTM3U");
             foreach (var bouquetStream in user.Bouquet.BouquetStreams)
             {
                 m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetStream.Stream.Name}");
                 m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.LIVE}/{bouquetStream.Stream.Id}");
+            }
+            foreach (var bouquetMovie in user.Bouquet.BouquetMovies)
+            {
+                m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetMovie.Movie.Name}");
+                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.MOVIE}/{bouquetMovie.Movie.Id}");
             }
             return File(Encoding.UTF8.GetBytes(m3u8Builder.ToString()), "text/m3u8", "iptv-playlist.m3u8");
         }
