@@ -1,4 +1,4 @@
-﻿@model Movie
+﻿@model Series
 @{
     ViewData["Title"] = "Add Series";
     ViewData["Icon"] = "plus";
@@ -10,11 +10,89 @@
     <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
 }
 
+<form method="post" id="series-form">
+    <h4>Series Main Info</h4>
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="Name"></label>
+            <div class="api-search-container">
+                <input asp-for="Name" id="series-name" class="form-control" autocomplete="off" />
+                <div class="api-search-dropdown"></div>
+            </div>
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        @*<div class="form-group col-md-3">
+                <label asp-for="Source"></label>
+                <div class="directory-browser-container">
+                    <input asp-for="Source" class="form-control" placeholder="URL or browse servers" />
+                    <button type="button" class="directory-browser-btn main-btn" data-toggle="modal" data-target="#directory-browser">
+                        <i class="fa fa-folder-open"></i>
+                    </button>
+                </div>
+                <span class="text-danger" asp-validation-for="Source"></span>
+            </div>*@
+        <div class="form-group col-md-3">
+            <label asp-for="CategoryId"></label>
+            <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
+            </select>
+            <span class="text-danger" asp-validation-for="CategoryId"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="PosterUrl"></label>
+            <input asp-for="PosterUrl" class="form-control" />
+            <span class="text-danger" asp-validation-for="PosterUrl"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Overview"></label>
+            <input asp-for="Overview" class="form-control" />
+            <span class="text-danger" asp-validation-for="Overview"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Cast"></label>
+            <input asp-for="Cast" class="form-control" />
+            <span class="text-danger" asp-validation-for="Cast"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Director"></label>
+            <input asp-for="Director" class="form-control" />
+            <span class="text-danger" asp-validation-for="Director"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Gener"></label>
+            <input asp-for="Gener" class="form-control" />
+            <span class="text-danger" asp-validation-for="Gener"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="ReleaseDate"></label>
+            <input asp-for="ReleaseDate" class="form-control" />
+            <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Rating"></label>
+            <input asp-for="Rating" class="form-control" />
+            <span class="text-danger" asp-validation-for="Rating"></span>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="BouquetIds"></label>
+            <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
+            <span class="text-danger" asp-validation-for="BouquetIds"></span>
+        </div>
+    </div>
+    <h4>Seasons</h4>
+    @Html.EditorFor(m => m.Episodes, "~/Views/Serieses/Episode.cshtml")
+    <button class="main-btn" type="button">
+        <i class="fa fa-plus"></i> Add
+    </button>
+    <hr />
+    <button class="btn btn-success">
+        <i class="fa fa-plus"></i> Add
+    </button>
+</form>
 
 
 @section Scripts
 {
-    @*<script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
     <script>
@@ -30,15 +108,25 @@
 
         var timeout = null;
         var inputVal = null;
+        const API_KEY = '415e9238d5188172426c3858b367e468';
 
-        $('#movie-name').on('keyup', function () {
+        $('#series-name').on('keyup', function () {
             $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
 
             inputVal = $(this).val();
 
             if (timeout === null) {
                 timeout = setTimeout(function () {
-                    TMDBSearch(inputVal);
+                    TMDBSearch('tv', inputVal, API_KEY, function (response) {
+                        $('.api-search-dropdown').html('');
+                        response.results.forEach(v => {
+                            $('.api-search-dropdown').append(`
+                                <div class="api-search-result" data-id="${v.id}">
+                                    ${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})
+                                </div>
+                            `);
+                        });
+                    });
                     timeout = null;
                 }, 500);
             }
@@ -47,142 +135,136 @@
 
         $('body').on('click', '.api-search-result', function () {
             $('.api-search-dropdown').hide();
-            var movieId = $(this).data('id');
-            TMDBMovie(movieId);
+            var id = $(this).data('id');
+            TMDB('tv', id, API_KEY, 'season,credits', function (response) {
+                let genres = [];
+                let cast = [];
+                let director = null;
+                response.genres.forEach(v => {
+                    genres.push(v.name);
+                });
+                response.credits.cast.forEach(v => {
+                    cast.push(v.name);
+                });
+                for (let v of response.credits.crew) {
+                    if (v.department === "Directing") {
+                        director = v.name;
+                        break;
+                    }
+                }
+                $('#series-name').val(response.title);
+                $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2${response.poster_path}`);
+                $('#Overview').val(response.overview);
+                $('#Rating').val(response.vote_average);
+                $('#Gener').val(genres.join(','));
+                $('#Cast').val(cast.join(','));
+                $('#ReleaseDate').val(response.first_air_date);
+                $('#Director').val(director);
+            });
         });
 
-        function TMDBMovie(movieId) {
+        function TMDB(type, id, apiKey, appendToResponse, callback) {
             $.ajax({
                 type: 'GET',
-                url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=415e9238d5188172426c3858b367e468&language=en-US&append_to_response=credits%2Cvideos`,
+                url: `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&language=en-US${appendToResponse != null ? '&append_to_response=' + appendToResponse : '' }`,
                 success: function (response) {
-                    console.log(response);
-                    let genres = [];
-                    let cast = [];
-                    let director = null;
-                    response.genres.forEach(v => {
-                        genres.push(v.name);
-                    });
-                    response.credits.cast.forEach(v => {
-                        cast.push(v.name);
-                    });
-                    for (let v of response.credits.crew) {
-                        if (v.department === "Directing") {
-                            director = v.name;
-                            break;
-                        }
+                    callback(response);
+                }
+            });
+        }
+
+        function TMDBSearch(type, keyword, apiKey, callback) {
+            $.ajax({
+                type: 'GET',
+                url: `https://api.themoviedb.org/3/search/${type}?api_key=${apiKey}&query=${keyword}`,
+                success: function (response) {
+                    callback(response);
+                }
+            });
+        }
+    </script>
+            @*
+            window.addEventListener('load', function () {
+                var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
+                var pathStack = [];
+
+                function createPath(stack) {
+                    if (stack.length === 0) {
+                        return '/';
                     }
-                    $('#movie-name').val(response.title);
-                    $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${response.poster_path}`);
-                    $('#Overview').val(response.overview);
-                    $('#Rating').val(response.vote_average);
-                    $('#Runtime').val(response.runtime);
-                    $('#Gener').val(genres.join(','));
-                    $('#Cast').val(cast.join(','));
-                    $('#ReleaseDate').val(response.release_date);
-                    $('#Director').val(director);
+                    return '/' + stack.join('/');
                 }
-            });
-        }
 
-        function TMDBSearch(keyword) {
-            $.ajax({
-                type: 'GET',
-                url: `https://api.themoviedb.org/3/search/movie?api_key=415e9238d5188172426c3858b367e468&query=${keyword}`,
-                success: function (response) {
-                    $('.api-search-dropdown').html('');
-                    response.results.forEach(v => {
-                        $('.api-search-dropdown').append(`
-                            <div class="api-search-result" data-id="${v.id}">
-                                ${v.title} (${v.release_date ? v.release_date.split('-')[0] : ''})
-                            </div>
-                        `);
-                    });
+                function prepareFiles(path) {
+                    if (path.slice(-1) == '/') {
+                        return path.slice(0, path.length - 1);
+                    }
+                    return path;
                 }
-            });
-        }
 
-        window.addEventListener('load', function () {
-            var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
-            var pathStack = [];
-
-            function createPath(stack) {
-                if (stack.length === 0) {
-                    return '/';
+                function isDirectory(path) {
+                    return path.slice(-1) == '/';
                 }
-                return '/' + stack.join('/');
-            }
 
-            function prepareFiles(path) {
-                if (path.slice(-1) == '/') {
-                    return path.slice(0, path.length - 1);
-                }
-                return path;
-            }
-
-            function isDirectory(path) {
-                return path.slice(-1) == '/';
-            }
-
-            function resetBrowser() {
-                $('.modal').modal('hide');
-                $('.loader').hide();
-                $('.directory-browser-back-btn').show();
-                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
-                $('#directory-browser-server').val('0').trigger('change');
-                $('.directory-browser-content').html('<h3 class="text-secondary text-center">Files & Folders will show here</h3>');
-                $('.full-path').html('');
-            }
-
-            connection.on('DirectoryList', function (data) {
-                $('.directory-browser-content').html('');
-                $('.full-path').html(`${createPath(pathStack)}<hr/>`);
-                if (pathStack.length > 0) {
+                function resetBrowser() {
+                    $('.modal').modal('hide');
+                    $('.loader').hide();
                     $('.directory-browser-back-btn').show();
+                    connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
+                    $('#directory-browser-server').val('0').trigger('change');
+                    $('.directory-browser-content').html('<h3 class="text-secondary text-center">Files & Folders will show here</h3>');
+                    $('.full-path').html('');
                 }
-                $('.loader').hide();
-                var directories = data.directoryList.split(/\r?\n/g);
-                directories.forEach(v => {
-                    if (v != '') {
-                        $('.directory-browser-content').append(`
-                            <div class="server-directory" data-path="${prepareFiles(v)}">
-                                <i class="fa fa-${isDirectory(v) ? 'folder text-warning' : 'file-video-o text-secondary'}"></i> ${prepareFiles(v)}
-                            </div>
-                        `);
+
+                connection.on('DirectoryList', function (data) {
+                    $('.directory-browser-content').html('');
+                    $('.full-path').html(`${createPath(pathStack)}<hr/>`);
+                    if (pathStack.length > 0) {
+                        $('.directory-browser-back-btn').show();
+                    }
+                    $('.loader').hide();
+                    var directories = data.directoryList.split(/\r?\n/g);
+                    directories.forEach(v => {
+                        if (v != '') {
+                            $('.directory-browser-content').append(`
+                                <div class="server-directory" data-path="${prepareFiles(v)}">
+                                    <i class="fa fa-${isDirectory(v) ? 'folder text-warning' : 'file-video-o text-secondary'}"></i> ${prepareFiles(v)}
+                                </div>
+                            `);
+                        }
+                    });
+                });
+                $('#directory-browser-server').on('change', function () {
+                    pathStack = [];
+                    if ($(this).val() == 0) {
+                        return;
+                    }
+                    $('.loader').show();
+                    $('.directory-browser-back-btn').hide();
+                    connection.invoke('ListServerDirectory', parseInt($(this).val()), createPath(pathStack));
+                });
+                $('body').on('click', '.server-directory', function () {
+                    $('.loader').show();
+                    $('.directory-browser-back-btn').hide();
+                    pathStack.push($(this).attr('data-path'));
+                    if (pathStack[pathStack.length - 1].split('.').length < 2) {
+                        connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
+                    } else {
+                        let currentServer = $('#directory-browser-server').val();
+                        $('#Source').val(`${currentServer + createPath(pathStack)}`);
+                        resetBrowser();
                     }
                 });
-            });
-            $('#directory-browser-server').on('change', function () {
-                pathStack = [];
-                if ($(this).val() == 0) {
-                    return;
-                }
-                $('.loader').show();
-                $('.directory-browser-back-btn').hide();
-                connection.invoke('ListServerDirectory', parseInt($(this).val()), createPath(pathStack));
-            });
-            $('body').on('click', '.server-directory', function () {
-                $('.loader').show();
-                $('.directory-browser-back-btn').hide();
-                pathStack.push($(this).attr('data-path'));
-                if (pathStack[pathStack.length - 1].split('.').length < 2) {
+                $('.directory-browser-back-btn').on('click', function () {
+                    $('.loader').show();
+                    $(this).hide();
+                    pathStack.pop();
                     connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
-                } else {
-                    let currentServer = $('#directory-browser-server').val();
-                    $('#Source').val(`${currentServer + createPath(pathStack)}`);
-                    resetBrowser();
-                }
+                });
+                window.onbeforeunload = function () {
+                    connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
+                };
+                connection.start();
             });
-            $('.directory-browser-back-btn').on('click', function () {
-                $('.loader').show();
-                $(this).hide();
-                pathStack.pop();
-                connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
-            });
-            window.onbeforeunload = function () {
-                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
-            };
-            connection.start();
-        });
-    </script>*@
+        </script>*@
 }

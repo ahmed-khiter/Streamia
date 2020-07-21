@@ -1,0 +1,21 @@
+﻿@model Episode
+
+<input asp-for="Name" class="form-control" type="hidden" />
+<input asp-for="PosterUrl" class="form-control" type="hidden"/>
+<input asp-for="Overview" class="form-control" type="hidden"/>
+<input asp-for="Cast" class="form-control" type="hidden"/>
+<input asp-for="Director" class="form-control" type="hidden"/>
+<input asp-for="Gener" class="form-control" type="hidden"/>
+<input asp-for="ReleaseDate" class="form-control" type="hidden"/>
+<input asp-for="Runtime" class="form-control" type="hidden"/>
+<input asp-for="Rating" class="form-control" type="hidden"/>
+@*<div class="form-group col-md-3">
+        <label asp-for="Source"></label>
+        <div class="directory-browser-container">
+            <input asp-for="Source" class="form-control" placeholder="URL or browse servers" />
+            <button type="button" class="directory-browser-btn main-btn" data-toggle="modal" data-target="#directory-browser">
+                <i class="fa fa-folder-open"></i>
+            </button>
+        </div>
+        <span class="text-danger" asp-validation-for="Source"></span>
+    </div>*@

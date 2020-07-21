@@ -29,7 +29,7 @@ namespace Streamia.Models.Contexts
 
         public DbSet<Channel> Channels { get; set; }
 
-        public DbSet<Series> Series { get; set; }
+        public DbSet<Series> Serieses { get; set; }
 
         public DbSet<Movie> Movies { get; set; }
 
@@ -37,9 +37,13 @@ namespace Streamia.Models.Contexts
 
         public DbSet<MovieServer> MovieServers { get; set; }
 
+        public DbSet<SeriesServer> SeriesServers { get; set; }
+
         public DbSet<BouquetStream> BouquetStreams { get; set; }
 
         public DbSet<BouquetMovie> BouquetMovies { get; set; }
+
+        public DbSet<BouquetSeries> BouquetSeries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
