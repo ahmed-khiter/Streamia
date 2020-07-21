@@ -10,19 +10,19 @@ namespace Streamia.Models
 {
     public class StreamBase : BaseEntity
     {
-        public string StreamKey { get; set; } = Guid.NewGuid().ToString();
+        public virtual string StreamKey { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Category is required")]
         [Display(Name = "Category")]
-        public int CategoryId { get; set; }
+        public virtual int CategoryId { get; set; }
 
         [NotMapped]
         [Required]
         [Display(Name = "Bouquets")]
-        public List<int> BouquetIds { get; set; }
+        public virtual List<int> BouquetIds { get; set; }
 
-        public Category Category { get; set; }
-        public StreamState State { get; set; } = StreamState.STOPPED;
+        public virtual Category Category { get; set; }
+        public virtual StreamState State { get; set; } = StreamState.STOPPED;
     }
 }

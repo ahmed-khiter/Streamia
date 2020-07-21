@@ -8,15 +8,15 @@ namespace Streamia.Models
 {
     public class Series : TMDBResult
     {
-        public string Source { get; set; }
-
         public ICollection<BouquetSeries> BouquetSeries { get; set; }
         public ICollection<SeriesServer> SeriesServers { get; set; }
+        public ICollection<Episode> Episodes { get; set; }
 
         public Series()
         {
             BouquetSeries = new List<BouquetSeries>();
             SeriesServers = new List<SeriesServer>();
+            Episodes = new List<Episode>();
         }
     }
 }

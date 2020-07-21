@@ -1,0 +1,188 @@
+﻿@model Movie
+@{
+    ViewData["Title"] = "Add Series";
+    ViewData["Icon"] = "plus";
+}
+
+@section Styles {
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
+}
+
+
+
+@section Scripts
+{
+    @*<script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/switchery/switchery.js"></script>
+    <script>
+        $('select').select2({
+            theme: 'bootstrap4'
+        });
+
+        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function (html) {
+            new Switchery(html);
+        });
+
+        var timeout = null;
+        var inputVal = null;
+
+        $('#movie-name').on('keyup', function () {
+            $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
+
+            inputVal = $(this).val();
+
+            if (timeout === null) {
+                timeout = setTimeout(function () {
+                    TMDBSearch(inputVal);
+                    timeout = null;
+                }, 500);
+            }
+
+        });
+
+        $('body').on('click', '.api-search-result', function () {
+            $('.api-search-dropdown').hide();
+            var movieId = $(this).data('id');
+            TMDBMovie(movieId);
+        });
+
+        function TMDBMovie(movieId) {
+            $.ajax({
+                type: 'GET',
+                url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=415e9238d5188172426c3858b367e468&language=en-US&append_to_response=credits%2Cvideos`,
+                success: function (response) {
+                    console.log(response);
+                    let genres = [];
+                    let cast = [];
+                    let director = null;
+                    response.genres.forEach(v => {
+                        genres.push(v.name);
+                    });
+                    response.credits.cast.forEach(v => {
+                        cast.push(v.name);
+                    });
+                    for (let v of response.credits.crew) {
+                        if (v.department === "Directing") {
+                            director = v.name;
+                            break;
+                        }
+                    }
+                    $('#movie-name').val(response.title);
+                    $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${response.poster_path}`);
+                    $('#Overview').val(response.overview);
+                    $('#Rating').val(response.vote_average);
+                    $('#Runtime').val(response.runtime);
+                    $('#Gener').val(genres.join(','));
+                    $('#Cast').val(cast.join(','));
+                    $('#ReleaseDate').val(response.release_date);
+                    $('#Director').val(director);
+                }
+            });
+        }
+
+        function TMDBSearch(keyword) {
+            $.ajax({
+                type: 'GET',
+                url: `https://api.themoviedb.org/3/search/movie?api_key=415e9238d5188172426c3858b367e468&query=${keyword}`,
+                success: function (response) {
+                    $('.api-search-dropdown').html('');
+                    response.results.forEach(v => {
+                        $('.api-search-dropdown').append(`
+                            <div class="api-search-result" data-id="${v.id}">
+                                ${v.title} (${v.release_date ? v.release_date.split('-')[0] : ''})
+                            </div>
+                        `);
+                    });
+                }
+            });
+        }
+
+        window.addEventListener('load', function () {
+            var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
+            var pathStack = [];
+
+            function createPath(stack) {
+                if (stack.length === 0) {
+                    return '/';
+                }
+                return '/' + stack.join('/');
+            }
+
+            function prepareFiles(path) {
+                if (path.slice(-1) == '/') {
+                    return path.slice(0, path.length - 1);
+                }
+                return path;
+            }
+
+            function isDirectory(path) {
+                return path.slice(-1) == '/';
+            }
+
+            function resetBrowser() {
+                $('.modal').modal('hide');
+                $('.loader').hide();
+                $('.directory-browser-back-btn').show();
+                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
+                $('#directory-browser-server').val('0').trigger('change');
+                $('.directory-browser-content').html('<h3 class="text-secondary text-center">Files & Folders will show here</h3>');
+                $('.full-path').html('');
+            }
+
+            connection.on('DirectoryList', function (data) {
+                $('.directory-browser-content').html('');
+                $('.full-path').html(`${createPath(pathStack)}<hr/>`);
+                if (pathStack.length > 0) {
+                    $('.directory-browser-back-btn').show();
+                }
+                $('.loader').hide();
+                var directories = data.directoryList.split(/\r?\n/g);
+                directories.forEach(v => {
+                    if (v != '') {
+                        $('.directory-browser-content').append(`
+                            <div class="server-directory" data-path="${prepareFiles(v)}">
+                                <i class="fa fa-${isDirectory(v) ? 'folder text-warning' : 'file-video-o text-secondary'}"></i> ${prepareFiles(v)}
+                            </div>
+                        `);
+                    }
+                });
+            });
+            $('#directory-browser-server').on('change', function () {
+                pathStack = [];
+                if ($(this).val() == 0) {
+                    return;
+                }
+                $('.loader').show();
+                $('.directory-browser-back-btn').hide();
+                connection.invoke('ListServerDirectory', parseInt($(this).val()), createPath(pathStack));
+            });
+            $('body').on('click', '.server-directory', function () {
+                $('.loader').show();
+                $('.directory-browser-back-btn').hide();
+                pathStack.push($(this).attr('data-path'));
+                if (pathStack[pathStack.length - 1].split('.').length < 2) {
+                    connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
+                } else {
+                    let currentServer = $('#directory-browser-server').val();
+                    $('#Source').val(`${currentServer + createPath(pathStack)}`);
+                    resetBrowser();
+                }
+            });
+            $('.directory-browser-back-btn').on('click', function () {
+                $('.loader').show();
+                $(this).hide();
+                pathStack.pop();
+                connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
+            });
+            window.onbeforeunload = function () {
+                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
+            };
+            connection.start();
+        });
+    </script>*@
+}
