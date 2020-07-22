@@ -39,7 +39,7 @@ namespace Streamia.Controllers
             List<Episode> episodes = new List<Episode>();
             for (int i = 0; i < series.SeasonData.Length; i++)
             {
-                for (int y = 0; y < series.SeasonData[i]; ++y)
+                for (int y = 0; y < series.SeasonData[i]; y++)
                 {
                     episodes.Add(new Episode { 
                         Season = i + 1,

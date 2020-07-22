@@ -1,10 +1,17 @@
 ﻿@model IEnumerable<Episode>
-
+@{
+    int lastSeason = 0;
+}
 @if (Model.Any())
 {
     foreach (var episode in Model)
     {
-        <div data-sort="">
+        if(episode.Season > lastSeason)
+        {
+            <strong>Season: @episode.Season</strong>
+        }
+        lastSeason = episode.Season;
+        <div id="@episode.Season" data-sort="@episode.Number">
             <input asp-for="@episode.Season" type="hidden" />
             <input asp-for="@episode.Name" type="hidden" />
             <input asp-for="@episode.PosterUrl" type="hidden" />
