@@ -33,22 +33,26 @@ namespace Streamia.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddEpisode(Series series)
-        {
-            List<Episode> episodes = new List<Episode>();
-            for (int i = 0; i < series.SeasonData.Length; i++)
-            {
-                for (int y = 0; y < series.SeasonData[i]; y++)
-                {
-                    episodes.Add(new Episode { 
-                        Season = i + 1,
-                        Number = y + 1
-                    });
-                }
-            }
-            return PartialView("~/Views/Serieses/Episode.cshtml", episodes);
-        }
+        //[HttpPost]
+        //public IActionResult AddEpisode(Series series)
+        //{
+        //    Dictionary<int, List<Episode>> model = new Dictionary<int, List<Episode>>();
+        //    for (int i = 0; i < series.SeasonData.Length; i++)
+        //    {
+        //        List<Episode> episodes = new List<Episode>();
+        //        int season = i + 1;
+        //        for (int y = 0; y < series.SeasonData[i]; y++)
+        //        {
+        //            int episode = y + 1;
+        //            episodes.Add(new Episode { 
+        //                Season = season,
+        //                Number = episode
+        //            });
+        //        }
+        //        model.Add(season, episodes);
+        //    }
+        //    return PartialView("~/Views/Serieses/Episode.cshtml", model);
+        //}
 
         private async Task PrepareViewBag()
         {

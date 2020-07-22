@@ -11,9 +11,6 @@
 }
 
 <form method="post" id="series-form">
-    <div id="hidden-inputs-area">
-
-    </div>
     <h4>Series Main Info</h4>
     <div class="row">
         <div class="form-group col-md-3">
@@ -24,16 +21,6 @@
             </div>
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
-        @*<div class="form-group col-md-3">
-                <label asp-for="Source"></label>
-                <div class="directory-browser-container">
-                    <input asp-for="Source" class="form-control" placeholder="URL or browse servers" />
-                    <button type="button" class="directory-browser-btn main-btn" data-toggle="modal" data-target="#directory-browser">
-                        <i class="fa fa-folder-open"></i>
-                    </button>
-                </div>
-                <span class="text-danger" asp-validation-for="Source"></span>
-            </div>*@
         <div class="form-group col-md-3">
             <label asp-for="CategoryId"></label>
             <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
@@ -82,7 +69,6 @@
         </div>
     </div>
     <div id="seasons-area">
-        <h4>Seasons</h4>
     </div>
     <hr />
     <button class="btn btn-success">
@@ -155,10 +141,43 @@
                 }
                 $('#hidden-inputs-area').html('');
                 response.seasons.forEach(v => {
-                    if (v.season_number > 0) {
-                        $('#hidden-inputs-area').append(
-                            `<input type="hidden" name="SeasonData" value="${v.episode_count}"/>`
-                        );
+                    let seasonNumber = v.season_number;
+                    if (seasonNumber > 0) {
+                        $('#seasons-area').append(`
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
+                                            Season ${seasonNumber}
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
+                                    <div class="card-body">
+                                        <button type="button" class="main-btn browse">
+                                            <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
+                                        </button>
+                        `);
+                        for (let i = 0; i < v.episode_count; i++) {
+                            let episodeNumber = i + 1;
+                            $('#seasons-area').append(`
+                                <div id="${seasonNumber}_${episodeNumber}">
+                                    <input name="Episode.Season" value="${seasonNumber}" type="hidden" />
+                                    <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
+                                    <input name="Episode.Source" type="hidden" />
+                                    <input name="Episode.Name" type="hidden" />
+                                    <input name="Episode.PosterUrl" type="hidden" />
+                                    <input name="Episode.Overview" type="hidden" />
+                                    <input name="Episode.Cast" type="hidden" />
+                                    <input name="Episode.Director" type="hidden" />
+                                    <input name="Episode.Gener" type="hidden" />
+                                    <input name="Episode.ReleaseDate" type="hidden" />
+                                    <input name="Episode.Runtime" type="hidden" />
+                                    <input name="Episode.Rating" type="hidden" />
+                                </div>
+                            `);
+                        }
+                        $('#seasons-area').append('</div></div></div>');
                     }
                 });
                 $('#series-name').val(response.name);
@@ -169,15 +188,15 @@
                 $('#Cast').val(cast.join(','));
                 $('#ReleaseDate').val(response.first_air_date);
                 $('#Director').val(director);
-                $.ajax({
-                    async: true,
-                    data: $('#series-form').serialize(),
-                    type: 'POST',
-                    url: '/Serieses/AddEpisode',
-                    success: function (view) {
-                        $('#seasons-area').html(view);
-                    }
-                });
+                //$.ajax({
+                //    async: true,
+                //    data: $('#series-form').serialize(),
+                //    type: 'POST',
+                //    url: '/Serieses/AddEpisode',
+                //    success: function (view) {
+                //        $('#seasons-area').html(view);
+                //    }
+                //});
             });
         });
 
