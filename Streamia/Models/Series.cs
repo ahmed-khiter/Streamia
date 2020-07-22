@@ -16,6 +16,9 @@ namespace Streamia.Models
         [NotMapped]
         public override int Runtime { get; set; }
 
+        [NotMapped]
+        public int[] SeasonData { get; set; }
+
         public Series()
         {
             BouquetSeries = new List<BouquetSeries>();

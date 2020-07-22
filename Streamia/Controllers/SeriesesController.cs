@@ -36,7 +36,16 @@ namespace Streamia.Controllers
         [HttpPost]
         public IActionResult AddEpisode([Bind("Episodes")] Series series)
         {
-            series.Episodes.Add(new Episode());
+            for (int i = 0; i < series.SeasonData.Length; i++)
+            {
+                for (int y = 0; y < series.SeasonData[i]; ++y)
+                {
+                    series.Episodes.Add(new Episode { 
+                        Season = i + 1,
+                        Number = y + 1
+                    });
+                }
+            }
             return PartialView("~/Views/Partials/_Episode.cshtml", series);
         }
 

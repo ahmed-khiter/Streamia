@@ -11,6 +11,9 @@
 }
 
 <form method="post" id="series-form">
+    <div id="hidden-inputs-area">
+
+    </div>
     <h4>Series Main Info</h4>
     <div class="row">
         <div class="form-group col-md-3">
@@ -78,11 +81,10 @@
             <span class="text-danger" asp-validation-for="BouquetIds"></span>
         </div>
     </div>
-    <h4>Seasons</h4>
-    @Html.EditorFor(m => m.Episodes, "~/Views/Serieses/Episode.cshtml")
-    <button class="main-btn" type="button">
-        <i class="fa fa-plus"></i> Add
-    </button>
+    <div id="seasons-area">
+        <h4>Seasons</h4>
+        @Html.EditorFor(m => m.Episodes, "~/Views/Serieses/Episode.cshtml")
+    </div>
     <hr />
     <button class="btn btn-success">
         <i class="fa fa-plus"></i> Add
@@ -152,6 +154,13 @@
                         break;
                     }
                 }
+                response.seasons.forEach(v => {
+                    if (v.season_number > 0) {
+                        $('#hidden-inputs-area').append(
+                            `<input type="hidden" name="SeasonData[]" value="${v.episode_count}"`
+                        );
+                    }
+                });
                 $('#series-name').val(response.title);
                 $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2${response.poster_path}`);
                 $('#Overview').val(response.overview);
@@ -160,6 +169,15 @@
                 $('#Cast').val(cast.join(','));
                 $('#ReleaseDate').val(response.first_air_date);
                 $('#Director').val(director);
+                $.ajax({
+                    async: true,
+                    data: $('#series-form').serialize(),
+                    type: 'POST',
+                    url: '/Serieses/AddEpisode',
+                    success: function (view) {
+                        $('#seasons-area').html(view);
+                    }
+                });
             });
         });
 
