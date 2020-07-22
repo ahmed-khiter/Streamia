@@ -11,7 +11,7 @@
             <strong>Season: @episode.Season</strong>
         }
         lastSeason = episode.Season;
-        <div id="@episode.Season" data-sort="@episode.Number">
+        <div id="@(episode.Season)_@episode.Number" data-sort="">
             <input asp-for="@episode.Season" type="hidden" />
             <input asp-for="@episode.Name" type="hidden" />
             <input asp-for="@episode.PosterUrl" type="hidden" />
