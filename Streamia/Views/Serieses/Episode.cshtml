@@ -1,17 +1,23 @@
-﻿@model Episode
+﻿@model IEnumerable<Episode>
 
-<div data-sort="">
-    <input asp-for="Season" type="hidden" />
-    <input asp-for="Name" type="hidden" />
-    <input asp-for="PosterUrl" type="hidden"/>
-    <input asp-for="Overview" type="hidden"/>
-    <input asp-for="Cast" type="hidden"/>
-    <input asp-for="Director" type="hidden"/>
-    <input asp-for="Gener" type="hidden"/>
-    <input asp-for="ReleaseDate" type="hidden"/>
-    <input asp-for="Runtime" type="hidden"/>
-    <input asp-for="Rating" type="hidden"/>
-</div>
+@if (Model.Any())
+{
+    foreach (var episode in Model)
+    {
+        <div data-sort="">
+            <input asp-for="@episode.Season" type="hidden" />
+            <input asp-for="@episode.Name" type="hidden" />
+            <input asp-for="@episode.PosterUrl" type="hidden" />
+            <input asp-for="@episode.Overview" type="hidden" />
+            <input asp-for="@episode.Cast" type="hidden" />
+            <input asp-for="@episode.Director" type="hidden" />
+            <input asp-for="@episode.Gener" type="hidden" />
+            <input asp-for="@episode.ReleaseDate" type="hidden" />
+            <input asp-for="@episode.Runtime" type="hidden" />
+            <input asp-for="@episode.Rating" type="hidden" />
+        </div>
+    }
+}
 @*<div class="form-group col-md-3">
         <label asp-for="Source"></label>
         <div class="directory-browser-container">

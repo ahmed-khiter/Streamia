@@ -154,10 +154,11 @@
                         break;
                     }
                 }
+                $('#hidden-inputs-area').html('');
                 response.seasons.forEach(v => {
                     if (v.season_number > 0) {
                         $('#hidden-inputs-area').append(
-                            `<input type="hidden" name="SeasonData[]" value="${v.episode_count}"`
+                            `<input type="hidden" name="SeasonData" value="${v.episode_count}"/>`
                         );
                     }
                 });
