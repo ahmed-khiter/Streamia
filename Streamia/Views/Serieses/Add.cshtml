@@ -85,11 +85,11 @@
     <script>
 
         const exploreia = new Exploreia();
-        exploreia.render([{id:1,name:"test"}]);
+        exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
 
-        $('select').select2({
-            theme: 'bootstrap4'
-        });
+        //$('select').select2({
+        //    theme: 'bootstrap4'
+        //});
 
         var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
