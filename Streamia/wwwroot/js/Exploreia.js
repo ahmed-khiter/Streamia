@@ -12,6 +12,7 @@
         let exServers = this.renderServerList(serverList);
         let exTemplate = document.createElement('div');
         let exLoader = document.createElement('div');
+        let exLoaderIcon = document.createElement('i');
         let exContent = document.createElement('div');
         let exServerList = document.createElement('div');
         let exServerDropdown = document.createElement('select');
@@ -20,20 +21,22 @@
         let exButtons = document.createElement('div');
 
         exTemplate.classList.add('ex-hidden');
-        exLoader.classList.add('ex-loader');
+        exLoader.classList.add('ex-loader', 'ex-hidden');
+        exLoaderIcon.classList.add('fa', 'fa-fw', 'fa-pulse', 'fa-spinner', 'fa-3x');
         exContent.classList.add('ex-content');
         exServerList.classList.add('ex-server-list');
         exServerDropdown.classList.add('ex-server-dropdown');
         exCurrentPath.classList.add('ex-current-path');
         exFolders.classList.add('ex-folders');
         exButtons.classList.add('ex-buttons');
+        exLoader.appendChild(exLoaderIcon);
         exServerDropdown.innerHTML = exServers;
         exServerList.appendChild(exServerDropdown);
+        exContent.appendChild(exLoader);
         exContent.appendChild(exServerList);
         exContent.appendChild(exCurrentPath);
         exContent.appendChild(exFolders);
         exContent.appendChild(exButtons);
-        exTemplate.appendChild(exLoader);
         exTemplate.appendChild(exContent);
         exTemplate.id = 'exploreia';
 
@@ -42,8 +45,6 @@
         this.loader = exLoader;
         this.serverDropdown = exServerDropdown;
         this.folders = exFolders;
-
-        this.prepareEvents();
     }
 
     renderStyle() {
@@ -61,6 +62,18 @@
 
                 .ex-hidden {
                     display: none;
+                }
+
+                #exploreia .ex-loader {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    z-index: 99999;
+                    text-align: center;
+                    background-color: rgba(255,255,255,.6);
+                    padding-top: 30%;
                 }
 
                 #exploreia .ex-content {
@@ -184,5 +197,12 @@
 
     resetFolders() {
         this.folders.innerHTML = '';
+    }
+
+    onServerChange(callback) {
+        this.serverDropdown.addEventListener('change', function () {
+            this.toggleLoader(true);
+            callback(parseInt(this.value));
+        });
     }
 }

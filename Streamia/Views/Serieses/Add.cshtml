@@ -83,8 +83,20 @@
     <script src="~/lib/switchery/switchery.js"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
-            const exploreia = new Exploreia();
-            exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
+        const exploreia = new Exploreia();
+        exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
+        connection.start();
+
+        connection.on('DirectoryList', function (data) {
+            exploreia.renderDirectories(data.directoryList);
+        });
+
+        exploreia.onServerChange(function (value) {
+            connection.invoke('ListServerDirectory', value, exploreia.createPath());
+        });
+
         window.addEventListener('load', function () {
 
             //$('select').select2({
@@ -215,46 +227,6 @@
                 });
             }
 
-            var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
-            connection.start();
-
-            function resetBrowser() {
-                $('.modal').modal('hide');
-                $('.loader').hide();
-                $('.directory-browser-back-btn').show();
-                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
-                $('#directory-browser-server').val('0').trigger('change');
-                $('.directory-browser-content').html('<h3 class="text-secondary text-center">Files & Folders will show here</h3>');
-                $('.full-path').html('');
-            }
-
-            connection.on('DirectoryList', function (data) {
-                $('.directory-browser-content').html('');
-                $('.full-path').html(`${createPath(pathStack)}<hr/>`);
-                if (pathStack.length > 0) {
-                    $('.directory-browser-back-btn').show();
-                }
-                $('.loader').hide();
-                var directories = data.directoryList.split(/\r?\n/g);
-                directories.forEach(v => {
-                    if (v != '') {
-                        $('.directory-browser-content').append(`
-                                <div class="server-directory" data-path="${prepareFiles(v)}">
-                                    <i class="fa fa-${isDirectory(v) ? 'folder text-warning' : 'file-video-o text-secondary'}"></i> ${prepareFiles(v)}
-                                </div>
-                            `);
-                    }
-                });
-            });
-            $('#directory-browser-server').on('change', function () {
-                pathStack = [];
-                if ($(this).val() == 0) {
-                    return;
-                }
-                $('.loader').show();
-                $('.directory-browser-back-btn').hide();
-                connection.invoke('ListServerDirectory', parseInt($(this).val()), createPath(pathStack));
-            });
             $('body').on('click', '.server-directory', function () {
                 $('.loader').show();
                 $('.directory-browser-back-btn').hide();
