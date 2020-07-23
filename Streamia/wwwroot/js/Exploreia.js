@@ -6,6 +6,7 @@
         this.serverDropdown = null;
         this.folders = null;
         this.currentPath = null;
+        this.currentServer = 0;
     }
 
     render(serverList) {
@@ -216,12 +217,24 @@
     onServerChange(callback) {
         let self = this;
         this.serverDropdown.addEventListener('change', function () {
+            let selectedValue = parseInt(this.value);
             self.toggleLoader(true);
-            callback(parseInt(this.value));
+            self.currentServer = selectedValue;
+            callback(selectedValue, self.createPath());
         });
     }
 
     onDirectoryChange(callback) {
         let self = this;
+        document.addEventListener('click', function (e) {
+            if (e.target && e.target.getAttribute('class') === 'ex-entry') {
+                let currentPath = e.target.getAttribute('data-path');
+                self.toggleLoader(true);
+                self.pathStack.push(self.prepareFile(currentPath));
+                if (self.isDirectory(currentPath)) {
+                    callback(self.currentServer, self.createPath());
+                }
+            }
+        });
     }
 }
