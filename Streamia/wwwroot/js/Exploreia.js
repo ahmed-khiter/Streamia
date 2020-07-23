@@ -217,6 +217,12 @@
         this.folders.innerHTML = '';
     }
 
+    onChange(callback) {
+        this.onServerChange(callback);
+        this.onDirectoryChange(callback);
+        this.onBackButtonClick(callback);
+    }
+
     onServerChange(callback) {
         let self = this;
         this.serverDropdown.addEventListener('change', function () {

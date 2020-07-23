@@ -97,15 +97,7 @@
             exploreia.renderDirectories(data.directoryList);
         });
 
-        exploreia.onServerChange(function (server, path) {
-            connection.invoke('ListServerDirectory', server, path);
-        });
-
-        exploreia.onDirectoryChange(function (server, path) {
-            connection.invoke('ListServerDirectory', server, path);
-        });
-
-        exploreia.onBackButtonClick(function (server, path) {
+        exploreia.onChange(function (server, path) {
             connection.invoke('ListServerDirectory', server, path);
         });
 
