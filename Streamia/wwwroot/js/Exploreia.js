@@ -29,7 +29,11 @@
         exBackButton.classList.add('btn', 'btn-secondary', 'ex-hidden');
         exBackButton.innerHTML = '<i class="fa fa-arrow-left"></i> Back';
         exLoader.appendChild(exLoaderIcon);
-        exServerDropdown.innerHTML = exServers;
+
+        exServers.forEach(server => {
+            exServerDropdown.appendChild(server);
+        });
+
         exServerList.appendChild(exServerDropdown);
         exButtons.appendChild(exBackButton);
         exContent.appendChild(exLoader);
@@ -123,13 +127,18 @@
     }
 
     renderServerList(serverList) {
-        let serverListTemplate = '<option value="0">-- Select Server --</option>';
+        let serverListOptions = [];
+        let option = document.createElement('option');
+        option.value = 0;
+        option.innerHTML = '-- Select Server --';
+        serverListOptions.push(option);
         serverList.forEach(server => {
-            serverListTemplate += `
-                <option value="${server.id}">${server.name}</option>
-            `;
+            let serverOption = document.createElement('option');
+            serverOption.value = server.id;
+            serverOption.innerHTML = server.name;
+            serverListOptions.push(serverOption);
         });
-        return serverListTemplate;
+        return serverListOptions;
     }
 
     renderDirectories(directories) {
@@ -259,7 +268,9 @@
     onAbort(callback) {
         let self = this;
         window.onbeforeunload = function () {
-            callback(self.currentServer);
+            if (self.currentServer > 0) {
+                callback(self.currentServer);
+            }
         }
     }
 }
