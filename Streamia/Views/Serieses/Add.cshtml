@@ -111,7 +111,7 @@
 
         exploreia.onPickButtonClick(function (files) {
             let season = $(`#season-${currentSelectedSeason}`);
-            season.append('<span class="text-success">${files.length}</span> episodes selected');
+            season.append(`<span class="text-success">${files.length}</span> episodes selected`);
             files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
                 console.log(fullFilePath);
