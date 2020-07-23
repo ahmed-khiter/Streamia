@@ -101,7 +101,9 @@
         });
 
         exploreia.onChange(function (server, path) {
-            connection.invoke('ListServerDirectory', server, path);
+            connection.invoke('ListServerDirectory', server, path).cath(() => {
+                exploreia.onError();
+            });
         });
 
         exploreia.onPickButtonClick(function (files) {
@@ -109,7 +111,9 @@
         });
 
         exploreia.onAbort(function (server) {
-            connection.invoke('DisposeConnection', server);
+            connection.invoke('DisposeConnection', server).cath(() => {
+                exploreia.onError();
+            });
         });
 
         window.addEventListener('load', function () {

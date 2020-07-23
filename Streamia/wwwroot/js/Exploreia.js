@@ -296,6 +296,15 @@
         }
     }
 
+    onError() {
+        this.toggleLoader(false);
+        this.reset();
+        this.resetFiles();
+        this.toggleButtons();
+        this.resetFolders();
+        alert('Explorer Error: Server communication failed or interrupted');
+    }
+
     onAbort(callback) {
         let self = this;
         window.onbeforeunload = function () {
