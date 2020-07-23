@@ -101,6 +101,10 @@
             connection.invoke('ListServerDirectory', server, path);
         });
 
+        exploreia.onBackButtonClick(function (server, path) {
+            connection.invoke('ListServerDirectory', server, path);
+        });
+
         window.addEventListener('load', function () {
 
             //$('select').select2({

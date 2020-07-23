@@ -6,6 +6,7 @@
         this.serverDropdown = null;
         this.folders = null;
         this.currentPath = null;
+        this.backButton = null;
         this.currentServer = 0;
     }
 
@@ -21,6 +22,7 @@
         let exCurrentPath = document.createElement('div');
         let exFolders = document.createElement('div');
         let exButtons = document.createElement('div');
+        let exBackButton = document.createElement('button');
 
         exTemplate.classList.add('ex-hidden');
         exLoader.classList.add('ex-loader', 'ex-hidden');
@@ -31,9 +33,12 @@
         exCurrentPath.classList.add('ex-current-path');
         exFolders.classList.add('ex-folders');
         exButtons.classList.add('ex-buttons');
+        exBackButton.classList.add('btn', 'btn-secondary', 'ex-hidden');
+        exBackButton.innerHTML = '<i class="fa fa-arrow-left"></i> Back';
         exLoader.appendChild(exLoaderIcon);
         exServerDropdown.innerHTML = exServers;
         exServerList.appendChild(exServerDropdown);
+        exButtons.appendChild(exBackButton);
         exContent.appendChild(exLoader);
         exContent.appendChild(exServerList);
         exContent.appendChild(exCurrentPath);
@@ -48,6 +53,7 @@
         this.serverDropdown = exServerDropdown;
         this.currentPath = exCurrentPath;
         this.folders = exFolders;
+        this.backButton = exBackButton;
     }
 
     renderStyle() {
@@ -191,7 +197,11 @@
     }
 
     toggleButtons() {
-
+        if (this.pathStack.length > 0) {
+            this.backButton.classList.remove('ex-hidden');
+        } else {
+            this.backButton.classList.add('ex-hidden');
+        }
     }
 
     updateCurrentPath() {
@@ -235,6 +245,15 @@
                     callback(self.currentServer, self.createPath());
                 }
             }
+        });
+    }
+
+    onBackButtonClick(callback) {
+        let self = this;
+        this.backButton.addEventListener('click', function () {
+            self.toggleLoader(true);
+            self.pathStack.pop();
+            callback(self.currentServer, self.createPath());
         });
     }
 }
