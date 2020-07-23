@@ -1,13 +1,6 @@
 ﻿class Exploreia {
     constructor() {
         this.pathStack = [];
-        this.explorer = null;
-        this.loader = null;
-        this.serverDropdown = null;
-        this.folders = null;
-        this.currentPath = null;
-        this.backButton = null;
-        this.currentServer = 0;
     }
 
     render(serverList) {
@@ -29,7 +22,7 @@
         exLoaderIcon.classList.add('fa', 'fa-fw', 'fa-pulse', 'fa-spinner', 'fa-3x');
         exContent.classList.add('ex-content');
         exServerList.classList.add('ex-server-list');
-        exServerDropdown.classList.add('ex-server-dropdown');
+        exServerDropdown.classList.add('ex-server-dropdown', 'form-control');
         exCurrentPath.classList.add('ex-current-path');
         exFolders.classList.add('ex-folders');
         exButtons.classList.add('ex-buttons');

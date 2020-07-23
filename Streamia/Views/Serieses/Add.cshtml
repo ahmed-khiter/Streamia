@@ -86,7 +86,7 @@
         const exploreia = new Exploreia();
         exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
 
-        var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
+        const connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
         connection.start();
 
         connection.on('DirectoryList', function (data) {
@@ -235,24 +235,6 @@
                 });
             }
 
-            $('body').on('click', '.server-directory', function () {
-                $('.loader').show();
-                $('.directory-browser-back-btn').hide();
-                pathStack.push($(this).attr('data-path'));
-                if (pathStack[pathStack.length - 1].split('.').length < 2) {
-                    connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
-                } else {
-                    let currentServer = $('#directory-browser-server').val();
-                    $('#Source').val(`${currentServer + createPath(pathStack)}`);
-                    resetBrowser();
-                }
-            });
-            $('.directory-browser-back-btn').on('click', function () {
-                $('.loader').show();
-                $(this).hide();
-                pathStack.pop();
-                connection.invoke('ListServerDirectory', parseInt($('#directory-browser-server').val()), createPath(pathStack));
-            });
             window.onbeforeunload = function () {
                 connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
             };
