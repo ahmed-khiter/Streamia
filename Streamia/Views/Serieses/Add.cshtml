@@ -76,13 +76,17 @@
     </button>
 </form>
 
-
 @section Scripts
 {
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
+    <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
+
+        const exploreia = new Exploreia();
+        exploreia.render([{id:1,name:"test"}]);
+
         $('select').select2({
             theme: 'bootstrap4'
         });
@@ -108,10 +112,10 @@
                         $('.api-search-dropdown').html('');
                         response.results.forEach(v => {
                             $('.api-search-dropdown').append(`
-                                <div class="api-search-result" data-id="${v.id}">
-                                    ${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})
-                                </div>
-                            `);
+                                        <div class="api-search-result" data-id="${v.id}">
+                                            ${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})
+                                        </div>
+                                    `);
                         });
                     });
                     timeout = null;
@@ -144,38 +148,38 @@
                     let seasonNumber = v.season_number;
                     if (seasonNumber > 0) {
                         $('#seasons-area').append(`
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
-                                            Season ${seasonNumber}
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
-                                    <div class="card-body">
-                                        <button type="button" class="main-btn browse">
-                                            <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
-                                        </button>
-                        `);
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">
+                                                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
+                                                    Season ${seasonNumber}
+                                                </button>
+                                            </h5>
+                                        </div>
+                                        <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
+                                            <div class="card-body">
+                                                <button type="button" class="main-btn browse">
+                                                    <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
+                                                </button>
+                                `);
                         for (let i = 0; i < v.episode_count; i++) {
                             let episodeNumber = i + 1;
                             $('#seasons-area').append(`
-                                <div id="${seasonNumber}_${episodeNumber}">
-                                    <input name="Episode.Season" value="${seasonNumber}" type="hidden" />
-                                    <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
-                                    <input name="Episode.Source" type="hidden" />
-                                    <input name="Episode.Name" type="hidden" />
-                                    <input name="Episode.PosterUrl" type="hidden" />
-                                    <input name="Episode.Overview" type="hidden" />
-                                    <input name="Episode.Cast" type="hidden" />
-                                    <input name="Episode.Director" type="hidden" />
-                                    <input name="Episode.Gener" type="hidden" />
-                                    <input name="Episode.ReleaseDate" type="hidden" />
-                                    <input name="Episode.Runtime" type="hidden" />
-                                    <input name="Episode.Rating" type="hidden" />
-                                </div>
-                            `);
+                                        <div id="${seasonNumber}_${episodeNumber}">
+                                            <input name="Episode.Season" value="${seasonNumber}" type="hidden" />
+                                            <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
+                                            <input name="Episode.Source" type="hidden" />
+                                            <input name="Episode.Name" type="hidden" />
+                                            <input name="Episode.PosterUrl" type="hidden" />
+                                            <input name="Episode.Overview" type="hidden" />
+                                            <input name="Episode.Cast" type="hidden" />
+                                            <input name="Episode.Director" type="hidden" />
+                                            <input name="Episode.Gener" type="hidden" />
+                                            <input name="Episode.ReleaseDate" type="hidden" />
+                                            <input name="Episode.Runtime" type="hidden" />
+                                            <input name="Episode.Rating" type="hidden" />
+                                        </div>
+                                    `);
                         }
                         $('#seasons-area').append('</div></div></div>');
                     }
@@ -188,22 +192,13 @@
                 $('#Cast').val(cast.join(','));
                 $('#ReleaseDate').val(response.first_air_date);
                 $('#Director').val(director);
-                //$.ajax({
-                //    async: true,
-                //    data: $('#series-form').serialize(),
-                //    type: 'POST',
-                //    url: '/Serieses/AddEpisode',
-                //    success: function (view) {
-                //        $('#seasons-area').html(view);
-                //    }
-                //});
             });
         });
 
         function TMDB(type, id, apiKey, appendToResponse, callback) {
             $.ajax({
                 type: 'GET',
-                url: `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&language=en-US${appendToResponse != null ? '&append_to_response=' + appendToResponse : '' }`,
+                url: `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&language=en-US${appendToResponse != null ? '&append_to_response=' + appendToResponse : ''}`,
                 success: function (response) {
                     callback(response);
                 }
@@ -220,28 +215,10 @@
             });
         }
     </script>
-            @*
+    @*
             window.addEventListener('load', function () {
                 var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
-                var pathStack = [];
-
-                function createPath(stack) {
-                    if (stack.length === 0) {
-                        return '/';
-                    }
-                    return '/' + stack.join('/');
-                }
-
-                function prepareFiles(path) {
-                    if (path.slice(-1) == '/') {
-                        return path.slice(0, path.length - 1);
-                    }
-                    return path;
-                }
-
-                function isDirectory(path) {
-                    return path.slice(-1) == '/';
-                }
+                connection.start();
 
                 function resetBrowser() {
                     $('.modal').modal('hide');
@@ -301,7 +278,7 @@
                 window.onbeforeunload = function () {
                     connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
                 };
-                connection.start();
+
             });
         </script>*@
 }
