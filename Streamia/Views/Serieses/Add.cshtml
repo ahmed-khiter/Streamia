@@ -111,11 +111,11 @@
 
         exploreia.onPickButtonClick(function (files) {
             console.warn(files);
-            files.forEach(file => {
+            files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
                 console.log(fullFilePath);
+                $(`${currentSelectedSeason}_${i + 1} [name="Episode.Source"]`).val(fullFilePath);
             });
-            //$(`${currentSelectedSeason}`)
             exploreia.close();
         });
 
