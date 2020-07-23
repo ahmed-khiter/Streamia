@@ -110,13 +110,17 @@
         });
 
         exploreia.onPickButtonClick(function (files) {
-            console.warn(files);
+            let season = $(`#season-${currentSelectedSeason}`);
+            season.append('<span class="text-success">${files.length}</span> episodes selected');
             files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
                 console.log(fullFilePath);
                 $(`#${currentSelectedSeason}_${i + 1} [name="Episode.Source"]`).val(fullFilePath);
             });
             exploreia.close();
+            if (files.length < currentSelectedSeasonEpisodeCount) {
+                season.append('<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> Please note that selected episodes count are not the same as this season epiosdes count</div>');
+            }
         });
 
         exploreia.onAbort(function (server) {
@@ -195,7 +199,7 @@
                                             <div class="card-header">
                                                 <h5 class="mb-0">
                                                     <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
-                                                        Season ${seasonNumber}
+                                                        Season ${seasonNumber} - ${episodeCount} Episodes
                                                     </button>
                                                 </h5>
                                             </div>
