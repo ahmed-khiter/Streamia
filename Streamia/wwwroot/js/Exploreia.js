@@ -2,30 +2,48 @@
     constructor() {
         this.pathStack = [];
         this.explorer = null;
+        this.loader = null;
+        this.serverDropdown = null;
+        this.folders = null;
     }
 
     render(serverList) {
         this.renderStyle();
-        let serverListTemplate = this.renderServerList(serverList);
-        let exploreiaTemplate = document.createElement('div');
-        exploreiaTemplate.id = 'exploreia';
-        exploreiaTemplate.classList.add('ex-hidden');
-        exploreiaTemplate.innerHTML += `
-            <div class="ex-content">
-                <div class="ex-loader"></div>
-                <div class="ex-server-list">
-                    <select class="ex-server-dropdown">
-                        <option value="0">-- Select Server --</option>
-                        ${serverListTemplate}
-                    </select>
-                </div>
-                <div class="ex-current-path"></div>
-                <div class="ex-folders"></div>
-                <div class="ex-buttons"></div>
-            </div>
-        `;
-        document.body.appendChild(exploreiaTemplate);
-        this.explorer = document.getElementById('exploreia');
+        let exServers = this.renderServerList(serverList);
+        let exTemplate = document.createElement('div');
+        let exLoader = document.createElement('div');
+        let exContent = document.createElement('div');
+        let exServerList = document.createElement('div');
+        let exServerDropdown = document.createElement('select');
+        let exCurrentPath = document.createElement('div');
+        let exFolders = document.createElement('div');
+        let exButtons = document.createElement('div');
+
+        exTemplate.classList.add('ex-hidden');
+        exLoader.classList.add('ex-loader');
+        exContent.classList.add('ex-content');
+        exServerList.classList.add('ex-server-list');
+        exServerDropdown.classList.add('ex-server-dropdown');
+        exCurrentPath.classList.add('ex-current-path');
+        exFolders.classList.add('ex-folders');
+        exButtons.classList.add('ex-buttons');
+        exServerDropdown.innerHTML = exServers;
+        exServerList.appendChild(exServerDropdown);
+        exContent.appendChild(exServerList);
+        exContent.appendChild(exCurrentPath);
+        exContent.appendChild(exFolders);
+        exContent.appendChild(exButtons);
+        exTemplate.appendChild(exLoader);
+        exTemplate.appendChild(exContent);
+        exTemplate.id = 'exploreia';
+
+        document.body.appendChild(exTemplate);
+        this.explorer = exTemplate;
+        this.loader = exLoader;
+        this.serverDropdown = exServerDropdown;
+        this.folders = exFolders;
+
+        this.prepareEvents();
     }
 
     renderStyle() {
@@ -90,7 +108,7 @@
     }
 
     renderServerList(serverList) {
-        let serverListTemplate = '';
+        let serverListTemplate = '<option value="0">-- Select Server --</option>';
         serverList.forEach(server => {
             serverListTemplate += `
                 <option value="${server.id}">${server.name}</option>
@@ -100,11 +118,29 @@
     }
 
     renderDirectories(directories) {
+        this.resetFolders();
         directories = directories.split(/\r?\n/g);
         directories.forEach(dir => {
             if (dir == '') {
                 return;
             }
+            let exEntry = document.createElement('div');
+            let exIcon = document.createElement('i');
+            let exFile = document.createElement('span');
+
+            icon.classList.add('fa');
+            if (this.isDirectory(dir)) {
+                exIcon.classList.add('fa-folder', 'text-warning');
+            } else {
+                exIcon.classList.add('fa-file-video-o', 'text-secondary');
+            }
+
+            exFile.innerHTML = this.prepareFiles(dir);
+            exEntry.classList.add('ex-entry');
+            exEntry.appendChild(exIcon);
+            exEntry.appendChild(exFile);
+
+            this.folders.appendChild(exEntry);
         });
     }
 
@@ -128,9 +164,9 @@
 
     toggleLoader(shouldShow) {
         if (shouldShow) {
-            this.explorer.querySelector('.ex-loader').classList.remove('ex-hidden');
+            this.loader.classList.remove('ex-hidden');
         } else {
-            this.explorer.querySelector('.ex-loader').classList.add('ex-hidden');
+            this.loader.classList.add('ex-hidden');
         }
     }
 
@@ -144,5 +180,9 @@
 
     reset() {
         this.pathStack = [];
+    }
+
+    resetFolders() {
+        this.folders.innerHTML = '';
     }
 }
