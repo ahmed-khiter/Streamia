@@ -87,6 +87,9 @@
             theme: 'bootstrap4'
         });
 
+        let currentSelectedSeason = null;
+        let currentSelectedSeasonEpisodeCount = null;
+
         const exploreia = new Exploreia({
             pickDirectory: true
         });
@@ -107,7 +110,13 @@
         });
 
         exploreia.onPickButtonClick(function (files) {
-            console.log(files);
+            console.warn(files);
+            files.forEach(file => {
+                let fullFilePath = exploreia.createFullServerFilePath(file);
+                console.log(fullFilePath);
+            });
+            //$(`${currentSelectedSeason}`)
+            exploreia.close();
         });
 
         exploreia.onAbort(function (server) {
@@ -117,7 +126,9 @@
         });
 
         function browse(seasonNumber, episodesCount) {
-            console.log(seasonNumber, episodesCount);
+            currentSelectedSeason = seasonNumber;
+            currentSelectedSeasonEpisodeCount = episodesCount;
+            exploreia.open();
         }
 
         window.addEventListener('load', function () {

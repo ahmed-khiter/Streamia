@@ -191,7 +191,11 @@
         if (this.pathStack.length === 0) {
             return '/';
         }
-        return '/' + this.pathStack.join('/');
+        return '/' + this.pathStack.join('/') + '/';
+    }
+
+    createFullServerFilePath(file) {
+        return this.currentServer + this.createPath() + file;
     }
 
     prepareFile(path) {
