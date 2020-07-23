@@ -111,7 +111,7 @@ textarea {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: linear-gradient(0deg, rgb(100, 40, 137) 0%, rgb(31, 6, 63) 49%, rgb(0, 0, 0) 100%);
+    background: linear-gradient(180grad, #642889 0%, #1f063f 49%);
     color: #fff;
     transition: all 0.3s;
     height: 100vh;
@@ -127,8 +127,6 @@ textarea {
 
 #sidebar .sidebar-header {
     padding: 10px;
-    background: #000;
-    border-bottom: 1px solid #555;
 }
 
 #sidebar ul.components {
@@ -147,14 +145,14 @@ textarea {
 }
 
 #sidebar ul li a:hover {
-    color: #7386D5;
-    background: #fff;
+    color: #000;
+    background-color: #ebd0fe;
 }
 
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
-    color: #fff;
-    background: linear-gradient(0deg, rgb(100, 40, 137) 0%, rgb(31, 6, 63) 49%, rgb(0, 0, 0) 100%);
+    color: #000;
+    background-color: #ebd0fe;
 }
 
 a[data-toggle="collapse"] {
@@ -172,7 +170,7 @@ a[data-toggle="collapse"] {
 ul ul a {
     font-size: 0.9em !important;
     padding-left: 30px !important;
-    background: #000;
+    background-color: #4e3262;
 }
 
 #content {
