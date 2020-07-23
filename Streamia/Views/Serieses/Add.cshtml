@@ -82,6 +82,7 @@
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
+    <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script>
         //$('select').select2({
         //    theme: 'bootstrap4'
@@ -89,6 +90,11 @@
 
         let currentSelectedSeason = null;
         let currentSelectedSeasonEpisodeCount = null;
+        let timeout = null;
+        let inputVal = null;
+        let episodesData = [];
+
+        const tmdb = new TMDB('415e9238d5188172426c3858b367e468');
 
         const exploreia = new Exploreia({
             pickDirectory: true
@@ -114,7 +120,6 @@
             season.append(`<span class="text-success">${files.length}</span> episodes selected`);
             files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
-                console.log(fullFilePath);
                 $(`#${currentSelectedSeason}_${i + 1} [name="Episode.Source"]`).val(fullFilePath);
             });
             exploreia.close();
@@ -135,133 +140,99 @@
             exploreia.open();
         }
 
-        window.addEventListener('load', function () {
+        $('#series-name').on('keyup', function () {
+            $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
 
-            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            inputVal = $(this).val();
 
-            elems.forEach(function (html) {
-                new Switchery(html);
-            });
-
-            var timeout = null;
-            var inputVal = null;
-            const API_KEY = '415e9238d5188172426c3858b367e468';
-
-            $('#series-name').on('keyup', function () {
-                $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
-
-                inputVal = $(this).val();
-
-                if (timeout === null) {
-                    timeout = setTimeout(function () {
-                        TMDBSearch('tv', inputVal, API_KEY, function (response) {
-                            $('.api-search-dropdown').html('');
-                            response.results.forEach(v => {
-                                $('.api-search-dropdown').append(`
-                                            <div class="api-search-result" data-id="${v.id}">
-                                                ${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})
-                                            </div>
-                                        `);
-                            });
+            if (timeout === null) {
+                timeout = setTimeout(function () {
+                    tmdb.search(inputVal, 'tv', function (response) {
+                        $('.api-search-dropdown').html('');
+                        response.results.forEach(v => {
+                            $('.api-search-dropdown').append(`
+                                <div class="api-search-result" data-id="${v.id}">
+                                    ${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})
+                                </div>
+                            `);
                         });
-                        timeout = null;
-                    }, 500);
+                    });
+                    timeout = null;
+                }, 500);
+            }
+
+        });
+
+        $('body').on('click', '.api-search-result', function () {
+            $('.api-search-dropdown').hide();
+            let id = $(this).data('id');
+            tmdb.find(`tv/${id}`, 'season,credits', function (response) {
+                let genres = [];
+                let cast = [];
+                let director = null;
+                response.genres.forEach(v => {
+                    genres.push(v.name);
+                });
+                response.credits.cast.forEach(v => {
+                    cast.push(v.name);
+                });
+                for (let v of response.credits.crew) {
+                    if (v.department === "Directing") {
+                        director = v.name;
+                        break;
+                    }
                 }
-
-            });
-
-            $('body').on('click', '.api-search-result', function () {
-                $('.api-search-dropdown').hide();
-                var id = $(this).data('id');
-                TMDB('tv', id, API_KEY, 'season,credits', function (response) {
-                    let genres = [];
-                    let cast = [];
-                    let director = null;
-                    response.genres.forEach(v => {
-                        genres.push(v.name);
-                    });
-                    response.credits.cast.forEach(v => {
-                        cast.push(v.name);
-                    });
-                    for (let v of response.credits.crew) {
-                        if (v.department === "Directing") {
-                            director = v.name;
-                            break;
-                        }
-                    }
-                    $('#hidden-inputs-area').html('');
-                    response.seasons.forEach(v => {
-                        let seasonNumber = v.season_number;
-                        let episodeCount = v.episode_count;
-                        if (seasonNumber > 0) {
+                $('#hidden-inputs-area').html('');
+                response.seasons.forEach(v => {
+                    let seasonNumber = v.season_number;
+                    let episodeCount = v.episode_count;
+                    if (seasonNumber > 0) {
+                        $('#seasons-area').append(`
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
+                                            Season ${seasonNumber} - ${episodeCount} Episodes
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
+                                    <div class="card-body">
+                                        <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
+                                            <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
+                                        </button>
+                        `);
+                        for (let i = 0; i < episodeCount; i++) {
+                            let episodeNumber = i + 1;
                             $('#seasons-area').append(`
-                                        <div class="card">
-                                            <div class="card-header">
-                                                <h5 class="mb-0">
-                                                    <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
-                                                        Season ${seasonNumber} - ${episodeCount} Episodes
-                                                    </button>
-                                                </h5>
-                                            </div>
-                                            <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
-                                                <div class="card-body">
-                                                    <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
-                                                        <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
-                                                    </button>
-                                    `);
-                            for (let i = 0; i < episodeCount; i++) {
-                                let episodeNumber = i + 1;
-                                $('#seasons-area').append(`
-                                            <div id="${seasonNumber}_${episodeNumber}">
-                                                <input name="Episode.Season" value="${seasonNumber}" type="hidden" />
-                                                <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
-                                                <input name="Episode.Source" type="hidden" />
-                                                <input name="Episode.Name" type="hidden" />
-                                                <input name="Episode.PosterUrl" type="hidden" />
-                                                <input name="Episode.Overview" type="hidden" />
-                                                <input name="Episode.Cast" type="hidden" />
-                                                <input name="Episode.Director" type="hidden" />
-                                                <input name="Episode.Gener" type="hidden" />
-                                                <input name="Episode.ReleaseDate" type="hidden" />
-                                                <input name="Episode.Runtime" type="hidden" />
-                                                <input name="Episode.Rating" type="hidden" />
-                                            </div>
-                                        `);
-                            }
-                            $('#seasons-area').append('</div></div></div>');
+                                <div id="${seasonNumber}_${episodeNumber}">
+                                    <input name="Episode.Season" value="${seasonNumber}" type="hidden" />
+                                    <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
+                                    <input name="Episode.Source" type="hidden" />
+                                    <input name="Episode.Name" type="hidden" />
+                                    <input name="Episode.PosterUrl" type="hidden" />
+                                    <input name="Episode.Overview" type="hidden" />
+                                    <input name="Episode.Cast" type="hidden" />
+                                    <input name="Episode.Director" type="hidden" />
+                                    <input name="Episode.Gener" type="hidden" />
+                                    <input name="Episode.ReleaseDate" type="hidden" />
+                                    <input name="Episode.Runtime" type="hidden" />
+                                    <input name="Episode.Rating" type="hidden" />
+                                </div>
+                            `);
                         }
-                    });
-                    $('#series-name').val(response.name);
-                    $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2${response.poster_path}`);
-                    $('#Overview').val(response.overview);
-                    $('#Rating').val(response.vote_average);
-                    $('#Gener').val(genres.join(','));
-                    $('#Cast').val(cast.join(','));
-                    $('#ReleaseDate').val(response.first_air_date);
-                    $('#Director').val(director);
+                        $('#seasons-area').append('</div></div></div>');
+                    }
                 });
+                $('#series-name').val(response.name);
+                $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2${response.poster_path}`);
+                $('#Overview').val(response.overview);
+                $('#Rating').val(response.vote_average);
+                $('#Gener').val(genres.join(','));
+                $('#Cast').val(cast.join(','));
+                $('#ReleaseDate').val(response.first_air_date);
+                $('#Director').val(director);
             });
-
-            function TMDB(type, id, apiKey, appendToResponse, callback) {
-                $.ajax({
-                    type: 'GET',
-                    url: `https://api.themoviedb.org/3/${type}/${id}?api_key=${apiKey}&language=en-US${appendToResponse != null ? '&append_to_response=' + appendToResponse : ''}`,
-                    success: function (response) {
-                        callback(response);
-                    }
-                });
-            }
-
-            function TMDBSearch(type, keyword, apiKey, callback) {
-                $.ajax({
-                    type: 'GET',
-                    url: `https://api.themoviedb.org/3/search/${type}?api_key=${apiKey}&query=${keyword}`,
-                    success: function (response) {
-                        callback(response);
-                    }
-                });
-            }
-
         });
     </script>
 }
