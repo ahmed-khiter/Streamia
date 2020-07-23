@@ -5,6 +5,7 @@
         this.loader = null;
         this.serverDropdown = null;
         this.folders = null;
+        this.currentPath = null;
     }
 
     render(serverList) {
@@ -44,6 +45,7 @@
         this.explorer = exTemplate;
         this.loader = exLoader;
         this.serverDropdown = exServerDropdown;
+        this.currentPath = exCurrentPath;
         this.folders = exFolders;
     }
 
@@ -134,27 +136,31 @@
         this.resetFolders();
         directories = directories.split(/\r?\n/g);
         directories.forEach(dir => {
-            if (dir == '') {
-                return;
+            if (dir != '') {
+                let exEntry = document.createElement('div');
+                let exIcon = document.createElement('i');
+                let exFile = document.createElement('span');
+
+                exIcon.classList.add('fa');
+                if (this.isDirectory(dir)) {
+                    exIcon.classList.add('fa-folder', 'text-warning');
+                } else {
+                    exIcon.classList.add('fa-file-video-o', 'text-secondary');
+                }
+
+                exFile.innerHTML = this.prepareFile(dir);
+                exEntry.classList.add('ex-entry');
+                exEntry.setAttribute('data-path', dir);
+                exEntry.appendChild(exIcon);
+                exEntry.append(' ');
+                exEntry.appendChild(exFile);
+
+                this.folders.appendChild(exEntry);
             }
-            let exEntry = document.createElement('div');
-            let exIcon = document.createElement('i');
-            let exFile = document.createElement('span');
-
-            icon.classList.add('fa');
-            if (this.isDirectory(dir)) {
-                exIcon.classList.add('fa-folder', 'text-warning');
-            } else {
-                exIcon.classList.add('fa-file-video-o', 'text-secondary');
-            }
-
-            exFile.innerHTML = this.prepareFiles(dir);
-            exEntry.classList.add('ex-entry');
-            exEntry.appendChild(exIcon);
-            exEntry.appendChild(exFile);
-
-            this.folders.appendChild(exEntry);
         });
+        this.toggleLoader(false);
+        this.updateCurrentPath();
+        this.toggleButtons();
     }
 
     createPath() {
@@ -164,7 +170,7 @@
         return '/' + this.pathStack.join('/');
     }
 
-    prepareFiles(path) {
+    prepareFile(path) {
         if (path.slice(-1) == '/') {
             return path.slice(0, path.length - 1);
         }
@@ -181,6 +187,14 @@
         } else {
             this.loader.classList.add('ex-hidden');
         }
+    }
+
+    toggleButtons() {
+
+    }
+
+    updateCurrentPath() {
+        this.currentPath.innerHTML = this.createPath();
     }
 
     open() {
@@ -200,9 +214,14 @@
     }
 
     onServerChange(callback) {
+        let self = this;
         this.serverDropdown.addEventListener('change', function () {
-            this.toggleLoader(true);
+            self.toggleLoader(true);
             callback(parseInt(this.value));
         });
+    }
+
+    onDirectoryChange(callback) {
+        let self = this;
     }
 }
