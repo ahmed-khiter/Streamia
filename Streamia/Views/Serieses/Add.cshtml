@@ -87,7 +87,10 @@
             theme: 'bootstrap4'
         });
 
-        const exploreia = new Exploreia();
+        const exploreia = new Exploreia({
+            pickDirectory: true
+        });
+
         exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
 
         const connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
@@ -99,6 +102,10 @@
 
         exploreia.onChange(function (server, path) {
             connection.invoke('ListServerDirectory', server, path);
+        });
+
+        exploreia.onPickButtonClick(function (files) {
+            console.log(files);
         });
 
         exploreia.onAbort(function (server) {

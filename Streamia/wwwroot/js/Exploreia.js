@@ -1,6 +1,8 @@
 ﻿class Exploreia {
-    constructor() {
+    constructor(options) {
         this.pathStack = [];
+        this.fileStack = [];
+        this.options = options;
     }
 
     render(serverList) {
@@ -16,6 +18,7 @@
         let exFolders = document.createElement('div');
         let exButtons = document.createElement('div');
         let exBackButton = document.createElement('button');
+        let exPickButton = null;
 
         exTemplate.classList.add('ex-hidden');
         exLoader.classList.add('ex-loader', 'ex-hidden');
@@ -28,6 +31,15 @@
         exButtons.classList.add('ex-buttons');
         exBackButton.classList.add('btn', 'btn-secondary', 'ex-hidden');
         exBackButton.innerHTML = '<i class="fa fa-arrow-left"></i> Back';
+
+        if (this.options.pickDirectory === true) {
+            exPickButton = document.createElement('button');
+            exPickButton.classList.add('main-btn', 'ex-hidden');
+            exPickButton.innerHTML = '<i class="fa fa-check"></i> Select this folder';
+            exButtons.appendChild(exPickButton);
+            this.pickButton = exPickButton;
+        }
+
         exLoader.appendChild(exLoaderIcon);
 
         exServers.forEach(server => {
@@ -143,21 +155,24 @@
 
     renderDirectories(directories) {
         this.resetFolders();
+        this.resetFiles();
         directories = directories.split(/\r?\n/g);
         directories.forEach(dir => {
             if (dir != '') {
+                let fileFolder = this.prepareFile(dir);
                 let exEntry = document.createElement('div');
                 let exIcon = document.createElement('i');
                 let exFile = document.createElement('span');
 
                 exIcon.classList.add('fa');
                 if (this.isDirectory(dir)) {
+                    this.fileStack.push(fileFolder);
                     exIcon.classList.add('fa-folder', 'text-warning');
                 } else {
                     exIcon.classList.add('fa-file-video-o', 'text-secondary');
                 }
 
-                exFile.innerHTML = this.prepareFile(dir);
+                exFile.innerHTML = fileFolder;
                 exEntry.classList.add('ex-entry');
                 exEntry.setAttribute('data-path', dir);
                 exEntry.appendChild(exIcon);
@@ -201,8 +216,10 @@
     toggleButtons() {
         if (this.pathStack.length > 0) {
             this.backButton.classList.remove('ex-hidden');
+            this.pickButton.classList.remove('ex-hidden');
         } else {
             this.backButton.classList.add('ex-hidden');
+            this.pickButton.classList.add('ex-hidden');
         }
     }
 
@@ -220,10 +237,15 @@
 
     reset() {
         this.pathStack = [];
+        this.fileStack = [];
     }
 
     resetFolders() {
         this.folders.innerHTML = '';
+    }
+
+    resetFiles() {
+        this.fileStack = [];
     }
 
     onChange(callback) {
@@ -263,6 +285,15 @@
             self.pathStack.pop();
             callback(self.currentServer, self.createPath());
         });
+    }
+
+    onPickButtonClick(callback) {
+        if (this.options.pickDirectory === true) {
+            let self = this;
+            this.pickButton.addEventListener('click', function () {
+                callback(self.fileStack);
+            });
+        }
     }
 
     onAbort(callback) {
