@@ -83,6 +83,10 @@
     <script src="~/lib/switchery/switchery.js"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
+        $('select').select2({
+            theme: 'bootstrap4'
+        });
+
         const exploreia = new Exploreia();
         exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
 
@@ -105,11 +109,11 @@
             connection.invoke('ListServerDirectory', server, path);
         });
 
-        window.addEventListener('load', function () {
+        exploreia.onAbort(function (server) {
+            connection.invoke('DisposeConnection', server);
+        });
 
-            //$('select').select2({
-            //    theme: 'bootstrap4'
-            //});
+        window.addEventListener('load', function () {
 
             var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
@@ -234,10 +238,6 @@
                     }
                 });
             }
-
-            window.onbeforeunload = function () {
-                connection.invoke('DisposeConnection', parseInt($('#directory-browser-server').val()));
-            };
 
         });
     </script>

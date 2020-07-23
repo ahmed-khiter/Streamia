@@ -249,4 +249,11 @@
             callback(self.currentServer, self.createPath());
         });
     }
+
+    onAbort(callback) {
+        let self = this;
+        window.onbeforeunload = function () {
+            callback(self.currentServer);
+        }
+    }
 }
