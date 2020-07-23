@@ -247,9 +247,9 @@
         document.addEventListener('click', function (e) {
             if (e.target && e.target.getAttribute('class') === 'ex-entry') {
                 let currentPath = e.target.getAttribute('data-path');
-                self.toggleLoader(true);
-                self.pathStack.push(self.prepareFile(currentPath));
                 if (self.isDirectory(currentPath)) {
+                    self.toggleLoader(true);
+                    self.pathStack.push(self.prepareFile(currentPath));
                     callback(self.currentServer, self.createPath());
                 }
             }
