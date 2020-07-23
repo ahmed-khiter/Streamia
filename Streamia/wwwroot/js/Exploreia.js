@@ -166,9 +166,9 @@
 
                 exIcon.classList.add('fa');
                 if (this.isDirectory(dir)) {
-                    this.fileStack.push(fileFolder);
                     exIcon.classList.add('fa-folder', 'text-warning');
                 } else {
+                    this.fileStack.push(fileFolder);
                     exIcon.classList.add('fa-file-video-o', 'text-secondary');
                 }
 

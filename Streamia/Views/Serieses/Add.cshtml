@@ -101,7 +101,7 @@
         });
 
         exploreia.onChange(function (server, path) {
-            connection.invoke('ListServerDirectory', server, path).cath(() => {
+            connection.invoke('ListServerDirectory', server, path).catch(() => {
                 exploreia.onError();
             });
         });
@@ -111,10 +111,14 @@
         });
 
         exploreia.onAbort(function (server) {
-            connection.invoke('DisposeConnection', server).cath(() => {
+            connection.invoke('DisposeConnection', server).catch(() => {
                 exploreia.onError();
             });
         });
+
+        function browse(seasonNumber, episodesCount) {
+            console.log(seasonNumber, episodesCount);
+        }
 
         window.addEventListener('load', function () {
 
@@ -173,6 +177,7 @@
                     $('#hidden-inputs-area').html('');
                     response.seasons.forEach(v => {
                         let seasonNumber = v.season_number;
+                        let episodeCount = v.episode_count;
                         if (seasonNumber > 0) {
                             $('#seasons-area').append(`
                                         <div class="card">
@@ -185,11 +190,11 @@
                                             </div>
                                             <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
                                                 <div class="card-body">
-                                                    <button type="button" class="main-btn browse">
+                                                    <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
                                                         <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
                                                     </button>
                                     `);
-                            for (let i = 0; i < v.episode_count; i++) {
+                            for (let i = 0; i < episodeCount; i++) {
                                 let episodeNumber = i + 1;
                                 $('#seasons-area').append(`
                                             <div id="${seasonNumber}_${episodeNumber}">
