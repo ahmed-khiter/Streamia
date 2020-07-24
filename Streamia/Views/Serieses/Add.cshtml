@@ -197,7 +197,6 @@
                                     <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
                                     <input name="Episode.Source" type="hidden" />
                                     <input name="Episode.Name" type="hidden" />
-                                    <input name="Episode.PosterUrl" type="hidden" />
                                     <input name="Episode.Overview" type="hidden" />
                                     <input name="Episode.Director" type="hidden" />
                                     <input name="Episode.ReleaseDate" type="hidden" />
@@ -212,7 +211,6 @@
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Overview"]`).val(episode.overview);
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Rating"]`).val(episode.vote_average);
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.ReleaseDate"]`).val(episode.air_date);
-                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.PosterUrl"]`).val(tmdb.generatePosterUrl(episode.still_path));
                                 for (let person of episode.crew) {
                                     if (person.department === "Directing") {
                                         $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Director"]`).val(person.name);

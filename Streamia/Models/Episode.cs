@@ -7,32 +7,8 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Episode : TMDBResult
+    public class Episode : BaseEntity
     {
-        [NotMapped]
-        public override string StreamKey { get; set; }
-
-        [NotMapped]
-        public override int CategoryId { get; set; }
-
-        [NotMapped]
-        public override List<int> BouquetIds { get; set; }
-
-        [NotMapped]
-        public override Category Category { get; set; }
-
-        [NotMapped]
-        public override StreamState State { get; set; }
-
-        [NotMapped]
-        public override string Cast { get; set; }
-
-        [NotMapped]
-        public override string Gener { get; set; }
-
-        [NotMapped]
-        public override int Runtime { get; set; }
-
         public int SeriesId { get; set; }
         public int Number { get; set; }
         public int Season { get; set; }
