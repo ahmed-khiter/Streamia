@@ -163,18 +163,18 @@
             tmdb.find(`tv/${id}`, 'season,credits', function (response) {
                 let genres = [];
                 let cast = [];
+                let globalEpisodeIndexer = 0;
                 response.genres.forEach(v => {
                     genres.push(v.name);
                 });
                 response.credits.cast.forEach(v => {
                     cast.push(v.name);
                 });
-                $('#hidden-inputs-area').html('');
                 response.seasons.forEach(v => {
                     let seasonNumber = v.season_number;
                     let episodeCount = v.episode_count;
                     if (seasonNumber > 0) {
-                        $('#seasons-area').append(`
+                        let template = `
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="mb-0">
@@ -188,23 +188,25 @@
                                         <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
                                             <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
                                         </button>
-                        `);
+                        `;
                         for (let i = 0; i < episodeCount; i++) {
                             let episodeNumber = i + 1;
-                            $('#seasons-area').append(`
+                            template += `
                                 <div id="${seasonNumber}_${episodeNumber}">
-                                    <input name="Episodes[${i}].Season" value="${seasonNumber}" type="hidden" />
-                                    <input name="Episodes[${i}].Number" value="${episodeNumber}" type="hidden" />
-                                    <input class="source" name="Episodes[${i}].Source" type="hidden" />
-                                    <input class="name" name="Episodes[${i}].Name" type="hidden" />
-                                    <input class="overview" name="Episodes[${i}].Overview" type="hidden" />
-                                    <input class="director" name="Episodes[${i}].Director" type="hidden" />
-                                    <input class="release-date" name="Episodes[${i}].ReleaseDate" type="hidden" />
-                                    <input class="rating" name="Episodes[${i}].Rating" type="hidden" />
+                                    <input name="Episodes[${globalEpisodeIndexer}].Season" value="${seasonNumber}" type="hidden" />
+                                    <input name="Episodes[${globalEpisodeIndexer}].Number" value="${episodeNumber}" type="hidden" />
+                                    <input class="source" name="Episodes[${globalEpisodeIndexer}].Source" type="hidden" />
+                                    <input class="name" name="Episodes[${globalEpisodeIndexer}].Name" type="hidden" />
+                                    <input class="overview" name="Episodes[${globalEpisodeIndexer}].Overview" type="hidden" />
+                                    <input class="director" name="Episodes[${globalEpisodeIndexer}].Director" type="hidden" />
+                                    <input class="release-date" name="Episodes[${globalEpisodeIndexer}].ReleaseDate" type="hidden" />
+                                    <input class="rating" name="Episodes[${globalEpisodeIndexer}].Rating" type="hidden" />
                                 </div>
-                            `);
+                            `;
+                            globalEpisodeIndexer++;
                         }
-                        $('#seasons-area').append('</div></div></div>');
+                        template += '</div></div></div>';
+                        $('#seasons-area').append(template);
                         tmdb.find(`tv/${id}/season/${seasonNumber}`, '', function (data) {
                             data.episodes.forEach(episode => {
                                 let episodeNumber = episode.episode_number;
