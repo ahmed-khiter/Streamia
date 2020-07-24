@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -40,7 +39,51 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Series model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                foreach (var bouquetId in model.BouquetIds)
+                {
+                    model.BouquetSeries.Add(new BouquetSeries
+                    {
+                        BouquetId = bouquetId,
+                        SeriesId = model.Id
+                    });
+                }
+
+                for (int i = 0; i < model.Episodes.Count; i++)
+                {
+                    model.Episodes[i].SeriesId = model.Id;
+
+                    if (model.Episodes[i].Source != null)
+                    {
+                        var sourceComponents = model.Episodes[i].Source.Split('/');
+
+                        if (int.TryParse(sourceComponents[0], out int serverId))
+                        {
+                            model.SeriesServers.Add(new SeriesServer
+                            {
+                                SeriesId = model.Id,
+                                ServerId = serverId
+                            });
+                            sourceComponents[0] = string.Empty;
+                            model.Episodes[i].Source = string.Join('/', sourceComponents);
+                        }
+                    }
+
+                }
+
+                await seriesRepository.Add(model);
+                return RedirectToAction(nameof(Manage));
+            }
+            await PrepareViewBag();
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Manage()
+        {
+            var model = await seriesRepository.GetAll(new string[] { "Category" });
+            return View(model);
         }
 
         private async Task PrepareViewBag()

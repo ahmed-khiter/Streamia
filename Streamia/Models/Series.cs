@@ -11,7 +11,7 @@ namespace Streamia.Models
     {
         public ICollection<BouquetSeries> BouquetSeries { get; set; }
         public ICollection<SeriesServer> SeriesServers { get; set; }
-        public ICollection<Episode> Episodes { get; set; }
+        public List<Episode> Episodes { get; set; }
 
         [NotMapped]
         public override int Runtime { get; set; }
