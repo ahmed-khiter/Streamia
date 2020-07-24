@@ -225,6 +225,12 @@
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Rating"]`).val(episode.vote_average);
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.ReleaseDate"]`).val(episode.air_date);
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.PosterUrl"]`).val(tmdb.generatePosterUrl(episode.still_path));
+                                for (let person of episode.crew) {
+                                    if (person.department === "Directing") {
+                                        $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Director"]`).val(person.name);
+                                        break;
+                                    }
+                                }
                             });
                         });
                     }
