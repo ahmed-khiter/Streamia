@@ -163,19 +163,12 @@
             tmdb.find(`tv/${id}`, 'season,credits', function (response) {
                 let genres = [];
                 let cast = [];
-                let director = null;
                 response.genres.forEach(v => {
                     genres.push(v.name);
                 });
                 response.credits.cast.forEach(v => {
                     cast.push(v.name);
                 });
-                for (let v of response.credits.crew) {
-                    if (v.department === "Directing") {
-                        director = v.name;
-                        break;
-                    }
-                }
                 $('#hidden-inputs-area').html('');
                 response.seasons.forEach(v => {
                     let seasonNumber = v.season_number;
@@ -237,7 +230,6 @@
                 $('#Gener').val(genres.join(','));
                 $('#Cast').val(cast.join(','));
                 $('#ReleaseDate').val(response.first_air_date);
-                $('#Director').val(director);
             });
         });
     </script>
