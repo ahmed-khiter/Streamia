@@ -219,7 +219,7 @@
                         }
                         $('#seasons-area').append('</div></div></div>');
                         tmdb.find(`tv/${id}/season/${seasonNumber}`, '', function (data) {
-                            data.episoes.forEach(episode => {
+                            data.episodes.forEach(episode => {
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Name"]`).val(episode.name);
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Overview"]`).val(episode.overview);
                                 $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Rating"]`).val(episode.vote_average);
