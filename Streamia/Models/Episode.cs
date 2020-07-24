@@ -24,6 +24,15 @@ namespace Streamia.Models
         [NotMapped]
         public override StreamState State { get; set; }
 
+        [NotMapped]
+        public override string Cast { get; set; }
+
+        [NotMapped]
+        public override string Gener { get; set; }
+
+        [NotMapped]
+        public override int Runtime { get; set; }
+
         public int SeriesId { get; set; }
         public int Number { get; set; }
         public int Season { get; set; }

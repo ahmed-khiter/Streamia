@@ -92,7 +92,6 @@
         let currentSelectedSeasonEpisodeCount = null;
         let timeout = null;
         let inputVal = null;
-        let episodesData = [];
 
         const tmdb = new TMDB('415e9238d5188172426c3858b367e468');
 
@@ -212,20 +211,26 @@
                                     <input name="Episode.Name" type="hidden" />
                                     <input name="Episode.PosterUrl" type="hidden" />
                                     <input name="Episode.Overview" type="hidden" />
-                                    <input name="Episode.Cast" type="hidden" />
                                     <input name="Episode.Director" type="hidden" />
-                                    <input name="Episode.Gener" type="hidden" />
                                     <input name="Episode.ReleaseDate" type="hidden" />
-                                    <input name="Episode.Runtime" type="hidden" />
                                     <input name="Episode.Rating" type="hidden" />
                                 </div>
                             `);
                         }
                         $('#seasons-area').append('</div></div></div>');
+                        tmdb.find(`tv/${id}/season/${seasonNumber}`, '', function (data) {
+                            data.episoes.forEach(episode => {
+                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Name"]`).val(episode.name);
+                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Overview"]`).val(episode.overview);
+                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Rating"]`).val(episode.vote_average);
+                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.ReleaseDate"]`).val(episode.air_date);
+                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.PosterUrl"]`).val(tmdb.generatePosterUrl(episode.still_path));
+                            });
+                        });
                     }
                 });
                 $('#series-name').val(response.name);
-                $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2${response.poster_path}`);
+                $('#PosterUrl').val(tmdb.generatePosterUrl(response.poster_path));
                 $('#Overview').val(response.overview);
                 $('#Rating').val(response.vote_average);
                 $('#Gener').val(genres.join(','));
