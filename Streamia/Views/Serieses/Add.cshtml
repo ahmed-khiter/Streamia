@@ -63,8 +63,7 @@
             <span class="text-danger" asp-validation-for="BouquetIds"></span>
         </div>
     </div>
-    <div id="seasons-area">
-    </div>
+    <div id="seasons-area"></div>
     <hr />
     <button class="btn btn-success">
         <i class="fa fa-plus"></i> Add
@@ -114,7 +113,8 @@
             season.append(`<span class="text-success">${files.length}</span> episodes selected`);
             files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
-                $(`#${currentSelectedSeason}_${i + 1} [name="Episode.Source"]`).val(fullFilePath);
+                let episodeNumber = i + 1;
+                $(`#${currentSelectedSeason}_${episodeNumber} .source`).val(fullFilePath);
             });
             exploreia.close();
             if (files.length < currentSelectedSeasonEpisodeCount) {
@@ -193,27 +193,28 @@
                             let episodeNumber = i + 1;
                             $('#seasons-area').append(`
                                 <div id="${seasonNumber}_${episodeNumber}">
-                                    <input name="Episode.Season" value="${seasonNumber}" type="hidden" />
-                                    <input name="Episode.Number" value="${episodeNumber}" type="hidden" />
-                                    <input name="Episode.Source" type="hidden" />
-                                    <input name="Episode.Name" type="hidden" />
-                                    <input name="Episode.Overview" type="hidden" />
-                                    <input name="Episode.Director" type="hidden" />
-                                    <input name="Episode.ReleaseDate" type="hidden" />
-                                    <input name="Episode.Rating" type="hidden" />
+                                    <input name="Episodes[${i}].Season" value="${seasonNumber}" type="hidden" />
+                                    <input name="Episodes[${i}].Number" value="${episodeNumber}" type="hidden" />
+                                    <input class="source" name="Episodes[${i}].Source" type="hidden" />
+                                    <input class="name" name="Episodes[${i}].Name" type="hidden" />
+                                    <input class="overview" name="Episodes[${i}].Overview" type="hidden" />
+                                    <input class="director" name="Episodes[${i}].Director" type="hidden" />
+                                    <input class="release-date" name="Episodes[${i}].ReleaseDate" type="hidden" />
+                                    <input class="rating" name="Episodes[${i}].Rating" type="hidden" />
                                 </div>
                             `);
                         }
                         $('#seasons-area').append('</div></div></div>');
                         tmdb.find(`tv/${id}/season/${seasonNumber}`, '', function (data) {
                             data.episodes.forEach(episode => {
-                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Name"]`).val(episode.name);
-                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Overview"]`).val(episode.overview);
-                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Rating"]`).val(episode.vote_average);
-                                $(`#${seasonNumber}_${episode.episode_number} [name="Episode.ReleaseDate"]`).val(episode.air_date);
+                                let episodeNumber = episode.episode_number;
+                                $(`#${seasonNumber}_${episodeNumber} .name`).val(episode.name);
+                                $(`#${seasonNumber}_${episodeNumber} .overview`).val(episode.overview);
+                                $(`#${seasonNumber}_${episodeNumber} .rating`).val(episode.vote_average);
+                                $(`#${seasonNumber}_${episodeNumber} .release-date`).val(episode.air_date);
                                 for (let person of episode.crew) {
                                     if (person.department === "Directing") {
-                                        $(`#${seasonNumber}_${episode.episode_number} [name="Episode.Director"]`).val(person.name);
+                                        $(`#${seasonNumber}_${episodeNumber} .director`).val(person.name);
                                         break;
                                     }
                                 }

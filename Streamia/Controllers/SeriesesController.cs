@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -33,6 +34,12 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Add()
         {
             await PrepareViewBag();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(Series model)
+        {
             return View();
         }
 
