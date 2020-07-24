@@ -15,7 +15,7 @@ namespace Streamia.Models
         public string PosterUrl { get; set; }
         public string Overview { get; set; }
         public virtual string Cast { get; set; }
-        public string Director { get; set; }
+        public virtual string Director { get; set; }
         public virtual string Gener { get; set; }
 
         [Display(Name = "Release Date")]
