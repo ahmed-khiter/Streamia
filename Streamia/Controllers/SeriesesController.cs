@@ -15,18 +15,24 @@ namespace Streamia.Controllers
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Server> serverRepository;
+        private readonly IRepository<SeriesServer> seriesServerRepository;
+        private readonly IRepository<BouquetSeries> bouquetSeriesRepository;
 
         public SeriesesController(
             IRepository<Series> seriesRepository,
             IRepository<Bouquet> bouquetRepository,
             IRepository<Category> categoryRepository,
-            IRepository<Server> serverRepository
+            IRepository<Server> serverRepository,
+            IRepository<SeriesServer> seriesServerRepository,
+            IRepository<BouquetSeries> bouquetSeriesRepository
         )
         {
             this.seriesRepository = seriesRepository;
             this.bouquetRepository = bouquetRepository;
             this.categoryRepository = categoryRepository;
             this.serverRepository = serverRepository;
+            this.seriesServerRepository = seriesServerRepository;
+            this.bouquetSeriesRepository = bouquetSeriesRepository;
         }
 
         [HttpGet]
@@ -84,6 +90,15 @@ namespace Streamia.Controllers
             }
             await PrepareViewBag();
             return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await seriesServerRepository.Delete(m => m.SeriesId == id);
+            await bouquetSeriesRepository.Delete(m => m.SeriesId == id);
+            await seriesRepository.Delete(id);
+            return RedirectToAction(nameof(Manage));
         }
 
         [HttpGet]
