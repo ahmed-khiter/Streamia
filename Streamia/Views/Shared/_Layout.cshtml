@@ -148,7 +148,7 @@
                     </ul>
                 </li>
 
-                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin")) 
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                 {
                     <li>
                         <a asp-controller="settings" asp-action="general"><i class="fa fa-gears"></i> Settings</a>
@@ -183,8 +183,8 @@
                             <span class="profile-name">@profileName</span>
                             <img class="profile-picture" src="~/Pictures/@profilePicture" />
                             @*<a asp-controller="Account" asp-action="Logout" class="btn btn-danger">
-                                <i class="fa fa-close"></i> Logout
-                            </a>*@
+                                    <i class="fa fa-close"></i> Logout
+                                </a>*@
                         </li>
                     </ul>
                 </nav>
@@ -196,6 +196,8 @@
     </div>
 
     <script src="~/jquery/jquery.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/bootstrap/dist/js/bootstrap.js"></script>
 
     @if (IsSectionDefined("Scripts"))

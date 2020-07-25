@@ -37,7 +37,7 @@ namespace Streamia.Models
         public string EnigmaSID { get; set; }
 
         [Display(Name = "Minutes to Delay")]
-        public int MinuteDelay { get; set; }
+        public int MinuteDelay { get; set; } = 0;
 
         public ICollection<StreamServer> StreamServers { get; set; }
         public ICollection<BouquetStream> BouquetStreams { get; set; }

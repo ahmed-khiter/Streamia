@@ -32,8 +32,9 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+            Series model = new Series();
             await PrepareViewBag();
-            return View();
+            return View(model);
         }
 
         [HttpPost]
