@@ -14,7 +14,7 @@
     <div class="row">
         <div class="form-group col-md-3">
             <label asp-for="Name"></label>
-            <div class="api-search-container">
+            <div id="searchia">
                 <input asp-for="Name" id="movie-name" class="form-control" autocomplete="off" />
                 <div class="api-search-dropdown"></div>
             </div>
@@ -23,7 +23,7 @@
         <div class="form-group col-md-3">
             <label asp-for="Source"></label>
             <div class="directory-browser-container">
-                <input asp-for="Source" class="form-control" placeholder="URL or browse servers"/>
+                <input asp-for="Source" class="form-control" placeholder="URL or browse servers" />
                 <button type="button" class="directory-browser-btn main-btn" data-toggle="modal" data-target="#directory-browser">
                     <i class="fa fa-folder-open"></i>
                 </button>
@@ -111,12 +111,12 @@
                 <select id="directory-browser-server" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control mb-2">
                     <option value="0">-- Server to browse --</option>
                 </select>
-                <hr/>
+                <hr />
                 <div class="full-path"></div>
                 <div class="directory-browser-content">
                     <h3 class="text-secondary text-center">Files & Folders will show here</h3>
                 </div>
-                <hr/>
+                <hr />
                 <button class="btn btn-secondary directory-browser-back-btn">
                     <i class="fa fa-chevron-left"></i> Previous directory
                 </button>
@@ -130,19 +130,63 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
+    <script src="~/js/Searchia.js"></script>
+    <script src="~/js/TMDB.js"></script>
+    <script src="~/js/Exploreia.js"></script>
     <script>
+
+        let searchia = new Searchia();
+        let tmdb = new TMDB('415e9238d5188172426c3858b367e468');
+
+        searchia.onTyping(value => {
+            tmdb.search(value, 'movie', response => {
+                response.results.forEach(result => {
+                    searchia.onResult(result.id, `${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})`);
+                });
+            });
+        });
+
+        searchia.onResultClick(id => {
+            tmdb.find(`movie/${id}`, 'credits', function () {
+                let genres = [];
+                let cast = [];
+                let director = null;
+                response.genres.forEach(genre => {
+                    genres.push(genre.name);
+                });
+                response.credits.cast.forEach(credit => {
+                    cast.push(credit.name);
+                });
+                for (let person of response.credits.crew) {
+                    if (person.department === "Directing") {
+                        director = person.name;
+                        break;
+                    }
+                }
+                $('#movie-name').val(response.title);
+                $('#PosterUrl').val(tmdb.generatePosterUrl(response.poster_path));
+                $('#Overview').val(response.overview);
+                $('#Rating').val(response.vote_average);
+                $('#Runtime').val(response.runtime);
+                $('#Gener').val(genres.join(','));
+                $('#Cast').val(cast.join(','));
+                $('#ReleaseDate').val(response.release_date);
+                $('#Director').val(director);
+            });
+        });
+
         $('select').select2({
             theme: 'bootstrap4'
         });
 
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
         elems.forEach(function (html) {
             new Switchery(html);
         });
 
-        var timeout = null;
-        var inputVal = null;
+        let timeout = null;
+        let inputVal = null;
 
         $('#movie-name').on('keyup', function () {
             $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
@@ -206,10 +250,10 @@
                     $('.api-search-dropdown').html('');
                     response.results.forEach(v => {
                         $('.api-search-dropdown').append(`
-                            <div class="api-search-result" data-id="${v.id}">
-                                ${v.title} (${v.release_date ? v.release_date.split('-')[0] : ''})
-                            </div>
-                        `);
+                                        <div class="api-search-result" data-id="${v.id}">
+                                            ${v.title} (${v.release_date ? v.release_date.split('-')[0] : ''})
+                                        </div>
+                                    `);
                     });
                 }
             });
@@ -258,10 +302,10 @@
                 directories.forEach(v => {
                     if (v != '') {
                         $('.directory-browser-content').append(`
-                            <div class="server-directory" data-path="${prepareFiles(v)}">
-                                <i class="fa fa-${isDirectory(v) ? 'folder text-warning' : 'file-video-o text-secondary'}"></i> ${prepareFiles(v)}
-                            </div>
-                        `);
+                                        <div class="server-directory" data-path="${prepareFiles(v)}">
+                                            <i class="fa fa-${isDirectory(v) ? 'folder text-warning' : 'file-video-o text-secondary'}"></i> ${prepareFiles(v)}
+                                        </div>
+                                    `);
                     }
                 });
             });
