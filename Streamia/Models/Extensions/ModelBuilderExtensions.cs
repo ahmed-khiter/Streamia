@@ -44,7 +44,7 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ServerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // movie servers
+            // series servers
             modelBuilder.Entity<SeriesServer>().HasKey(m => new { m.SeriesId, m.ServerId });
             modelBuilder.Entity<SeriesServer>().Ignore(m => m.Id);
 

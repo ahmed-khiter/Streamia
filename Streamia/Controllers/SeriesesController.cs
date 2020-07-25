@@ -50,6 +50,8 @@ namespace Streamia.Controllers
                     });
                 }
 
+                List<int> serverIds = new List<int>();
+
                 for (int i = 0; i < model.Episodes.Count; i++)
                 {
                     model.Episodes[i].SeriesId = model.Id;
@@ -60,13 +62,17 @@ namespace Streamia.Controllers
 
                         if (int.TryParse(sourceComponents[0], out int serverId))
                         {
-                            model.SeriesServers.Add(new SeriesServer
+                            if (!serverIds.Contains(serverId))
                             {
-                                SeriesId = model.Id,
-                                ServerId = serverId
-                            });
+                                model.SeriesServers.Add(new SeriesServer
+                                {
+                                    SeriesId = model.Id,
+                                    ServerId = serverId
+                                });
+                            }
                             sourceComponents[0] = string.Empty;
                             model.Episodes[i].Source = string.Join('/', sourceComponents);
+                            serverIds.Add(serverId);
                         }
                     }
 
