@@ -110,8 +110,8 @@
     }
 
     <script>
-        $('#sidebar li a').each(function () {
-            if (window.location.pathname === $(this).attr('href')) {
+        $('#sidebar li a, .navigation-link').each(function () {
+            if (window.location.pathname.toLowerCase() === $(this).attr('href').toLowerCase()) {
                 $(this).addClass('active');
             }
         });
