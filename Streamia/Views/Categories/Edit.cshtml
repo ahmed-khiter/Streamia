@@ -1,14 +1,6 @@
 ﻿@model Category
 @{
-    ViewData["Title"] = "Add Category";
-    ViewData["Icon"] = "plus";
-}
-
-@if (ViewData["Success"] != null)
-{
-    <div class="alert alert-success">
-        <i class="fa fa-info-circle"></i> <strong>@ViewData["Success"]</strong>
-    </div>
+    ViewData["Title"] = "Edit Category";
 }
 
 <form method="post">
@@ -34,5 +26,3 @@
     </button>
 
 </form>
-
-
