@@ -116,7 +116,7 @@
     onResultClick(callback) {
         let self = this;
         document.addEventListener('click', function (e) {
-            if (e.target && e.target.classList.contains('searchia-result')) {
+            if (e.target && e.target.classList.contains('searchia-removable')) {
                 callback(e.target.getAttribute('data-id'));
                 self.toggleSearchDropdown(false);
             }
