@@ -6,13 +6,12 @@
         let searchiaInitialResult = document.createElement('div');
 
         searchiaDropdown.classList.add('searchia-dropdown', 'searchia-hidden');
-        searchiaInitialResult.classList.add('searchia-result', 'searchia-hidden');
+        searchiaInitialResult.classList.add('searchia-result', 'searchia-hidden', 'searchia-init');
         searchiaInitialResult.innerHTML = 'Searching...';
         searchiaDropdown.appendChild(searchiaInitialResult);
         searchia.appendChild(searchiaDropdown);
 
         this.searchia = searchia;
-        this.searchiaDropdown = searchiaDropdown;
         this.searchiaInitialResult = searchiaInitialResult;
         this.typingDelay = typingDelay || 500;
     }
@@ -60,22 +59,22 @@
 
     toggleSearchDropdown(shouldShow) {
         if (shouldShow) {
-            this.searchiaDropdown.classList.remove('searchia-hidden');
+            document.querySelector('.searchia-dropdown').classList.remove('searchia-hidden');
         } else {
-            this.searchiaDropdown.classList.add('searchia-hidden');
+            document.querySelector('.searchia-dropdown').classList.add('searchia-hidden');
         }
     }
 
     toggleSearchInitialResult(shouldShow) {
         if (shouldShow) {
-            this.searchiaInitialResult.classList.remove('searchia-hidden');
+            document.querySelector('.searchia-init').classList.remove('searchia-hidden');
         } else {
-            this.searchiaInitialResult.classList.add('searchia-hidden');
+            document.querySelector('.searchia-init').classList.add('searchia-hidden');
         }
     }
 
     resetResults() {
-        this.searchiaDropdown.querySelectorAll('.searchia-removable').forEach(removable => removable.remove());
+        document.querySelector('.searchia-dropdown').querySelectorAll('.searchia-removable').forEach(removable => removable.remove());
         this.toggleSearchInitialResult(true);
     }
 
@@ -110,7 +109,7 @@
         searchResult.classList.add('searchia-result', 'searchia-removable');
         searchResult.setAttribute('data-id', id);
         searchResult.innerHTML = text;
-        this.searchiaDropdown.appendChild(searchResult);
+        document.querySelector('.searchia-dropdown').appendChild(searchResult);
     }
 
     onResultClick(callback) {
