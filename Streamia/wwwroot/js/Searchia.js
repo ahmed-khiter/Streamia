@@ -2,7 +2,6 @@
     constructor(typingDelay) {
         this.renderStyle();
         let searchia = document.getElementById('searchia');
-        let input = searchia.querySelector('input');
         let searchiaDropdown = document.createElement('div');
         let searchiaInitialResult = document.createElement('div');
 
@@ -15,7 +14,6 @@
         this.searchia = searchia;
         this.searchiaDropdown = searchiaDropdown;
         this.searchiaInitialResult = searchiaInitialResult;
-        this.input = input;
         this.typingDelay = typingDelay || 500;
     }
 
@@ -91,15 +89,17 @@
 
     onTyping(callback) {
         let self = this;
-        this.input.addEventListener('keyup', function () {
-            let currentValue = this.value;
-            self.resetResults();
-            self.toggleSearchDropdown(true);
-            if (!self.timeout) {
-                self.setCallbackTimeout(() => {
-                    callback(currentValue);
-                    self.clearCallbackTimeout();
-                });
+        document.addEventListener('keyup', function (e) {
+            if (e.target && e.target.parentElement.id == 'searchia') {
+                let currentValue = e.target.value;
+                self.resetResults();
+                self.toggleSearchDropdown(true);
+                if (!self.timeout) {
+                    self.setCallbackTimeout(() => {
+                        callback(currentValue);
+                        self.clearCallbackTimeout();
+                    });
+                }
             }
         });
     }

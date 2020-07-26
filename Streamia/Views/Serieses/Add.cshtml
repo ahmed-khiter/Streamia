@@ -16,7 +16,7 @@
         <div class="form-group col-md-3">
             <label asp-for="Name"></label>
             <div id="searchia">
-                <input asp-for="Name" id="series-name" class="form-control" autocomplete="off" />
+                <input asp-for="Name" class="form-control" autocomplete="off" />
             </div>
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
@@ -162,7 +162,7 @@
                         });
                     }
                 });
-                $('#series-name').val(response.name);
+                $('#Name').val(response.name);
                 $('#PosterUrl').val(tmdb.generatePosterUrl(response.poster_path));
                 $('#Overview').val(response.overview);
                 $('#Rating').val(response.vote_average);
