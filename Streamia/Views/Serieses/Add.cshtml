@@ -78,9 +78,17 @@
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script>
-        //$('select').select2({
-        //    theme: 'bootstrap4'
-        //});
+        window.addEventListener('load', function () {
+            $('select').select2({
+                theme: 'bootstrap4'
+            });
+
+            let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+            elems.forEach(function (html) {
+                new Switchery(html);
+            });
+        });
 
         let currentSelectedSeason = null;
         let currentSelectedSeasonEpisodeCount = null;

@@ -246,10 +246,17 @@
 
     resetFolders() {
         this.folders.innerHTML = '';
+        this.currentPath.innerHTML = '';
     }
 
     resetFiles() {
         this.fileStack = [];
+    }
+
+    resetAll() {
+        this.reset();
+        this.resetFolders();
+        this.serverDropdown.value = 0;
     }
 
     onChange(callback) {
@@ -296,6 +303,18 @@
             let self = this;
             this.pickButton.addEventListener('click', function () {
                 callback(self.fileStack);
+            });
+        }
+    }
+
+    onFilePick(callback) {
+        if (this.options.pickFile === true) {
+            let self = this;
+            document.addEventListener('click', function (e) {
+                let path = e.target.getAttribute('data-path');
+                if (e.target && e.target.classList.contains('ex-entry') && !self.isDirectory(path)) {
+                    callback(self.createPath() + path);
+                }
             });
         }
     }

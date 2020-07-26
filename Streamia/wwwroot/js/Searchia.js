@@ -90,12 +90,11 @@
         let self = this;
         document.addEventListener('keyup', function (e) {
             if (e.target && e.target.parentElement.id == 'searchia') {
-                let currentValue = e.target.value;
                 self.resetResults();
                 self.toggleSearchDropdown(true);
                 if (!self.timeout) {
                     self.setCallbackTimeout(() => {
-                        callback(currentValue);
+                        callback(e.target.value);
                         self.clearCallbackTimeout();
                     });
                 }

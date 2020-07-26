@@ -250,54 +250,12 @@ ul ul a {
     right: 0;
 }
 
-/* Directory Browser */
-.directory-browser-container {
+.exploriable {
     position: relative;
 }
 
-.directory-browser-container .directory-browser-btn {
+.exploriable button {
     position: absolute;
     right: 0;
     top: 0;
 }
-
-.directory-browser-content {
-    height: 200px;
-    overflow-y: auto;
-}
-
-.directory-browser-content .server-directory {
-    padding: 15px 5px;
-    border-bottom: 1px solid #f1f1f1;
-    cursor: pointer;
-    transition: all .3s ease;
-}
-
-.directory-browser-content .server-directory:hover {
-    background-color: #f1f1f1;
-}
-
-.directory-browser-content .server-directory:last-child {
-    border-bottom: none;
-}
-
-.modal-body {
-    position: relative;
-}
-
-.directory-browser-back-btn {
-    display: none;
-}
-
-.loader {
-    display: none;
-    padding-top: 20%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
-    z-index: 9999;
-    background-color: rgba(255,255,255,.6);
-}
-
