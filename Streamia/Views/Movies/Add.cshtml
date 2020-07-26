@@ -15,8 +15,7 @@
         <div class="form-group col-md-3">
             <label asp-for="Name"></label>
             <div id="searchia">
-                <input asp-for="Name" id="movie-name" class="form-control" autocomplete="off" />
-                <div class="api-search-dropdown"></div>
+                <input asp-for="Name" class="form-control" autocomplete="off" />
             </div>
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
@@ -130,9 +129,9 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
-    <script src="~/js/Searchia.js"></script>
-    <script src="~/js/TMDB.js"></script>
-    <script src="~/js/Exploreia.js"></script>
+    <script src="~/js/Searchia.js" asp-append-version="true"></script>
+    <script src="~/js/TMDB.js" asp-append-version="true"></script>
+    <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
 
         let searchia = new Searchia();
@@ -141,13 +140,13 @@
         searchia.onTyping(value => {
             tmdb.search(value, 'movie', response => {
                 response.results.forEach(result => {
-                    searchia.onResult(result.id, `${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})`);
+                    searchia.onResult(result.id, `${result.title} (${result.release_date ? result.release_date.split('-')[0] : ''})`);
                 });
             });
         });
 
         searchia.onResultClick(id => {
-            tmdb.find(`movie/${id}`, 'credits', function () {
+            tmdb.find(`movie/${id}`, 'credits', response => {
                 let genres = [];
                 let cast = [];
                 let director = null;
@@ -163,7 +162,7 @@
                         break;
                     }
                 }
-                $('#movie-name').val(response.title);
+                $('#Name').val(response.title);
                 $('#PosterUrl').val(tmdb.generatePosterUrl(response.poster_path));
                 $('#Overview').val(response.overview);
                 $('#Rating').val(response.vote_average);
@@ -184,80 +183,6 @@
         elems.forEach(function (html) {
             new Switchery(html);
         });
-
-        let timeout = null;
-        let inputVal = null;
-
-        $('#movie-name').on('keyup', function () {
-            $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
-
-            inputVal = $(this).val();
-
-            if (timeout === null) {
-                timeout = setTimeout(function () {
-                    TMDBSearch(inputVal);
-                    timeout = null;
-                }, 500);
-            }
-
-        });
-
-        $('body').on('click', '.api-search-result', function () {
-            $('.api-search-dropdown').hide();
-            var movieId = $(this).data('id');
-            TMDBMovie(movieId);
-        });
-
-        function TMDBMovie(movieId) {
-            $.ajax({
-                type: 'GET',
-                url: `https://api.themoviedb.org/3/movie/${movieId}?api_key=415e9238d5188172426c3858b367e468&language=en-US&append_to_response=credits%2Cvideos`,
-                success: function (response) {
-                    console.log(response);
-                    let genres = [];
-                    let cast = [];
-                    let director = null;
-                    response.genres.forEach(v => {
-                        genres.push(v.name);
-                    });
-                    response.credits.cast.forEach(v => {
-                        cast.push(v.name);
-                    });
-                    for (let v of response.credits.crew) {
-                        if (v.department === "Directing") {
-                            director = v.name;
-                            break;
-                        }
-                    }
-                    $('#movie-name').val(response.title);
-                    $('#PosterUrl').val(`https://image.tmdb.org/t/p/w600_and_h900_bestv2/${response.poster_path}`);
-                    $('#Overview').val(response.overview);
-                    $('#Rating').val(response.vote_average);
-                    $('#Runtime').val(response.runtime);
-                    $('#Gener').val(genres.join(','));
-                    $('#Cast').val(cast.join(','));
-                    $('#ReleaseDate').val(response.release_date);
-                    $('#Director').val(director);
-                }
-            });
-        }
-
-        function TMDBSearch(keyword) {
-            $.ajax({
-                type: 'GET',
-                url: `https://api.themoviedb.org/3/search/movie?api_key=415e9238d5188172426c3858b367e468&query=${keyword}`,
-                success: function (response) {
-                    $('.api-search-dropdown').html('');
-                    response.results.forEach(v => {
-                        $('.api-search-dropdown').append(`
-                                        <div class="api-search-result" data-id="${v.id}">
-                                            ${v.title} (${v.release_date ? v.release_date.split('-')[0] : ''})
-                                        </div>
-                                    `);
-                    });
-                }
-            });
-        }
 
         window.addEventListener('load', function () {
             var connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();

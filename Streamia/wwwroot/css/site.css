@@ -250,39 +250,6 @@ ul ul a {
     right: 0;
 }
 
-/* API Search */
-.api-search-container {
-    position: relative;
-}
-
-.api-search-container .api-search-dropdown {
-    display: none;
-    position: absolute;
-    z-index: 9999;
-    left: 0;
-    right: 0;
-    background-color: #FFF;
-    border: 1px solid #f1f1f1;
-    max-height: 250px;
-    overflow-y: auto;
-}
-
-.api-search-container .api-search-dropdown .api-search-result {
-    font-size: 16px;
-    padding: 10px 5px;
-    border-bottom: 1px solid #f1f1f1;
-    cursor: pointer;
-    transition: all .4s ease;
-}
-
-.api-search-container .api-search-dropdown .api-search-result:last-child {
-    border-bottom: none;
-}
-
-.api-search-container .api-search-dropdown .api-search-result:hover {
-    background-color: #f1f1f1;
-}
-
 /* Directory Browser */
 .directory-browser-container {
     position: relative;
