@@ -53,8 +53,9 @@ textarea {
     height: 100vh;
 }
 
-#sidebar.active {
-    margin-left: -250px;
+#sidebar .active {
+    color: #000;
+    background-color: #ebd0fe;
 }
 
 #sidebar i {

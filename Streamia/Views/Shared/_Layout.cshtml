@@ -66,30 +66,14 @@
                 }
 
                 <li>
-                    <a href="#iptv-users" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <a asp-controller="iptvusers" asp-action="add">
                         <i class="fa fa-user"></i> IPTV Users
                     </a>
-                    <ul class="collapse list-unstyled" id="iptv-users">
-                        <li>
-                            <a asp-controller="iptvusers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
-                        </li>
-                        <li>
-                            <a asp-controller="iptvusers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
-                        </li>
-                    </ul>
                 </li>
                 <li>
-                    <a href="#resellers" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                    <a asp-controller="resellers" asp-action="add">
                         <i class="fa fa-users"></i> Resellers
                     </a>
-                    <ul class="collapse list-unstyled" id="resellers">
-                        <li>
-                            <a asp-controller="resellers" asp-action="add"><i class="fa fa-plus"></i> Add</a>
-                        </li>
-                        <li>
-                            <a asp-controller="resellers" asp-action="manage"><i class="fa fa-list"></i> Manage</a>
-                        </li>
-                    </ul>
                 </li>
 
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
@@ -124,6 +108,14 @@
     {
         @RenderSection("Scripts", required: true)
     }
+
+    <script>
+        $('#sidebar li a').each(function () {
+            if (window.location.pathname === $(this).attr('href')) {
+                $(this).addClass('active');
+            }
+        });
+    </script>
 </body>
 </html>
 
