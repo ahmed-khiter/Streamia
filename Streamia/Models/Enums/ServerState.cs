@@ -9,6 +9,8 @@ namespace Streamia.Models.Enums
     {
         PROCESSING,
         ONLINE,
-        OFFLINE
+        OFFLINE,
+        RESTARTING,
+        FAIL
     }
 }
