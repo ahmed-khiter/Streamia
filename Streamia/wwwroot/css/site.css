@@ -32,70 +32,6 @@ textarea {
     padding-left: 15px;
 }
 
-.menu-button {
-    display: none !important;
-    position: fixed !important;
-    top: 40px !important;
-    left: 40px !important;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 40px;
-    background: none;
-    border: solid 2px black;
-    border-radius: 5px;
-}
-
-.menu-icon {
-    display: flex;
-    flex-direction: column;
-    width: 40px;
-}
-
-.menu-text {
-    color: white;
-}
-
-.line-menu-icon {
-    width: 25px;
-    height: 2.5px;
-    background-color: white;
-    margin: 2px 0;
-    border-radius: 5px;
-}
-
-.navbar {
-    background: #fefeff;
-    border: none;
-}
-
-
-.page-title {
-    font-weight: 500;
-}
-
-.profile-container {
-    display: flex;
-    align-items: center;
-    margin-right: 15px;
-}
-
-.profile-picture {
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-}
-
-.profile-name {
-    font-size: 14px;
-    margin-right: 8px;
-}
-
-.notification-link {
-    font-size: 20px;
-}
-
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
@@ -194,7 +130,6 @@ ul ul a {
 
 .main-content {
     max-height: calc(100% - 80px);
-    margin-top: 25px;
     padding: 25px;
     background-color: #FFF;
     overflow-y: auto;
