@@ -134,8 +134,18 @@
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
 
-        let searchia = new Searchia();
-        let tmdb = new TMDB('415e9238d5188172426c3858b367e468');
+        $('select').select2({
+            theme: 'bootstrap4'
+        });
+
+        let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+
+        elems.forEach(function (html) {
+            new Switchery(html);
+        });
+
+        const searchia = new Searchia();
+        const tmdb = new TMDB('415e9238d5188172426c3858b367e468');
 
         searchia.onTyping(value => {
             tmdb.search(value, 'movie', response => {
@@ -172,16 +182,6 @@
                 $('#ReleaseDate').val(response.release_date);
                 $('#Director').val(director);
             });
-        });
-
-        $('select').select2({
-            theme: 'bootstrap4'
-        });
-
-        let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-        elems.forEach(function (html) {
-            new Switchery(html);
         });
 
         window.addEventListener('load', function () {

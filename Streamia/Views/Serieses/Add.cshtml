@@ -15,9 +15,8 @@
     <div class="row">
         <div class="form-group col-md-3">
             <label asp-for="Name"></label>
-            <div class="api-search-container">
+            <div id="searchia">
                 <input asp-for="Name" id="series-name" class="form-control" autocomplete="off" />
-                <div class="api-search-dropdown"></div>
             </div>
             <span class="text-danger" asp-validation-for="Name"></span>
         </div>
@@ -75,6 +74,7 @@
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/lib/switchery/switchery.js"></script>
+    <script src="~/js/Searchia.js" asp-append-version="true"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script>
@@ -84,10 +84,93 @@
 
         let currentSelectedSeason = null;
         let currentSelectedSeasonEpisodeCount = null;
-        let timeout = null;
-        let inputVal = null;
 
         const tmdb = new TMDB('415e9238d5188172426c3858b367e468');
+
+        const searchia = new Searchia();
+
+        searchia.onTyping(value => {
+            tmdb.search(value, 'tv', response => {
+                response.results.forEach(result => {
+                    searchia.onResult(result.id, `${result.name} (${result.first_air_date ? result.first_air_date.split('-')[0] : ''})`);
+                });
+            });
+        });
+
+        searchia.onResultClick(id => {
+            tmdb.find(`tv/${id}`, 'season,credits', response => {
+                let genres = [];
+                let cast = [];
+                let globalEpisodeIndexer = 0;
+                response.genres.forEach(genre => {
+                    genres.push(genre.name);
+                });
+                response.credits.cast.forEach(credit => {
+                    cast.push(credit.name);
+                });
+                response.seasons.forEach(season => {
+                    let seasonNumber = season.season_number;
+                    let episodeCount = season.episode_count;
+                    if (seasonNumber > 0) {
+                        let template = `
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
+                                            Season ${seasonNumber} - ${episodeCount} Episodes
+                                        </button>
+                                    </h5>
+                                </div>
+                                <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
+                                    <div class="card-body">
+                                        <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
+                                            <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
+                                        </button>
+                        `;
+                        for (let i = 0; i < episodeCount; i++) {
+                            let episodeNumber = i + 1;
+                            template += `
+                                <div id="${seasonNumber}_${episodeNumber}">
+                                    <input name="Episodes[${globalEpisodeIndexer}].Season" value="${seasonNumber}" type="hidden" />
+                                    <input name="Episodes[${globalEpisodeIndexer}].Number" value="${episodeNumber}" type="hidden" />
+                                    <input class="source" name="Episodes[${globalEpisodeIndexer}].Source" type="hidden" />
+                                    <input class="name" name="Episodes[${globalEpisodeIndexer}].Name" type="hidden" />
+                                    <input class="overview" name="Episodes[${globalEpisodeIndexer}].Overview" type="hidden" />
+                                    <input class="director" name="Episodes[${globalEpisodeIndexer}].Director" type="hidden" />
+                                    <input class="release-date" name="Episodes[${globalEpisodeIndexer}].ReleaseDate" type="hidden" />
+                                    <input class="rating" name="Episodes[${globalEpisodeIndexer}].Rating" type="hidden" />
+                                </div>
+                            `;
+                            globalEpisodeIndexer++;
+                        }
+                        template += '</div></div></div>';
+                        $('#seasons-area').append(template);
+                        tmdb.find(`tv/${id}/season/${seasonNumber}`, '', data => {
+                            data.episodes.forEach(episode => {
+                                let episodeNumber = episode.episode_number;
+                                $(`#${seasonNumber}_${episodeNumber} .name`).val(episode.name);
+                                $(`#${seasonNumber}_${episodeNumber} .overview`).val(episode.overview);
+                                $(`#${seasonNumber}_${episodeNumber} .rating`).val(episode.vote_average);
+                                $(`#${seasonNumber}_${episodeNumber} .release-date`).val(episode.air_date);
+                                for (let person of episode.crew) {
+                                    if (person.department === "Directing") {
+                                        $(`#${seasonNumber}_${episodeNumber} .director`).val(person.name);
+                                        break;
+                                    }
+                                }
+                            });
+                        });
+                    }
+                });
+                $('#series-name').val(response.name);
+                $('#PosterUrl').val(tmdb.generatePosterUrl(response.poster_path));
+                $('#Overview').val(response.overview);
+                $('#Rating').val(response.vote_average);
+                $('#Gener').val(genres.join(','));
+                $('#Cast').val(cast.join(','));
+                $('#ReleaseDate').val(response.first_air_date);
+            });
+        });
 
         const exploreia = new Exploreia({
             pickDirectory: true
@@ -133,105 +216,5 @@
             currentSelectedSeasonEpisodeCount = episodesCount;
             exploreia.open();
         }
-
-        $('#series-name').on('keyup', function () {
-            $('.api-search-dropdown').html('<div class="api-search-result">Searching...</div>').show();
-
-            inputVal = $(this).val();
-
-            if (timeout === null) {
-                timeout = setTimeout(function () {
-                    tmdb.search(inputVal, 'tv', function (response) {
-                        $('.api-search-dropdown').html('');
-                        response.results.forEach(v => {
-                            $('.api-search-dropdown').append(`
-                                <div class="api-search-result" data-id="${v.id}">
-                                    ${v.name} (${v.first_air_date ? v.first_air_date.split('-')[0] : ''})
-                                </div>
-                            `);
-                        });
-                    });
-                    timeout = null;
-                }, 500);
-            }
-
-        });
-
-        $('body').on('click', '.api-search-result', function () {
-            $('.api-search-dropdown').hide();
-            let id = $(this).data('id');
-            tmdb.find(`tv/${id}`, 'season,credits', function (response) {
-                let genres = [];
-                let cast = [];
-                let globalEpisodeIndexer = 0;
-                response.genres.forEach(v => {
-                    genres.push(v.name);
-                });
-                response.credits.cast.forEach(v => {
-                    cast.push(v.name);
-                });
-                response.seasons.forEach(v => {
-                    let seasonNumber = v.season_number;
-                    let episodeCount = v.episode_count;
-                    if (seasonNumber > 0) {
-                        let template = `
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
-                                            Season ${seasonNumber} - ${episodeCount} Episodes
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
-                                    <div class="card-body">
-                                        <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
-                                            <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
-                                        </button>
-                        `;
-                        for (let i = 0; i < episodeCount; i++) {
-                            let episodeNumber = i + 1;
-                            template += `
-                                <div id="${seasonNumber}_${episodeNumber}">
-                                    <input name="Episodes[${globalEpisodeIndexer}].Season" value="${seasonNumber}" type="hidden" />
-                                    <input name="Episodes[${globalEpisodeIndexer}].Number" value="${episodeNumber}" type="hidden" />
-                                    <input class="source" name="Episodes[${globalEpisodeIndexer}].Source" type="hidden" />
-                                    <input class="name" name="Episodes[${globalEpisodeIndexer}].Name" type="hidden" />
-                                    <input class="overview" name="Episodes[${globalEpisodeIndexer}].Overview" type="hidden" />
-                                    <input class="director" name="Episodes[${globalEpisodeIndexer}].Director" type="hidden" />
-                                    <input class="release-date" name="Episodes[${globalEpisodeIndexer}].ReleaseDate" type="hidden" />
-                                    <input class="rating" name="Episodes[${globalEpisodeIndexer}].Rating" type="hidden" />
-                                </div>
-                            `;
-                            globalEpisodeIndexer++;
-                        }
-                        template += '</div></div></div>';
-                        $('#seasons-area').append(template);
-                        tmdb.find(`tv/${id}/season/${seasonNumber}`, '', function (data) {
-                            data.episodes.forEach(episode => {
-                                let episodeNumber = episode.episode_number;
-                                $(`#${seasonNumber}_${episodeNumber} .name`).val(episode.name);
-                                $(`#${seasonNumber}_${episodeNumber} .overview`).val(episode.overview);
-                                $(`#${seasonNumber}_${episodeNumber} .rating`).val(episode.vote_average);
-                                $(`#${seasonNumber}_${episodeNumber} .release-date`).val(episode.air_date);
-                                for (let person of episode.crew) {
-                                    if (person.department === "Directing") {
-                                        $(`#${seasonNumber}_${episodeNumber} .director`).val(person.name);
-                                        break;
-                                    }
-                                }
-                            });
-                        });
-                    }
-                });
-                $('#series-name').val(response.name);
-                $('#PosterUrl').val(tmdb.generatePosterUrl(response.poster_path));
-                $('#Overview').val(response.overview);
-                $('#Rating').val(response.vote_average);
-                $('#Gener').val(genres.join(','));
-                $('#Cast').val(cast.join(','));
-                $('#ReleaseDate').val(response.first_air_date);
-            });
-        });
     </script>
 }
