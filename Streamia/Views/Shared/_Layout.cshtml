@@ -115,7 +115,7 @@
             let currentHref = $(this).attr('href').toLowerCase();
             if (
                 window.location.pathname.toLowerCase() === currentHref ||
-                currentHref.includes(urlPart)
+                (currentHref.includes(urlPart) && urlPart != '')
             ) {
                 $(this).addClass('active');
             }
