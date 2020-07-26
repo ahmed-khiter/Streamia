@@ -9,6 +9,7 @@
         this.renderStyle();
         let exServers = this.renderServerList(serverList);
         let exTemplate = document.createElement('div');
+        let exClose = document.createElement('button');
         let exLoader = document.createElement('div');
         let exLoaderIcon = document.createElement('i');
         let exContent = document.createElement('div');
@@ -19,8 +20,11 @@
         let exButtons = document.createElement('div');
         let exBackButton = document.createElement('button');
         let exPickButton = null;
+        let self = this;
 
         exTemplate.classList.add('ex-hidden');
+        exClose.classList.add('ex-close');
+        exClose.innerHTML = 'X'
         exLoader.classList.add('ex-loader', 'ex-hidden');
         exLoaderIcon.classList.add('fa', 'fa-fw', 'fa-pulse', 'fa-spinner', 'fa-3x');
         exContent.classList.add('ex-content');
@@ -46,6 +50,10 @@
             exServerDropdown.appendChild(server);
         });
 
+        exClose.addEventListener('click', function () {
+            self.close();
+        });
+
         exServerList.appendChild(exServerDropdown);
         exButtons.appendChild(exBackButton);
         exContent.appendChild(exLoader);
@@ -53,6 +61,7 @@
         exContent.appendChild(exCurrentPath);
         exContent.appendChild(exFolders);
         exContent.appendChild(exButtons);
+        exTemplate.appendChild(exClose);
         exTemplate.appendChild(exContent);
         exTemplate.id = 'exploreia';
 
@@ -80,6 +89,20 @@
 
                 .ex-hidden {
                     display: none;
+                }
+
+                #exploreia .ex-close {
+                    position: absolute;
+                    top: 25px;
+                    right: 25px;
+                    text-align: center;
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    color: #FFF;
+                    background-color: #F00;
+                    border: none;
+                    z-index: 99999;
                 }
 
                 #exploreia .ex-loader {
