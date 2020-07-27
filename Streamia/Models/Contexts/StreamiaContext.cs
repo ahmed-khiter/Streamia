@@ -45,6 +45,8 @@ namespace Streamia.Models.Contexts
 
         public DbSet<BouquetSeries> BouquetSeries { get; set; }
 
+        public DbSet<Transcode> Transcodes { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
