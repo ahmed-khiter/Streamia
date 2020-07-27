@@ -29,7 +29,7 @@
                     {
                         stateClass = "success";
                     }
-                    else if (server.ServerState == ServerState.OFFLINE)
+                    else if (server.ServerState == ServerState.OFFLINE || server.ServerState == ServerState.FAIL)
                     {
                         stateClass = "danger";
                     }
@@ -65,6 +65,9 @@
             } else if (data.state === 2) {
                 className = 'danger';
                 statusName = 'OFFLINE';
+            } else if (data.state === 3) {
+                className = 'danger';
+                statusName = 'FAIL';
             }
             $(`#${data.id}`).html(`<i class="fa fa-circle text-${className}"></i> ${statusName}`);
         });

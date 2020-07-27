@@ -10,7 +10,6 @@ namespace Streamia.Models.Enums
         PROCESSING,
         ONLINE,
         OFFLINE,
-        RESTARTING,
         FAIL
     }
 }
