@@ -166,5 +166,10 @@ namespace Streamia.Models.Extensions
                 }
             }
         }
+
+        public static void SeedTranscodes()
+        {
+
+        }
     }
 }
