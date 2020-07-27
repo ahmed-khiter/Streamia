@@ -1,0 +1,5 @@
+mkdir /etc/streamia ; \
+printf "" >> /etc/streamia/online ; \
+chmod +x /etc/streamia/online ; \
+printf "" >> /etc/streamia/restarting ; \
+chmod +x /etc/streamia/restarting ; \
