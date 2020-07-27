@@ -111,11 +111,15 @@ namespace Streamia.Controllers
             string serverCommands = await System.IO.File.ReadAllTextAsync("InstallScripts/server");
             string nginxConfig = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-config");
             string nginxService = await System.IO.File.ReadAllTextAsync("InstallScripts/nginx-service");
+            string streamiaService = await System.IO.File.ReadAllTextAsync("InstallScripts/streamia-service");
             nginxConfig = nginxConfig.Replace("MAX_CLIENTS", server.MaxClients.ToString());
             nginxConfig = nginxConfig.Replace("RTMP_PORT", server.RtmpPort.ToString());
+            streamiaService = streamiaService.Replace("DOMAIN", host);
+            streamiaService = streamiaService.Replace("SERVER_ID", server.Id.ToString());
             serverCommands = serverCommands.Replace("NGINX_CONFIG", nginxConfig);
             serverCommands = serverCommands.Replace("NGINX_SERVICE", nginxService);
             serverCommands = serverCommands.Replace("DOMAIN", host);
+            serverCommands = serverCommands.Replace("STREAMIA_SERVICE", streamiaService);
             serverCommands = serverCommands.Replace("SERVER_ID", server.Id.ToString());
             try
             {
