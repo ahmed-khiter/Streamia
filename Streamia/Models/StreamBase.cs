@@ -18,7 +18,6 @@ namespace Streamia.Models
         public virtual int CategoryId { get; set; }
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Transcode is required")]
         [Display(Name = "Transcode")]
         public virtual int TranscodeId { get; set; }
 

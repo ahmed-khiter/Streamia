@@ -45,6 +45,6 @@ namespace Streamia.Models
         [Display(Name= "Audio sample rate")]
         public string AudioSampleRate { get; set; }
 
-        public Hardware Hardware { get; set; }
+        public TranscodeHardware Hardware { get; set; }
     }
 }

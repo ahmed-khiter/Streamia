@@ -28,14 +28,8 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await transcodeRepository.Add(model);
-
-                if (result.Id != 0)
-                {
-                    return RedirectToAction(nameof(Manage));
-                }
-
-                return View(model);
+                await transcodeRepository.Add(model);
+                return RedirectToAction(nameof(Manage));
             }
             return View(model);
         }
@@ -44,10 +38,12 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Edit(int? id)
         {
             Transcode transcode = await transcodeRepository.GetById(id.Value);
+
             if (transcode == null)
             {
                 return NotFound();
             }
+
             return View(transcode);
         }
 

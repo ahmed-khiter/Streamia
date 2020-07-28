@@ -5,10 +5,10 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models.Enums
 {
-    public enum Hardware
+    public enum TranscodeHardware
     {
-        CPU ,
-        GPU , 
+        CPU,
+        GPU, 
         Both
     }
 }

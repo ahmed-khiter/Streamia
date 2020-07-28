@@ -89,7 +89,7 @@
 
         <div class="form-group col-md-6">
             <label asp-for="Hardware"></label>
-            <select asp-for="Hardware" class="form-control" asp-items="Html.GetEnumSelectList<Hardware>()"></select>
+            <select asp-for="Hardware" class="form-control" asp-items="Html.GetEnumSelectList<TranscodeHardware>()"></select>
             <span class="text-danger" asp-validation-for="Hardware"></span>
         </div>
 
