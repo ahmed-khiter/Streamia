@@ -56,18 +56,8 @@
 
     <div class="col-md-3">
 
+        @{ string iconClass = "close text-danger"; }
         <table class="table table-striped">
-            <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.IsRTMP)</strong></td>
-                <td>
-                    @{ string iconClass = "close text-danger"; }
-                    @if (Model.IsRTMP)
-                    {
-                        iconClass = "check text-success";
-                    }
-                    <i class="fa fa-@iconClass"></i>
-                </td>
-            </tr>
             <tr>
                 <td><strong>@Html.DisplayNameFor(m => m.ServerState)</strong></td>
                 <td>
@@ -76,7 +66,7 @@
                     {
                         iconClass = "success";
                     }
-                    else if (Model.ServerState == ServerState.OFFLINE)
+                    else if (Model.ServerState == ServerState.OFFLINE || Model.ServerState == ServerState.FAIL)
                     {
                         iconClass = "danger";
                     }
