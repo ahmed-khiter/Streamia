@@ -21,6 +21,7 @@ namespace Streamia.Controllers
         private readonly IRepository<Server> serverRepository;
         private readonly IRepository<StreamServer> streamServersRepository;
         private readonly IRepository<BouquetStream> bouquetStreamsRepository;
+        private readonly IRepository<Transcode> transcodeRepository;
 
         public StreamsController(
             IRepository<Stream> streamRepository,
@@ -28,7 +29,8 @@ namespace Streamia.Controllers
             IRepository<Category> categoryRepository,
             IRepository<Server> serverRepository,
             IRepository<StreamServer> streamServersRepository,
-            IRepository<BouquetStream> bouquetStreamsRepository
+            IRepository<BouquetStream> bouquetStreamsRepository,
+            IRepository<Transcode> transcodeRepository
         )
         {
             this.streamRepository = streamRepository;
@@ -37,6 +39,7 @@ namespace Streamia.Controllers
             this.serverRepository = serverRepository;
             this.streamServersRepository = streamServersRepository;
             this.bouquetStreamsRepository = bouquetStreamsRepository;
+            this.transcodeRepository = transcodeRepository;
         }
 
         [HttpGet]
@@ -185,6 +188,7 @@ namespace Streamia.Controllers
             ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.LIVE);
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.ONLINE);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
+            ViewBag.Transcodes = await transcodeRepository.GetAll();
         }
     }
 }
