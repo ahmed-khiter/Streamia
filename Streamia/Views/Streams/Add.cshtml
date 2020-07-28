@@ -58,22 +58,14 @@
                     <span class="text-danger" asp-validation-for="EnigmaSID"></span>
                 </div>
                 <div class="form-group col-md-6">
-                    <label asp-for="MinuteDelay"></label>
-                    <input asp-for="MinuteDelay" class="form-control" />
-                    <span class="text-danger" asp-validation-for="MinuteDelay"></span>
+                    <label asp-for="Delay"></label>
+                    <input asp-for="Delay" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Delay"></span>
                 </div>
                 <div class="form-group col-md-12">
                     <label asp-for="TranscodeId"></label>
                     <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.Transcodes,"Id","Name"))" class="form-control"></select>
                     <span class="text-danger" asp-validation-for="CategoryId"></span>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label asp-for="Notes"></label>
-                    <input asp-for="Notes" class="form-control" />
-                    <span class="text-danger" asp-validation-for="Notes"></span>
                 </div>
             </div>
 
@@ -85,21 +77,21 @@
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="DirectSource"></label>
+                    <label asp-for="StreamDirectly"></label>
                     <div>
-                        <input asp-for="DirectSource" class="js-switch" />
+                        <input asp-for="StreamDirectly" class="js-switch" />
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="AllowRtmp"></label>
+                    <label asp-for="EnableRtmp"></label>
                     <div>
-                        <input asp-for="AllowRtmp" class="js-switch" />
+                        <input asp-for="EnableRtmp" class="js-switch" />
                     </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label asp-for="AllowRecording"></label>
+                    <label asp-for="EnableRecording"></label>
                     <div>
-                        <input asp-for="AllowRecording" class="js-switch" />
+                        <input asp-for="EnableRecording" class="js-switch" />
                     </div>
                 </div>
             </div>

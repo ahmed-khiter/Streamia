@@ -46,9 +46,9 @@
                 </td>
             </tr>
             <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.AllowRtmp)</strong></td>
+                <td><strong>@Html.DisplayNameFor(m => m.EnableRtmp)</strong></td>
                 <td>
-                    @if (Model.AllowRtmp)
+                    @if (Model.EnableRtmp)
                     {
                         <i class="fa fa-check text-success"></i>
                     }
@@ -59,9 +59,9 @@
                 </td>
             </tr>
             <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.AllowRecording)</strong></td>
+                <td><strong>@Html.DisplayNameFor(m => m.EnableRecording)</strong></td>
                 <td>
-                    @if (Model.AllowRecording)
+                    @if (Model.EnableRecording)
                     {
                         <i class="fa fa-check text-success"></i>
                     }
@@ -71,24 +71,6 @@
                     }
                 </td>
             </tr>
-            <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.StreamAll)</strong></td>
-                <td>
-                    @if (Model.StreamAll)
-                    {
-                        <i class="fa fa-check text-success"></i>
-                    }
-                    else
-                    {
-                        <i class="fa fa-close text-danger"></i>
-                    }
-                </td>
-            </tr>
-        </table>
-    </div>
-
-    <div class="col-md-6">
-        <table class="table table-striped">
             <tr>
                 <td><strong>Servers</strong></td>
                 <td>
@@ -100,6 +82,11 @@
                     </ul>
                 </td>
             </tr>
+        </table>
+    </div>
+
+    <div class="col-md-6">
+        <table class="table table-striped">
             <tr>
                 <td><strong>Bouquets</strong></td>
                 <td>
