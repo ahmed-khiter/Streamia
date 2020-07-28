@@ -72,8 +72,6 @@ namespace Streamia.Controllers
                     model.Source = string.Join('/', sourceComponents);
                 }
 
-                model.State = StreamState.TRANSCODING;
-
                 if (model.StreamDirectly)
                 {
                     model.State = StreamState.READY;

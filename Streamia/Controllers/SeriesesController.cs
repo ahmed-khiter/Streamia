@@ -85,8 +85,6 @@ namespace Streamia.Controllers
 
                 }
 
-                model.State = StreamState.TRANSCODING;
-
                 if (model.StreamDirectly)
                 {
                     model.State = StreamState.READY;

@@ -32,6 +32,6 @@ namespace Streamia.Models
         public DateTime Uptime { get; set; } = DateTime.Now;
         public virtual Category Category { get; set; }
         public virtual Transcode Transcode { get; set; }
-        public virtual StreamState State { get; set; } = StreamState.STOPPED;
+        public virtual StreamState State { get; set; }
     }
 }

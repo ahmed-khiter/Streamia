@@ -41,6 +41,7 @@ namespace Streamia.Models
 
         public Stream()
         {
+            State = StreamState.STOPPED;
             StreamServers = new List<StreamServer>();
             BouquetStreams = new List<BouquetStream>();
         }

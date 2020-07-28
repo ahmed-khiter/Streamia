@@ -62,8 +62,6 @@
             <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
             <span class="text-danger" asp-validation-for="BouquetIds"></span>
         </div>
-    </div>
-    <div class="row">
         <div class="form-group col-md-3">
             <input asp-for="StreamDirectly" class="js-switch" />
             <label asp-for="StreamDirectly"></label>

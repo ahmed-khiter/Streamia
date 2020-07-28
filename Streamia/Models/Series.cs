@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Streamia.Models.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,6 +22,7 @@ namespace Streamia.Models
 
         public Series()
         {
+            State = StreamState.TRANSCODING;
             BouquetSeries = new List<BouquetSeries>();
             SeriesServers = new List<SeriesServer>();
             Episodes = new List<Episode>();
