@@ -17,12 +17,18 @@ namespace Streamia.Models
         [Display(Name = "Category")]
         public virtual int CategoryId { get; set; }
 
+        [Required]
+        [Range(1, int.MaxValue, ErrorMessage = "Transcode is required")]
+        [Display(Name = "Transcode")]
+        public virtual int TranscodeId { get; set; }
+
         [NotMapped]
         [Required]
         [Display(Name = "Bouquets")]
         public virtual List<int> BouquetIds { get; set; }
 
         public virtual Category Category { get; set; }
+        public virtual Transcode Transcode { get; set; }
         public virtual StreamState State { get; set; } = StreamState.STOPPED;
     }
 }
