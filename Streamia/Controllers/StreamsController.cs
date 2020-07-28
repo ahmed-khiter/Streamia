@@ -72,6 +72,11 @@ namespace Streamia.Controllers
                     });
                 }
 
+                if (model.StreamDirectly)
+                {
+                    model.State = StreamState.STARTED;
+                }
+
                 await streamRepository.Add(model);
 
                 return RedirectToAction(nameof(Manage));
@@ -134,6 +139,11 @@ namespace Streamia.Controllers
                         BouquetId = bouquetId,
                         StreamId = model.Id
                     });
+                }
+
+                if (model.StreamDirectly)
+                {
+                    model.State = StreamState.STARTED;
                 }
 
                 await streamServersRepository.Add(model.StreamServers);

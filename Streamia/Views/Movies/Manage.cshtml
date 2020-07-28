@@ -25,8 +25,8 @@
                 <td>@movie.Category.Name</td>
                 <td id="state-@movie.Id">
                     @{
-                        string stateClass = "danger";
-                        if (movie.State == StreamState.STARTED)
+                        string stateClass = "warning";
+                        if (movie.State == StreamState.READY)
                         {
                             stateClass = "success";
                         }
@@ -34,30 +34,6 @@
                     <i class="fa fa-circle text-@stateClass"></i> @movie.State
                 </td>
                 <td>
-                    @{
-                        string className = null;
-                        string iconName = null;
-                        int currentStreamState = (int)StreamState.STARTED;
-                        if (movie.State == StreamState.STARTED)
-                        {
-                            className = "warning";
-                            iconName = "pause";
-                            currentStreamState = (int)StreamState.STOPPED;
-                        }
-                        else if (movie.State == StreamState.STOPPED)
-                        {
-                            className = "primary";
-                            iconName = "play";
-                            currentStreamState = (int)StreamState.STARTED;
-                        }
-                    }
-                    <button id="btn-@movie.Id"
-                            class="stream-state-btn btn btn-@className"
-                            data-stream-id="@movie.Id"
-                            data-stream-state="@currentStreamState">
-                        <i class="fa fa-@iconName"></i>
-                    </button>
-
                     <a class="btn btn-secondary" asp-action="details" asp-route-id="@movie.Id"><i class="fa fa-info-circle"></i></a>
                     <a class="btn btn-success" asp-action="edit" asp-route-id="@movie.Id"><i class="fa fa-edit"></i></a>
                     <form asp-action="delete"
@@ -79,31 +55,12 @@
     <script>
         window.addEventListener('load', function () {
             var connection = new signalR.HubConnectionBuilder().withUrl("/movie-status-hub").build();
-            connection.on("Update", function (data) {
-                var btn = $(`#btn-${data.sourceId}`);
-                var stateIndicator = $(`#state-${data.sourceId}`);
-                btn.removeAttr("disabled");
-                if (data.state === 1) {
-                    stateIndicator.html('<i class="fa fa-circle text-success"></i> STARTED');
-                    btn.attr("data-stream-state", "0")
-                        .removeClass("btn-primary")
-                        .addClass("btn-warning")
-                        .html('<i class="fa fa-pause"></i>');
-                } else if (data.state === 0) {
-                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> STOPPED');
-                    btn.attr("data-stream-state", "1")
-                        .removeClass("btn-warning")
-                        .addClass("btn-primary")
-                        .html('<i class="fa fa-play"></i>');
-                }
-            });
             connection.start();
-            $(".stream-state-btn").on("click", function () {
-                var currentHTML = $(this).html();
-                var streamId = parseInt($(this).attr("data-stream-id"));
-                var streamState = parseInt($(this).attr("data-stream-state"));
-                $(this).attr("disabled", "disabled").html('<i class="fa fa-fw fa-spinner fa-pulse"></i>');
-                connection.invoke("Update", streamId, streamState);
+            connection.on("Update", function (data) {
+                var stateIndicator = $(`#state-${data.sourceId}`);
+                if (data.state === 2) {
+                    stateIndicator.html('<i class="fa fa-circle text-success"></i> READY');
+                }
             });
         });
     </script>

@@ -25,9 +25,6 @@ namespace Streamia.Models
         [Display(Name = "Enable Recording")]
         public bool EnableRecording { get; set; }
 
-        [Display(Name = "Stream Directly")]
-        public bool StreamDirectly { get; set; }
-
         [Display(Name = "Enigma SID")]
         public string EnigmaSID { get; set; }
 

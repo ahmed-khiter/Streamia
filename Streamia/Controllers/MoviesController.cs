@@ -72,6 +72,13 @@ namespace Streamia.Controllers
                     model.Source = string.Join('/', sourceComponents);
                 }
 
+                model.State = StreamState.TRANSCODING;
+
+                if (model.StreamDirectly)
+                {
+                    model.State = StreamState.READY;
+                } 
+
                 await movieRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }

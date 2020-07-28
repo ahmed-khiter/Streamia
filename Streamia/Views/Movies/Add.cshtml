@@ -84,8 +84,8 @@
     </div>
     <div class="row">
         <div class="form-group col-md-3">
-            <input asp-for="DirectSource" class="js-switch" />
-            <label asp-for="DirectSource"></label>
+            <input asp-for="StreamDirectly" class="js-switch" />
+            <label asp-for="StreamDirectly"></label>
         </div>
     </div>
     <hr />
@@ -103,7 +103,6 @@
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
-
         window.addEventListener('load', function () {
             $('select:not(.ex-server-dropdown)').select2({
                 theme: 'bootstrap4'

@@ -25,8 +25,8 @@
                 <td>@data.Category.Name</td>
                 <td id="state-@data.Id">
                     @{
-                        string stateClass = "danger";
-                        if (data.State == StreamState.STARTED)
+                        string stateClass = "warning";
+                        if (data.State == StreamState.READY)
                         {
                             stateClass = "success";
                         }
@@ -34,30 +34,6 @@
                     <i class="fa fa-circle text-@stateClass"></i> @data.State
                 </td>
                 <td>
-                    @{
-                        string className = null;
-                        string iconName = null;
-                        int currentStreamState = (int)StreamState.STARTED;
-                        if (data.State == StreamState.STARTED)
-                        {
-                            className = "warning";
-                            iconName = "pause";
-                            currentStreamState = (int)StreamState.STOPPED;
-                        }
-                        else if (data.State == StreamState.STOPPED)
-                        {
-                            className = "primary";
-                            iconName = "play";
-                            currentStreamState = (int)StreamState.STARTED;
-                        }
-                    }
-                    <button id="btn-@data.Id"
-                            class="stream-state-btn btn btn-@className"
-                            data-stream-id="@data.Id"
-                            data-stream-state="@currentStreamState">
-                        <i class="fa fa-@iconName"></i>
-                    </button>
-
                     <a class="btn btn-secondary" asp-action="details" asp-route-id="@data.Id"><i class="fa fa-info-circle"></i></a>
                     <a class="btn btn-success" asp-action="edit" asp-route-id="@data.Id"><i class="fa fa-edit"></i></a>
                     <form asp-action="delete"

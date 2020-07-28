@@ -13,9 +13,6 @@ namespace Streamia.Models
         [Required]
         public string Source { get; set; }
 
-        [Display(Name = "Direct Source")]
-        public bool DirectSource { get; set; }
-
         public ICollection<MovieServer> MovieServers { get; set; }
 
         public ICollection<BouquetMovie> BouquetMovies { get; set; }

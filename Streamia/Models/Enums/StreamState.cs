@@ -8,6 +8,8 @@ namespace Streamia.Models.Enums
     public enum StreamState
     {
         STOPPED,
-        STARTED
+        STARTED,
+        TRANSCODING,
+        READY
     }
 }

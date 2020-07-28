@@ -85,6 +85,13 @@ namespace Streamia.Controllers
 
                 }
 
+                model.State = StreamState.TRANSCODING;
+
+                if (model.StreamDirectly)
+                {
+                    model.State = StreamState.READY;
+                }
+
                 await seriesRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }

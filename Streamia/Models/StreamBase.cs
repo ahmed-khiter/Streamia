@@ -26,6 +26,10 @@ namespace Streamia.Models
         [Display(Name = "Bouquets")]
         public virtual List<int> BouquetIds { get; set; }
 
+        [Display(Name = "Stream Directly")]
+        public bool StreamDirectly { get; set; }
+
+        public DateTime Uptime { get; set; } = DateTime.Now;
         public virtual Category Category { get; set; }
         public virtual Transcode Transcode { get; set; }
         public virtual StreamState State { get; set; } = StreamState.STOPPED;
