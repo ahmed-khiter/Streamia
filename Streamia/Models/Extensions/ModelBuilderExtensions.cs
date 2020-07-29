@@ -108,6 +108,16 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.SeriesId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // admin setting
+            modelBuilder.Entity<Setting>().HasKey(m => new { m.AdminUserId });
+            modelBuilder.Entity<Setting>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<AppUser>()
+                .HasOne(ss => ss.Setting)
+                .WithOne(ss => ss.AdminUser)
+                .HasForeignKey<Setting>(ss => ss.AdminUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
 
         public static void SeedRoles(RoleManager<IdentityRole> roleManager)
@@ -136,7 +146,7 @@ namespace Streamia.Models.Extensions
             }
         }
 
-        public static void SeedUsers(UserManager<AdminUser> userManager)
+        public static void SeedUsers(UserManager<AppUser> userManager)
         {
             if (userManager.FindByEmailAsync("dev@streamia.com").Result == null)
             {
@@ -145,7 +155,7 @@ namespace Streamia.Models.Extensions
                 GuidString = GuidString.Replace("=", "");
                 GuidString = GuidString.Replace("+", "");
 
-                var user = new AdminUser
+                var user = new AppUser
                 {
                     Id = GuidString,
                     UserName = "dev@streamia.com",

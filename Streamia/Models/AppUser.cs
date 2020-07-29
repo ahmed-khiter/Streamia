@@ -7,10 +7,13 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class AdminUser : IdentityUser
+    public class AppUser : IdentityUser
     {
         public string Name { get; set; }
+
         public string ProfilePicture { get; set; }
+
+        public Setting Setting { get; set; }
     }
 
 }

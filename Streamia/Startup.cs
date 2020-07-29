@@ -47,7 +47,7 @@ namespace Streamia
                 option.Password.RequireDigit = false;
             });
 
-            services.AddIdentity<AdminUser, IdentityRole>(option =>
+            services.AddIdentity<AppUser, IdentityRole>(option =>
             {
                 option.Password.RequiredLength = 3;
                 option.Password.RequireUppercase = false;
@@ -76,11 +76,11 @@ namespace Streamia
             }).AddXmlSerializerFormatters();
 
             // add local AppClaimsPrincipalFactory class to customize user
-            services.AddScoped<IUserClaimsPrincipalFactory<AdminUser>, AppClaimsPrincipalFactory>();
+            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env
-                    , UserManager<AdminUser> userManager, RoleManager<IdentityRole> role)
+                    , UserManager<AppUser> userManager, RoleManager<IdentityRole> role)
         {
             if (env.IsDevelopment())
             {

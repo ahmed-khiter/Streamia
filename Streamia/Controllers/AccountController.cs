@@ -17,12 +17,12 @@ namespace Streamia.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IWebHostEnvironment _hostingEnviroment;
-        public UserManager<AdminUser> UserManager { get; }
-        public SignInManager<AdminUser> SignInManager { get; }
+        public UserManager<AppUser> UserManager { get; }
+        public SignInManager<AppUser> SignInManager { get; }
 
 
-        public AccountController(UserManager<AdminUser> userManager,
-            SignInManager<AdminUser> signInManager
+        public AccountController(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager
             , IWebHostEnvironment env,
             ILogger<AccountController> logger)
         {
@@ -104,7 +104,7 @@ namespace Streamia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    var user = new AdminUser
+                    var user = new AppUser
                     {
                         UserName = model.Email,
                         Email = model.Email,                       

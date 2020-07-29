@@ -17,12 +17,12 @@ namespace Streamia.Controllers
     {
         private readonly IWebHostEnvironment _hostingEnviroment;
 
-        public UserManager<AdminUser> UserManager { get; }
+        public UserManager<AppUser> UserManager { get; }
 
-        public SignInManager<AdminUser> SignInManager { get; }
+        public SignInManager<AppUser> SignInManager { get; }
 
-        public ResellersController(UserManager<AdminUser> userManager,
-            SignInManager<AdminUser> signInManager
+        public ResellersController(UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager
             , IWebHostEnvironment env)
         {
             UserManager = userManager;
@@ -57,7 +57,7 @@ namespace Streamia.Controllers
                 if (ModelState.IsValid)
                 {
                     string profilePicture = Upload.UploadProfilePicture(model, _hostingEnviroment);
-                    var user = new AdminUser
+                    var user = new AppUser
                     {
                         UserName = model.Email,
                         Email = model.Email,

@@ -38,6 +38,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
+                await channelRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }
             return View(model);
@@ -46,6 +47,7 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            await channelRepository.Delete(id);
             return RedirectToAction(nameof(Manage));
         }
 
