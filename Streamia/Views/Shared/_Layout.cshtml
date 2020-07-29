@@ -96,6 +96,28 @@
 
         <div id="content">
             <div class="content-overlay">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+                    <span class="page-title"><strong>@ViewData["Title"]</strong></span>
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item active profile-container">
+                            @{
+                                string profileName = User.Identity.GetName();
+                                string profilePicture = User.Identity.ProfilePicture();
+
+                                if (string.IsNullOrEmpty(profileName))
+                                {
+                                    profileName = "DEV ACCOUNT";
+                                }
+                                if (string.IsNullOrEmpty(profilePicture))
+                                {
+                                    profilePicture = "user.png";
+                                }
+                            }
+                            <span class="profile-name">@profileName</span>
+                            <img class="profile-picture" src="~/Pictures/@profilePicture" />
+                        </li>
+                    </ul>
+                </nav>
                 <div class="main-content">
                     @RenderBody()
                 </div>
@@ -128,24 +150,3 @@
     </script>
 </body>
 </html>
-
-
-@*
-@{
-    string profileName = User.Identity.GetName();
-    string profilePicture = User.Identity.ProfilePicture();
-
-    if (string.IsNullOrEmpty(profileName))
-    {
-        profileName = "DEV ACCOUNT";
-    }
-    if (string.IsNullOrEmpty(profilePicture))
-    {
-        profilePicture = "user.png";
-    }
-}
-<span class="profile-name">@profileName</span>
-<img class="profile-picture" src="~/Pictures/@profilePicture" />
-<a asp-controller="Account" asp-action="Logout" class="btn btn-danger">
-    <i class="fa fa-close"></i> Logout
-</a>*@
