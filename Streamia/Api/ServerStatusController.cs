@@ -20,12 +20,12 @@ namespace Streamia.Api
     public class ServerStatusController : ControllerBase
     {
         private readonly IRepository<Server> serverService;
-        private readonly IHubContext<ServerStatusHub> serverHub;
+        private readonly IHubContext<ServerStatusHub> hub;
 
-        public ServerStatusController(IRepository<Server> serverService, IHubContext<ServerStatusHub> serverHub)
+        public ServerStatusController(IRepository<Server> serverService, IHubContext<ServerStatusHub> hub)
         {
             this.serverService = serverService;
-            this.serverHub = serverHub;
+            this.hub = hub;
         }
 
         [Route("edit/{id}/{state}")]
@@ -36,7 +36,7 @@ namespace Streamia.Api
             {
                 server.ServerState = state;
                 await serverService.Edit(server);
-                await serverHub.Clients.All.SendAsync("UpdateSignal", new { id, state });
+                await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int) state });
             }
             return Ok();
         }

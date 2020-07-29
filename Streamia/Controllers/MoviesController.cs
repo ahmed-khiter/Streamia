@@ -106,5 +106,10 @@ namespace Streamia.Controllers
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.ONLINE);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
+
+        private async void Transcode()
+        {
+
+        }
     }
 }

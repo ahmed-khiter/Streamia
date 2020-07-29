@@ -9,10 +9,5 @@ using System.Threading.Tasks;
 namespace Streamia.Realtime
 {
     public class ServerStatusHub : Hub
-    {
-        public async Task SendUpdateSignal(int serverId, ServerState state)
-        {
-            await Clients.All.SendAsync("UpdateSignal", new { serverId, state });
-        }
-    }
+    {}
 }
