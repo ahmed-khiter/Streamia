@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Setting:BaseEntity
+    public class Setting : BaseEntity
     {
         [Display(Name ="User Value")]
         public int UserValue { get; set; }
@@ -14,7 +14,7 @@ namespace Streamia.Models
         [Display(Name ="Unit Point")]
         public int UnitPoint { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal Price { get; set; } = 0;
 
         public string SetAccountKey { get; set; }
 
