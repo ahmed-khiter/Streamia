@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models.Contexts
 {
-    public class StreamiaContext : IdentityDbContext<AdminUser>
+    public class StreamiaContext : IdentityDbContext<AppUser>
     {
         public StreamiaContext (DbContextOptions<StreamiaContext> options) : base(options)
         {
@@ -17,7 +17,7 @@ namespace Streamia.Models.Contexts
 
         public DbSet<Server> Servers { get; set; }
 
-        public DbSet<AdminUser> AdminUsers { get; set; }
+        public DbSet<AppUser> AdminUsers { get; set; }
 
         public DbSet<Stream> Streams { get; set; }
 
@@ -46,6 +46,9 @@ namespace Streamia.Models.Contexts
         public DbSet<BouquetSeries> BouquetSeries { get; set; }
 
         public DbSet<Transcode> Transcodes { get; set; }
+
+        public DbSet<Setting> Settings { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

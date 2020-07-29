@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace Streamia.Utilies
 {
-    public class AppClaimsPrincipalFactory : UserClaimsPrincipalFactory<AdminUser, IdentityRole>
+    public class AppClaimsPrincipalFactory : UserClaimsPrincipalFactory<AppUser, IdentityRole>
     {
 
         public AppClaimsPrincipalFactory(
-            UserManager<AdminUser> userManager
+            UserManager<AppUser> userManager
             , RoleManager<IdentityRole> roleManager
             , IOptions<IdentityOptions> optionsAccessor)
         : base(userManager, roleManager, optionsAccessor)
         { }
-        public async override Task<ClaimsPrincipal> CreateAsync(AdminUser user)
+        public async override Task<ClaimsPrincipal> CreateAsync(AppUser user)
         {
             var principal = await base.CreateAsync(user);
 
