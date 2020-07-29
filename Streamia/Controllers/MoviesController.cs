@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ namespace Streamia.Controllers
         private readonly IRepository<Server> serverRepository;
         private readonly IRepository<MovieServer> movieServerRepository;
         private readonly IRepository<BouquetMovie> bouquetMovieRepository;
+        private readonly IRepository<Transcode> transcodeRepository;
 
         public MoviesController(
             IRepository<Movie> movieRepository, 
@@ -27,7 +29,8 @@ namespace Streamia.Controllers
             IRepository<Bouquet> bouquetRepository,
             IRepository<Server> serverRepository,
             IRepository<MovieServer> movieServerRepository,
-            IRepository<BouquetMovie> bouquetMovieRepository
+            IRepository<BouquetMovie> bouquetMovieRepository,
+            IRepository<Transcode> transcodeRepository
         )
         {
             this.movieRepository = movieRepository;
@@ -36,6 +39,7 @@ namespace Streamia.Controllers
             this.serverRepository = serverRepository;
             this.movieServerRepository = movieServerRepository;
             this.bouquetMovieRepository = bouquetMovieRepository;
+            this.transcodeRepository = transcodeRepository;
         }
 
         [HttpGet]
@@ -59,25 +63,31 @@ namespace Streamia.Controllers
                     });
                 }
 
-                var sourceComponents = model.Source.Split('/');
-
-                if (int.TryParse(sourceComponents[0], out int serverId))
+                if (model.ServerId > 0)
                 {
                     model.MovieServers.Add(new MovieServer
                     {
                         MovieId = model.Id,
-                        ServerId = serverId
+                        ServerId = model.ServerId
                     });
-                    sourceComponents[0] = string.Empty;
-                    model.Source = string.Join('/', sourceComponents);
                 }
 
                 if (model.StreamDirectly)
                 {
                     model.State = StreamState.READY;
                 } 
-
+                
                 await movieRepository.Add(model);
+
+                if (!model.StreamDirectly)
+                {
+                    var transcodeProfile = await transcodeRepository.GetById(model.TranscodeId);
+                    var server = await serverRepository.GetById(model.ServerId);
+                    var host = $"{Request.Scheme}://{Request.Host}";
+                    var callbackUrl = $"{host}/api/moviestatus/edit/SERVER_ID/{StreamState.READY}";
+                    ThreadPool.QueueUserWorkItem(queue => Transcode(model.Id, transcodeProfile, server, callbackUrl));
+                }
+
                 return RedirectToAction(nameof(Manage));
             }
             await PrepareViewBag();
@@ -107,7 +117,7 @@ namespace Streamia.Controllers
             ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
 
-        private async void Transcode()
+        private async void Transcode(int movieId, Transcode transcodeProfile, Server server, string callbackUrl)
         {
 
         }

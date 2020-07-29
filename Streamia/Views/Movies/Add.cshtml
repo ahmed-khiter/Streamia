@@ -12,6 +12,7 @@
 <partial name="~/Views/Partials/_Navigation.cshtml" />
 
 <form method="post">
+    <input type="hidden" asp-for="ServerId"/>
     <div class="row">
         <div class="form-group col-md-3">
             <label asp-for="Name"></label>
@@ -175,7 +176,8 @@
         });
 
         exploreia.onFilePick(file => {
-            $('#Source').val(`${exploreia.currentServer + file}`);
+            $('#ServerId').val(exploreia.currentServer);
+            $('#Source').val(file);
             exploreia.close();
             exploreia.resetAll();
             connection.invoke('DisposeConnection', exploreia.currentServer).catch(() => {
