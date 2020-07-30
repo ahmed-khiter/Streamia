@@ -84,7 +84,7 @@
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script>
         window.addEventListener('load', function () {
-            $('select').select2({
+            $('select:not(.ex-server-dropdown)').select2({
                 theme: 'bootstrap4'
             });
 
