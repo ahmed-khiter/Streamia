@@ -7,6 +7,25 @@ namespace Streamia.Models
 {
     public static class TranscodeOptions
     {
+        /*
+        - APNG(Animated protable network graphics)
+        - Chinese AVS (Audio video standard ) (AVS1-P2 jizhum profile)(encoder libxaavs ) 
+        - Cinepak 
+        - ffmpeg video codec #1 
+        - flash screen video  V1 
+        - flash screen video  V2 
+        - FLV / sorenson spark / sorenson H263(flash video )(decodes:Flv) (encoder flv )
+        - GIF (graphic interchange formate ) 
+        - H.261 
+        - H.263
+        - H.264 / AVC /Mpeg-4 AVC /Mpeg4 part 10 (encode libx264 libx264rgb)
+        - H.265
+        - MPEG-1 video 
+        - MPEG-2 video
+        - MPEG-4
+        - microsoft video 1 
+
+                  */
         public static string[] VideoCodec = {
                        "jpeg2000","libaom-av1","libravel", "libkvazaar", "libopenh264" ,"Hap"
                        , "libtheora" , "libvpx" , "libwebp" , "libx264","libx264rgb"
