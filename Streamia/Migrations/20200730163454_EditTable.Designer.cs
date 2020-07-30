@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Streamia.Models.Contexts;
 
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    partial class StreamiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200730163454_EditTable")]
+    partial class EditTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,363 +311,319 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
-                            Id = 12775,
+                            Id = 39469,
                             CategoryType = 1,
                             Name = "Adventure"
                         },
                         new
                         {
-
-                            Id = 8142,
+                            Id = 472,
                             CategoryType = 1,
                             Name = "Comedy"
                         },
                         new
                         {
-
-                            Id = 4117,
+                            Id = 3350,
                             CategoryType = 1,
                             Name = "Crime"
                         },
                         new
                         {
-
-                            Id = 1608,
+                            Id = 4225,
                             CategoryType = 1,
                             Name = "Drama"
                         },
                         new
                         {
-
-                            Id = 7872,
+                            Id = 7886,
                             CategoryType = 1,
                             Name = "Fantasy"
                         },
                         new
                         {
-
-                            Id = 3305,
+                            Id = 8032,
                             CategoryType = 1,
                             Name = "Historical"
                         },
                         new
                         {
-                        
-                            Id = 311,
+                            Id = 935,
                             CategoryType = 1,
                             Name = "Horror"
                         },
                         new
                         {
-
-                            Id = 4661,
+                            Id = 8313,
                             CategoryType = 1,
                             Name = "Mystery"
                         },
                         new
                         {
-                        
-                            Id = 446,
+                            Id = 7291,
                             CategoryType = 1,
                             Name = "philosophical"
                         },
                         new
                         {
-                            Id = 5492,
+                            Id = 146,
                             CategoryType = 1,
                             Name = "political"
                         },
                         new
                         {
-
-                            Id = 9139,
+                            Id = 6191,
                             CategoryType = 1,
                             Name = "Romance"
                         },
                         new
                         {
-
-                            Id = 3084,
+                            Id = 369,
                             CategoryType = 1,
                             Name = "saga"
                         },
                         new
                         {
-                        
-                            Id = 798,
+                            Id = 5967,
                             CategoryType = 1,
                             Name = "Thriller"
                         },
                         new
                         {
-
-                            Id = 575,
+                            Id = 9921,
                             CategoryType = 1,
                             Name = "Western"
                         },
                         new
                         {
-                            Id = 6811,
+                            Id = 1359,
                             CategoryType = 1,
                             Name = "Crime Thriller"
                         },
                         new
                         {
-
-                            Id = 2269,
+                            Id = 9342,
                             CategoryType = 1,
                             Name = "Disaster Thriller"
                         },
                         new
                         {
-
-                            Id = 2706,
+                            Id = 2588,
                             CategoryType = 1,
                             Name = "Psychological Thriller"
                         },
                         new
                         {
-
-                            Id = 8891,
+                            Id = 8019,
                             CategoryType = 1,
                             Name = "Techno Thriller"
                         },
                         new
                         {
-
-                            Id = 7959,
+                            Id = 5482,
                             CategoryType = 1,
                             Name = "Science Fiction"
                         },
                         new
                         {
-                            Id = 2742,
+                            Id = 2776,
                             CategoryType = 1,
                             Name = "Suspense"
                         },
                         new
                         {
-                            Id = 1297,
+                            Id = 1371,
                             CategoryType = 1,
                             Name = "Animation"
                         },
                         new
                         {
-
-                            Id = 3325,
+                            Id = 5478,
                             CategoryType = 2,
                             Name = "Drama"
                         },
                         new
                         {
-
-                            Id = 427,
+                            Id = 3618,
                             CategoryType = 2,
                             Name = "Action"
                         },
                         new
                         {
-
-                            Id = 8767,
+                            Id = 5422,
                             CategoryType = 2,
                             Name = "Comedy"
                         },
                         new
                         {
-
-                            Id = 30,
+                            Id = 7606,
                             CategoryType = 2,
                             Name = "Adventure"
                         },
                         new
                         {
-
-                            Id = 1333,
+                            Id = 4664,
                             CategoryType = 2,
                             Name = "Crime"
                         },
                         new
                         {
-                            Id = 679,
+                            Id = 9417,
                             CategoryType = 2,
                             Name = "Fantasy"
                         },
                         new
                         {
-
-                            Id = 190,
+                            Id = 900,
                             CategoryType = 2,
                             Name = "Science Fiction"
                         },
                         new
                         {
-
-                            Id = 7011,
-
+                            Id = 9962,
                             CategoryType = 2,
                             Name = "Suspense"
                         },
                         new
                         {
-
-                            Id = 5909,
+                            Id = 3320,
                             CategoryType = 2,
                             Name = "Thriller"
                         },
                         new
                         {
-
-                            Id = 1820,
+                            Id = 5178,
                             CategoryType = 2,
                             Name = "Horror"
                         },
                         new
                         {
-
-                            Id = 4041,
+                            Id = 4627,
                             CategoryType = 2,
                             Name = "Romance"
                         },
                         new
                         {
-
-                            Id = 6489,
+                            Id = 2539,
                             CategoryType = 2,
                             Name = "Animation"
                         },
                         new
                         {
-
-                            Id = 8794,
+                            Id = 4821,
                             CategoryType = 2,
                             Name = "Anime"
                         },
                         new
                         {
-
-                            Id = 6190,
+                            Id = 6602,
                             CategoryType = 2,
                             Name = "Mini-Series"
                         },
                         new
                         {
-
-                            Id = 440,
+                            Id = 3969,
                             CategoryType = 2,
                             Name = "Family"
                         },
                         new
                         {
-
-                            Id = 1629,
+                            Id = 1730,
                             CategoryType = 2,
                             Name = "Historical"
                         },
                         new
                         {
-
-                            Id = 6944,
+                            Id = 8469,
                             CategoryType = 2,
                             Name = "Children"
                         },
                         new
                         {
-
-                            Id = 10,
+                            Id = 3966,
                             CategoryType = 2,
                             Name = "Reality"
                         },
                         new
                         {
-                            Id = 8203,
+                            Id = 4594,
                             CategoryType = 2,
                             Name = "Mystery"
                         },
                         new
                         {
-                            Id = 4637,
+                            Id = 840,
                             CategoryType = 2,
                             Name = "Documentary"
                         },
                         new
                         {
-                            Id = 8680,
+                            Id = 6479,
                             CategoryType = 2,
                             Name = "political"
                         },
                         new
                         {
-
-                            Id = 2405,
+                            Id = 8600,
                             CategoryType = 2,
                             Name = "Soap"
                         },
                         new
                         {
-                            Id = 9127,
+                            Id = 5949,
                             CategoryType = 2,
                             Name = "Sport"
                         },
                         new
                         {
-
-                            Id = 1674,
+                            Id = 2281,
                             CategoryType = 2,
                             Name = "Western"
                         },
                         new
                         {
-
-                            Id = 8478,
+                            Id = 5090,
                             CategoryType = 2,
                             Name = "saga"
                         },
                         new
                         {
-                            Id = 5975,
+                            Id = 9026,
                             CategoryType = 2,
                             Name = "Crime Thriller"
                         },
                         new
                         {
-
-                            Id = 5001,
+                            Id = 2185,
                             CategoryType = 2,
                             Name = "Disaster Thriller"
                         },
                         new
                         {
-
-                            Id = 255,
+                            Id = 1264,
                             CategoryType = 2,
                             Name = "Psychological Thriller"
                         },
                         new
                         {
-
-                            Id = 3323,
+                            Id = 3551,
                             CategoryType = 2,
                             Name = "Techno Thriller"
                         },
                         new
                         {
-
-                            Id = 6263,
+                            Id = 1002,
                             CategoryType = 0,
                             Name = "Science"
                         },
                         new
                         {
-
-                            Id = 6754,
+                            Id = 8815,
                             CategoryType = 0,
                             Name = "ACtion"
                         },
                         new
                         {
-
-                            Id = 5899,
+                            Id = 7666,
                             CategoryType = 0,
                             Name = "News"
                         });
