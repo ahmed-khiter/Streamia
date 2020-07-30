@@ -92,8 +92,8 @@ namespace Streamia
                 app.UseHsts();
             }
 
-            ModelBuilderExtensions.SeedRoles(role);
-            ModelBuilderExtensions.SeedUsers(userManager);
+            SeedDataExtensions.SeedRoles(role);
+            SeedDataExtensions.SeedUsers(userManager);
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
