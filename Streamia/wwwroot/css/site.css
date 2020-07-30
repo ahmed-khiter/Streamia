@@ -24,7 +24,7 @@ textarea {
 }
 
 .main-btn {
-    background: linear-gradient(0deg, rgb(100, 40, 137) 0%, rgb(31, 6, 63) 49%, rgb(0, 0, 0) 100%);
+    background: linear-gradient(180grad, #0086B7 9%, #0b0780 64%);
     color: #fff;
     border: none;
     min-height: 37px;
