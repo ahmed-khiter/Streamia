@@ -24,7 +24,7 @@
         <div class="form-group col-md-3">
             <label asp-for="Source"></label>
             <div class="exploriable">
-                <input asp-for="Source" class="form-control tools-url-parser" placeholder="URL or browse servers" />
+                <input asp-for="Source" class="form-control tools-url-monitor" placeholder="URL or browse servers" />
                 <button type="button" class="main-btn" onclick="exploreia.open()">
                     <i class="fa fa-folder-open"></i>
                 </button>
@@ -84,7 +84,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-3 tools-url-action">
             <input asp-for="StreamDirectly" class="js-switch" />
             <label asp-for="StreamDirectly"></label>
         </div>
@@ -192,5 +192,7 @@
                 exploreia.onError();
             });
         });
+
+        tools.urlMonitor();
     </script>
 }
