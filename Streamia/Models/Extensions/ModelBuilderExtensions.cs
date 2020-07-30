@@ -118,68 +118,6 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey<Setting>(ss => ss.AdminUserId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-        }
-
-        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
-        {
-            if (roleManager.FindByNameAsync("Admin").Result == null
-                || roleManager.FindByNameAsync("Reseller").Result == null)
-            {
-                if (roleManager.FindByNameAsync("Admin").Result == null) 
-                {
-                    IdentityRole identityRoleAdmin = new IdentityRole
-                    {
-                        Name = "Admin",
-                        NormalizedName = "ADMIN"
-                    };
-                    roleManager.CreateAsync(identityRoleAdmin).Wait();
-                }
-                else
-                {
-                    IdentityRole identityRoleCompany = new IdentityRole
-                    {
-                        Name = "Reseller",
-                        NormalizedName = "RESELLER"
-                    };
-                    roleManager.CreateAsync(identityRoleCompany).Wait();
-                }       
-            }
-        }
-
-        public static void SeedUsers(UserManager<AppUser> userManager)
-        {
-            if (userManager.FindByEmailAsync("dev@streamia.com").Result == null)
-            {
-                Guid g = Guid.NewGuid();
-                string GuidString = Convert.ToBase64String(g.ToByteArray());
-                GuidString = GuidString.Replace("=", "");
-                GuidString = GuidString.Replace("+", "");
-
-                var user = new AppUser
-                {
-                    Id = GuidString,
-                    UserName = "dev@streamia.com",
-                    Email = "dev@streamia.com",
-
-                    EmailConfirmed = true,
-                  
-                    NormalizedEmail = "DEV@STREAMIA.COM",
-                    NormalizedUserName = "DEV@STREAMIA.COM",
-                    PhoneNumberConfirmed = true,
-                    PhoneNumber = "0123456789",
-
-                };
-                IdentityResult result = userManager.CreateAsync(user, "Streamia0123456789").Result;
-                if (result.Succeeded)
-                {
-                     userManager.AddToRoleAsync(user, "Admin").Wait();
-                }
-            }
-        }
-
-        public static void SeedTranscodes(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Transcode>().HasData(new Transcode { Id = 1, AspectRatio = "4:4:2" });
-        }
+        }  
     }
 }
