@@ -63,7 +63,11 @@ namespace Streamia.Controllers
                     });
                 }
 
-                if (model.ServerId > 0)
+                if (model.StreamDirectly)
+                {
+                    model.State = StreamState.Ready;
+                } 
+                else
                 {
                     model.MovieServers.Add(new MovieServer
                     {
@@ -71,11 +75,6 @@ namespace Streamia.Controllers
                         ServerId = model.ServerId
                     });
                 }
-
-                if (model.StreamDirectly)
-                {
-                    model.State = StreamState.Ready;
-                } 
                 
                 await movieRepository.Add(model);
 
