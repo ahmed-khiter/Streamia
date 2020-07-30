@@ -1,5 +1,6 @@
 ﻿* {
     font-family: 'Raleway', sans-serif;
+    outline:none;
 }
 
 body {
@@ -50,7 +51,7 @@ textarea {
 #sidebar {
     min-width: 250px;
     max-width: 250px;
-    background: linear-gradient(180grad, #642889 0%, #1f063f 49%);
+    background: linear-gradient(180grad, #0086B7 9%, #0b0780 64%);
     color: #fff;
     transition: all 0.3s;
     height: 100vh;
@@ -58,7 +59,7 @@ textarea {
 
 #sidebar .active {
     color: #000;
-    background-color: #ebd0fe;
+    background-color: #cdebf6;
 }
 
 #sidebar i {
@@ -80,19 +81,19 @@ textarea {
 
 #sidebar ul li a {
     padding: 10px;
-    font-size: 1.1em;
+    font-size: 1.3em;
     display: block;
 }
 
 #sidebar ul li a:hover {
     color: #000;
-    background-color: #ebd0fe;
+    background-color: #cdebf6;
 }
 
 #sidebar ul li.active > a,
 a[aria-expanded="true"] {
-    color: #000;
-    background-color: #ebd0fe;
+    color: #fff;
+    
 }
 
 a[data-toggle="collapse"] {
@@ -107,11 +108,33 @@ a[data-toggle="collapse"] {
     transform: translateY(-50%);
 }
 
-ul ul a {
-    font-size: 0.9em !important;
+ul li div a {
+    font-size: 1em !important;
     padding-left: 30px !important;
-    background-color: #4e3262;
+    background-color: #043684;
 }
+a svg
+{
+    width:30px !important;
+}
+
+/*Right bar*/
+
+.right-bar {
+    background: linear-gradient(180grad, #0086B7 9%, #0b0780 64%);
+    color: #fff;
+    width:40px;
+}
+
+.right-bar-options {
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    padding: 25px 3px;
+    writing-mode: sideways-lr;
+    height: 400px;
+}
+
+
 
 #content {
     width: 100%;
