@@ -20,25 +20,45 @@ namespace Streamia.Models
         [Display(Name = "Avg Audio bitrate")]
         public string AvgAudioBitrate { get; set; }
 
+        /*
+         * -minrate + number
+         */
         [Display(Name = "Min Bitrate")]
-        public int MinBitrate { get; set; } //-minrate + number
+        public int MinBitrate { get; set; }
 
+        /*
+         * -maxrate + number
+         */
         [Display(Name = "Mac Bitrate")]
-        public int MaxBitrate { get; set; } //-maxrate + number
+        public int MaxBitrate { get; set; }
 
+        /*
+         * -b:V + number to be able to control the bandwidth used 
+         * -b:V or Max rate is used in conjunction with buffer size 
+         */
         [Display(Name = "Average bitrate")]
-        public int AvgBitrate { get; set; } //-b:V + number to be able to control the bandwidth used 
-        //-b:V or Max rate is used in conjunction with buffer size 
+        public int AvgBitrate { get; set; }
+
+        /*
+         * -bufsize
+         */
         [Display(Name = "Buffer size")]
-        public string BufferSize { get; set; }  // -bufsize
+        public string BufferSize { get; set; }
 
+        /*
+         * default is 28 
+         */
         [Display(Name="Constant rate factor")]
-        public int CRF { get; set; } //default is 28 
+        public int CRF { get; set; }
 
-        // The preset determines how fast the encoding process will be at the expense of detail.
+        /*
+         * The preset determines how fast the encoding process will be at the expense of detail.
+         */
         public PresetOptions Preset { get; set; }
 
-        //By default, this is disabled it helped preset 
+        /*
+         * By default, this is disabled it helped preset 
+         */
         public TuneOptions Tune { get; set; }
 
         public string Scaling { get; set; }
