@@ -1,9 +1,12 @@
 apt-get update ; \
 apt-get install curl git ffmpeg build-essential libpcre3 libpcre3-dev libssl-dev zlib1g-dev -y ; \
 unlink /etc/systemd/system/nginx.service ; \
+unlink /etc/systemd/system/streamia.service ; \
 rm -f -R /usr/local/nginx ; \ 
 rm -f /usr/local/sbin/nginx ; \
+rm -f -R /etc/streamia ; \
 rm -rf ~/build ; \
+systemctl daemon-reload ; \
 mkdir ~/build ; \
 cd ~/build ; \
 git clone git://github.com/arut/nginx-rtmp-module.git ; \
@@ -20,7 +23,7 @@ printf "NGINX_SERVICE" >> /etc/systemd/system/nginx.service ; \
 systemctl start nginx ; \
 systemctl enable nginx ; \
 mkdir /etc/streamia ; \
-printf "#! /bin/bash\ncurl -i -X GET $1" >> /etc/streamia/state ; \
+printf "#! /bin/bash\ncurl -i -X GET \$1" >> /etc/streamia/state ; \
 chmod +x /etc/streamia/state ; \
 printf "STREAMIA_SERVICE" >> /etc/systemd/system/streamia.service ; \
 systemctl enable streamia ; \

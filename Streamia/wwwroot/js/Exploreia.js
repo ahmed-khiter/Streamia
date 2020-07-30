@@ -20,7 +20,6 @@
         let exButtons = document.createElement('div');
         let exBackButton = document.createElement('button');
         let exPickButton = null;
-        let self = this;
 
         exTemplate.classList.add('ex-hidden');
         exClose.classList.add('ex-close');
@@ -48,10 +47,6 @@
 
         exServers.forEach(server => {
             exServerDropdown.appendChild(server);
-        });
-
-        exClose.addEventListener('click', function () {
-            self.close();
         });
 
         exServerList.appendChild(exServerDropdown);
@@ -288,6 +283,11 @@
         this.onBackButtonClick(callback);
     }
 
+    onDispose(callback) {
+        this.onClose(callback);
+        this.onAbort(callback);
+    }
+
     onServerChange(callback) {
         let self = this;
         this.serverDropdown.addEventListener('change', function () {
@@ -349,6 +349,15 @@
         this.toggleButtons();
         this.resetFolders();
         alert('Explorer Error: Server communication failed or interrupted');
+    }
+
+    onClose(callback) {
+        let self = this;
+        document.querySelector('.ex-close').addEventListener('click', function (e) {
+            self.close();
+            self.resetAll();
+            callback(self.currentServer);
+        });
     }
 
     onAbort(callback) {

@@ -58,13 +58,13 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("/server-status-hub").build();
         connection.on("UpdateSignal", function (data) {
             var className = 'warning';
-            var statusName = 'PROCESSING';
+            var statusName = 'Configuring';
             if (data.state === 1) {
                 className = 'success';
-                statusName = 'ONLINE';
+                statusName = 'Online';
             } else if (data.state === 2) {
                 className = 'danger';
-                statusName = 'OFFLINE';
+                statusName = 'Offline';
             } else if (data.state === 3) {
                 className = 'danger';
                 statusName = 'FAIL';

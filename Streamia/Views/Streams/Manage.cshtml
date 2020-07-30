@@ -85,13 +85,13 @@
                 var stateIndicator = $(`#state-${data.sourceId}`);
                 btn.removeAttr("disabled");
                 if (data.state === 1) {
-                    stateIndicator.html('<i class="fa fa-circle text-success"></i> STARTED');
+                    stateIndicator.html('<i class="fa fa-circle text-success"></i> Live');
                     btn.attr("data-stream-state", "0")
                         .removeClass("btn-primary")
                         .addClass("btn-warning")
                         .html('<i class="fa fa-pause"></i>');
                 } else if (data.state === 0) {
-                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> STOPPED');
+                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> Stopped');
                     btn.attr("data-stream-state", "1")
                         .removeClass("btn-warning")
                         .addClass("btn-primary")

@@ -24,7 +24,7 @@
         <div class="form-group col-md-3">
             <label asp-for="Source"></label>
             <div class="exploriable">
-                <input asp-for="Source" class="form-control" placeholder="URL or browse servers" />
+                <input asp-for="Source" class="form-control tools-url-parser" placeholder="URL or browse servers" />
                 <button type="button" class="main-btn" onclick="exploreia.open()">
                     <i class="fa fa-folder-open"></i>
                 </button>
@@ -103,6 +103,7 @@
     <script src="~/js/Searchia.js" asp-append-version="true"></script>
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
+    <script src="~/js/Tools.js" asp-append-version="true"></script>
     <script>
         window.addEventListener('load', function () {
             $('select:not(.ex-server-dropdown)').select2({
@@ -118,6 +119,7 @@
 
         const searchia = new Searchia();
         const tmdb = new TMDB('415e9238d5188172426c3858b367e468');
+        const tools = new Tools();
 
         searchia.onTyping(value => {
             tmdb.search(value, 'movie', response => {
@@ -185,7 +187,7 @@
             });
         });
 
-        exploreia.onAbort(server => {
+        exploreia.onDispose(server => {
             connection.invoke('DisposeConnection', server).catch(() => {
                 exploreia.onError();
             });

@@ -59,7 +59,7 @@
             connection.on("Update", function (data) {
                 var stateIndicator = $(`#state-${data.sourceId}`);
                 if (data.state === 2) {
-                    stateIndicator.html('<i class="fa fa-circle text-success"></i> READY');
+                    stateIndicator.html('<i class="fa fa-circle text-success"></i> Ready');
                 }
             });
         });

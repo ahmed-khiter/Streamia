@@ -218,7 +218,7 @@
             }
         });
 
-        exploreia.onAbort(function (server) {
+        exploreia.onDispose(server => {
             connection.invoke('DisposeConnection', server).catch(() => {
                 exploreia.onError();
             });
