@@ -43,7 +43,7 @@ namespace Streamia.Api
                 return NotFound();
             }
             string url = null;
-            if (categoryType == CategoryType.LIVE)
+            if (categoryType == CategoryType.LiveStreams)
             {
                 var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
                 foreach (var server in stream.StreamServers)
@@ -52,7 +52,7 @@ namespace Streamia.Api
                     break;
                 }
             } 
-            else if (categoryType == CategoryType.MOVIE)
+            else if (categoryType == CategoryType.Movies)
             {
                 var movie = await movieRepository.GetById(sourceId, new string[] { "MovieServers", "MovieServers.Server" });
                 foreach (var server in movie.MovieServers)

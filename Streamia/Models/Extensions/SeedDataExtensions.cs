@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Streamia.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,14 +41,14 @@ namespace Streamia.Models.Extensions
         {
             if (userManager.FindByEmailAsync("dev@streamia.com").Result == null)
             {
-                Guid g = Guid.NewGuid();
-                string GuidString = Convert.ToBase64String(g.ToByteArray());
-                GuidString = GuidString.Replace("=", "");
-                GuidString = GuidString.Replace("+", "");
+                Guid guid = Guid.NewGuid();
+                string guidString = Convert.ToBase64String(guid.ToByteArray());
+                guidString = guidString.Replace("=", "");
+                guidString = guidString.Replace("+", "");
 
                 var user = new AppUser
                 {
-                    Id = GuidString,
+                    Id = guidString,
                     UserName = "dev@streamia.com",
                     Email = "dev@streamia.com",
 
@@ -72,79 +73,92 @@ namespace Streamia.Models.Extensions
             modelBuilder.Entity<Transcode>().HasData(new Transcode { Id = 1, AspectRatio = "4:4:2" });
         }
 
-        public static void SeedMovieCategories(this ModelBuilder modelBuilder)
+        public static void SeedCategories(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Category>().HasData(
-                new Category {Id=1, CategoryType = Enums.CategoryType.MOVIE,Name="Action"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,100000), CategoryType = Enums.CategoryType.MOVIE,Name="Adventure"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Comedy"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Crime"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Drama"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Fantasy"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Historical"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Horror"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Mystery" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="philosophical"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="political"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="Romance"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name="saga"},
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Thriller" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Western" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Crime Thriller" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Disaster Thriller" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Psychological Thriller" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE,Name= "Techno Thriller" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE, Name = "Science Fiction" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE, Name = "Suspense" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.MOVIE, Name = "Animation" }
+            string[] liveCategories = new string[]
+            {
+                "Science",
+                "Action",
+                "News"
+            };
 
+            string[] moviesCategories = new string[]
+            {
+                "Action",
+                "Adventure",
+                "Comedy",
+                "Crime",
+                "Drama",
+                "Fantasy",
+                "Historical",
+                "Horror",
+                "Mystery",
+                "Philosophical",
+                "Political",
+                "Saga",
+                "Thriller",
+                "Western",
+                "Crime Thriller",
+                "Disaster Thriller",
+                "Psychological Thriller",
+                "Techno Thriller",
+                "Science Fiction",
+                "Suspense",
+                "Animation"
+            };
 
-                );
+            string[] seriesesCategories = new string[]
+            {
+                "Action",
+                "Adventure",
+                "Comedy",
+                "Crime",
+                "Drama",
+                "Fantasy",
+                "Historical",
+                "Horror",
+                "Mystery",
+                "Philosophical",
+                "Political",
+                "Saga",
+                "Thriller",
+                "Western",
+                "Crime Thriller",
+                "Disaster Thriller",
+                "Psychological Thriller",
+                "Techno Thriller",
+                "Science Fiction",
+                "Suspense",
+                "Animation",
+                "Documentary",
+                "Family",
+                "Children",
+                "Sport"
+            };
+
+            int idCounter = 1;
+            List<Category> seedList = new List<Category>();
+
+            foreach (string categoryName in liveCategories)
+            {
+                seedList.Add(new Category { Id = idCounter, CategoryType = CategoryType.LiveStreams, Name = categoryName });
+                idCounter++;
+            }
+
+            foreach (string categoryName in moviesCategories)
+            {
+                seedList.Add(new Category { Id = idCounter, CategoryType = CategoryType.Movies, Name = categoryName });
+                idCounter++;
+            }
+
+            foreach (string categoryName in seriesesCategories)
+            {
+                seedList.Add(new Category { Id = idCounter, CategoryType = CategoryType.Serieses, Name = categoryName });
+                idCounter++;
+            }
+
+            modelBuilder.Entity<Category>().HasData(seedList);
         }
 
-        public static void SeedSeriesCategories(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Category>().HasData(
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Drama" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Action" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Comedy" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Adventure" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Crime" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Fantasy" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Science Fiction" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Suspense" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Thriller" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Horror" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Romance" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Animation" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Anime" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Mini-Series" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Family" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Historical" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Children" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Reality" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES,Name= "Mystery" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Documentary" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "political" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Soap" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Sport" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Western" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "saga" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Crime Thriller" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Disaster Thriller" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Psychological Thriller" },
-               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Techno Thriller" }
-
-               );
-        }
-
-        public static void SeedLiveCategroies(this ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Category>().HasData(
-              new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.LIVE, Name = "Science" },
-              new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.LIVE, Name = "ACtion" },
-              new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.LIVE, Name = "News" }
-              );
-        }
     }
 }

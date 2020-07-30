@@ -22,7 +22,7 @@ namespace Streamia.Models
 
         public Movie()
         {
-            State = StreamState.TRANSCODING;
+            State = StreamState.Transcoding;
             MovieServers = new List<MovieServer>();
             BouquetMovies = new List<BouquetMovie>();
         }

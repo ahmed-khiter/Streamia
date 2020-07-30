@@ -35,7 +35,7 @@ namespace Streamia.Realtime
                 return;
             }
 
-            if (state == StreamState.STARTED)
+            if (state == StreamState.Live)
             {
                 var command = new FFMPEGCommandGenerator
                 {
@@ -49,7 +49,7 @@ namespace Streamia.Realtime
                 };
                 stream.StreamServers = (List<StreamServer>) Start((IList<StreamServer>) stream.StreamServers, command.Generate());
             } 
-            else if (state == StreamState.STOPPED)
+            else if (state == StreamState.Stopped)
             {
                 stream.StreamServers = (List<StreamServer>) Stop((IList<StreamServer>) stream.StreamServers);
             }

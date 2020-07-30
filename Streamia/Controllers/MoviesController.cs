@@ -74,7 +74,7 @@ namespace Streamia.Controllers
 
                 if (model.StreamDirectly)
                 {
-                    model.State = StreamState.READY;
+                    model.State = StreamState.Ready;
                 } 
                 
                 await movieRepository.Add(model);
@@ -84,7 +84,7 @@ namespace Streamia.Controllers
                     var transcodeProfile = await transcodeRepository.GetById(model.TranscodeId);
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
-                    var callbackUrl = $"{host}/api/moviestatus/edit/SERVER_ID/{StreamState.READY}";
+                    var callbackUrl = $"{host}/api/moviestatus/edit/SERVER_ID/{StreamState.Ready}";
                     ThreadPool.QueueUserWorkItem(queue => Transcode(model.Id, transcodeProfile, server, callbackUrl));
                 }
 
@@ -112,8 +112,8 @@ namespace Streamia.Controllers
 
         private async Task PrepareViewBag()
         {
-            ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.MOVIE);
-            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.ONLINE);
+            ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.Movies);
+            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
 

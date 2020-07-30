@@ -40,7 +40,6 @@ namespace Streamia.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
                     Name = table.Column<string>(nullable: true),
                     ProfilePicture = table.Column<string>(nullable: true)
                 },
@@ -77,6 +76,18 @@ namespace Streamia.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Channels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Channels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Servers",
                 columns: table => new
                 {
@@ -96,6 +107,37 @@ namespace Streamia.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Servers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Transcodes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: true),
+                    VideoCodec = table.Column<string>(nullable: true),
+                    AudioCodec = table.Column<string>(nullable: true),
+                    AvgAudioBitrate = table.Column<string>(nullable: true),
+                    MinBitrate = table.Column<int>(nullable: false),
+                    MaxBitrate = table.Column<int>(nullable: false),
+                    AvgBitrate = table.Column<int>(nullable: false),
+                    BufferSize = table.Column<string>(nullable: true),
+                    CRF = table.Column<int>(nullable: false),
+                    Preset = table.Column<int>(nullable: false),
+                    Tune = table.Column<int>(nullable: false),
+                    Scaling = table.Column<string>(nullable: true),
+                    AspectRatio = table.Column<string>(nullable: true),
+                    TargetVideoFrameRate = table.Column<string>(nullable: true),
+                    AudioChannel = table.Column<int>(nullable: false),
+                    RemoveSensitiveParts = table.Column<string>(nullable: true),
+                    Threads = table.Column<int>(nullable: false),
+                    AudioSampleRate = table.Column<string>(nullable: true),
+                    Hardware = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Transcodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -205,6 +247,26 @@ namespace Streamia.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    AdminUserId = table.Column<string>(nullable: false),
+                    UserValue = table.Column<int>(nullable: false),
+                    UnitPoint = table.Column<int>(nullable: false),
+                    Price = table.Column<decimal>(nullable: false),
+                    SetAccountKey = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.AdminUserId);
+                    table.ForeignKey(
+                        name: "FK_Settings_AspNetUsers_AdminUserId",
+                        column: x => x.AdminUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "IptvUsers",
                 columns: table => new
                 {
@@ -212,7 +274,10 @@ namespace Streamia.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Username = table.Column<string>(nullable: false),
                     Password = table.Column<string>(nullable: false),
-                    Subscription = table.Column<long>(nullable: false),
+                    Connections = table.Column<long>(nullable: false),
+                    DaysToExpire = table.Column<long>(nullable: false),
+                    Expiration = table.Column<DateTime>(nullable: true),
+                    Notes = table.Column<string>(nullable: true),
                     BouquetId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -227,58 +292,27 @@ namespace Streamia.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Channels",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: false),
-                    Path = table.Column<string>(nullable: true),
-                    Logo = table.Column<string>(nullable: true),
-                    Note = table.Column<string>(nullable: true),
-                    StartChannel = table.Column<bool>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Channels", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Channels_Categories_CategoryId",
-                        column: x => x.CategoryId,
-                        principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Movies",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StreamKey = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: false),
+                    TranscodeId = table.Column<int>(nullable: false),
+                    StreamDirectly = table.Column<bool>(nullable: false),
+                    Uptime = table.Column<DateTime>(nullable: false),
+                    State = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    Path = table.Column<string>(nullable: true),
-                    Note = table.Column<string>(nullable: true),
+                    Overview = table.Column<string>(nullable: true),
                     PosterUrl = table.Column<string>(nullable: true),
-                    BackdropUrl = table.Column<string>(nullable: true),
-                    Plot = table.Column<string>(nullable: true),
                     Cast = table.Column<string>(nullable: true),
                     Director = table.Column<string>(nullable: true),
                     Gener = table.Column<string>(nullable: true),
                     ReleaseDate = table.Column<string>(nullable: true),
                     Runtime = table.Column<int>(nullable: false),
                     Rating = table.Column<float>(nullable: false),
-                    Country = table.Column<string>(nullable: true),
-                    NativeFrame = table.Column<bool>(nullable: false),
-                    DirectSource = table.Column<bool>(nullable: false),
-                    CreateSymlink = table.Column<bool>(nullable: false),
-                    SidDevice = table.Column<string>(nullable: true),
-                    TargetContainer = table.Column<string>(nullable: true),
-                    RemoveExistingSubtitle = table.Column<bool>(nullable: false),
-                    SubtitleLocation = table.Column<string>(nullable: true),
-                    ProcessMovie = table.Column<bool>(nullable: false),
-                    TranscodingProfile = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true)
+                    Source = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -288,27 +322,50 @@ namespace Streamia.Migrations
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Movies_Transcodes_TranscodeId",
+                        column: x => x.TranscodeId,
+                        principalTable: "Transcodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Series",
+                name: "Serieses",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StreamKey = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: false),
+                    TranscodeId = table.Column<int>(nullable: false),
+                    StreamDirectly = table.Column<bool>(nullable: false),
+                    Uptime = table.Column<DateTime>(nullable: false),
+                    State = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: true)
+                    Overview = table.Column<string>(nullable: true),
+                    PosterUrl = table.Column<string>(nullable: true),
+                    Cast = table.Column<string>(nullable: true),
+                    Gener = table.Column<string>(nullable: true),
+                    ReleaseDate = table.Column<string>(nullable: true),
+                    Rating = table.Column<float>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Series", x => x.Id);
+                    table.PrimaryKey("PK_Serieses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Series_Categories_CategoryId",
+                        name: "FK_Serieses_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Serieses_Transcodes_TranscodeId",
+                        column: x => x.TranscodeId,
+                        principalTable: "Transcodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -317,18 +374,19 @@ namespace Streamia.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    StreamKey = table.Column<string>(nullable: true),
+                    CategoryId = table.Column<int>(nullable: false),
+                    TranscodeId = table.Column<int>(nullable: false),
+                    StreamDirectly = table.Column<bool>(nullable: false),
+                    Uptime = table.Column<DateTime>(nullable: false),
+                    State = table.Column<int>(nullable: false),
                     Name = table.Column<string>(nullable: false),
                     Source = table.Column<string>(nullable: false),
-                    Notes = table.Column<string>(nullable: true),
                     GeneratePts = table.Column<bool>(nullable: false),
-                    StreamAll = table.Column<bool>(nullable: false),
-                    AllowRtmp = table.Column<bool>(nullable: false),
-                    AllowRecording = table.Column<bool>(nullable: false),
-                    DirectSource = table.Column<bool>(nullable: false),
+                    EnableRtmp = table.Column<bool>(nullable: false),
+                    EnableRecording = table.Column<bool>(nullable: false),
                     EnigmaSID = table.Column<string>(nullable: true),
-                    MinuteDelay = table.Column<int>(nullable: false),
-                    CategoryId = table.Column<int>(nullable: false),
-                    State = table.Column<int>(nullable: false)
+                    Delay = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -339,6 +397,129 @@ namespace Streamia.Migrations
                         principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Streams_Transcodes_TranscodeId",
+                        column: x => x.TranscodeId,
+                        principalTable: "Transcodes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BouquetMovies",
+                columns: table => new
+                {
+                    BouquetId = table.Column<int>(nullable: false),
+                    MovieId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BouquetMovies", x => new { x.BouquetId, x.MovieId });
+                    table.ForeignKey(
+                        name: "FK_BouquetMovies_Bouquets_BouquetId",
+                        column: x => x.BouquetId,
+                        principalTable: "Bouquets",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BouquetMovies_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MovieServers",
+                columns: table => new
+                {
+                    MovieId = table.Column<int>(nullable: false),
+                    ServerId = table.Column<int>(nullable: false),
+                    Pid = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovieServers", x => new { x.MovieId, x.ServerId });
+                    table.ForeignKey(
+                        name: "FK_MovieServers_Movies_MovieId",
+                        column: x => x.MovieId,
+                        principalTable: "Movies",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_MovieServers_Servers_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "Servers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BouquetSeries",
+                columns: table => new
+                {
+                    BouquetId = table.Column<int>(nullable: false),
+                    SeriesId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BouquetSeries", x => new { x.BouquetId, x.SeriesId });
+                    table.ForeignKey(
+                        name: "FK_BouquetSeries_Bouquets_BouquetId",
+                        column: x => x.BouquetId,
+                        principalTable: "Bouquets",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_BouquetSeries_Serieses_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Serieses",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Episode",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SeriesId = table.Column<int>(nullable: false),
+                    Number = table.Column<int>(nullable: false),
+                    Season = table.Column<int>(nullable: false),
+                    Source = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Overview = table.Column<string>(nullable: true),
+                    Director = table.Column<string>(nullable: true),
+                    ReleaseDate = table.Column<string>(nullable: true),
+                    Rating = table.Column<float>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Episode", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Episode_Serieses_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Serieses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SeriesServers",
+                columns: table => new
+                {
+                    SeriesId = table.Column<int>(nullable: false),
+                    ServerId = table.Column<int>(nullable: false),
+                    Pid = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SeriesServers", x => new { x.SeriesId, x.ServerId });
+                    table.ForeignKey(
+                        name: "FK_SeriesServers_Serieses_SeriesId",
+                        column: x => x.SeriesId,
+                        principalTable: "Serieses",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_SeriesServers_Servers_ServerId",
+                        column: x => x.ServerId,
+                        principalTable: "Servers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -355,14 +536,12 @@ namespace Streamia.Migrations
                         name: "FK_BouquetStreams_Bouquets_BouquetId",
                         column: x => x.BouquetId,
                         principalTable: "Bouquets",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_BouquetStreams_Streams_StreamId",
                         column: x => x.StreamId,
                         principalTable: "Streams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -370,7 +549,8 @@ namespace Streamia.Migrations
                 columns: table => new
                 {
                     StreamId = table.Column<int>(nullable: false),
-                    ServerId = table.Column<int>(nullable: false)
+                    ServerId = table.Column<int>(nullable: false),
+                    Pid = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -379,14 +559,68 @@ namespace Streamia.Migrations
                         name: "FK_StreamServers_Servers_ServerId",
                         column: x => x.ServerId,
                         principalTable: "Servers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_StreamServers_Streams_StreamId",
                         column: x => x.StreamId,
                         principalTable: "Streams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "CategoryType", "Name" },
+                values: new object[,]
+                {
+                    { 1, 0, "Science" },
+                    { 27, 2, "Comedy" },
+                    { 28, 2, "Crime" },
+                    { 29, 2, "Drama" },
+                    { 30, 2, "Fantasy" },
+                    { 31, 2, "Historical" },
+                    { 32, 2, "Horror" },
+                    { 33, 2, "Mystery" },
+                    { 34, 2, "Philosophical" },
+                    { 35, 2, "Political" },
+                    { 36, 2, "Saga" },
+                    { 37, 2, "Thriller" },
+                    { 38, 2, "Western" },
+                    { 39, 2, "Crime Thriller" },
+                    { 40, 2, "Disaster Thriller" },
+                    { 41, 2, "Psychological Thriller" },
+                    { 42, 2, "Techno Thriller" },
+                    { 43, 2, "Science Fiction" },
+                    { 44, 2, "Suspense" },
+                    { 45, 2, "Animation" },
+                    { 46, 2, "Documentary" },
+                    { 47, 2, "Family" },
+                    { 26, 2, "Adventure" },
+                    { 48, 2, "Children" },
+                    { 25, 2, "Action" },
+                    { 23, 1, "Suspense" },
+                    { 2, 0, "Action" },
+                    { 3, 0, "News" },
+                    { 4, 1, "Action" },
+                    { 5, 1, "Adventure" },
+                    { 6, 1, "Comedy" },
+                    { 7, 1, "Crime" },
+                    { 8, 1, "Drama" },
+                    { 9, 1, "Fantasy" },
+                    { 10, 1, "Historical" },
+                    { 11, 1, "Horror" },
+                    { 12, 1, "Mystery" },
+                    { 13, 1, "Philosophical" },
+                    { 14, 1, "Political" },
+                    { 15, 1, "Saga" },
+                    { 16, 1, "Thriller" },
+                    { 17, 1, "Western" },
+                    { 18, 1, "Crime Thriller" },
+                    { 19, 1, "Disaster Thriller" },
+                    { 20, 1, "Psychological Thriller" },
+                    { 21, 1, "Techno Thriller" },
+                    { 22, 1, "Science Fiction" },
+                    { 24, 1, "Animation" },
+                    { 49, 2, "Sport" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -429,14 +663,24 @@ namespace Streamia.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_BouquetMovies_MovieId",
+                table: "BouquetMovies",
+                column: "MovieId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BouquetSeries_SeriesId",
+                table: "BouquetSeries",
+                column: "SeriesId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_BouquetStreams_StreamId",
                 table: "BouquetStreams",
                 column: "StreamId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Channels_CategoryId",
-                table: "Channels",
-                column: "CategoryId");
+                name: "IX_Episode_SeriesId",
+                table: "Episode",
+                column: "SeriesId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_IptvUsers_BouquetId",
@@ -449,14 +693,39 @@ namespace Streamia.Migrations
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Series_CategoryId",
-                table: "Series",
+                name: "IX_Movies_TranscodeId",
+                table: "Movies",
+                column: "TranscodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovieServers_ServerId",
+                table: "MovieServers",
+                column: "ServerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Serieses_CategoryId",
+                table: "Serieses",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Serieses_TranscodeId",
+                table: "Serieses",
+                column: "TranscodeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SeriesServers_ServerId",
+                table: "SeriesServers",
+                column: "ServerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Streams_CategoryId",
                 table: "Streams",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Streams_TranscodeId",
+                table: "Streams",
+                column: "TranscodeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StreamServers_ServerId",
@@ -482,19 +751,31 @@ namespace Streamia.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "BouquetMovies");
+
+            migrationBuilder.DropTable(
+                name: "BouquetSeries");
+
+            migrationBuilder.DropTable(
                 name: "BouquetStreams");
 
             migrationBuilder.DropTable(
                 name: "Channels");
 
             migrationBuilder.DropTable(
+                name: "Episode");
+
+            migrationBuilder.DropTable(
                 name: "IptvUsers");
 
             migrationBuilder.DropTable(
-                name: "Movies");
+                name: "MovieServers");
 
             migrationBuilder.DropTable(
-                name: "Series");
+                name: "SeriesServers");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "StreamServers");
@@ -503,10 +784,16 @@ namespace Streamia.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Bouquets");
 
             migrationBuilder.DropTable(
-                name: "Bouquets");
+                name: "Movies");
+
+            migrationBuilder.DropTable(
+                name: "Serieses");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Servers");
@@ -516,6 +803,9 @@ namespace Streamia.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
+
+            migrationBuilder.DropTable(
+                name: "Transcodes");
         }
     }
 }

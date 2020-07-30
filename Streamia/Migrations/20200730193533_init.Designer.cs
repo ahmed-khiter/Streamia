@@ -10,8 +10,8 @@ using Streamia.Models.Contexts;
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    [Migration("20200721203835_SeriesModelOverrideRuntime")]
-    partial class SeriesModelOverrideRuntime
+    [Migration("20200730193533_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -152,7 +152,7 @@ namespace Streamia.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Streamia.Models.AdminUser", b =>
+            modelBuilder.Entity("Streamia.Models.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -301,6 +301,302 @@ namespace Streamia.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryType = 0,
+                            Name = "Science"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryType = 0,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryType = 0,
+                            Name = "News"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryType = 1,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryType = 1,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryType = 1,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryType = 1,
+                            Name = "Crime"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryType = 1,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryType = 1,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryType = 1,
+                            Name = "Historical"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryType = 1,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryType = 1,
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryType = 1,
+                            Name = "Philosophical"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryType = 1,
+                            Name = "Political"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryType = 1,
+                            Name = "Saga"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CategoryType = 1,
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CategoryType = 1,
+                            Name = "Western"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CategoryType = 1,
+                            Name = "Crime Thriller"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CategoryType = 1,
+                            Name = "Disaster Thriller"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CategoryType = 1,
+                            Name = "Psychological Thriller"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CategoryType = 1,
+                            Name = "Techno Thriller"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CategoryType = 1,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CategoryType = 1,
+                            Name = "Suspense"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CategoryType = 1,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CategoryType = 2,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CategoryType = 2,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CategoryType = 2,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CategoryType = 2,
+                            Name = "Crime"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CategoryType = 2,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CategoryType = 2,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CategoryType = 2,
+                            Name = "Historical"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CategoryType = 2,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CategoryType = 2,
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CategoryType = 2,
+                            Name = "Philosophical"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CategoryType = 2,
+                            Name = "Political"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CategoryType = 2,
+                            Name = "Saga"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CategoryType = 2,
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CategoryType = 2,
+                            Name = "Western"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CategoryType = 2,
+                            Name = "Crime Thriller"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CategoryType = 2,
+                            Name = "Disaster Thriller"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CategoryType = 2,
+                            Name = "Psychological Thriller"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CategoryType = 2,
+                            Name = "Techno Thriller"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CategoryType = 2,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CategoryType = 2,
+                            Name = "Suspense"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CategoryType = 2,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CategoryType = 2,
+                            Name = "Documentary"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CategoryType = 2,
+                            Name = "Family"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CategoryType = 2,
+                            Name = "Children"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CategoryType = 2,
+                            Name = "Sport"
+                        });
                 });
 
             modelBuilder.Entity("Streamia.Models.Channel", b =>
@@ -310,28 +606,7 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Logo")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Path")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("StartChannel")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CategoryId");
 
                     b.ToTable("Channels");
                 });
@@ -343,17 +618,10 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Cast")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Gener")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Number")
@@ -362,17 +630,11 @@ namespace Streamia.Migrations
                     b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PosterUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<float>("Rating")
                         .HasColumnType("real");
 
                     b.Property<string>("ReleaseDate")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Runtime")
-                        .HasColumnType("int");
 
                     b.Property<int>("Season")
                         .HasColumnType("int");
@@ -440,9 +702,6 @@ namespace Streamia.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("DirectSource")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
 
@@ -475,12 +734,23 @@ namespace Streamia.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<bool>("StreamDirectly")
+                        .HasColumnType("bit");
+
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TranscodeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Uptime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("TranscodeId");
 
                     b.ToTable("Movies");
                 });
@@ -516,9 +786,6 @@ namespace Streamia.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Director")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Gener")
                         .HasColumnType("nvarchar(max)");
 
@@ -541,12 +808,23 @@ namespace Streamia.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
+                    b.Property<bool>("StreamDirectly")
+                        .HasColumnType("bit");
+
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TranscodeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Uptime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("TranscodeId");
 
                     b.ToTable("Serieses");
                 });
@@ -614,6 +892,28 @@ namespace Streamia.Migrations
                     b.ToTable("Servers");
                 });
 
+            modelBuilder.Entity("Streamia.Models.Setting", b =>
+                {
+                    b.Property<string>("AdminUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("SetAccountKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UnitPoint")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserValue")
+                        .HasColumnType("int");
+
+                    b.HasKey("AdminUserId");
+
+                    b.ToTable("Settings");
+                });
+
             modelBuilder.Entity("Streamia.Models.Stream", b =>
                 {
                     b.Property<int>("Id")
@@ -621,16 +921,16 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("AllowRecording")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("AllowRtmp")
-                        .HasColumnType("bit");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("DirectSource")
+                    b.Property<int>("Delay")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("EnableRecording")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("EnableRtmp")
                         .HasColumnType("bit");
 
                     b.Property<string>("EnigmaSID")
@@ -639,14 +939,8 @@ namespace Streamia.Migrations
                     b.Property<bool>("GeneratePts")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MinuteDelay")
-                        .HasColumnType("int");
-
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Notes")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Source")
@@ -656,15 +950,23 @@ namespace Streamia.Migrations
                     b.Property<int>("State")
                         .HasColumnType("int");
 
-                    b.Property<bool>("StreamAll")
+                    b.Property<bool>("StreamDirectly")
                         .HasColumnType("bit");
 
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("TranscodeId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Uptime")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("TranscodeId");
 
                     b.ToTable("Streams");
                 });
@@ -687,6 +989,75 @@ namespace Streamia.Migrations
                     b.ToTable("StreamServers");
                 });
 
+            modelBuilder.Entity("Streamia.Models.Transcode", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AspectRatio")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AudioChannel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("AudioCodec")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AudioSampleRate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AvgAudioBitrate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("AvgBitrate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("BufferSize")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("CRF")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Hardware")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaxBitrate")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinBitrate")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Preset")
+                        .HasColumnType("int");
+
+                    b.Property<string>("RemoveSensitiveParts")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Scaling")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TargetVideoFrameRate")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Threads")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Tune")
+                        .HasColumnType("int");
+
+                    b.Property<string>("VideoCodec")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Transcodes");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -698,7 +1069,7 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Streamia.Models.AdminUser", null)
+                    b.HasOne("Streamia.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -707,7 +1078,7 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Streamia.Models.AdminUser", null)
+                    b.HasOne("Streamia.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -722,7 +1093,7 @@ namespace Streamia.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Streamia.Models.AdminUser", null)
+                    b.HasOne("Streamia.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -731,7 +1102,7 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Streamia.Models.AdminUser", null)
+                    b.HasOne("Streamia.Models.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -783,13 +1154,6 @@ namespace Streamia.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Streamia.Models.Channel", b =>
-                {
-                    b.HasOne("Streamia.Models.Category", "Category")
-                        .WithMany()
-                        .HasForeignKey("CategoryId");
-                });
-
             modelBuilder.Entity("Streamia.Models.Episode", b =>
                 {
                     b.HasOne("Streamia.Models.Series", "Series")
@@ -813,6 +1177,12 @@ namespace Streamia.Migrations
                     b.HasOne("Streamia.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Streamia.Models.Transcode", "Transcode")
+                        .WithMany()
+                        .HasForeignKey("TranscodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -839,6 +1209,12 @@ namespace Streamia.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Streamia.Models.Transcode", "Transcode")
+                        .WithMany()
+                        .HasForeignKey("TranscodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Streamia.Models.SeriesServer", b =>
@@ -856,11 +1232,26 @@ namespace Streamia.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Streamia.Models.Setting", b =>
+                {
+                    b.HasOne("Streamia.Models.AppUser", "AdminUser")
+                        .WithOne("Setting")
+                        .HasForeignKey("Streamia.Models.Setting", "AdminUserId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Streamia.Models.Stream", b =>
                 {
                     b.HasOne("Streamia.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Streamia.Models.Transcode", "Transcode")
+                        .WithMany()
+                        .HasForeignKey("TranscodeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

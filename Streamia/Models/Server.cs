@@ -38,7 +38,7 @@ namespace Streamia.Models
         [Display(Name = "Is RTMP?")]
         public bool IsRTMP { get; set; } = false;
 
-        public ServerState ServerState { get; set; } = ServerState.PROCESSING;
+        public ServerState ServerState { get; set; } = ServerState.Configuring;
 
         public ICollection<StreamServer> StreamServers { get; set; }
 

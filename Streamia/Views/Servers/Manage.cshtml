@@ -25,11 +25,11 @@
                 <td>@server.Ip</td>
                 <td id="@server.Id">
                     @{ string stateClass = "warning"; }
-                    @if (server.ServerState == ServerState.ONLINE)
+                    @if (server.ServerState == ServerState.Online)
                     {
                         stateClass = "success";
                     }
-                    else if (server.ServerState == ServerState.OFFLINE || server.ServerState == ServerState.FAIL)
+                    else if (server.ServerState == ServerState.Offline || server.ServerState == ServerState.ConfigureFailed)
                     {
                         stateClass = "danger";
                     }

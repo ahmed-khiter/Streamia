@@ -26,7 +26,7 @@
                 <td id="state-@stream.Id">
                     @{ 
                         string stateClass = "danger"; 
-                        if (stream.State == StreamState.STARTED)
+                        if (stream.State == StreamState.Live)
                         {
                             stateClass = "success";
                         }
@@ -37,18 +37,18 @@
                     @{ 
                         string className = null;
                         string iconName = null;
-                        int currentStreamState = (int) StreamState.STARTED;
-                        if (stream.State == StreamState.STARTED)
+                        int currentStreamState = (int) StreamState.Live;
+                        if (stream.State == StreamState.Live)
                         {
                             className = "warning";
                             iconName = "pause";
-                            currentStreamState = (int) StreamState.STOPPED;
+                            currentStreamState = (int) StreamState.Stopped;
                         }
-                        else if (stream.State == StreamState.STOPPED)
+                        else if (stream.State == StreamState.Stopped)
                         {
                             className = "primary";
                             iconName = "play";
-                            currentStreamState = (int) StreamState.STARTED;
+                            currentStreamState = (int) StreamState.Live;
                         }
                     }
                     <button 

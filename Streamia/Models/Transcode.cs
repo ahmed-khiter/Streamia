@@ -17,7 +17,7 @@ namespace Streamia.Models
         [Display(Name = "Audio Codec")]
         public string AudioCodec { get; set; }
 
-        [Display(Name = "Avg Audio bitrate")]
+        [Display(Name = "Avgerage Audio bitrate")]
         public string AvgAudioBitrate { get; set; }
 
         /*
@@ -29,26 +29,26 @@ namespace Streamia.Models
         /*
          * -maxrate + number
          */
-        [Display(Name = "Mac Bitrate")]
+        [Display(Name = "Max Bitrate")]
         public int MaxBitrate { get; set; }
 
         /*
          * -b:V + number to be able to control the bandwidth used 
          * -b:V or Max rate is used in conjunction with buffer size 
          */
-        [Display(Name = "Average bitrate")]
+        [Display(Name = "Average Bitrate")]
         public int AvgBitrate { get; set; }
 
         /*
          * -bufsize
          */
-        [Display(Name = "Buffer size")]
+        [Display(Name = "Buffer Size")]
         public string BufferSize { get; set; }
 
         /*
          * default is 28 
          */
-        [Display(Name="Constant rate factor")]
+        [Display(Name="Constant Rate Factor")]
         public int CRF { get; set; }
 
         /*
@@ -63,14 +63,17 @@ namespace Streamia.Models
 
         public string Scaling { get; set; }
 
-        [Display( Name="Aspect Ratio")]
+        [Display(Name = "Aspect Ratio")]
         public string AspectRatio { get; set; }
 
+        [Display(Name = "Target Video Frame Rate")]
         public string TargetVideoFrameRate { get; set; }
 
+        [Display(Name = "Audio Channel")]
         public int AudioChannel { get; set; }
 
-        public string RemoveSenstitveParts { get; set; }
+        [Display(Name = "Remove Sensitive Parts")]
+        public string RemoveSensitiveParts { get; set; }
 
         public int Threads { get; set; }
 

@@ -62,11 +62,11 @@
                 <td><strong>@Html.DisplayNameFor(m => m.ServerState)</strong></td>
                 <td>
                     @{ iconClass = "warning"; }
-                    @if (Model.ServerState == ServerState.ONLINE)
+                    @if (Model.ServerState == ServerState.Online)
                     {
                         iconClass = "success";
                     }
-                    else if (Model.ServerState == ServerState.OFFLINE || Model.ServerState == ServerState.FAIL)
+                    else if (Model.ServerState == ServerState.Offline || Model.ServerState == ServerState.ConfigureFailed)
                     {
                         iconClass = "danger";
                     }

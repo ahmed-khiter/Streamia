@@ -60,7 +60,7 @@ namespace Streamia.Controllers
 
         private async Task PrepareViewBag()
         {
-            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.ONLINE);
+            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
     }

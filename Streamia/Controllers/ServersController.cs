@@ -39,7 +39,7 @@ namespace Streamia.Controllers
             {
                 var server = await serverRepository.Add(model);
                 var host = $"{Request.Scheme}://{Request.Host}";
-                var hostUrl = $"{host}/api/serverstatus/edit/{server.Id}/{ServerState.OFFLINE}";
+                var hostUrl = $"{host}/api/serverstatus/edit/{server.Id}/{ServerState.Offline}";
 
                 ThreadPool.QueueUserWorkItem(queue => RunCommand(server, host, hostUrl));
 

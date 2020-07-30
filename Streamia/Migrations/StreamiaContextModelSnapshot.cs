@@ -304,370 +304,296 @@ namespace Streamia.Migrations
                         new
                         {
                             Id = 1,
-                            CategoryType = 1,
-                            Name = "Action"
-                        },
-                        new
-                        {
-
-                            Id = 12775,
-                            CategoryType = 1,
-                            Name = "Adventure"
-                        },
-                        new
-                        {
-
-                            Id = 8142,
-                            CategoryType = 1,
-                            Name = "Comedy"
-                        },
-                        new
-                        {
-
-                            Id = 4117,
-                            CategoryType = 1,
-                            Name = "Crime"
-                        },
-                        new
-                        {
-
-                            Id = 1608,
-                            CategoryType = 1,
-                            Name = "Drama"
-                        },
-                        new
-                        {
-
-                            Id = 7872,
-                            CategoryType = 1,
-                            Name = "Fantasy"
-                        },
-                        new
-                        {
-
-                            Id = 3305,
-                            CategoryType = 1,
-                            Name = "Historical"
-                        },
-                        new
-                        {
-                        
-                            Id = 311,
-                            CategoryType = 1,
-                            Name = "Horror"
-                        },
-                        new
-                        {
-
-                            Id = 4661,
-                            CategoryType = 1,
-                            Name = "Mystery"
-                        },
-                        new
-                        {
-                        
-                            Id = 446,
-                            CategoryType = 1,
-                            Name = "philosophical"
-                        },
-                        new
-                        {
-                            Id = 5492,
-                            CategoryType = 1,
-                            Name = "political"
-                        },
-                        new
-                        {
-
-                            Id = 9139,
-                            CategoryType = 1,
-                            Name = "Romance"
-                        },
-                        new
-                        {
-
-                            Id = 3084,
-                            CategoryType = 1,
-                            Name = "saga"
-                        },
-                        new
-                        {
-                        
-                            Id = 798,
-                            CategoryType = 1,
-                            Name = "Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 575,
-                            CategoryType = 1,
-                            Name = "Western"
-                        },
-                        new
-                        {
-                            Id = 6811,
-                            CategoryType = 1,
-                            Name = "Crime Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 2269,
-                            CategoryType = 1,
-                            Name = "Disaster Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 2706,
-                            CategoryType = 1,
-                            Name = "Psychological Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 8891,
-                            CategoryType = 1,
-                            Name = "Techno Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 7959,
-                            CategoryType = 1,
-                            Name = "Science Fiction"
-                        },
-                        new
-                        {
-                            Id = 2742,
-                            CategoryType = 1,
-                            Name = "Suspense"
-                        },
-                        new
-                        {
-                            Id = 1297,
-                            CategoryType = 1,
-                            Name = "Animation"
-                        },
-                        new
-                        {
-
-                            Id = 3325,
-                            CategoryType = 2,
-                            Name = "Drama"
-                        },
-                        new
-                        {
-
-                            Id = 427,
-                            CategoryType = 2,
-                            Name = "Action"
-                        },
-                        new
-                        {
-
-                            Id = 8767,
-                            CategoryType = 2,
-                            Name = "Comedy"
-                        },
-                        new
-                        {
-
-                            Id = 30,
-                            CategoryType = 2,
-                            Name = "Adventure"
-                        },
-                        new
-                        {
-
-                            Id = 1333,
-                            CategoryType = 2,
-                            Name = "Crime"
-                        },
-                        new
-                        {
-                            Id = 679,
-                            CategoryType = 2,
-                            Name = "Fantasy"
-                        },
-                        new
-                        {
-
-                            Id = 190,
-                            CategoryType = 2,
-                            Name = "Science Fiction"
-                        },
-                        new
-                        {
-
-                            Id = 7011,
-
-                            CategoryType = 2,
-                            Name = "Suspense"
-                        },
-                        new
-                        {
-
-                            Id = 5909,
-                            CategoryType = 2,
-                            Name = "Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 1820,
-                            CategoryType = 2,
-                            Name = "Horror"
-                        },
-                        new
-                        {
-
-                            Id = 4041,
-                            CategoryType = 2,
-                            Name = "Romance"
-                        },
-                        new
-                        {
-
-                            Id = 6489,
-                            CategoryType = 2,
-                            Name = "Animation"
-                        },
-                        new
-                        {
-
-                            Id = 8794,
-                            CategoryType = 2,
-                            Name = "Anime"
-                        },
-                        new
-                        {
-
-                            Id = 6190,
-                            CategoryType = 2,
-                            Name = "Mini-Series"
-                        },
-                        new
-                        {
-
-                            Id = 440,
-                            CategoryType = 2,
-                            Name = "Family"
-                        },
-                        new
-                        {
-
-                            Id = 1629,
-                            CategoryType = 2,
-                            Name = "Historical"
-                        },
-                        new
-                        {
-
-                            Id = 6944,
-                            CategoryType = 2,
-                            Name = "Children"
-                        },
-                        new
-                        {
-
-                            Id = 10,
-                            CategoryType = 2,
-                            Name = "Reality"
-                        },
-                        new
-                        {
-                            Id = 8203,
-                            CategoryType = 2,
-                            Name = "Mystery"
-                        },
-                        new
-                        {
-                            Id = 4637,
-                            CategoryType = 2,
-                            Name = "Documentary"
-                        },
-                        new
-                        {
-                            Id = 8680,
-                            CategoryType = 2,
-                            Name = "political"
-                        },
-                        new
-                        {
-
-                            Id = 2405,
-                            CategoryType = 2,
-                            Name = "Soap"
-                        },
-                        new
-                        {
-                            Id = 9127,
-                            CategoryType = 2,
-                            Name = "Sport"
-                        },
-                        new
-                        {
-
-                            Id = 1674,
-                            CategoryType = 2,
-                            Name = "Western"
-                        },
-                        new
-                        {
-
-                            Id = 8478,
-                            CategoryType = 2,
-                            Name = "saga"
-                        },
-                        new
-                        {
-                            Id = 5975,
-                            CategoryType = 2,
-                            Name = "Crime Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 5001,
-                            CategoryType = 2,
-                            Name = "Disaster Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 255,
-                            CategoryType = 2,
-                            Name = "Psychological Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 3323,
-                            CategoryType = 2,
-                            Name = "Techno Thriller"
-                        },
-                        new
-                        {
-
-                            Id = 6263,
                             CategoryType = 0,
                             Name = "Science"
                         },
                         new
                         {
-
-                            Id = 6754,
+                            Id = 2,
                             CategoryType = 0,
-                            Name = "ACtion"
+                            Name = "Action"
                         },
                         new
                         {
-
-                            Id = 5899,
+                            Id = 3,
                             CategoryType = 0,
                             Name = "News"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryType = 1,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryType = 1,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryType = 1,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryType = 1,
+                            Name = "Crime"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryType = 1,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryType = 1,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryType = 1,
+                            Name = "Historical"
+                        },
+                        new
+                        {
+                            Id = 11,
+                            CategoryType = 1,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 12,
+                            CategoryType = 1,
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 13,
+                            CategoryType = 1,
+                            Name = "Philosophical"
+                        },
+                        new
+                        {
+                            Id = 14,
+                            CategoryType = 1,
+                            Name = "Political"
+                        },
+                        new
+                        {
+                            Id = 15,
+                            CategoryType = 1,
+                            Name = "Saga"
+                        },
+                        new
+                        {
+                            Id = 16,
+                            CategoryType = 1,
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 17,
+                            CategoryType = 1,
+                            Name = "Western"
+                        },
+                        new
+                        {
+                            Id = 18,
+                            CategoryType = 1,
+                            Name = "Crime Thriller"
+                        },
+                        new
+                        {
+                            Id = 19,
+                            CategoryType = 1,
+                            Name = "Disaster Thriller"
+                        },
+                        new
+                        {
+                            Id = 20,
+                            CategoryType = 1,
+                            Name = "Psychological Thriller"
+                        },
+                        new
+                        {
+                            Id = 21,
+                            CategoryType = 1,
+                            Name = "Techno Thriller"
+                        },
+                        new
+                        {
+                            Id = 22,
+                            CategoryType = 1,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 23,
+                            CategoryType = 1,
+                            Name = "Suspense"
+                        },
+                        new
+                        {
+                            Id = 24,
+                            CategoryType = 1,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 25,
+                            CategoryType = 2,
+                            Name = "Action"
+                        },
+                        new
+                        {
+                            Id = 26,
+                            CategoryType = 2,
+                            Name = "Adventure"
+                        },
+                        new
+                        {
+                            Id = 27,
+                            CategoryType = 2,
+                            Name = "Comedy"
+                        },
+                        new
+                        {
+                            Id = 28,
+                            CategoryType = 2,
+                            Name = "Crime"
+                        },
+                        new
+                        {
+                            Id = 29,
+                            CategoryType = 2,
+                            Name = "Drama"
+                        },
+                        new
+                        {
+                            Id = 30,
+                            CategoryType = 2,
+                            Name = "Fantasy"
+                        },
+                        new
+                        {
+                            Id = 31,
+                            CategoryType = 2,
+                            Name = "Historical"
+                        },
+                        new
+                        {
+                            Id = 32,
+                            CategoryType = 2,
+                            Name = "Horror"
+                        },
+                        new
+                        {
+                            Id = 33,
+                            CategoryType = 2,
+                            Name = "Mystery"
+                        },
+                        new
+                        {
+                            Id = 34,
+                            CategoryType = 2,
+                            Name = "Philosophical"
+                        },
+                        new
+                        {
+                            Id = 35,
+                            CategoryType = 2,
+                            Name = "Political"
+                        },
+                        new
+                        {
+                            Id = 36,
+                            CategoryType = 2,
+                            Name = "Saga"
+                        },
+                        new
+                        {
+                            Id = 37,
+                            CategoryType = 2,
+                            Name = "Thriller"
+                        },
+                        new
+                        {
+                            Id = 38,
+                            CategoryType = 2,
+                            Name = "Western"
+                        },
+                        new
+                        {
+                            Id = 39,
+                            CategoryType = 2,
+                            Name = "Crime Thriller"
+                        },
+                        new
+                        {
+                            Id = 40,
+                            CategoryType = 2,
+                            Name = "Disaster Thriller"
+                        },
+                        new
+                        {
+                            Id = 41,
+                            CategoryType = 2,
+                            Name = "Psychological Thriller"
+                        },
+                        new
+                        {
+                            Id = 42,
+                            CategoryType = 2,
+                            Name = "Techno Thriller"
+                        },
+                        new
+                        {
+                            Id = 43,
+                            CategoryType = 2,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 44,
+                            CategoryType = 2,
+                            Name = "Suspense"
+                        },
+                        new
+                        {
+                            Id = 45,
+                            CategoryType = 2,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 46,
+                            CategoryType = 2,
+                            Name = "Documentary"
+                        },
+                        new
+                        {
+                            Id = 47,
+                            CategoryType = 2,
+                            Name = "Family"
+                        },
+                        new
+                        {
+                            Id = 48,
+                            CategoryType = 2,
+                            Name = "Children"
+                        },
+                        new
+                        {
+                            Id = 49,
+                            CategoryType = 2,
+                            Name = "Sport"
                         });
                 });
 
@@ -1107,7 +1033,7 @@ namespace Streamia.Migrations
                     b.Property<int>("Preset")
                         .HasColumnType("int");
 
-                    b.Property<string>("RemoveSenstitveParts")
+                    b.Property<string>("RemoveSensitiveParts")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Scaling")

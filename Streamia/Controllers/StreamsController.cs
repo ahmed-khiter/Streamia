@@ -74,7 +74,7 @@ namespace Streamia.Controllers
 
                 if (model.StreamDirectly)
                 {
-                    model.State = StreamState.STARTED;
+                    model.State = StreamState.Live;
                 }
 
                 await streamRepository.Add(model);
@@ -143,7 +143,7 @@ namespace Streamia.Controllers
 
                 if (model.StreamDirectly)
                 {
-                    model.State = StreamState.STARTED;
+                    model.State = StreamState.Live;
                 }
 
                 await streamServersRepository.Add(model.StreamServers);
@@ -195,8 +195,8 @@ namespace Streamia.Controllers
 
         private async Task PrepareViewBag()
         {
-            ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.LIVE);
-            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.ONLINE);
+            ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.LiveStreams);
+            ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
             ViewBag.Transcodes = await transcodeRepository.GetAll();
         }

@@ -86,12 +86,12 @@ namespace Streamia.Controllers
             foreach (var bouquetStream in user.Bouquet.BouquetStreams)
             {
                 m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetStream.Stream.Name}");
-                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.LIVE}/{bouquetStream.Stream.Id}");
+                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.LiveStreams}/{bouquetStream.Stream.Id}");
             }
             foreach (var bouquetMovie in user.Bouquet.BouquetMovies)
             {
                 m3u8Builder.AppendLine($"#EXTINF:-1,{bouquetMovie.Movie.Name}");
-                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.MOVIE}/{bouquetMovie.Movie.Id}");
+                m3u8Builder.AppendLine($"{Request.Scheme}://{Request.Host}/api/auth/authenticate/{user.Username}/{user.Password}/{CategoryType.Movies}/{bouquetMovie.Movie.Id}");
             }
             return File(Encoding.UTF8.GetBytes(m3u8Builder.ToString()), "text/m3u8", "iptv-playlist.m3u8");
         }

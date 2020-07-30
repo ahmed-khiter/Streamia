@@ -22,7 +22,7 @@ namespace Streamia.Models
 
         public Series()
         {
-            State = StreamState.TRANSCODING;
+            State = StreamState.Transcoding;
             BouquetSeries = new List<BouquetSeries>();
             SeriesServers = new List<SeriesServer>();
             Episodes = new List<Episode>();
