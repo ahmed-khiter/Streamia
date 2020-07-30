@@ -46,7 +46,7 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Add()
         {
             await PrepareViewBag();
-            return View();
+            return View(new Movie());
         }
 
         [HttpPost]
@@ -80,7 +80,7 @@ namespace Streamia.Controllers
 
                 if (!model.StreamDirectly)
                 {
-                    var transcodeProfile = await transcodeRepository.GetById(model.TranscodeId);
+                    var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/SERVER_ID/{StreamState.Ready}";

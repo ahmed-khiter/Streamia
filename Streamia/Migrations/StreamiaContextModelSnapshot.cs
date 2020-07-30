@@ -738,7 +738,7 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranscodeId")
+                    b.Property<int?>("TranscodeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -812,7 +812,7 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranscodeId")
+                    b.Property<int?>("TranscodeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -954,7 +954,7 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranscodeId")
+                    b.Property<int?>("TranscodeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -1180,9 +1180,7 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TranscodeId");
                 });
 
             modelBuilder.Entity("Streamia.Models.MovieServer", b =>
@@ -1210,9 +1208,7 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TranscodeId");
                 });
 
             modelBuilder.Entity("Streamia.Models.SeriesServer", b =>
@@ -1249,9 +1245,7 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TranscodeId");
                 });
 
             modelBuilder.Entity("Streamia.Models.StreamServer", b =>
