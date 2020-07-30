@@ -130,8 +130,9 @@ a svg
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     padding: 25px 3px;
-    writing-mode: sideways-lr;
     height: 400px;
+    transform: rotate(180deg);
+    writing-mode:vertical-lr;
 }
 
 
