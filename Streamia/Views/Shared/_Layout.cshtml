@@ -7,7 +7,7 @@
 
     <title>@ViewData["Title"]</title>
     <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/brands.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
 
     @RenderSection("Styles", required: false)
@@ -28,67 +28,73 @@
 
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                 {
+
                     <li>
-                        <a asp-controller="servers" asp-action="add">
-                            <i class="fa fa-server"></i> Servers
+                        <a href="#panelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fas fa-flask"></i> Panel
                         </a>
+                        <div class="collapse list-unstyled" id="panelSubmenu">
+                            <a asp-controller="servers" asp-action="add">
+                                <i class="fa fa-server"></i> Servers
+                            </a>
+
+                                <a asp-controller="logs" asp-action="general">
+                                    <i class="fa fa-file-archive-o"></i> Log Center
+                                </a>
+                            
+                        </div>
                     </li>
                     <li>
-                        <a asp-controller="streams" asp-action="add">
-                            <i class="fa fa-tv"></i> Streams
+                        <a href="#mediaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fas fa-compact-disc"></i> Media
                         </a>
+                        <div class="collapse list-unstyled" id="mediaSubmenu">
+                            <a asp-controller="streams" asp-action="add">
+                                <i class="fa fa-tv"></i> Streams
+                            </a>
+                            <a asp-controller="channels" asp-action="add">
+                                <i class="fas fa-broadcast-tower"></i> Channles
+                            </a>
+                            <a asp-controller="movies" asp-action="add">
+                                <i class="fa fa-film"></i> Movies
+                            </a>
+                            <a asp-controller="serieses" asp-action="add">
+                                <i class="fas fa-play"></i> Serieses
+                            </a>
+                            <a asp-controller="Transcodes" asp-action="add">
+                                <i class="fa fa-code"></i> Transcodes
+                            </a>
+                        </div>
                     </li>
+
                     <li>
-                        <a asp-controller="channels" asp-action="add">
-                            <i class="fa fa-podcast"></i> Channles
+                        <a href="#businessSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                            <i class="fas fa-user-tie"></i> Business
                         </a>
-                    </li>
-                    <li>
-                        <a asp-controller="movies" asp-action="add">
-                            <i class="fa fa-film"></i> Movies
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="serieses" asp-action="add">
-                            <i class="fa fa-video-camera"></i> Serieses
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="bouquets" asp-action="add">
-                            <i class="fa fa-cubes"></i> Bouquets
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="categories" asp-action="add">
-                            <i class="fa fa-share-alt"></i> Categories
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="Transcodes" asp-action="add">
-                            <i class="fa fa-code"></i> Transcodes
-                        </a>
+                        <div class="collapse list-unstyled" id="businessSubmenu">
+                            <a asp-controller="bouquets" asp-action="add">
+                                <i class="fa fa-cubes"></i> Bouquets
+                            </a>
+                            <a asp-controller="iptvusers" asp-action="add">
+                                <i class="fa fa-user"></i> IPTV Users
+                            </a>
+                            <a asp-controller="categories" asp-action="add">
+                                <i class="fa fa-share-alt"></i> Categories
+                            </a>
+                            <a asp-controller="resellers" asp-action="add">
+                                <i class="fa fa-users"></i> Resellers
+                            </a>
+                        </div>
                     </li>
                 }
 
-                <li>
-                    <a asp-controller="iptvusers" asp-action="add">
-                        <i class="fa fa-user"></i> IPTV Users
-                    </a>
-                </li>
-                <li>
-                    <a asp-controller="resellers" asp-action="add">
-                        <i class="fa fa-users"></i> Resellers
-                    </a>
-                </li>
 
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                 {
                     <li>
-                        <a asp-controller="settings" asp-action="general"><i class="fa fa-gears"></i> Settings</a>
+                        <a asp-controller="settings" asp-action="general"><i class="fas fa-cog"></i> Settings</a>
                     </li>
-                    <li>
-                        <a asp-controller="logs" asp-action="general"><i class="fa fa-file-archive-o"></i> Log Center</a>
-                    </li>
+
                 }
 
             </ul>
@@ -124,12 +130,20 @@
             </div>
         </div>
 
+        <div class="right-bar d-flex flex-column justify-content-center align-items-end">
+            <div class="right-bar-options d-flex justify-content-between">
+                <a class="right-bar-option" href="#">Help</a>
+                <a class="right-bar-option" href="#">Notifications</a>
+                <a class="right-bar-option" href="#">Hot tasks</a>
+            </div>
+        </div>
     </div>
 
     <script src="~/jquery/jquery.js"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
 
     @if (IsSectionDefined("Scripts"))
     {
