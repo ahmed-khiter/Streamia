@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Streamia.Models.Contexts;
 
 namespace Streamia.Migrations
 {
     [DbContext(typeof(StreamiaContext))]
-    partial class StreamiaContextModelSnapshot : ModelSnapshot
+    [Migration("20200730162500_EditTranscodeTable")]
+    partial class EditTranscodeTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -309,63 +311,54 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 12775,
                             CategoryType = 1,
                             Name = "Adventure"
                         },
                         new
                         {
-
                             Id = 8142,
                             CategoryType = 1,
                             Name = "Comedy"
                         },
                         new
                         {
-
                             Id = 4117,
                             CategoryType = 1,
                             Name = "Crime"
                         },
                         new
                         {
-
                             Id = 1608,
                             CategoryType = 1,
                             Name = "Drama"
                         },
                         new
                         {
-
                             Id = 7872,
                             CategoryType = 1,
                             Name = "Fantasy"
                         },
                         new
                         {
-
                             Id = 3305,
                             CategoryType = 1,
                             Name = "Historical"
                         },
                         new
                         {
-                        
                             Id = 311,
                             CategoryType = 1,
                             Name = "Horror"
                         },
                         new
                         {
-
                             Id = 4661,
                             CategoryType = 1,
                             Name = "Mystery"
                         },
                         new
                         {
-                        
                             Id = 446,
                             CategoryType = 1,
                             Name = "philosophical"
@@ -378,28 +371,24 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 9139,
                             CategoryType = 1,
                             Name = "Romance"
                         },
                         new
                         {
-
                             Id = 3084,
                             CategoryType = 1,
                             Name = "saga"
                         },
                         new
                         {
-                        
                             Id = 798,
                             CategoryType = 1,
                             Name = "Thriller"
                         },
                         new
                         {
-
                             Id = 575,
                             CategoryType = 1,
                             Name = "Western"
@@ -412,28 +401,24 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 2269,
                             CategoryType = 1,
                             Name = "Disaster Thriller"
                         },
                         new
                         {
-
                             Id = 2706,
                             CategoryType = 1,
                             Name = "Psychological Thriller"
                         },
                         new
                         {
-
                             Id = 8891,
                             CategoryType = 1,
                             Name = "Techno Thriller"
                         },
                         new
                         {
-
                             Id = 7959,
                             CategoryType = 1,
                             Name = "Science Fiction"
@@ -452,35 +437,30 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 3325,
                             CategoryType = 2,
                             Name = "Drama"
                         },
                         new
                         {
-
                             Id = 427,
                             CategoryType = 2,
                             Name = "Action"
                         },
                         new
                         {
-
                             Id = 8767,
                             CategoryType = 2,
                             Name = "Comedy"
                         },
                         new
                         {
-
                             Id = 30,
                             CategoryType = 2,
                             Name = "Adventure"
                         },
                         new
                         {
-
                             Id = 1333,
                             CategoryType = 2,
                             Name = "Crime"
@@ -493,85 +473,72 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 190,
                             CategoryType = 2,
                             Name = "Science Fiction"
                         },
                         new
                         {
-
                             Id = 7011,
-
                             CategoryType = 2,
                             Name = "Suspense"
                         },
                         new
                         {
-
                             Id = 5909,
                             CategoryType = 2,
                             Name = "Thriller"
                         },
                         new
                         {
-
                             Id = 1820,
                             CategoryType = 2,
                             Name = "Horror"
                         },
                         new
                         {
-
                             Id = 4041,
                             CategoryType = 2,
                             Name = "Romance"
                         },
                         new
                         {
-
                             Id = 6489,
                             CategoryType = 2,
                             Name = "Animation"
                         },
                         new
                         {
-
                             Id = 8794,
                             CategoryType = 2,
                             Name = "Anime"
                         },
                         new
                         {
-
                             Id = 6190,
                             CategoryType = 2,
                             Name = "Mini-Series"
                         },
                         new
                         {
-
                             Id = 440,
                             CategoryType = 2,
                             Name = "Family"
                         },
                         new
                         {
-
                             Id = 1629,
                             CategoryType = 2,
                             Name = "Historical"
                         },
                         new
                         {
-
                             Id = 6944,
                             CategoryType = 2,
                             Name = "Children"
                         },
                         new
                         {
-
                             Id = 10,
                             CategoryType = 2,
                             Name = "Reality"
@@ -596,7 +563,6 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 2405,
                             CategoryType = 2,
                             Name = "Soap"
@@ -609,14 +575,12 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 1674,
                             CategoryType = 2,
                             Name = "Western"
                         },
                         new
                         {
-
                             Id = 8478,
                             CategoryType = 2,
                             Name = "saga"
@@ -629,42 +593,36 @@ namespace Streamia.Migrations
                         },
                         new
                         {
-
                             Id = 5001,
                             CategoryType = 2,
                             Name = "Disaster Thriller"
                         },
                         new
                         {
-
                             Id = 255,
                             CategoryType = 2,
                             Name = "Psychological Thriller"
                         },
                         new
                         {
-
                             Id = 3323,
                             CategoryType = 2,
                             Name = "Techno Thriller"
                         },
                         new
                         {
-
                             Id = 6263,
                             CategoryType = 0,
                             Name = "Science"
                         },
                         new
                         {
-
                             Id = 6754,
                             CategoryType = 0,
                             Name = "ACtion"
                         },
                         new
                         {
-
                             Id = 5899,
                             CategoryType = 0,
                             Name = "News"

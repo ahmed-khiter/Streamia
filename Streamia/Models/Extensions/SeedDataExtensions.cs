@@ -123,7 +123,7 @@ namespace Streamia.Models.Extensions
                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Historical" },
                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Children" },
                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Reality" },
-                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES,Name= "Mystery" },
+               new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES,Name= "Mystery" },
                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Documentary" },
                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "political" },
                new Category {Id=RandomNumberGenerator.GetInt32(2,10000), CategoryType = Enums.CategoryType.SERIES, Name = "Soap" },
