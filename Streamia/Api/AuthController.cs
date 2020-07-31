@@ -55,6 +55,10 @@ namespace Streamia.Api
             else if (categoryType == CategoryType.Movies)
             {
                 var movie = await movieRepository.GetById(sourceId, new string[] { "MovieServers", "MovieServers.Server" });
+                if (movie.StreamDirectly)
+                {
+                    return Redirect(movie.Source);
+                }
                 foreach (var server in movie.MovieServers)
                 {
                     url = $"http://{server.Server.Ip}:{server.Server.HttpPort}/hls/{movie.StreamKey}/index.m3u8";
