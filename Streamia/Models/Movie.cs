@@ -16,6 +16,11 @@ namespace Streamia.Models
         [NotMapped]
         public int ServerId { get; set; } = 0;
 
+        [Display(Name ="Prob size")]
+        public int ProbSize { get; set; }
+
+        public int Duration { get; set; }
+
         public ICollection<MovieServer> MovieServers { get; set; }
 
         public ICollection<BouquetMovie> BouquetMovies { get; set; }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Renci.SshNet;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -84,7 +86,7 @@ namespace Streamia.Controllers
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/SERVER_ID/{StreamState.Ready}";
-                    ThreadPool.QueueUserWorkItem(queue => Transcode(model.Id, transcodeProfile, server, callbackUrl));
+                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
                 }
 
                 return RedirectToAction(nameof(Manage));
@@ -116,9 +118,30 @@ namespace Streamia.Controllers
             ViewBag.Bouquets = await bouquetRepository.GetAll();
         }
 
-        private async void Transcode(int movieId, Transcode transcodeProfile, Server server, string callbackUrl)
+        private async void Transcode(Movie movie, Transcode transcodeProfile, Server server, string callbackUrl)
         {
-            // joke will be placed here :'D
+           
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+            try
+            {
+                client.Connect();
+                client.RunCommand(
+                    $"ffmpeg -y -nostdin -hide_banner -err_detect careful user_agent " +
+                    $"\"{movie.PosterUrl}\" -nofix_dts start_at_zero -copyts -vsync 0 -correct_ts_overflow 0" +
+                    $" -avoid_negative_ts disabled -max_interleave_delta 0 -re -probesize {movie.ProbSize}  " +
+                    $"-analyzeduration {movie.Duration} -safe 0  -f concat -i {movie.Source}" +
+                    $" -vcodec {transcodeProfile.VideoCodec}" +
+                    $" -acodic {transcodeProfile.AudioCodec} -map 0 ");
+                client.Disconnect();
+            }
+            catch (Exception)
+            {
+
+                var httpClient = new HttpClient();
+                await httpClient.GetAsync(callbackUrl);
+            }
+           
+
         }
     }
 }
