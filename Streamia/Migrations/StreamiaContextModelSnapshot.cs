@@ -899,9 +899,6 @@ namespace Streamia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsRTMP")
-                        .HasColumnType("bit");
-
                     b.Property<int>("MaxClients")
                         .HasColumnType("int");
 

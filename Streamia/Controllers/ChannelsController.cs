@@ -28,9 +28,9 @@ namespace Streamia.Controllers
 
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            PrepareViewBag();
+            await PrepareViewBag();
             return View();
         }
 
@@ -59,7 +59,7 @@ namespace Streamia.Controllers
             return View(model);
         }
 
-        private async void PrepareViewBag()
+        private async Task PrepareViewBag()
         {
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();

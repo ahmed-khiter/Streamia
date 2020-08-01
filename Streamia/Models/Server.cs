@@ -35,9 +35,6 @@ namespace Streamia.Models
         [Display(Name = "RTMP Port")]
         public int RtmpPort { get; set; } = 1935;
 
-        [Display(Name = "Is RTMP?")]
-        public bool IsRTMP { get; set; } = false;
-
         public ServerState ServerState { get; set; } = ServerState.Configuring;
 
         public ICollection<StreamServer> StreamServers { get; set; }
