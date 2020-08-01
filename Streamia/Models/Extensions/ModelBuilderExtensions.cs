@@ -141,14 +141,14 @@ namespace Streamia.Models.Extensions
                 .OnDelete(DeleteBehavior.NoAction);
 
             // admin setting
-            modelBuilder.Entity<Setting>().HasKey(m => new { m.AdminUserId });
-            modelBuilder.Entity<Setting>().Ignore(m => m.Id);
+            //modelBuilder.Entity<Setting>().HasKey(m => new { m.AdminUserId });
+            //modelBuilder.Entity<Setting>().Ignore(m => m.Id);
 
-            modelBuilder.Entity<AppUser>()
-                .HasOne(ss => ss.Setting)
-                .WithOne(ss => ss.AdminUser)
-                .HasForeignKey<Setting>(ss => ss.AdminUserId)
-                .OnDelete(DeleteBehavior.NoAction);
+            //modelBuilder.Entity<AppUser>()
+            //    .HasOne(ss => ss.Setting)
+            //    .WithOne(ss => ss.AdminUser)
+            //    .HasForeignKey<Setting>(ss => ss.AdminUserId)
+            //    .OnDelete(DeleteBehavior.NoAction);
 
         }  
     }

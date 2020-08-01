@@ -8,19 +8,6 @@ namespace Streamia.Models
 {
     public class Setting : BaseEntity
     {
-        [Display(Name ="User Value")]
-        public int UserValue { get; set; }
-
-        [Display(Name ="Unit Point")]
-        public int UnitPoint { get; set; }
-
-        public decimal Price { get; set; } = 0;
-
-        public string SetAccountKey { get; set; }
-
-        public string AdminUserId { get; set; }
-
-        public AppUser AdminUser { get; set; }
-
+        public int Credit { get; set; }
     }
 }

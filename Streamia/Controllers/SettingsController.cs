@@ -41,18 +41,11 @@ namespace Streamia.Controllers
             {
                 var user = await userManager.GetUserAsync(User);
                 var setting = await settingRepo.GetById(user.Setting.Id);
-                setting.Price = model.Price;
-                setting.SetAccountKey = model.SetAccountKey;
-                setting.UnitPoint = model.UnitPoint;
-                setting.UserValue = model.UserValue;
-                setting.AdminUser = user;
-                setting.AdminUserId = user.Id;
                 await settingRepo.Edit(setting);
                 return RedirectToAction(nameof(General));
             }
 
             return RedirectToAction(nameof(General));
-         
         }
 
     }

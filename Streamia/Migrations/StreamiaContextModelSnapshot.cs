@@ -201,6 +201,9 @@ namespace Streamia.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SettingId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -217,6 +220,8 @@ namespace Streamia.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("SettingId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -926,22 +931,15 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Setting", b =>
                 {
-                    b.Property<string>("AdminUserId")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("SetAccountKey")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("UnitPoint")
+                    b.Property<int>("Credit")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserValue")
-                        .HasColumnType("int");
-
-                    b.HasKey("AdminUserId");
+                    b.HasKey("Id");
 
                     b.ToTable("Settings");
                 });
@@ -1141,6 +1139,13 @@ namespace Streamia.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Streamia.Models.AppUser", b =>
+                {
+                    b.HasOne("Streamia.Models.Setting", "Setting")
+                        .WithMany()
+                        .HasForeignKey("SettingId");
+                });
+
             modelBuilder.Entity("Streamia.Models.BouquetChannel", b =>
                 {
                     b.HasOne("Streamia.Models.Bouquet", "Bouquet")
@@ -1286,15 +1291,6 @@ namespace Streamia.Migrations
                     b.HasOne("Streamia.Models.Server", "Server")
                         .WithMany("SeriesServers")
                         .HasForeignKey("ServerId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Streamia.Models.Setting", b =>
-                {
-                    b.HasOne("Streamia.Models.AppUser", "AdminUser")
-                        .WithOne("Setting")
-                        .HasForeignKey("Streamia.Models.Setting", "AdminUserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
