@@ -60,6 +60,22 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ServerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // series servers
+            modelBuilder.Entity<ChannelServer>().HasKey(m => new { m.ChannelId, m.ServerId });
+            modelBuilder.Entity<ChannelServer>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<ChannelServer>()
+                .HasOne(ss => ss.Channel)
+                .WithMany(ss => ss.ChannelServers)
+                .HasForeignKey(ss => ss.ChannelId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<ChannelServer>()
+                .HasOne(ss => ss.Server)
+                .WithMany(ss => ss.ChannelServers)
+                .HasForeignKey(ss => ss.ServerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             // bouquet streams
             modelBuilder.Entity<BouquetStream>().HasKey(m => new { m.BouquetId, m.StreamId });
             modelBuilder.Entity<BouquetStream>().Ignore(m => m.Id);
@@ -106,6 +122,22 @@ namespace Streamia.Models.Extensions
                 .HasOne(ss => ss.Movie)
                 .WithMany(ss => ss.BouquetSeries)
                 .HasForeignKey(ss => ss.SeriesId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            // bouquet channels
+            modelBuilder.Entity<BouquetChannel>().HasKey(m => new { m.BouquetId, m.ChannelId });
+            modelBuilder.Entity<BouquetChannel>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<BouquetChannel>()
+                .HasOne(ss => ss.Bouquet)
+                .WithMany(ss => ss.BouquetChannels)
+                .HasForeignKey(ss => ss.BouquetId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<BouquetChannel>()
+                .HasOne(ss => ss.Channel)
+                .WithMany(ss => ss.BouquetChannels)
+                .HasForeignKey(ss => ss.ChannelId)
                 .OnDelete(DeleteBehavior.NoAction);
 
             // admin setting

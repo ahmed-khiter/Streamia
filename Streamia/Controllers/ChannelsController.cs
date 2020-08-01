@@ -9,13 +9,13 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-    public class ChannlesController : Controller
+    public class ChannelsController : Controller
     {
         private readonly IRepository<Channel> channelRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Server> serverRepository;
 
-        public ChannlesController(
+        public ChannelsController(
             IRepository<Channel> channelRepository,
             IRepository<Bouquet> bouquetRepository,
             IRepository<Server> serverRepository
@@ -30,6 +30,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            PrepareViewBag();
             return View();
         }
 
@@ -58,7 +59,7 @@ namespace Streamia.Controllers
             return View(model);
         }
 
-        private async Task PrepareViewBag()
+        private async void PrepareViewBag()
         {
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();

@@ -8,5 +8,17 @@ namespace Streamia.Models
 {
     public class Channel : BaseEntity
     {
+        [Required]
+        public string Name { get; set; }
+
+        public ICollection<ChannelServer> ChannelServers { get; set; }
+
+        public ICollection<BouquetChannel> BouquetChannels { get; set; }
+
+        public Channel()
+        {
+            ChannelServers = new List<ChannelServer>();
+            BouquetChannels = new List<BouquetChannel>();
+        }
     }
 }

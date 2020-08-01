@@ -56,7 +56,7 @@
         window.addEventListener('load', function () {
             var connection = new signalR.HubConnectionBuilder().withUrl("/movie-status-hub").build();
             connection.start();
-            connection.on("Update", function (data) {
+            connection.on("UpdateSignal", function (data) {
                 var stateIndicator = $(`#state-${data.sourceId}`);
                 if (data.state === 2) {
                     stateIndicator.html('<i class="fa fa-circle text-success"></i> Ready');
