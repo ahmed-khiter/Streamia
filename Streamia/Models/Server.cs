@@ -23,17 +23,8 @@ namespace Streamia.Models
         [Display(Name = "Max Clients")]
         public int MaxClients { get; set; } = 1;
 
-        [Display(Name = "HTTP Port")]
-        public int HttpPort { get; set; } = 80;
-
-        [Display(Name = "HTTPS Port")]
-        public int HttpsPort { get; set; } = 443;
-
         [Display(Name = "SSH Port")]
         public int SshPort { get; set; } = 22;
-
-        [Display(Name = "RTMP Port")]
-        public int RtmpPort { get; set; } = 1935;
 
         public ServerState ServerState { get; set; } = ServerState.Configuring;
 

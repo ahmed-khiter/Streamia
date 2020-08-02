@@ -894,12 +894,6 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("HttpPort")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HttpsPort")
-                        .HasColumnType("int");
-
                     b.Property<string>("Ip")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -914,9 +908,6 @@ namespace Streamia.Migrations
                     b.Property<string>("RootPassword")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RtmpPort")
-                        .HasColumnType("int");
 
                     b.Property<int>("ServerState")
                         .HasColumnType("int");

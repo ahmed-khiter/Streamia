@@ -67,7 +67,7 @@
                 statusName = 'Offline';
             } else if (data.state === 3) {
                 className = 'danger';
-                statusName = 'FAIL';
+                statusName = 'Fail';
             }
             $(`#${data.id}`).html(`<i class="fa fa-circle text-${className}"></i> ${statusName}`);
         });

@@ -8,7 +8,7 @@
 
 <div class="row">
 
-    <div class="col-md-3">
+    <div class="col-md-6">
 
         <table class="table table-striped">
             <tr>
@@ -31,33 +31,14 @@
 
     </div>
 
-    <div class="col-md-3">
+    <div class="col-md-6">
 
+        @{ string iconClass = "close text-danger"; }
         <table class="table table-striped">
-            <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.HttpPort)</strong></td>
-                <td>@Model.HttpPort</td>
-            </tr>
-            <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.HttpsPort)</strong></td>
-                <td>@Model.HttpsPort</td>
-            </tr>
             <tr>
                 <td><strong>@Html.DisplayNameFor(m => m.SshPort)</strong></td>
                 <td>@Model.SshPort</td>
             </tr>
-            <tr>
-                <td><strong>@Html.DisplayNameFor(m => m.RtmpPort)</strong></td>
-                <td>@Model.RtmpPort</td>
-            </tr>
-        </table>
-
-    </div>
-
-    <div class="col-md-3">
-
-        @{ string iconClass = "close text-danger"; }
-        <table class="table table-striped">
             <tr>
                 <td><strong>@Html.DisplayNameFor(m => m.ServerState)</strong></td>
                 <td>
@@ -74,14 +55,6 @@
                 </td>
             </tr>
         </table>
-
-    </div>
-
-    <div class="col-md-3 text-center pt-5">
-
-        <i class="fa fa-cogs fa-5x text-secondary"></i>
-
-        <h3 class="text-secondary font-weight-bold">Server</h3>
 
     </div>
 

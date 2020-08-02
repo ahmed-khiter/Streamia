@@ -31,11 +31,14 @@
 
                     <li>
                         <a href="#panelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fa fa-dashboard"></i> System
+                            <i class="fa fa-sliders"></i> System
                         </a>
                         <div class="collapse list-unstyled" id="panelSubmenu">
                             <a asp-controller="servers" asp-action="add">
                                 <i class="fa fa-server"></i> Servers
+                            </a>
+                            <a asp-controller="Transcodes" asp-action="add">
+                                <i class="fa fa-code"></i> Transcodes
                             </a>
                             <a asp-controller="logs" asp-action="general">
                                 <i class="fa fa-file-archive-o"></i> Log Center
@@ -44,23 +47,20 @@
                     </li>
                     <li>
                         <a href="#mediaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fa fa-music"></i> Media
+                            <i class="fa fa-film"></i> Media
                         </a>
                         <div class="collapse list-unstyled" id="mediaSubmenu">
                             <a asp-controller="streams" asp-action="add">
                                 <i class="fa fa-tv"></i> Streams
                             </a>
                             <a asp-controller="movies" asp-action="add">
-                                <i class="fa fa-film"></i> Movies
+                                <i class="fa fa-video-camera"></i> Movies
                             </a>
                             <a asp-controller="serieses" asp-action="add">
                                 <i class="fa fa-play"></i> Serieses
                             </a>
                             <a asp-controller="channels" asp-action="add">
                                 <i class="fa fa-podcast"></i> Channles
-                            </a>
-                            <a asp-controller="Transcodes" asp-action="add">
-                                <i class="fa fa-code"></i> Transcodes
                             </a>
                         </div>
                     </li>
