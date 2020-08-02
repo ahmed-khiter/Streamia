@@ -1026,11 +1026,11 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AspectRatio")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("AnalyzeDuration")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("AudioChannel")
-                        .HasColumnType("int");
+                    b.Property<long>("AudioChannels")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("AudioCodec")
                         .HasColumnType("nvarchar(max)");
@@ -1041,49 +1041,40 @@ namespace Streamia.Migrations
                     b.Property<string>("AvgAudioBitrate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("AvgBitrate")
-                        .HasColumnType("int");
+                    b.Property<string>("AvgVideoBitrate")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("BufferSize")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CRF")
-                        .HasColumnType("int");
+                    b.Property<long>("CRF")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("Hardware")
-                        .HasColumnType("int");
+                    b.Property<long>("MaxBitrate")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("MaxBitrate")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MinBitrate")
-                        .HasColumnType("int");
+                    b.Property<long>("MinBitrate")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Preset")
-                        .HasColumnType("int");
+                    b.Property<string>("Preset")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Probsize")
                         .HasColumnType("int");
 
-                    b.Property<string>("RemoveSensitiveParts")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Scaling")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("TargetVideoFrameRate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Threads")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Tune")
-                        .HasColumnType("int");
+                    b.Property<long>("Threads")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("VideoCodec")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoProfile")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

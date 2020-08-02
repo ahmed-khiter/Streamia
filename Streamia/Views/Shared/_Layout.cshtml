@@ -7,7 +7,7 @@
 
     <title>@ViewData["Title"]</title>
     <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
@@ -44,7 +44,7 @@
                     </li>
                     <li>
                         <a href="#mediaSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fas fa-compact-disc"></i> Media
+                            <i class="fa fa-music"></i> Media
                         </a>
                         <div class="collapse list-unstyled" id="mediaSubmenu">
                             <a asp-controller="streams" asp-action="add">
@@ -57,7 +57,7 @@
                                 <i class="fa fa-play"></i> Serieses
                             </a>
                             <a asp-controller="channels" asp-action="add">
-                                <i class="fa fa-broadcast-tower"></i> Channles
+                                <i class="fa fa-podcast"></i> Channles
                             </a>
                             <a asp-controller="Transcodes" asp-action="add">
                                 <i class="fa fa-code"></i> Transcodes
@@ -67,7 +67,7 @@
 
                     <li>
                         <a href="#businessSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fas fa-user-tie"></i> Business
+                            <i class="fa fa-bank"></i> Business
                         </a>
                         <div class="collapse list-unstyled" id="businessSubmenu">
                             <a asp-controller="bouquets" asp-action="add">

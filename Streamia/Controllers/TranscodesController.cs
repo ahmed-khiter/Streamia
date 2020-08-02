@@ -20,7 +20,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            return View(new Transcode());
         }
 
         [HttpPost]
@@ -35,16 +35,16 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            Transcode transcode = await transcodeRepository.GetById(id.Value);
+            var model = await transcodeRepository.GetById(id);
 
-            if (transcode == null)
+            if (model == null)
             {
                 return NotFound();
             }
 
-            return View(transcode);
+            return View(model);
         }
 
         [HttpPost]

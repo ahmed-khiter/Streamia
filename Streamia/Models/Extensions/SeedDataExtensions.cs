@@ -70,7 +70,12 @@ namespace Streamia.Models.Extensions
 
         public static void SeedTranscodes(this ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Transcode>().HasData(new Transcode { Id = 1, AspectRatio = "4:4:2" });
+            modelBuilder.Entity<Transcode>().HasData(new Transcode { 
+                Id = 1, 
+                Name = "Basic: h264/acc",
+                VideoCodec = "h264",
+                AudioCodec = "acc"
+            });
         }
 
         public static void SeedCategories(this ModelBuilder modelBuilder)

@@ -9,6 +9,7 @@ namespace Streamia.Models
 {
     public class Transcode : BaseEntity
     {
+        [Required]
         public string Name { get; set; }
 
         [Display(Name ="Video Codec")]
@@ -30,28 +31,27 @@ namespace Streamia.Models
         public string AvgAudioBitrate { get; set; }
 
         [Display(Name = "Analyze Duration")]
-        public int AnalyzeDuration { get; set; }
-        public string Preset { get; set; }
+        public uint AnalyzeDuration { get; set; }
         public int Probsize { get; set; }
+        public string Preset { get; set; }
 
         [Display(Name = "Min Bitrate")]
-        public int MinBitrate { get; set; }
+        public uint MinBitrate { get; set; }
 
         [Display(Name = "Max Bitrate")]
-        public int MaxBitrate { get; set; }
+        public uint MaxBitrate { get; set; }
 
         [Display(Name = "Buffer Size")]
         public string BufferSize { get; set; }
 
-        [Display(Name="Constant Rate Factor")]
-        public int CRF { get; set; }
+        public uint CRF { get; set; }
 
         [Display(Name = "Target Video Frame Rate")]
         public string TargetVideoFrameRate { get; set; }
 
         [Display(Name = "Audio Channels")]
-        public int AudioChannels { get; set; }
+        public uint AudioChannels { get; set; }
 
-        public int Threads { get; set; }
+        public uint Threads { get; set; }
     }
 }

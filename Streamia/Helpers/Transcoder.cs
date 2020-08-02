@@ -104,6 +104,7 @@ namespace Streamia.Helpers
 
         public static string[] Presets =
         {
+            "none",
             "ultrafast",
             "superfast",
             "veryfast",
@@ -117,6 +118,7 @@ namespace Streamia.Helpers
 
         public static string[] VideoProfiles =
         {
+            "none",
             "baseline -level 3.0",
             "baseline -level 3.1",
             "main -level 3.1",
@@ -126,7 +128,7 @@ namespace Streamia.Helpers
             "high -level 4.2"
         };
 
-        public static string[] AsbectRatio = {
+        public static string[] AsbectRatios = {
             "1:1",
             "2:1",
             "3:2",
@@ -144,7 +146,7 @@ namespace Streamia.Helpers
             "2.39:1"
         };
 
-        public static int[] audioBitrate = { 
+        public static int[] AudioBitrates = { 
             96,
             112,
             128,

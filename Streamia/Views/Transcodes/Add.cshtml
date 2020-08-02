@@ -12,6 +12,42 @@
 
 <form method="post">
 
+    <fieldset>
+        <legend><i class="fa fa-gear"></i> General</legend>
+        <div class="row">
+            <div class="form-group col-md-3">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span class="text-danger" asp-validation-for="Name"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="Preset"></label>
+                <select class="form-control" asp-for="Preset" asp-items="@(new SelectList(Transcoder.Presets))"></select>
+                <span class="text-danger" asp-validation-for="Preset"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="MinBitrate"></label>
+                <input asp-for="MinBitrate" class="form-control" />
+                <span class="text-danger" asp-validation-for="MinBitrate"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="MaxBitrate"></label>
+                <input asp-for="MaxBitrate" class="form-control" />
+                <span class="text-danger" asp-validation-for="MaxBitrate"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="BufferSize"></label>
+                <input asp-for="BufferSize" class="form-control" />
+                <span class="text-danger" asp-validation-for="BufferSize"></span>
+            </div>
+            <div class="form-group col-md-3">
+                <label asp-for="CRF"></label>
+                <input asp-for="CRF" class="form-control" />
+                <span class="text-danger" asp-validation-for="CRF"></span>
+            </div>
+        </div>
+    </fieldset>
+
     <div class="row">
         <div class="col-md-6">
             <fieldset>
@@ -23,15 +59,13 @@
 
                     <div class="form-group col-md-6">
                         <label asp-for="VideoCodec"></label>
-                        <select class="form-control" asp-for="VideoCodec" asp-items="@(new SelectList(Transcoder.VideoCodecs))">
-                        </select>
+                        <select class="form-control" asp-for="VideoCodec" asp-items="@(new SelectList(Transcoder.VideoCodecs))"></select>
                         <span class="text-danger" asp-validation-for="VideoCodec"></span>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label asp-for="VideoProfile"></label>
-                        <select class="form-control" asp-for="VideoProfile" asp-items="@(new SelectList(Transcoder.VideoProfiles))">
-                        </select>
+                        <select class="form-control" asp-for="VideoProfile" asp-items="@(new SelectList(Transcoder.VideoProfiles))"></select>
                         <span class="text-danger" asp-validation-for="VideoProfile"></span>
                     </div>
 
@@ -61,8 +95,7 @@
 
                     <div class="form-group col-md-6">
                         <label asp-for="AudioCodec"></label>
-                        <select class="form-control" asp-for="AudioCodec" asp-items="@(new SelectList(Transcoder.AudioCodecs))">
-                        </select>
+                        <select class="form-control" asp-for="AudioCodec" asp-items="@(new SelectList(Transcoder.AudioCodecs))"></select>
                         <span class="text-danger" asp-validation-for="AudioCodec"></span>
                     </div>
 
@@ -90,44 +123,9 @@
         </div>
     </div>
 
-
-    <div class="row">
-
-        <div class="form-group col-md-6">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-            <span class="text-danger" asp-validation-for="Name"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="MinBitrate"></label>
-            <input asp-for="MinBitrate" class="form-control" />
-            <span class="text-danger" asp-validation-for="MinBitrate"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="MaxBitrate"></label>
-            <input asp-for="MaxBitrate" class="form-control" />
-            <span class="text-danger" asp-validation-for="MaxBitrate"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="BufferSize"></label>
-            <input asp-for="BufferSize" class="form-control" />
-            <span class="text-danger" asp-validation-for="BufferSize"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="CRF"></label>
-            <input asp-for="CRF" class="form-control" />
-            <span class="text-danger" asp-validation-for="CRF"></span>
-        </div>
-
-    </div>
-
     <hr />
 
-    <button type="submit" class="btn btn-success">
+    <button type="submit" class="main-btn">
         <i class="fa fa-plus"></i> Add
     </button>
 
