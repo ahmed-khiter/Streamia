@@ -7,8 +7,8 @@
 
     <title>@ViewData["Title"]</title>
     <link href="~/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/brands.min.css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Raleway&display=swap" rel="stylesheet">
+    <link href="~/font-awesome/css/font-awesome.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
 
@@ -31,14 +31,14 @@
 
                     <li>
                         <a href="#panelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
-                            <i class="fas fa-flask"></i> Panel
+                            <i class="fa fa-dashboard"></i> System
                         </a>
                         <div class="collapse list-unstyled" id="panelSubmenu">
                             <a asp-controller="servers" asp-action="add">
-                                <i class="fas fa-server"></i> Servers
+                                <i class="fa fa-server"></i> Servers
                             </a>
                             <a asp-controller="logs" asp-action="general">
-                                <i class="fas fa-file-archive-o"></i> Log Center
+                                <i class="fa fa-file-archive-o"></i> Log Center
                             </a>
                         </div>
                     </li>
@@ -48,19 +48,19 @@
                         </a>
                         <div class="collapse list-unstyled" id="mediaSubmenu">
                             <a asp-controller="streams" asp-action="add">
-                                <i class="fas fa-tv"></i> Streams
+                                <i class="fa fa-tv"></i> Streams
                             </a>
                             <a asp-controller="movies" asp-action="add">
-                                <i class="fas fa-film"></i> Movies
+                                <i class="fa fa-film"></i> Movies
                             </a>
                             <a asp-controller="serieses" asp-action="add">
-                                <i class="fas fa-play"></i> Serieses
+                                <i class="fa fa-play"></i> Serieses
                             </a>
                             <a asp-controller="channels" asp-action="add">
-                                <i class="fas fa-broadcast-tower"></i> Channles
+                                <i class="fa fa-broadcast-tower"></i> Channles
                             </a>
                             <a asp-controller="Transcodes" asp-action="add">
-                                <i class="fas fa-code"></i> Transcodes
+                                <i class="fa fa-code"></i> Transcodes
                             </a>
                         </div>
                     </li>
@@ -90,7 +90,7 @@
                 @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                 {
                     <li>
-                        <a asp-controller="settings" asp-action="general"><i class="fas fa-cog"></i> Settings</a>
+                        <a asp-controller="settings" asp-action="general"><i class="fa fa-cog"></i> Settings</a>
                     </li>
                 }
             </ul>
@@ -139,7 +139,6 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/js/all.min.js"></script>
 
     @if (IsSectionDefined("Scripts"))
     {

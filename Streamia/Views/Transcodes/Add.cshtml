@@ -3,9 +3,93 @@
     ViewData["Title"] = "Add Transcode";
 }
 
+@section Styles {
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
+}
+
 <partial name="~/Views/Partials/_Navigation.cshtml" />
 
 <form method="post">
+
+    <div class="row">
+        <div class="col-md-6">
+            <fieldset>
+                <legend>
+                    <i class="fa fa-film"></i> Video
+                </legend>
+
+                <div class="row">
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="VideoCodec"></label>
+                        <select class="form-control" asp-for="VideoCodec" asp-items="@(new SelectList(Transcoder.VideoCodecs))">
+                        </select>
+                        <span class="text-danger" asp-validation-for="VideoCodec"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="VideoProfile"></label>
+                        <select class="form-control" asp-for="VideoProfile" asp-items="@(new SelectList(Transcoder.VideoProfiles))">
+                        </select>
+                        <span class="text-danger" asp-validation-for="VideoProfile"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="AvgVideoBitrate"></label>
+                        <input asp-for="AvgVideoBitrate" class="form-control" />
+                        <span class="text-danger" asp-validation-for="AvgVideoBitrate"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="TargetVideoFrameRate"></label>
+                        <input asp-for="TargetVideoFrameRate" class="form-control" />
+                        <span class="text-danger" asp-validation-for="TargetVideoFrameRate"></span>
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </div>
+        <div class="col-md-6">
+            <fieldset>
+                <legend>
+                    <i class="fa fa-volume-up"></i> Audio
+                </legend>
+
+                <div class="row">
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="AudioCodec"></label>
+                        <select class="form-control" asp-for="AudioCodec" asp-items="@(new SelectList(Transcoder.AudioCodecs))">
+                        </select>
+                        <span class="text-danger" asp-validation-for="AudioCodec"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="AvgAudioBitrate"></label>
+                        <input asp-for="AvgAudioBitrate" class="form-control" />
+                        <span class="text-danger" asp-validation-for="AvgAudioBitrate"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="AudioSampleRate"></label>
+                        <input asp-for="AudioSampleRate" class="form-control" />
+                        <span class="text-danger" asp-validation-for="AudioSampleRate"></span>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label asp-for="AudioChannels"></label>
+                        <input asp-for="AudioChannels" class="form-control" />
+                        <span class="text-danger" asp-validation-for="AudioChannels"></span>
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+
 
     <div class="row">
 
@@ -13,19 +97,6 @@
             <label asp-for="Name"></label>
             <input asp-for="Name" class="form-control" />
             <span class="text-danger" asp-validation-for="Name"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="VideoCodec"></label>
-            <select class="form-control" asp-for="VideoCodec" asp-items="@(new SelectList(Transcoder.VideoProfiles))">
-            </select>
-            <span class="text-danger" asp-validation-for="VideoCodec"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="AudioCodec"></label>
-            <input asp-for="AudioCodec" class="form-control" />
-            <span class="text-danger" asp-validation-for="AudioCodec"></span>
         </div>
 
         <div class="form-group col-md-6">
@@ -41,18 +112,6 @@
         </div>
 
         <div class="form-group col-md-6">
-            <label asp-for="AvgAudioBitrate"></label>
-            <input asp-for="AvgAudioBitrate" class="form-control" />
-            <span class="text-danger" asp-validation-for="AvgAudioBitrate"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="AvgVideoBitrate"></label>
-            <input asp-for="AvgVideoBitrate" class="form-control" />
-            <span class="text-danger" asp-validation-for="AvgVideoBitrate"></span>
-        </div>
-
-        <div class="form-group col-md-6">
             <label asp-for="BufferSize"></label>
             <input asp-for="BufferSize" class="form-control" />
             <span class="text-danger" asp-validation-for="BufferSize"></span>
@@ -64,18 +123,6 @@
             <span class="text-danger" asp-validation-for="CRF"></span>
         </div>
 
-        <div class="form-group col-md-6">
-            <label asp-for="VideoPreset"></label>
-            <input asp-for="VideoPreset" class="form-control" />
-            <span class="text-danger" asp-validation-for="VideoPreset"></span>
-        </div>
-
-        <div class="form-group col-md-6">
-            <label asp-for="AudioSampleRate"></label>
-            <input asp-for="AudioSampleRate" class="form-control" />
-            <span class="text-danger" asp-validation-for="AudioSampleRate"></span>
-        </div>
-
     </div>
 
     <hr />
@@ -85,3 +132,12 @@
     </button>
 
 </form>
+
+@section Scripts {
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script>
+        $('select').select2({
+            theme: 'bootstrap4'
+        });
+    </script>
+}

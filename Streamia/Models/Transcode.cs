@@ -14,9 +14,6 @@ namespace Streamia.Models
         [Display(Name ="Video Codec")]
         public string VideoCodec { get; set; }
 
-        [Display(Name = "Video Preset")]
-        public string VideoPreset { get; set; }
-
         [Display(Name = "Video Profile")]
         public string VideoProfile { get; set; }
 
@@ -34,7 +31,7 @@ namespace Streamia.Models
 
         [Display(Name = "Analyze Duration")]
         public int AnalyzeDuration { get; set; }
-
+        public string Preset { get; set; }
         public int Probsize { get; set; }
 
         [Display(Name = "Min Bitrate")]
