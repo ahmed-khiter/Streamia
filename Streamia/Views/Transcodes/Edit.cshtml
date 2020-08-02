@@ -72,12 +72,6 @@
                     </div>
 
                     <div class="form-group col-md-6">
-                        <label asp-for="AvgVideoBitrate"></label>
-                        <input asp-for="AvgVideoBitrate" class="form-control" />
-                        <span class="text-danger" asp-validation-for="AvgVideoBitrate"></span>
-                    </div>
-
-                    <div class="form-group col-md-6">
                         <label asp-for="TargetVideoFrameRate"></label>
                         <input asp-for="TargetVideoFrameRate" class="form-control" />
                         <span class="text-danger" asp-validation-for="TargetVideoFrameRate"></span>
@@ -99,12 +93,6 @@
                         <label asp-for="AudioCodec"></label>
                         <select class="form-control" asp-for="AudioCodec" asp-items="@(new SelectList(Transcoder.AudioCodecs))"></select>
                         <span class="text-danger" asp-validation-for="AudioCodec"></span>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label asp-for="AvgAudioBitrate"></label>
-                        <input asp-for="AvgAudioBitrate" class="form-control" />
-                        <span class="text-danger" asp-validation-for="AvgAudioBitrate"></span>
                     </div>
 
                     <div class="form-group col-md-6">

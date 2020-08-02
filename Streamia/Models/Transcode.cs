@@ -18,8 +18,8 @@ namespace Streamia.Models
         [Display(Name = "Video Profile")]
         public string VideoProfile { get; set; }
 
-        [Display(Name = "Avgerage Video Bitrate")]
-        public string AvgVideoBitrate { get; set; }
+        [Display(Name = "Target Video Frame Rate")]
+        public string TargetVideoFrameRate { get; set; }
 
         [Display(Name = "Audio Codec")]
         public string AudioCodec { get; set; }
@@ -27,13 +27,14 @@ namespace Streamia.Models
         [Display(Name = "Audio Sample Rate")]
         public string AudioSampleRate { get; set; }
 
-        [Display(Name = "Avgerage Audio Bitrate")]
-        public string AvgAudioBitrate { get; set; }
+        [Display(Name = "Audio Channels")]
+        public uint AudioChannels { get; set; }
 
         [Display(Name = "Analyze Duration")]
         public uint AnalyzeDuration { get; set; }
-        public int Probsize { get; set; }
-        public string Preset { get; set; }
+
+        [Display(Name = "Avgerage Bitrate")]
+        public string AvgBitrate { get; set; }
 
         [Display(Name = "Min Bitrate")]
         public uint MinBitrate { get; set; }
@@ -44,14 +45,11 @@ namespace Streamia.Models
         [Display(Name = "Buffer Size")]
         public string BufferSize { get; set; }
 
+        public int Probsize { get; set; }
+
+        public string Preset { get; set; }
+
         public uint CRF { get; set; }
-
-        [Display(Name = "Target Video Frame Rate")]
-        public string TargetVideoFrameRate { get; set; }
-
-        [Display(Name = "Audio Channels")]
-        public uint AudioChannels { get; set; }
-
         public uint Threads { get; set; }
     }
 }
