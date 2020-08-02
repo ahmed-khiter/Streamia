@@ -34,7 +34,7 @@ namespace Streamia.Models
         public uint AnalyzeDuration { get; set; }
 
         [Display(Name = "Avgerage Bitrate")]
-        public string AvgBitrate { get; set; }
+        public uint AvgBitrate { get; set; }
 
         [Display(Name = "Min Bitrate")]
         public uint MinBitrate { get; set; }
@@ -43,7 +43,7 @@ namespace Streamia.Models
         public uint MaxBitrate { get; set; }
 
         [Display(Name = "Buffer Size")]
-        public string BufferSize { get; set; }
+        public uint BufferSize { get; set; }
 
         public int Probsize { get; set; }
 

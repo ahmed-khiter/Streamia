@@ -1038,14 +1038,11 @@ namespace Streamia.Migrations
                     b.Property<string>("AudioSampleRate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AvgAudioBitrate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("AvgBitrate")
+                        .HasColumnType("bigint");
 
-                    b.Property<string>("AvgVideoBitrate")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("BufferSize")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("BufferSize")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("CRF")
                         .HasColumnType("bigint");
@@ -1057,6 +1054,7 @@ namespace Streamia.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Preset")
