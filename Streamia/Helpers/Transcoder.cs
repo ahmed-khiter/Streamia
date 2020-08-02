@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Streamia.Models
+namespace Streamia.Helpers
 {
-    public static class TranscodeOptions
+    public static class Transcoder
     {
         /*
         - APNG(Animated protable network graphics)
@@ -25,7 +25,7 @@ namespace Streamia.Models
         - MPEG-4
         - microsoft video 1 
         */
-        public static string[] VideoCodec = {
+        public static string[] VideoCodecs = {
             "jpeg2000",
             "libaom-av1",
             "libravel",
@@ -61,7 +61,7 @@ namespace Streamia.Models
         ,   "ALAC",".m4a","MPEG-4 ALS","MPEG-4 DST"," Windows Media Audio","SHN"
         ,   "OPUS","MP3","Vorbis","AAC","MusePack","Windows Media Audio Lossy","ac3","libfdk_aac"
          */
-        public static string[] AudioCodic = {
+        public static string[] AudioCodecs = {
             "aac",
             "ac3", 
             "ac3_fixed",
@@ -78,6 +78,30 @@ namespace Streamia.Models
             "libwavpack",
             "mjpeg",
             "wavpack"
+        };
+
+        public static string[] Presets =
+        {
+            "ultrafast",
+            "superfast",
+            "veryfast",
+            "faster",
+            "fast",
+            "slow",
+            "slower",
+            "veryslow",
+            "placebo"
+        };
+
+        public static string[] VideoProfiles =
+        {
+            "baseline -level 3.0",
+            "baseline -level 3.1",
+            "main -level 3.1",
+            "main -level 4.0",
+            "high -level 4.0",
+            "high -level 4.1",
+            "high -level 4.2"
         };
 
         public static string[] AsbectRatio = {
@@ -98,6 +122,14 @@ namespace Streamia.Models
             "4:1"
         };
 
-        public static int[] audioBitrate = { 96, 112, 128, 160, 192, 256, 320 };
+        public static int[] audioBitrate = { 
+            96,
+            112,
+            128,
+            160,
+            192,
+            256,
+            320 
+        };
     }
 }
