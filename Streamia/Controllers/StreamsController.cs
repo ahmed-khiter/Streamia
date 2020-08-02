@@ -72,7 +72,7 @@ namespace Streamia.Controllers
                     });
                 }
 
-                if (model.StreamDirectly)
+                if (model.TranscodeId == 0)
                 {
                     model.State = StreamState.Live;
                 }
@@ -141,7 +141,7 @@ namespace Streamia.Controllers
                     });
                 }
 
-                if (model.StreamDirectly)
+                if (model.TranscodeId == 0)
                 {
                     model.State = StreamState.Live;
                 }

@@ -55,7 +55,7 @@ namespace Streamia.Api
             else if (categoryType == CategoryType.Movies)
             {
                 var movie = await movieRepository.GetById(sourceId, new string[] { "MovieServers", "MovieServers.Server" });
-                if (movie.StreamDirectly)
+                if (movie.TranscodeId == 0)
                 {
                     return Redirect(movie.Source);
                 }

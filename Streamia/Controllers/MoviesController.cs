@@ -65,7 +65,7 @@ namespace Streamia.Controllers
                     });
                 }
 
-                if (model.StreamDirectly)
+                if (model.TranscodeId == 0)
                 {
                     model.State = StreamState.Ready;
                 } 
@@ -80,9 +80,9 @@ namespace Streamia.Controllers
                 
                 await movieRepository.Add(model);
 
-                if (!model.StreamDirectly)
+                if (model.TranscodeId > 0)
                 {
-                    var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
+                    var transcodeProfile = await transcodeRepository.GetById(model.TranscodeId);
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/SERVER_ID/{StreamState.Ready}";

@@ -85,11 +85,6 @@ namespace Streamia.Controllers
 
                 }
 
-                if (model.StreamDirectly)
-                {
-                    model.State = StreamState.Ready;
-                }
-
                 await seriesRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }

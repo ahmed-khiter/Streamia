@@ -17,17 +17,14 @@ namespace Streamia.Models
         [Display(Name = "Category")]
         public virtual int CategoryId { get; set; }
 
+        [Required]
         [Display(Name = "Transcode")]
-        public virtual int? TranscodeId { get; set; }
+        public virtual int TranscodeId { get; set; }
 
         [NotMapped]
         [Required]
         [Display(Name = "Bouquets")]
         public virtual List<int> BouquetIds { get; set; }
-
-        [Display(Name = "Stream Directly")]
-        public bool StreamDirectly { get; set; }
-
         public DateTime Uptime { get; set; } = DateTime.Now;
         public virtual Category Category { get; set; }
         public virtual Transcode Transcode { get; set; }
