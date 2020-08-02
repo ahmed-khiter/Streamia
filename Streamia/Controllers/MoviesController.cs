@@ -116,6 +116,7 @@ namespace Streamia.Controllers
             ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.Movies);
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
+            ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
         }
 
         private async void Transcode(Movie movie, Transcode transcodeProfile, Server server, string callbackUrl)
