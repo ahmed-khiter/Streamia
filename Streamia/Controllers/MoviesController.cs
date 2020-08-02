@@ -128,8 +128,8 @@ namespace Streamia.Controllers
                 client.RunCommand(
                     $"ffmpeg -y -nostdin -hide_banner -err_detect careful user_agent " +
                     $"\"{movie.PosterUrl}\" -nofix_dts start_at_zero -copyts -vsync 0 -correct_ts_overflow 0" +
-                    $" -avoid_negative_ts disabled -max_interleave_delta 0 -re -probesize {movie.ProbSize}  " +
-                    $"-analyzeduration {movie.Duration} -safe 0  -f concat -i {movie.Source}" +
+                    $" -avoid_negative_ts disabled -max_interleave_delta 0 -re -probesize {transcodeProfile.Probsize}  " +
+                    $"-analyzeduration {movie.Runtime} -safe 0  -f concat -i {movie.Source}" +
                     $" -vcodec {transcodeProfile.VideoCodec}" +
                     $" -acodic {transcodeProfile.AudioCodec} -map 0 ");
                 client.Disconnect();

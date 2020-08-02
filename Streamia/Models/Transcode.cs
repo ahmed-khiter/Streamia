@@ -20,6 +20,8 @@ namespace Streamia.Models
         [Display(Name = "Avgerage Audio bitrate")]
         public string AvgAudioBitrate { get; set; }
 
+        public int Probsize { get; set; }
+
         /*
          * -minrate + number
          */

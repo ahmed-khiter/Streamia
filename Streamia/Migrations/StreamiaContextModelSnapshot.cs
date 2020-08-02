@@ -745,9 +745,6 @@ namespace Streamia.Migrations
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Duration")
-                        .HasColumnType("int");
-
                     b.Property<string>("Gener")
                         .HasColumnType("nvarchar(max)");
 
@@ -760,9 +757,6 @@ namespace Streamia.Migrations
 
                     b.Property<string>("PosterUrl")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProbSize")
-                        .HasColumnType("int");
 
                     b.Property<float>("Rating")
                         .HasColumnType("real");
@@ -1069,6 +1063,9 @@ namespace Streamia.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Preset")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Probsize")
                         .HasColumnType("int");
 
                     b.Property<string>("RemoveSensitiveParts")
