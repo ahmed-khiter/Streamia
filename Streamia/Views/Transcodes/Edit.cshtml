@@ -12,111 +12,154 @@
 
 <form method="post">
 
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Id"/>
 
-    <fieldset>
-        <legend><i class="fa fa-gear"></i> General</legend>
-        <div class="row">
-            <div class="form-group col-md-3">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" />
-                <span class="text-danger" asp-validation-for="Name"></span>
-            </div>
-            <div class="form-group col-md-3">
-                <label asp-for="Preset"></label>
-                <select class="form-control" asp-for="Preset" asp-items="@(new SelectList(Transcoder.Presets))"></select>
-                <span class="text-danger" asp-validation-for="Preset"></span>
-            </div>
-            <div class="form-group col-md-3">
-                <label asp-for="MinBitrate"></label>
-                <input asp-for="MinBitrate" class="form-control" />
-                <span class="text-danger" asp-validation-for="MinBitrate"></span>
-            </div>
-            <div class="form-group col-md-3">
-                <label asp-for="MaxBitrate"></label>
-                <input asp-for="MaxBitrate" class="form-control" />
-                <span class="text-danger" asp-validation-for="MaxBitrate"></span>
-            </div>
-            <div class="form-group col-md-3">
-                <label asp-for="BufferSize"></label>
-                <input asp-for="BufferSize" class="form-control" />
-                <span class="text-danger" asp-validation-for="BufferSize"></span>
-            </div>
-            <div class="form-group col-md-3">
-                <label asp-for="CRF"></label>
-                <input asp-for="CRF" class="form-control" />
-                <span class="text-danger" asp-validation-for="CRF"></span>
-            </div>
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-sliders"></i> General</h6>
+
+    <div class="form-group row">
+        <label asp-for="Name" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="Name" class="form-control" />
+            <span class="text-danger" asp-validation-for="Name"></span>
         </div>
-    </fieldset>
+    </div>
 
-    <div class="row">
-        <div class="col-md-6">
-            <fieldset>
-                <legend>
-                    <i class="fa fa-film"></i> Video
-                </legend>
-
-                <div class="row">
-
-                    <div class="form-group col-md-6">
-                        <label asp-for="VideoCodec"></label>
-                        <select class="form-control" asp-for="VideoCodec" asp-items="@(new SelectList(Transcoder.VideoCodecs))"></select>
-                        <span class="text-danger" asp-validation-for="VideoCodec"></span>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label asp-for="VideoProfile"></label>
-                        <select class="form-control" asp-for="VideoProfile" asp-items="@(new SelectList(Transcoder.VideoProfiles))"></select>
-                        <span class="text-danger" asp-validation-for="VideoProfile"></span>
-                    </div>
-
-                    <div class="form-group col-md-6">
-                        <label asp-for="TargetVideoFrameRate"></label>
-                        <input asp-for="TargetVideoFrameRate" class="form-control" />
-                        <span class="text-danger" asp-validation-for="TargetVideoFrameRate"></span>
-                    </div>
-
-                </div>
-
-            </fieldset>
+    <div class="form-group row">
+        <label asp-for="Preset" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <select class="form-control" asp-for="Preset" asp-items="@(new SelectList(Transcoder.Presets))"></select>
+            <span class="text-danger" asp-validation-for="Preset"></span>
         </div>
-        <div class="col-md-6">
-            <fieldset>
-                <legend>
-                    <i class="fa fa-volume-up"></i> Audio
-                </legend>
+    </div>
 
-                <div class="row">
+    <div class="form-group row">
+        <label asp-for="CRF" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="CRF" class="form-control" />
+            <span class="text-danger" asp-validation-for="CRF"></span>
+        </div>
+    </div>
 
-                    <div class="form-group col-md-6">
-                        <label asp-for="AudioCodec"></label>
-                        <select class="form-control" asp-for="AudioCodec" asp-items="@(new SelectList(Transcoder.AudioCodecs))"></select>
-                        <span class="text-danger" asp-validation-for="AudioCodec"></span>
-                    </div>
+    <div class="form-group row">
+        <label asp-for="Threads" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="Threads" class="form-control" />
+            <span class="text-danger" asp-validation-for="Threads"></span>
+        </div>
+    </div>
 
-                    <div class="form-group col-md-6">
-                        <label asp-for="AudioSampleRate"></label>
-                        <input asp-for="AudioSampleRate" class="form-control" />
-                        <span class="text-danger" asp-validation-for="AudioSampleRate"></span>
-                    </div>
+    <hr />
 
-                    <div class="form-group col-md-6">
-                        <label asp-for="AudioChannels"></label>
-                        <input asp-for="AudioChannels" class="form-control" />
-                        <span class="text-danger" asp-validation-for="AudioChannels"></span>
-                    </div>
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-film"></i> Video</h6>
 
-                </div>
+    <div class="form-group row">
+        <label asp-for="VideoCodec" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <select class="form-control" asp-for="VideoCodec" asp-items="@(new SelectList(Transcoder.VideoCodecs))"></select>
+            <span class="text-danger" asp-validation-for="VideoCodec"></span>
+        </div>
+    </div>
 
-            </fieldset>
+    <div class="form-group row">
+        <label asp-for="VideoProfile" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <select class="form-control" asp-for="VideoProfile" asp-items="@(new SelectList(Transcoder.VideoProfiles))"></select>
+            <span class="text-danger" asp-validation-for="VideoProfile"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="TargetVideoFrameRate" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="TargetVideoFrameRate" class="form-control" />
+            <span class="text-danger" asp-validation-for="TargetVideoFrameRate"></span>
+        </div>
+    </div>
+
+    <hr />
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-volume-up"></i> Audio</h6>
+
+    <div class="form-group row">
+        <label asp-for="AudioCodec" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <select class="form-control" asp-for="AudioCodec" asp-items="@(new SelectList(Transcoder.AudioCodecs))"></select>
+            <span class="text-danger" asp-validation-for="AudioCodec"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="AudioSampleRate" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="AudioSampleRate" class="form-control" />
+            <span class="text-danger" asp-validation-for="AudioSampleRate"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="AudioChannels" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="AudioChannels" class="form-control" />
+            <span class="text-danger" asp-validation-for="AudioChannels"></span>
+        </div>
+    </div>
+
+    <hr />
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-object-group"></i> Bitrate</h6>
+
+    <div class="form-group row">
+        <label asp-for="AvgBitrate" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="AvgBitrate" class="form-control" />
+            <span class="text-danger" asp-validation-for="AvgBitrate"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="MinBitrate" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="MinBitrate" class="form-control" />
+            <span class="text-danger" asp-validation-for="MinBitrate"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="MaxBitrate" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="MaxBitrate" class="form-control" />
+            <span class="text-danger" asp-validation-for="MaxBitrate"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="BufferSize" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="BufferSize" class="form-control" />
+            <span class="text-danger" asp-validation-for="BufferSize"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="AnalyzeDuration" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="AnalyzeDuration" class="form-control" />
+            <span class="text-danger" asp-validation-for="AnalyzeDuration"></span>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label asp-for="Probsize" class="col-sm-4 col-form-label"></label>
+        <div class="col-sm-8">
+            <input asp-for="Probsize" class="form-control" />
+            <span class="text-danger" asp-validation-for="Probsize"></span>
         </div>
     </div>
 
     <hr />
 
     <button type="submit" class="main-btn">
-        <i class="fa fa-pencil"></i> Edit
+        <i class="fa fa-plus"></i> Add
     </button>
 
 </form>
