@@ -19,13 +19,13 @@ namespace Streamia.Models
         public string VideoProfile { get; set; }
 
         [Display(Name = "Target Video Frame Rate")]
-        public string TargetVideoFrameRate { get; set; }
+        public uint TargetVideoFrameRate { get; set; }
 
         [Display(Name = "Audio Codec")]
         public string AudioCodec { get; set; }
 
         [Display(Name = "Audio Sample Rate")]
-        public string AudioSampleRate { get; set; }
+        public uint AudioSampleRate { get; set; }
 
         [Display(Name = "Audio Channels")]
         public uint AudioChannels { get; set; }

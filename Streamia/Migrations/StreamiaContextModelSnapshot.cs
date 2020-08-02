@@ -1035,8 +1035,8 @@ namespace Streamia.Migrations
                     b.Property<string>("AudioCodec")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AudioSampleRate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("AudioSampleRate")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("AvgBitrate")
                         .HasColumnType("bigint");
@@ -1063,8 +1063,8 @@ namespace Streamia.Migrations
                     b.Property<int>("Probsize")
                         .HasColumnType("int");
 
-                    b.Property<string>("TargetVideoFrameRate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<long>("TargetVideoFrameRate")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("Threads")
                         .HasColumnType("bigint");
