@@ -37,17 +37,17 @@ namespace Streamia.Realtime
 
             if (state == StreamState.Live)
             {
-                var command = new FFMPEGCommandGenerator
-                {
-                    InputSource = stream.Source,
-                    OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
-                    StreamLoop = "-1",
-                    VideoCodec = "libx264",
-                    VideoProfile = "baseline",
-                    AudioCodec = "aac",
-                    Format = "flv"
-                };
-                stream.StreamServers = (List<StreamServer>) Start((IList<StreamServer>) stream.StreamServers, command.Generate());
+                //var command = new FFMPEGCommandGenerator
+                //{
+                //    InputSource = stream.Source,
+                //    OutputSource = $"rtmp://localhost/live/{stream.StreamKey}",
+                //    StreamLoop = "-1",
+                //    VideoCodec = "libx264",
+                //    VideoProfile = "baseline",
+                //    AudioCodec = "aac",
+                //    Format = "flv"
+                //};
+                //stream.StreamServers = (List<StreamServer>) Start((IList<StreamServer>) stream.StreamServers, command.Generate());
             } 
             else if (state == StreamState.Stopped)
             {
