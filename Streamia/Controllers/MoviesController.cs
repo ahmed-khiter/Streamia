@@ -132,7 +132,7 @@ namespace Streamia.Controllers
                     $" -avoid_negative_ts disabled -max_interleave_delta 0 -re -probesize {transcodeProfile.Probsize}  " +
                     $"-analyzeduration {movie.Runtime} -safe 0  -f concat -i {movie.Source}" +
                     $" -vcodec {transcodeProfile.VideoCodec}" +
-                    $" -acodic {transcodeProfile.AudioCodec} -map 0 ");
+                    $" -acodec {transcodeProfile.AudioCodec} -map 0 ");
                 client.Disconnect();
             }
             catch (Exception)

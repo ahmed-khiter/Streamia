@@ -1011,6 +1011,9 @@ namespace Streamia.Migrations
                     b.Property<long>("AnalyzeDuration")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("AudioBitrate")
+                        .HasColumnType("bigint");
+
                     b.Property<long>("AudioChannels")
                         .HasColumnType("bigint");
 
@@ -1018,9 +1021,6 @@ namespace Streamia.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("AudioSampleRate")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("AvgBitrate")
                         .HasColumnType("bigint");
 
                     b.Property<long>("BufferSize")
@@ -1049,6 +1049,9 @@ namespace Streamia.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<long>("Threads")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VideoBitrate")
                         .HasColumnType("bigint");
 
                     b.Property<string>("VideoCodec")

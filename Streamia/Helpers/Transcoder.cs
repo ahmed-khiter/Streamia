@@ -104,7 +104,7 @@ namespace Streamia.Helpers
 
         public static string[] Presets =
         {
-            "none",
+            "default",
             "ultrafast",
             "superfast",
             "veryfast",

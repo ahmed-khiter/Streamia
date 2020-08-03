@@ -14,8 +14,21 @@ namespace Streamia.Helpers
             StringBuilder command = new StringBuilder(" -y -nostdin -hide_banner ");
             if (!string.IsNullOrEmpty(transcodeProfile.VideoCodec))
             {
-                command.Append($" -vcodec {transcodeProfile.VideoCodec}");
+                command.Append($" -c:v {transcodeProfile.VideoCodec}");
             }
+            if (!string.IsNullOrEmpty(transcodeProfile.VideoProfile))
+            {
+                command.Append($" -profile:v {transcodeProfile.VideoProfile}");
+            }
+            if (!string.IsNullOrEmpty(transcodeProfile.AudioCodec))
+            {
+                command.Append($" -c:a {transcodeProfile.AudioCodec}");
+            }
+            if (!string.IsNullOrEmpty(transcodeProfile.Preset))
+            {
+                command.Append($" -preset {transcodeProfile.Preset}");
+            }
+
             return command.ToString();
         }
     }
