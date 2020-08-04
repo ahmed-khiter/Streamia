@@ -14,16 +14,19 @@ namespace Streamia.Controllers
         private readonly IRepository<Channel> channelRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Server> serverRepository;
+        private readonly IRepository<Transcode> transcodeRepository;
 
         public ChannelsController(
             IRepository<Channel> channelRepository,
             IRepository<Bouquet> bouquetRepository,
-            IRepository<Server> serverRepository
+            IRepository<Server> serverRepository,
+            IRepository<Transcode> transcodeRepository
         )
         {
             this.channelRepository = channelRepository;
             this.bouquetRepository = bouquetRepository;
             this.serverRepository = serverRepository;
+            this.transcodeRepository = transcodeRepository;
         }
 
 
@@ -63,6 +66,7 @@ namespace Streamia.Controllers
         {
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
+            ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
         }
     }
 }

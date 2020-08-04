@@ -198,7 +198,7 @@ namespace Streamia.Controllers
             ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.LiveStreams);
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
-            ViewBag.Transcodes = await transcodeRepository.GetAll();
+            ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
         }
     }
 }
