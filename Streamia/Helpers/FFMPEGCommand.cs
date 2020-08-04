@@ -11,7 +11,7 @@ namespace Streamia.Helpers
     {
         public static string GenerateTranscodeParams(Transcode transcodeProfile)
         {
-            StringBuilder command = new StringBuilder("ffmpeg -y -nostdin -hide_banner INPUT_SRC");
+            StringBuilder command = new StringBuilder("ffmpeg -y -nostdin -hide_banner -i INPUT_SRC");
 
             // 1920x1080
             command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
