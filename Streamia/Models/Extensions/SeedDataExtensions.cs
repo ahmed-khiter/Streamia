@@ -72,9 +72,9 @@ namespace Streamia.Models.Extensions
         {
             modelBuilder.Entity<Transcode>().HasData(new Transcode { 
                 Id = 1, 
-                Name = "Basic: h264/acc",
+                Name = "Basic: H264/AAC",
                 VideoCodec = "h264",
-                AudioCodec = "acc"
+                AudioCodec = "aac"
             });
         }
 
