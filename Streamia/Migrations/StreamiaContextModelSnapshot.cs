@@ -1011,7 +1011,16 @@ namespace Streamia.Migrations
                     b.Property<long>("AnalyzeDuration")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("AudioBitrate")
+                    b.Property<long>("AudioBitrate_1080")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AudioBitrate_360")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AudioBitrate_480")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AudioBitrate_720")
                         .HasColumnType("bigint");
 
                     b.Property<long>("AudioChannels")
@@ -1020,19 +1029,55 @@ namespace Streamia.Migrations
                     b.Property<string>("AudioCodec")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("AudioSampleRate")
+                    b.Property<long>("AudioSampleRate_1080")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("BufferSize")
+                    b.Property<long>("AudioSampleRate_360")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AudioSampleRate_480")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("AudioSampleRate_720")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BufferSize_1080")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BufferSize_360")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BufferSize_480")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("BufferSize_720")
                         .HasColumnType("bigint");
 
                     b.Property<long>("CRF")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("MaxBitrate")
+                    b.Property<long>("MaxBitrate_1080")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("MinBitrate")
+                    b.Property<long>("MaxBitrate_360")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MaxBitrate_480")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MaxBitrate_720")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MinBitrate_1080")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MinBitrate_360")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MinBitrate_480")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("MinBitrate_720")
                         .HasColumnType("bigint");
 
                     b.Property<string>("Name")
@@ -1045,13 +1090,19 @@ namespace Streamia.Migrations
                     b.Property<int>("Probsize")
                         .HasColumnType("int");
 
-                    b.Property<long>("TargetVideoFrameRate")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("Threads")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("VideoBitrate")
+                    b.Property<long>("VideoBitrate_1080")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VideoBitrate_360")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VideoBitrate_480")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("VideoBitrate_720")
                         .HasColumnType("bigint");
 
                     b.Property<string>("VideoCodec")
