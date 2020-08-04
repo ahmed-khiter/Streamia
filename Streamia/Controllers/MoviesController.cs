@@ -134,10 +134,9 @@ namespace Streamia.Controllers
                 transcoder = transcoder.Replace("OUTPUT_SRC_720", $" /var/hls/{movie.StreamKey}/720/720_%03d.ts /var/hls/{movie.StreamKey}/720/720.m3u8");
                 transcoder = transcoder.Replace("OUTPUT_SRC_480", $" /var/hls/{movie.StreamKey}/480/480_%03d.ts /var/hls/{movie.StreamKey}/480/480.m3u8");
                 transcoder = transcoder.Replace("OUTPUT_SRC_360", $" /var/hls/{movie.StreamKey}/360/360_%03d.ts /var/hls/{movie.StreamKey}/360/360.m3u8");
-                client.Connect();
-                client.RunCommand($"mkdir /var/hls/{movie.StreamKey} && cd /var/hls/{movie.StreamKey} && mkdir 1080 720 480 360");
-                
-                client.Disconnect();
+                //client.Connect();
+                //client.RunCommand($"mkdir /var/hls/{movie.StreamKey} && cd /var/hls/{movie.StreamKey} && mkdir 1080 720 480 360");
+                //client.Disconnect();
             }
             catch (Exception)
             {
