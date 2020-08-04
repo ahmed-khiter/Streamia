@@ -942,14 +942,8 @@ namespace Streamia.Migrations
                     b.Property<int>("Delay")
                         .HasColumnType("int");
 
-                    b.Property<bool>("EnableRecording")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("EnableRtmp")
                         .HasColumnType("bit");
-
-                    b.Property<string>("EnigmaSID")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("GeneratePts")
                         .HasColumnType("bit");
@@ -957,6 +951,9 @@ namespace Streamia.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Record")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Source")
                         .IsRequired()
@@ -1114,6 +1111,44 @@ namespace Streamia.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Transcodes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AnalyzeDuration = 0L,
+                            AudioBitrate_1080 = 192L,
+                            AudioBitrate_360 = 96L,
+                            AudioBitrate_480 = 128L,
+                            AudioBitrate_720 = 128L,
+                            AudioChannels = 0L,
+                            AudioCodec = "acc",
+                            AudioSampleRate_1080 = 48000L,
+                            AudioSampleRate_360 = 48000L,
+                            AudioSampleRate_480 = 48000L,
+                            AudioSampleRate_720 = 48000L,
+                            BufferSize_1080 = 7500L,
+                            BufferSize_360 = 1200L,
+                            BufferSize_480 = 2100L,
+                            BufferSize_720 = 4200L,
+                            CRF = 20L,
+                            MaxBitrate_1080 = 5350L,
+                            MaxBitrate_360 = 856L,
+                            MaxBitrate_480 = 1498L,
+                            MaxBitrate_720 = 2996L,
+                            MinBitrate_1080 = 0L,
+                            MinBitrate_360 = 0L,
+                            MinBitrate_480 = 0L,
+                            MinBitrate_720 = 0L,
+                            Name = "Basic: h264/acc",
+                            Probsize = 0,
+                            Threads = 0L,
+                            VideoBitrate_1080 = 5000L,
+                            VideoBitrate_360 = 800L,
+                            VideoBitrate_480 = 1400L,
+                            VideoBitrate_720 = 2800L,
+                            VideoCodec = "h264"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

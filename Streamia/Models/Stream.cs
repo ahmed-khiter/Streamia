@@ -22,11 +22,8 @@ namespace Streamia.Models
         [Display(Name = "Enable RTMP")]
         public bool EnableRtmp { get; set; }
 
-        [Display(Name = "Enable Recording")]
-        public bool EnableRecording { get; set; }
-
-        [Display(Name = "Enigma SID")]
-        public string EnigmaSID { get; set; }
+        [Display(Name = "Record?")]
+        public bool Record { get; set; }
 
         [Display(Name = "Delay in minutes")]
         public int Delay { get; set; } = 0;
