@@ -19,8 +19,8 @@ namespace Streamia.Helpers
             command.Append($" -c:v {transcodeProfile.VideoCodec ?? "copy"}");
             command.Append(!transcodeProfile.Preset.Equals("default") ? $" -preset {transcodeProfile.Preset}" : string.Empty);
             command.Append($" -profile:v {transcodeProfile.VideoProfile ?? "main"}");
-            command.Append($" -crf {(transcodeProfile.CRF > 0 ? transcodeProfile.CRF.ToString() : "20")}");
-            command.Append(" -hls_time 4");
+            command.Append(transcodeProfile.CRF > 0 ? $" -crf {transcodeProfile.CRF}" : string.Empty);
+            command.Append(" -hls_time LIST_TIME");
             command.Append(" -hls_playlist_type LIST_TYPE");
             command.Append(transcodeProfile.VideoBitrate_1080 > 0 ? $" -b:v {transcodeProfile.VideoBitrate_1080}k" : string.Empty);
             command.Append(transcodeProfile.MaxBitrate_1080 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_1080}k" : string.Empty);
@@ -35,8 +35,8 @@ namespace Streamia.Helpers
             command.Append($" -c:v {transcodeProfile.VideoCodec ?? "copy"}");
             command.Append(!transcodeProfile.Preset.Equals("default") ? $" -preset {transcodeProfile.Preset}" : string.Empty);
             command.Append($" -profile:v {transcodeProfile.VideoProfile ?? "main"}");
-            command.Append($" -crf {(transcodeProfile.CRF > 0 ? transcodeProfile.CRF.ToString() : "20")}");
-            command.Append(" -hls_time 4");
+            command.Append(transcodeProfile.CRF > 0 ? $" -crf {transcodeProfile.CRF}" : string.Empty);
+            command.Append(" -hls_time LIST_TIME");
             command.Append(" -hls_playlist_type LIST_TYPE");
             command.Append(transcodeProfile.VideoBitrate_720 > 0 ? $" -b:v {transcodeProfile.VideoBitrate_720}k" : string.Empty);
             command.Append(transcodeProfile.MaxBitrate_720 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_720}k" : string.Empty);
@@ -51,8 +51,8 @@ namespace Streamia.Helpers
             command.Append($" -c:v {transcodeProfile.VideoCodec ?? "copy"}");
             command.Append(!transcodeProfile.Preset.Equals("default") ? $" -preset {transcodeProfile.Preset}" : string.Empty);
             command.Append($" -profile:v {transcodeProfile.VideoProfile ?? "main"}");
-            command.Append($" -crf {(transcodeProfile.CRF > 0 ? transcodeProfile.CRF.ToString() : "20")}");
-            command.Append(" -hls_time 4");
+            command.Append(transcodeProfile.CRF > 0 ? $" -crf {transcodeProfile.CRF}" : string.Empty);
+            command.Append(" -hls_time LIST_TIME");
             command.Append(" -hls_playlist_type LIST_TYPE");
             command.Append(transcodeProfile.VideoBitrate_480 > 0 ? $" -b:v {transcodeProfile.VideoBitrate_480}k" : string.Empty);
             command.Append(transcodeProfile.MaxBitrate_480 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_480}k" : string.Empty);
@@ -67,8 +67,8 @@ namespace Streamia.Helpers
             command.Append($" -c:v {transcodeProfile.VideoCodec ?? "copy"}");
             command.Append(!transcodeProfile.Preset.Equals("default") ? $" -preset {transcodeProfile.Preset}" : string.Empty);
             command.Append($" -profile:v {transcodeProfile.VideoProfile ?? "main"}");
-            command.Append($" -crf {(transcodeProfile.CRF > 0 ? transcodeProfile.CRF.ToString() : "20")}");
-            command.Append(" -hls_time 4");
+            command.Append(transcodeProfile.CRF > 0 ? $" -crf {transcodeProfile.CRF}" : string.Empty);
+            command.Append(" -hls_time LIST_TIME");
             command.Append(" -hls_playlist_type LIST_TYPE");
             command.Append(transcodeProfile.VideoBitrate_360 > 0 ? $" -b:v {transcodeProfile.VideoBitrate_360}k" : string.Empty);
             command.Append(transcodeProfile.MaxBitrate_360 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_360}k" : string.Empty);
