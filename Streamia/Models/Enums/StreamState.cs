@@ -10,6 +10,7 @@ namespace Streamia.Models.Enums
         Stopped,
         Live,
         Transcoding,
-        Ready
+        Ready,
+        TranscodeError
     }
 }

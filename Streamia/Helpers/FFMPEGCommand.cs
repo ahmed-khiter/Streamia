@@ -27,7 +27,7 @@ namespace Streamia.Helpers
             command.Append(transcodeProfile.MaxBitrate_1080 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_1080}k" : string.Empty);
             command.Append(transcodeProfile.BufferSize_1080 > 0 ? $" -bufsize {transcodeProfile.BufferSize_1080}k" : string.Empty);
             command.Append(transcodeProfile.AudioBitrate_1080 > 0 ? $" -b:a {transcodeProfile.AudioBitrate_1080}k" : string.Empty);
-            command.Append(" -hls_segment_filename OUTPUT_SRC");
+            command.Append(" -hls_segment_filename OUTPUT_SRC_1080");
 
             // 1280x720
             command.Append(" -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease");
@@ -43,7 +43,7 @@ namespace Streamia.Helpers
             command.Append(transcodeProfile.MaxBitrate_720 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_720}k" : string.Empty);
             command.Append(transcodeProfile.BufferSize_720 > 0 ? $" -bufsize {transcodeProfile.BufferSize_720}k" : string.Empty);
             command.Append(transcodeProfile.AudioBitrate_720 > 0 ? $" -b:a {transcodeProfile.AudioBitrate_720}k" : string.Empty);
-            command.Append(" -hls_segment_filename OUTPUT_SRC");
+            command.Append(" -hls_segment_filename OUTPUT_SRC_720");
 
             // 842x480
             command.Append(" -vf scale=w=842:h=480:force_original_aspect_ratio=decrease");
@@ -59,7 +59,7 @@ namespace Streamia.Helpers
             command.Append(transcodeProfile.MaxBitrate_480 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_480}k" : string.Empty);
             command.Append(transcodeProfile.BufferSize_480 > 0 ? $" -bufsize {transcodeProfile.BufferSize_480}k" : string.Empty);
             command.Append(transcodeProfile.AudioBitrate_480 > 0 ? $" -b:a {transcodeProfile.AudioBitrate_480}k" : string.Empty);
-            command.Append(" -hls_segment_filename OUTPUT_SRC");
+            command.Append(" -hls_segment_filename OUTPUT_SRC_480");
 
             // 640x360
             command.Append(" -vf scale=w=640:h=360:force_original_aspect_ratio=decrease");
@@ -75,7 +75,7 @@ namespace Streamia.Helpers
             command.Append(transcodeProfile.MaxBitrate_360 > 0 ? $" -maxrate {transcodeProfile.MaxBitrate_360}k" : string.Empty);
             command.Append(transcodeProfile.BufferSize_360 > 0 ? $" -bufsize {transcodeProfile.BufferSize_360}k" : string.Empty);
             command.Append(transcodeProfile.AudioBitrate_360 > 0 ? $" -b:a {transcodeProfile.AudioBitrate_360}k" : string.Empty);
-            command.Append(" -hls_segment_filename OUTPUT_SRC");
+            command.Append(" -hls_segment_filename OUTPUT_SRC_360");
 
             return command.ToString();
         }
