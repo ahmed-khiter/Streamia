@@ -28,7 +28,7 @@ namespace Streamia.Models
         public uint AnalyzeDuration { get; set; }
         public int Probsize { get; set; }
         public string Preset { get; set; }
-        public uint CRF { get; set; }
+        public uint CRF { get; set; } = 20;
         public uint Threads { get; set; }
 
         // 1920x1080
