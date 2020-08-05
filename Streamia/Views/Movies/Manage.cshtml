@@ -61,7 +61,6 @@
             var connection = new signalR.HubConnectionBuilder().withUrl("/movie-status-hub").build();
             connection.start();
             connection.on("UpdateSignal", function (data) {
-                console.log(data);
                 var stateIndicator = $(`#state-${data.id}`);
                 if (data.state === 3) {
                     stateIndicator.html('<i class="fa fa-circle text-success"></i> Ready');
