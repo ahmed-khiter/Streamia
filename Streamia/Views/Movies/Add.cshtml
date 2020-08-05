@@ -13,15 +13,12 @@
 
 <form method="post">
     <input type="hidden" asp-for="ServerId"/>
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-sliders"></i> General</h6>
+
     <div class="row">
-        <div class="form-group col-md-4">
-            <label asp-for="Name"></label>
-            <div id="searchia">
-                <input asp-for="Name" class="form-control" autocomplete="off" />
-            </div>
-            <span class="text-danger" asp-validation-for="Name"></span>
-        </div>
-        <div class="form-group col-md-4">
+
+        <div class="form-group col-md-3">
             <label asp-for="Source"></label>
             <div class="exploriable">
                 <input asp-for="Source" class="form-control" placeholder="URL or browse servers" />
@@ -31,17 +28,44 @@
             </div>
             <span class="text-danger" asp-validation-for="Source"></span>
         </div>
-        <div class="form-group col-md-4">
+
+        <div class="form-group col-md-3">
             <label asp-for="CategoryId"></label>
             <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
             </select>
             <span class="text-danger" asp-validation-for="CategoryId"></span>
         </div>
-        <div class="form-group col-md-4">
+
+        <div class="form-group col-md-3">
             <label asp-for="BouquetIds"></label>
             <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
             <span class="text-danger" asp-validation-for="BouquetIds"></span>
         </div>
+
+        <div class="form-group col-md-3">
+            <label asp-for="TranscodeId"></label>
+            <select class="form-control" asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles, "Id", "Name"))">
+                <option value="0" selected>Stream Directly (No Processing)</option>
+            </select>
+            <span class="text-danger" asp-validation-for="TranscodeId"></span>
+        </div>
+
+    </div>
+
+    <hr />
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-info-circle"></i> Movie Data (TMDB Fetched)</h6>
+
+    <div class="row">
+
+        <div class="form-group col-md-4">
+            <label asp-for="Name"></label>
+            <div id="searchia">
+                <input asp-for="Name" class="form-control" autocomplete="off" />
+            </div>
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+
         <div class="form-group col-md-4">
             <label asp-for="PosterUrl"></label>
             <input asp-for="PosterUrl" class="form-control" />
@@ -52,51 +76,41 @@
             <input asp-for="Overview" class="form-control" />
             <span class="text-danger" asp-validation-for="Overview"></span>
         </div>
+
         <div class="form-group col-md-4">
             <label asp-for="Cast"></label>
             <input asp-for="Cast" class="form-control" />
             <span class="text-danger" asp-validation-for="Cast"></span>
         </div>
+
         <div class="form-group col-md-4">
             <label asp-for="Director"></label>
             <input asp-for="Director" class="form-control" />
             <span class="text-danger" asp-validation-for="Director"></span>
         </div>
+
         <div class="form-group col-md-4">
             <label asp-for="Gener"></label>
             <input asp-for="Gener" class="form-control" />
             <span class="text-danger" asp-validation-for="Gener"></span>
         </div>
+
         <div class="form-group col-md-4">
             <label asp-for="ReleaseDate"></label>
             <input asp-for="ReleaseDate" class="form-control" />
             <span class="text-danger" asp-validation-for="ReleaseDate"></span>
         </div>
+
         <div class="form-group col-md-4">
             <label asp-for="Runtime"></label>
             <input asp-for="Runtime" class="form-control" />
             <span class="text-danger" asp-validation-for="Runtime"></span>
         </div>
+
         <div class="form-group col-md-4">
             <label asp-for="Rating"></label>
             <input asp-for="Rating" class="form-control" />
             <span class="text-danger" asp-validation-for="Rating"></span>
-        </div>
-
-    </div>
-
-    <div class="form-group row">
-
-        <label class="col-sm-4 col-form-label" asp-for="TranscodeId"></label>
-
-        <div class="col-sm-8">
-
-            <select class="form-control" asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles, "Id", "Name"))">
-                <option value="0" selected>Stream Directly (No Processing)</option>
-            </select>
-
-            <span class="text-danger" asp-validation-for="TranscodeId"></span>
-
         </div>
 
     </div>
