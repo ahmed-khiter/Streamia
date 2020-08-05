@@ -58,8 +58,10 @@
             connection.start();
             connection.on("UpdateSignal", function (data) {
                 var stateIndicator = $(`#state-${data.sourceId}`);
-                if (data.state === 2) {
+                if (data.state === 3) {
                     stateIndicator.html('<i class="fa fa-circle text-success"></i> Ready');
+                } else if (data.state === 4) {
+                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> Transcode Error');
                 }
             });
         });

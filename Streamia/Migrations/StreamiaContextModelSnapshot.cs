@@ -777,7 +777,7 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranscodeId")
+                    b.Property<int?>("TranscodeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -848,7 +848,7 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranscodeId")
+                    b.Property<int?>("TranscodeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -965,7 +965,7 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TranscodeId")
+                    b.Property<int?>("TranscodeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -1122,7 +1122,7 @@ namespace Streamia.Migrations
                             AudioBitrate_480 = 128L,
                             AudioBitrate_720 = 128L,
                             AudioChannels = 0L,
-                            AudioCodec = "acc",
+                            AudioCodec = "aac",
                             AudioSampleRate_1080 = 48000L,
                             AudioSampleRate_360 = 48000L,
                             AudioSampleRate_480 = 48000L,
@@ -1140,7 +1140,7 @@ namespace Streamia.Migrations
                             MinBitrate_360 = 0L,
                             MinBitrate_480 = 0L,
                             MinBitrate_720 = 0L,
-                            Name = "Basic: h264/acc",
+                            Name = "Basic: H264/AAC",
                             Probsize = 0,
                             Threads = 0L,
                             VideoBitrate_1080 = 5000L,
@@ -1312,9 +1312,7 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TranscodeId");
                 });
 
             modelBuilder.Entity("Streamia.Models.MovieServer", b =>
@@ -1342,9 +1340,7 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TranscodeId");
                 });
 
             modelBuilder.Entity("Streamia.Models.SeriesServer", b =>
@@ -1372,9 +1368,7 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("TranscodeId");
                 });
 
             modelBuilder.Entity("Streamia.Models.StreamServer", b =>

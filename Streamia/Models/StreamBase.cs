@@ -17,9 +17,8 @@ namespace Streamia.Models
         [Display(Name = "Category")]
         public virtual int CategoryId { get; set; }
 
-        [Required]
         [Display(Name = "Transcode")]
-        public virtual int TranscodeId { get; set; }
+        public virtual int? TranscodeId { get; set; }
 
         [NotMapped]
         [Required]

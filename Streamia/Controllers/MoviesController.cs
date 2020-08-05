@@ -57,6 +57,13 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.TranscodeId == 0 && !Uri.IsWellFormedUriString(model.Source, UriKind.Absolute))
+                {
+                    ModelState.AddModelError("TranscodeId", "Streaming directly is not allowed with local server files");
+                    await PrepareViewBag();
+                    return View(model);
+                }
+
                 foreach (var bouquetId in model.BouquetIds)
                 {
                     model.BouquetMovies.Add(new BouquetMovie
@@ -68,6 +75,7 @@ namespace Streamia.Controllers
 
                 if (model.TranscodeId == 0)
                 {
+                    model.TranscodeId = null;
                     model.State = StreamState.Ready;
                 } 
                 else
@@ -83,11 +91,11 @@ namespace Streamia.Controllers
 
                 if (model.TranscodeId > 0)
                 {
-                    var transcodeProfile = await transcodeRepository.GetById(model.TranscodeId);
+                    var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/{model.Id}/STATE";
-                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
+                    //ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
                 }
 
                 return RedirectToAction(nameof(Manage));

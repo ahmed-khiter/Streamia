@@ -60,8 +60,7 @@
                 <div class="form-group col-md-12">
                     <label asp-for="TranscodeId"></label>
                     <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles,"Id","Name"))" class="form-control">
-                        <option selected value="">-- Select --</option>
-                        <option value="0">Stream Directly</option>
+                        <option value="0" selected>Stream Directly (No Processing)</option>
                     </select>
                     <span class="text-danger" asp-validation-for="CategoryId"></span>
                 </div>
