@@ -31,7 +31,7 @@ namespace Streamia.Models
 
         [Required]
         [Display(Name = "Bouqet")]
-        public int BouquetId { get; set; }
+        public uint BouquetId { get; set; }
 
         public Bouquet Bouquet { get; set; }
     }

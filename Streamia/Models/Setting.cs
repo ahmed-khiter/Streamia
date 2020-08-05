@@ -8,6 +8,6 @@ namespace Streamia.Models
 {
     public class Setting : BaseEntity
     {
-        public int Credit { get; set; }
+        public uint Credit { get; set; }
     }
 }

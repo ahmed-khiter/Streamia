@@ -13,17 +13,17 @@ namespace Streamia.Models
         public virtual string StreamKey { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Category is required")]
+        [Range(1, uint.MaxValue, ErrorMessage = "Category is required")]
         [Display(Name = "Category")]
-        public virtual int CategoryId { get; set; }
+        public virtual uint CategoryId { get; set; }
 
         [Display(Name = "Transcode")]
-        public virtual int? TranscodeId { get; set; }
+        public virtual uint? TranscodeId { get; set; }
 
         [NotMapped]
         [Required]
         [Display(Name = "Bouquets")]
-        public virtual List<int> BouquetIds { get; set; }
+        public virtual List<uint> BouquetIds { get; set; }
         public DateTime Uptime { get; set; } = DateTime.Now;
         public virtual Category Category { get; set; }
         public virtual Transcode Transcode { get; set; }

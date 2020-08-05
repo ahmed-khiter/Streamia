@@ -38,9 +38,9 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(uint id)
         {
-            Bouquet bouquet = await bouquetRepository.GetById(id.Value);
+            Bouquet bouquet = await bouquetRepository.GetById(id);
             if (bouquet == null)
             {
                 return NotFound();
@@ -60,7 +60,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(uint id)
         {
             await bouquetRepository.Delete(id);
             return RedirectToAction(nameof(Manage));

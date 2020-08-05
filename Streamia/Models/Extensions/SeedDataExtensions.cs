@@ -141,7 +141,7 @@ namespace Streamia.Models.Extensions
                 "Sport"
             };
 
-            int idCounter = 1;
+            uint idCounter = 1;
             List<Category> seedList = new List<Category>();
 
             foreach (string categoryName in liveCategories)

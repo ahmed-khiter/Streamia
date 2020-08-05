@@ -26,7 +26,7 @@ namespace Streamia.Models
 
         [Display(Name = "Analyze Duration")]
         public uint AnalyzeDuration { get; set; }
-        public int Probsize { get; set; }
+        public uint Probsize { get; set; }
         public string Preset { get; set; }
         public uint CRF { get; set; } = 20;
         public uint Threads { get; set; }

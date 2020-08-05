@@ -21,10 +21,10 @@ namespace Streamia.Models
 
         [Required]
         [Display(Name = "Max Clients")]
-        public int MaxClients { get; set; } = 1;
+        public uint MaxClients { get; set; } = 1;
 
         [Display(Name = "SSH Port")]
-        public int SshPort { get; set; } = 22;
+        public uint SshPort { get; set; } = 22;
 
         public ServerState ServerState { get; set; } = ServerState.Configuring;
 

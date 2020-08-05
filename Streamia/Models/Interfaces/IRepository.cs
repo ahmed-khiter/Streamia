@@ -14,9 +14,9 @@ namespace Streamia.Models.Interfaces
         Task<IEnumerable<T>> Edit(IEnumerable<T> entities);
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> GetAll(string[] models);
-        Task<T> GetById(int id);
-        Task<T> GetById(int id, string[] models);
-        Task Delete(int id);
+        Task<T> GetById(uint id);
+        Task<T> GetById(uint id, string[] models);
+        Task Delete(uint id);
         Task Delete(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> Search(Expression<Func<T, bool>> expression);
         Task<bool> Exists(Expression<Func<T, bool>> expression);

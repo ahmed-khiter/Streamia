@@ -32,7 +32,7 @@ namespace Streamia.Api
 
         [Route("authenticate/{username}/{password}/{categoryType}/{sourceId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate(string username, string password, CategoryType categoryType, int sourceId)
+        public async Task<IActionResult> Authenticate(string username, string password, CategoryType categoryType, uint sourceId)
         {
             // we should activate user subscriotion on first use
             // we should monitor user connection
