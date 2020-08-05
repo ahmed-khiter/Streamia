@@ -91,7 +91,7 @@ namespace Streamia.Controllers
 
                 if (model.TranscodeId > 0)
                 {
-                    var transcodeProfile = await transcodeRepository.GetById((uint) model.TranscodeId);
+                    var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/{model.Id}/STATE";
@@ -105,7 +105,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             await movieServerRepository.Delete(m => m.MovieId == id);
             await bouquetMovieRepository.Delete(m => m.MovieId == id);

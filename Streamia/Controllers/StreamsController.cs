@@ -88,7 +88,7 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(uint id)
+        public async Task<IActionResult> Edit(int id)
         {
             await PrepareViewBag();
 
@@ -99,8 +99,8 @@ namespace Streamia.Controllers
                 return NotFound();
             }
 
-            stream.BouquetIds = new List<uint>();
-            stream.ServerIds = new List<uint>();
+            stream.BouquetIds = new List<int>();
+            stream.ServerIds = new List<int>();
 
             foreach(var bouquet in stream.BouquetStreams)
             {
@@ -157,7 +157,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             await streamServersRepository.Delete(m => m.StreamId == id);
             await bouquetStreamsRepository.Delete(m => m.StreamId == id);
@@ -166,7 +166,7 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(uint id)
+        public async Task<IActionResult> Details(int id)
         {
             var dataToLoad = new string[]
             {

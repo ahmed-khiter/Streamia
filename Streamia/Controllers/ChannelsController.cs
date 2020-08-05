@@ -49,7 +49,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             await channelRepository.Delete(id);
             return RedirectToAction(nameof(Manage));

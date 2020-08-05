@@ -60,7 +60,7 @@ namespace Streamia.Controllers
                     });
                 }
 
-                List<uint> serverIds = new List<uint>();
+                List<int> serverIds = new List<int>();
 
                 for (int i = 0; i < model.Episodes.Count; i++)
                 {
@@ -70,7 +70,7 @@ namespace Streamia.Controllers
                     {
                         var sourceComponents = model.Episodes[i].Source.Split('/');
 
-                        if (uint.TryParse(sourceComponents[0], out uint serverId))
+                        if (int.TryParse(sourceComponents[0], out int serverId))
                         {
                             if (!serverIds.Contains(serverId))
                             {
@@ -96,7 +96,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             await seriesServerRepository.Delete(m => m.SeriesId == id);
             await bouquetSeriesRepository.Delete(m => m.SeriesId == id);

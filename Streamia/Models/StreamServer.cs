@@ -8,9 +8,9 @@ namespace Streamia.Models
 {
     public class StreamServer : BaseEntity
     {
-        public uint StreamId { get; set; }
-        public uint ServerId { get; set; }
-        public uint Pid { get; set; } = 0;
+        public int StreamId { get; set; }
+        public int ServerId { get; set; }
+        public int Pid { get; set; } = 0;
         public Stream Stream { get; set; }
         public Server Server { get; set; }
     }

@@ -10,7 +10,7 @@ namespace Streamia.Realtime.Interfaces
 {
     public interface IState<T> where T : BaseEntity
     {
-        public Task Update(uint sourceId, StreamState state);
+        public Task Update(int sourceId, StreamState state);
         public IList<T> Start(IList<T> servers, string command);
         public IList<T> Stop(IList<T> servers);
     }

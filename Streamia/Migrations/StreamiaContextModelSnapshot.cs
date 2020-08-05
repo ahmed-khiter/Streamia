@@ -201,8 +201,8 @@ namespace Streamia.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("SettingId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("SettingId")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -228,9 +228,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Bouquet", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -243,11 +244,11 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.BouquetChannel", b =>
                 {
-                    b.Property<long>("BouquetId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ChannelId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ChannelId")
+                        .HasColumnType("int");
 
                     b.HasKey("BouquetId", "ChannelId");
 
@@ -258,11 +259,11 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.BouquetMovie", b =>
                 {
-                    b.Property<long>("BouquetId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("MovieId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
 
                     b.HasKey("BouquetId", "MovieId");
 
@@ -273,11 +274,11 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.BouquetSeries", b =>
                 {
-                    b.Property<long>("BouquetId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("SeriesId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
 
                     b.HasKey("BouquetId", "SeriesId");
 
@@ -288,11 +289,11 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.BouquetStream", b =>
                 {
-                    b.Property<long>("BouquetId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("StreamId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("StreamId")
+                        .HasColumnType("int");
 
                     b.HasKey("BouquetId", "StreamId");
 
@@ -303,9 +304,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Category", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryType")
                         .HasColumnType("int");
@@ -321,295 +323,295 @@ namespace Streamia.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1L,
+                            Id = 1,
                             CategoryType = 0,
                             Name = "Science"
                         },
                         new
                         {
-                            Id = 2L,
+                            Id = 2,
                             CategoryType = 0,
                             Name = "Action"
                         },
                         new
                         {
-                            Id = 3L,
+                            Id = 3,
                             CategoryType = 0,
                             Name = "News"
                         },
                         new
                         {
-                            Id = 4L,
+                            Id = 4,
                             CategoryType = 1,
                             Name = "Action"
                         },
                         new
                         {
-                            Id = 5L,
+                            Id = 5,
                             CategoryType = 1,
                             Name = "Adventure"
                         },
                         new
                         {
-                            Id = 6L,
+                            Id = 6,
                             CategoryType = 1,
                             Name = "Comedy"
                         },
                         new
                         {
-                            Id = 7L,
+                            Id = 7,
                             CategoryType = 1,
                             Name = "Crime"
                         },
                         new
                         {
-                            Id = 8L,
+                            Id = 8,
                             CategoryType = 1,
                             Name = "Drama"
                         },
                         new
                         {
-                            Id = 9L,
+                            Id = 9,
                             CategoryType = 1,
                             Name = "Fantasy"
                         },
                         new
                         {
-                            Id = 10L,
+                            Id = 10,
                             CategoryType = 1,
                             Name = "Historical"
                         },
                         new
                         {
-                            Id = 11L,
+                            Id = 11,
                             CategoryType = 1,
                             Name = "Horror"
                         },
                         new
                         {
-                            Id = 12L,
+                            Id = 12,
                             CategoryType = 1,
                             Name = "Mystery"
                         },
                         new
                         {
-                            Id = 13L,
+                            Id = 13,
                             CategoryType = 1,
                             Name = "Philosophical"
                         },
                         new
                         {
-                            Id = 14L,
+                            Id = 14,
                             CategoryType = 1,
                             Name = "Political"
                         },
                         new
                         {
-                            Id = 15L,
+                            Id = 15,
                             CategoryType = 1,
                             Name = "Saga"
                         },
                         new
                         {
-                            Id = 16L,
+                            Id = 16,
                             CategoryType = 1,
                             Name = "Thriller"
                         },
                         new
                         {
-                            Id = 17L,
+                            Id = 17,
                             CategoryType = 1,
                             Name = "Western"
                         },
                         new
                         {
-                            Id = 18L,
+                            Id = 18,
                             CategoryType = 1,
                             Name = "Crime Thriller"
                         },
                         new
                         {
-                            Id = 19L,
+                            Id = 19,
                             CategoryType = 1,
                             Name = "Disaster Thriller"
                         },
                         new
                         {
-                            Id = 20L,
+                            Id = 20,
                             CategoryType = 1,
                             Name = "Psychological Thriller"
                         },
                         new
                         {
-                            Id = 21L,
+                            Id = 21,
                             CategoryType = 1,
                             Name = "Techno Thriller"
                         },
                         new
                         {
-                            Id = 22L,
+                            Id = 22,
                             CategoryType = 1,
                             Name = "Science Fiction"
                         },
                         new
                         {
-                            Id = 23L,
+                            Id = 23,
                             CategoryType = 1,
                             Name = "Suspense"
                         },
                         new
                         {
-                            Id = 24L,
+                            Id = 24,
                             CategoryType = 1,
                             Name = "Animation"
                         },
                         new
                         {
-                            Id = 25L,
+                            Id = 25,
                             CategoryType = 2,
                             Name = "Action"
                         },
                         new
                         {
-                            Id = 26L,
+                            Id = 26,
                             CategoryType = 2,
                             Name = "Adventure"
                         },
                         new
                         {
-                            Id = 27L,
+                            Id = 27,
                             CategoryType = 2,
                             Name = "Comedy"
                         },
                         new
                         {
-                            Id = 28L,
+                            Id = 28,
                             CategoryType = 2,
                             Name = "Crime"
                         },
                         new
                         {
-                            Id = 29L,
+                            Id = 29,
                             CategoryType = 2,
                             Name = "Drama"
                         },
                         new
                         {
-                            Id = 30L,
+                            Id = 30,
                             CategoryType = 2,
                             Name = "Fantasy"
                         },
                         new
                         {
-                            Id = 31L,
+                            Id = 31,
                             CategoryType = 2,
                             Name = "Historical"
                         },
                         new
                         {
-                            Id = 32L,
+                            Id = 32,
                             CategoryType = 2,
                             Name = "Horror"
                         },
                         new
                         {
-                            Id = 33L,
+                            Id = 33,
                             CategoryType = 2,
                             Name = "Mystery"
                         },
                         new
                         {
-                            Id = 34L,
+                            Id = 34,
                             CategoryType = 2,
                             Name = "Philosophical"
                         },
                         new
                         {
-                            Id = 35L,
+                            Id = 35,
                             CategoryType = 2,
                             Name = "Political"
                         },
                         new
                         {
-                            Id = 36L,
+                            Id = 36,
                             CategoryType = 2,
                             Name = "Saga"
                         },
                         new
                         {
-                            Id = 37L,
+                            Id = 37,
                             CategoryType = 2,
                             Name = "Thriller"
                         },
                         new
                         {
-                            Id = 38L,
+                            Id = 38,
                             CategoryType = 2,
                             Name = "Western"
                         },
                         new
                         {
-                            Id = 39L,
+                            Id = 39,
                             CategoryType = 2,
                             Name = "Crime Thriller"
                         },
                         new
                         {
-                            Id = 40L,
+                            Id = 40,
                             CategoryType = 2,
                             Name = "Disaster Thriller"
                         },
                         new
                         {
-                            Id = 41L,
+                            Id = 41,
                             CategoryType = 2,
                             Name = "Psychological Thriller"
                         },
                         new
                         {
-                            Id = 42L,
+                            Id = 42,
                             CategoryType = 2,
                             Name = "Techno Thriller"
                         },
                         new
                         {
-                            Id = 43L,
+                            Id = 43,
                             CategoryType = 2,
                             Name = "Science Fiction"
                         },
                         new
                         {
-                            Id = 44L,
+                            Id = 44,
                             CategoryType = 2,
                             Name = "Suspense"
                         },
                         new
                         {
-                            Id = 45L,
+                            Id = 45,
                             CategoryType = 2,
                             Name = "Animation"
                         },
                         new
                         {
-                            Id = 46L,
+                            Id = 46,
                             CategoryType = 2,
                             Name = "Documentary"
                         },
                         new
                         {
-                            Id = 47L,
+                            Id = 47,
                             CategoryType = 2,
                             Name = "Family"
                         },
                         new
                         {
-                            Id = 48L,
+                            Id = 48,
                             CategoryType = 2,
                             Name = "Children"
                         },
                         new
                         {
-                            Id = 49L,
+                            Id = 49,
                             CategoryType = 2,
                             Name = "Sport"
                         });
@@ -617,9 +619,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Channel", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -632,14 +635,14 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.ChannelServer", b =>
                 {
-                    b.Property<long>("ChannelId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ChannelId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ServerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("Pid")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Pid")
+                        .HasColumnType("int");
 
                     b.HasKey("ChannelId", "ServerId");
 
@@ -650,9 +653,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Episode", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
@@ -660,8 +664,8 @@ namespace Streamia.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Number")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Number")
+                        .HasColumnType("int");
 
                     b.Property<string>("Overview")
                         .HasColumnType("nvarchar(max)");
@@ -672,11 +676,11 @@ namespace Streamia.Migrations
                     b.Property<string>("ReleaseDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Season")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Season")
+                        .HasColumnType("int");
 
-                    b.Property<long>("SeriesId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Source")
                         .HasColumnType("nvarchar(max)");
@@ -690,12 +694,16 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.IptvUser", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("BouquetId")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("BouquetId1")
+                        .HasColumnType("int");
 
                     b.Property<long>("Connections")
                         .HasColumnType("bigint");
@@ -719,22 +727,23 @@ namespace Streamia.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BouquetId");
+                    b.HasIndex("BouquetId1");
 
                     b.ToTable("IptvUsers");
                 });
 
             modelBuilder.Entity("Streamia.Models.Movie", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Cast")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Director")
                         .HasColumnType("nvarchar(max)");
@@ -758,8 +767,8 @@ namespace Streamia.Migrations
                     b.Property<string>("ReleaseDate")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Runtime")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Runtime")
+                        .HasColumnType("int");
 
                     b.Property<string>("Source")
                         .IsRequired()
@@ -771,8 +780,8 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TranscodeId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("TranscodeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
                         .HasColumnType("datetime2");
@@ -788,14 +797,14 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.MovieServer", b =>
                 {
-                    b.Property<long>("MovieId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("MovieId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ServerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("Pid")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Pid")
+                        .HasColumnType("int");
 
                     b.HasKey("MovieId", "ServerId");
 
@@ -806,15 +815,16 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Series", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Cast")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Gener")
                         .HasColumnType("nvarchar(max)");
@@ -841,8 +851,8 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TranscodeId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("TranscodeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
                         .HasColumnType("datetime2");
@@ -858,14 +868,14 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.SeriesServer", b =>
                 {
-                    b.Property<long>("SeriesId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("SeriesId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ServerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("Pid")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Pid")
+                        .HasColumnType("int");
 
                     b.HasKey("SeriesId", "ServerId");
 
@@ -876,9 +886,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Server", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Ip")
                         .IsRequired()
@@ -908,9 +919,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Setting", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("Credit")
                         .HasColumnType("bigint");
@@ -922,12 +934,13 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Stream", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("CategoryId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Delay")
                         .HasColumnType("int");
@@ -955,8 +968,8 @@ namespace Streamia.Migrations
                     b.Property<string>("StreamKey")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("TranscodeId")
-                        .HasColumnType("bigint");
+                    b.Property<int?>("TranscodeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
                         .HasColumnType("datetime2");
@@ -972,14 +985,14 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.StreamServer", b =>
                 {
-                    b.Property<long>("StreamId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("StreamId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ServerId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ServerId")
+                        .HasColumnType("int");
 
-                    b.Property<long>("Pid")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Pid")
+                        .HasColumnType("int");
 
                     b.HasKey("StreamId", "ServerId");
 
@@ -990,9 +1003,10 @@ namespace Streamia.Migrations
 
             modelBuilder.Entity("Streamia.Models.Transcode", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<long>("AnalyzeDuration")
                         .HasColumnType("bigint");
@@ -1104,7 +1118,7 @@ namespace Streamia.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1L,
+                            Id = 1,
                             AnalyzeDuration = 0L,
                             AudioBitrate_1080 = 192L,
                             AudioBitrate_360 = 96L,
@@ -1286,9 +1300,7 @@ namespace Streamia.Migrations
                 {
                     b.HasOne("Streamia.Models.Bouquet", "Bouquet")
                         .WithMany()
-                        .HasForeignKey("BouquetId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("BouquetId1");
                 });
 
             modelBuilder.Entity("Streamia.Models.Movie", b =>

@@ -20,7 +20,7 @@ namespace Streamia.Models
 
         [Display(Name = "Release Date")]
         public string ReleaseDate { get; set; }
-        public virtual uint Runtime { get; set; } = 0;
+        public virtual int Runtime { get; set; } = 0;
         public float Rating { get; set; } = 0;
     }
 }

@@ -35,7 +35,7 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(uint id)
+        public async Task<IActionResult> Edit(int id)
         {
             var model = await transcodeRepository.GetById(id);
 
@@ -59,7 +59,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             await transcodeRepository.Delete(id);
             return RedirectToAction(nameof(Manage));

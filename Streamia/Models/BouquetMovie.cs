@@ -7,8 +7,8 @@ namespace Streamia.Models
 {
     public class BouquetMovie : BaseEntity
     {
-        public uint BouquetId { get; set; }
-        public uint MovieId { get; set; }
+        public int BouquetId { get; set; }
+        public int MovieId { get; set; }
         public Bouquet Bouquet { get; set; }
         public Movie Movie { get; set; }
     }

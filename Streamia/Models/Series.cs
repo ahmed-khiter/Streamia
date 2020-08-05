@@ -15,7 +15,7 @@ namespace Streamia.Models
         public List<Episode> Episodes { get; set; }
 
         [NotMapped]
-        public override uint Runtime { get; set; }
+        public override int Runtime { get; set; }
 
         [NotMapped]
         public override string Director { get; set; }

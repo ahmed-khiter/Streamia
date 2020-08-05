@@ -50,12 +50,12 @@ namespace Streamia.Models.Repositories
             return await record.ToListAsync();
         }
 
-        public async Task<T> GetById(uint id)
+        public async Task<T> GetById(int id)
         {
             return await entitySet.FirstOrDefaultAsync(m => m.Id == id);
         }
 
-        public async Task<T> GetById(uint id, string[] models)
+        public async Task<T> GetById(int id, string[] models)
         {
             IQueryable<T> record = entitySet;
             foreach (var model in models)
@@ -84,7 +84,7 @@ namespace Streamia.Models.Repositories
             return entities;
         }
 
-        public async Task Delete(uint id)
+        public async Task Delete(int id)
         {
             var entity = await entitySet.FirstOrDefaultAsync(e => e.Id == id);
             if (entity != null)

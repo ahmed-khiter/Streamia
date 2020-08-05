@@ -21,7 +21,7 @@ namespace Streamia.Realtime
             this.streamRepository = streamRepository;
         }
 
-        public async Task Update(uint sourceId, StreamState state)
+        public async Task Update(int sourceId, StreamState state)
         {
             var stream = await streamRepository.GetById(sourceId, new string[] { "StreamServers", "StreamServers.Server" });
 
@@ -69,7 +69,7 @@ namespace Streamia.Realtime
                     client.Connect();
                     var cmd = client.CreateCommand(command);
                     var result = cmd.Execute();
-                    uint pid = uint.Parse(result);
+                    int pid = int.Parse(result);
                     client.RunCommand($"disown -h {pid}");
                     client.Disconnect();
                     client.Dispose();

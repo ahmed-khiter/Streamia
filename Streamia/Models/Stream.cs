@@ -34,7 +34,7 @@ namespace Streamia.Models
         [NotMapped]
         [Required]
         [Display(Name = "Servers")]
-        public List<uint> ServerIds { get; set; }
+        public List<int> ServerIds { get; set; }
 
         public Stream()
         {

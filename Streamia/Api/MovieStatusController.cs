@@ -28,14 +28,14 @@ namespace Streamia.Api
         }
 
         [Route("edit/{id}/{state}")]
-        public async Task<IActionResult> Edit(uint id, StreamState state)
+        public async Task<IActionResult> Edit(int id, StreamState state)
         {
             var movie = await movieRepository.GetById(id);
             if (movie != null)
             {
                 movie.State = state;
                 await movieRepository.Edit(movie);
-                await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (uint) state });
+                await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int) state });
             }
             return Ok();
         }

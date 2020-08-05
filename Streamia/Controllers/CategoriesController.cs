@@ -39,7 +39,7 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Edit(uint id)
+        public async Task<IActionResult> Edit(int id)
         {
             var category = await categoryRepository.GetById(id);
 
@@ -63,7 +63,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (ModelState.IsValid)
             {

@@ -49,7 +49,7 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Delete(uint id)
+        public async Task<IActionResult> Delete(int id)
         {
             await iptvRepository.Delete(id);
             return RedirectToAction(nameof(Manage));
@@ -72,7 +72,7 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Download(uint id)
+        public async Task<IActionResult> Download(int id)
         {
             var user = await iptvRepository.GetById(id, new string[] { 
                 "Bouquet",

@@ -9,9 +9,9 @@ namespace Streamia.Models
 {
     public class Episode : BaseEntity
     {
-        public uint SeriesId { get; set; }
-        public uint Number { get; set; }
-        public uint Season { get; set; }
+        public int SeriesId { get; set; }
+        public int Number { get; set; }
+        public int Season { get; set; }
         public string Source { get; set; }
         public string Name { get; set; }
         public string Overview { get; set; }

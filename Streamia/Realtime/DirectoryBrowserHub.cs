@@ -30,7 +30,7 @@ namespace Streamia.Realtime
          
          */
 
-        public async Task ListServerDirectory(uint id, string path)
+        public async Task ListServerDirectory(int id, string path)
         {
             string directoryList;
             SshClient sshClient;
@@ -66,7 +66,7 @@ namespace Streamia.Realtime
             await Clients.All.SendAsync("DirectoryList", new { directoryList });
         }
 
-        public void DisposeConnection(uint id)
+        public void DisposeConnection(int id)
         {
             try
             {

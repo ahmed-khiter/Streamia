@@ -14,7 +14,7 @@ namespace Streamia.Models
         public string Source { get; set; }
 
         [NotMapped]
-        public uint ServerId { get; set; } = 0;
+        public int ServerId { get; set; } = 0;
 
         public ICollection<MovieServer> MovieServers { get; set; }
 
