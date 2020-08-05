@@ -29,6 +29,10 @@
                         if (movie.State == StreamState.Ready)
                         {
                             stateClass = "success";
+                        } 
+                        else if (movie.State == StreamState.Error)
+                        {
+                            stateClass = "danger";
                         }
                     }
                     <i class="fa fa-circle text-@stateClass"></i> @movie.State
@@ -57,11 +61,12 @@
             var connection = new signalR.HubConnectionBuilder().withUrl("/movie-status-hub").build();
             connection.start();
             connection.on("UpdateSignal", function (data) {
-                var stateIndicator = $(`#state-${data.sourceId}`);
+                console.log(data);
+                var stateIndicator = $(`#state-${data.id}`);
                 if (data.state === 3) {
                     stateIndicator.html('<i class="fa fa-circle text-success"></i> Ready');
                 } else if (data.state === 4) {
-                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> Transcode Error');
+                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> Error');
                 }
             });
         });

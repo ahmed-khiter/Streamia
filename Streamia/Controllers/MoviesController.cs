@@ -158,7 +158,7 @@ namespace Streamia.Controllers
             }
             catch (Exception)
             {
-                string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.TranscodeError.ToString());
+                string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
                 var httpClient = new HttpClient();
                 await httpClient.GetAsync(failCallbackUrl);
             }
