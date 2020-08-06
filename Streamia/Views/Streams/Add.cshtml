@@ -12,81 +12,78 @@
 <partial name="~/Views/Partials/_Navigation.cshtml"/>
 
 <form method="post" asp-controller="streams" asp-action="add">
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-info-circle"></i> Information</h6>
+
     <div class="row">
-        <div class="col-md-6">
-            <h5 class="font-weight-bold text-secondary"><i class="fa fa-info-circle"></i> Basic Information</h5>
-            <hr />
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="Name"></label>
-                    <input asp-for="Name" class="form-control" />
-                    <span class="text-danger" asp-validation-for="Name"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="ServerIds"></label>
-                    <select asp-for="ServerIds" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control" multiple></select>
-                    <span class="text-danger" asp-validation-for="ServerIds"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="CategoryId"></label>
-                    <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
-                    </select>
-                    <span class="text-danger" asp-validation-for="CategoryId"></span>
-                </div>
-                <div class="form-group col-md-6">
-                    <label asp-for="BouquetIds"></label>
-                    <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
-                    <span class="text-danger" asp-validation-for="BouquetIds"></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group col-md-12">
-                    <label asp-for="Source"></label>
-                    <input asp-for="Source" class="form-control"/>
-                    <span class="text-danger" asp-validation-for="Source"></span>
-                </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Name"></label>
+            <input asp-for="Name" class="form-control" />
+            <span class="text-danger" asp-validation-for="Name"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="CategoryId"></label>
+            <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
+            </select>
+            <span class="text-danger" asp-validation-for="CategoryId"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="TranscodeId"></label>
+            <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles,"Id","Name"))" class="form-control">
+                <option value="0" selected>Stream Directly (No Processing)</option>
+            </select>
+            <span class="text-danger" asp-validation-for="CategoryId"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="BouquetIds"></label>
+            <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
+            <span class="text-danger" asp-validation-for="BouquetIds"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="ServerIds"></label>
+            <select asp-for="ServerIds" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control" multiple></select>
+            <span class="text-danger" asp-validation-for="ServerIds"></span>
+        </div>
+        <div class="form-group col-md-4">
+            <label asp-for="Delay"></label>
+            <input asp-for="Delay" class="form-control" />
+            <span class="text-danger" asp-validation-for="Delay"></span>
+        </div>
+        <div class="form-group col-md-12">
+            <label asp-for="Source"></label>
+            <input asp-for="Source" class="form-control" />
+            <span class="text-danger" asp-validation-for="Source"></span>
+        </div>
+    </div>
+
+    <hr />
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-sliders"></i> Options</h6>
+
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="GeneratePts"></label>
+            <div>
+                <input asp-for="GeneratePts" class="js-switch" />
             </div>
         </div>
-        <div class="col-md-6">
-            <h5 class="font-weight-bold text-secondary"><i class="fa fa-gear"></i> Additional Options</h5>
-            <hr />
-
-            <div class="row">
-                <div class="form-group col-md-6">
-                    <label asp-for="Delay"></label>
-                    <input asp-for="Delay" class="form-control" />
-                    <span class="text-danger" asp-validation-for="Delay"></span>
-                </div>
-                <div class="form-group col-md-12">
-                    <label asp-for="TranscodeId"></label>
-                    <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles,"Id","Name"))" class="form-control">
-                        <option value="0" selected>Stream Directly (No Processing)</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="CategoryId"></span>
-                </div>
+        <div class="form-group col-md-3">
+            <label asp-for="EnableRtmp"></label>
+            <div>
+                <input asp-for="EnableRtmp" class="js-switch" />
             </div>
-
-            <div class="row">
-                <div class="form-group col-md-3">
-                    <label asp-for="GeneratePts"></label>
-                    <div>
-                        <input asp-for="GeneratePts" class="js-switch" />
-                    </div>
-                </div>
-                <div class="form-group col-md-3">
-                    <label asp-for="EnableRtmp"></label>
-                    <div>
-                        <input asp-for="EnableRtmp" class="js-switch" />
-                    </div>
-                </div>
-                <div class="form-group col-md-3">
-                    <label asp-for="Record"></label>
-                    <div>
-                        <input asp-for="Record" class="js-switch" />
-                    </div>
-                </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="Record"></label>
+            <div>
+                <input asp-for="Record" class="js-switch" />
             </div>
-
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="StartNow"></label>
+            <div>
+                <input asp-for="StartNow" class="js-switch" />
+            </div>
         </div>
     </div>
 

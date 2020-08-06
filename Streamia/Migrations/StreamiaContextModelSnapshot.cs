@@ -962,6 +962,9 @@ namespace Streamia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("StartNow")
+                        .HasColumnType("bit");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 

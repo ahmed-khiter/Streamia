@@ -25,6 +25,9 @@ namespace Streamia.Models
         [Display(Name = "Record?")]
         public bool Record { get; set; }
 
+        [Display(Name = "Start now")]
+        public bool StartNow { get; set; }
+
         [Display(Name = "Delay in minutes")]
         public int Delay { get; set; } = 0;
 

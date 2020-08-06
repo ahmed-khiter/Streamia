@@ -117,25 +117,6 @@ a svg
     width:30px !important;
 }
 
-/*Right bar*/
-
-.right-bar {
-    background: linear-gradient(180grad, #0086B7 9%, #0b0780 64%);
-    color: #fff;
-    width:40px;
-}
-
-.right-bar-options {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    padding: 25px 3px;
-    height: 400px;
-    transform: rotate(180deg);
-    writing-mode:vertical-lr;
-}
-
-
-
 #content {
     width: 100%;
     min-height: 100vh;
