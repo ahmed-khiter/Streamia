@@ -9,7 +9,7 @@ namespace Streamia.Helpers
 {
     public static class FFMPEGCommand
     {
-        public static string GenerateTranscodeParams(Transcode transcodeProfile)
+        public static string MakeCommand(Transcode transcodeProfile)
         {
             StringBuilder command = new StringBuilder("ffmpeg -y -nostdin -hide_banner -i INPUT_SRC");
 
@@ -78,6 +78,18 @@ namespace Streamia.Helpers
             command.Append(" -hls_segment_filename OUTPUT_SRC_360");
 
             return command.ToString();
+        }
+
+        public static string CombineSources(string command, string input, string output, string listTime, string listType)
+        {
+            command = command.Replace("INPUT_SRC", input);
+            command = command.Replace("LIST_TIME", listTime);
+            command = command.Replace("LIST_TYPE", listType);
+            command = command.Replace("OUTPUT_SRC_1080", $"{output}/1080p/1080p_%d.ts {output}/1080p/1080p.m3u8");
+            command = command.Replace("OUTPUT_SRC_720", $"{output}/720p/720p_%d.ts {output}/720p/720p.m3u8");
+            command = command.Replace("OUTPUT_SRC_480", $"{output}/480p/480p_%d.ts {output}/480p/480p.m3u8");
+            command = command.Replace("OUTPUT_SRC_360", $"{output}/360p/360p_%d.ts {output}/360p/360p.m3u8");
+            return command;
         }
     }
 }

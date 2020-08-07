@@ -95,7 +95,7 @@ namespace Streamia.Controllers
                     var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/{model.Id}/STATE";
-                    //ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
+                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
                 }
 
                 return RedirectToAction(nameof(Manage));
@@ -134,15 +134,7 @@ namespace Streamia.Controllers
             try
             {
                 string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
-                string transcoder = FFMPEGCommand.GenerateTranscodeParams(transcodeProfile);
-                transcoder = transcoder.Replace("INPUT_SRC", movie.Source);
-                transcoder = transcoder.Replace("LIST_TIME", "4");
-                transcoder = transcoder.Replace("LIST_TYPE", "vod");
-                transcoder = transcoder.Replace("OUTPUT_SRC_1080", $"/var/hls/{movie.StreamKey}/1080p/1080p_%03d.ts /var/hls/{movie.StreamKey}/1080p/1080p.m3u8");
-                transcoder = transcoder.Replace("OUTPUT_SRC_720", $"/var/hls/{movie.StreamKey}/720p/720p_%03d.ts /var/hls/{movie.StreamKey}/720p/720p.m3u8");
-                transcoder = transcoder.Replace("OUTPUT_SRC_480", $"/var/hls/{movie.StreamKey}/480p/480p_%03d.ts /var/hls/{movie.StreamKey}/480p/480p.m3u8");
-                transcoder = transcoder.Replace("OUTPUT_SRC_360", $"/var/hls/{movie.StreamKey}/360p/360p_%03d.ts /var/hls/{movie.StreamKey}/360p/360p.m3u8");
-
+                string transcoder = FFMPEGCommand.CombineSources(FFMPEGCommand.MakeCommand(transcodeProfile), movie.Source, $"/var/hls/{movie.StreamKey}", "4", "vod");
                 string prepareCommand = $"mkdir /var/hls/{movie.StreamKey}";
                 prepareCommand += $" && cd /var/hls/{movie.StreamKey}";
                 prepareCommand += $" && mkdir 1080p 720p 480p 360p";
