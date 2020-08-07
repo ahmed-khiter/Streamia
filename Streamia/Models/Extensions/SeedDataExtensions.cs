@@ -73,7 +73,9 @@ namespace Streamia.Models.Extensions
             modelBuilder.Entity<Transcode>().HasData(new Transcode { 
                 Id = 1, 
                 Name = "Basic: H264/AAC",
+                Preset = "default",
                 VideoCodec = "h264",
+                VideoProfile = "none",
                 AudioCodec = "aac"
             });
         }
