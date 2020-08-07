@@ -16,6 +16,10 @@ namespace Streamia.Models
         [NotMapped]
         public int ServerId { get; set; } = 0;
 
+        [NotMapped]
+        [Display(Name = "Servers")]
+        public List<int> ServerIds { get; set; }
+
         public ICollection<MovieServer> MovieServers { get; set; }
 
         public ICollection<BouquetMovie> BouquetMovies { get; set; }
