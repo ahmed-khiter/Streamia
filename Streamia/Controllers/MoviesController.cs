@@ -134,7 +134,12 @@ namespace Streamia.Controllers
             try
             {
                 string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
-                string transcoder = FFMPEGCommand.CombineSources(FFMPEGCommand.MakeCommand(transcodeProfile), movie.Source, $"/var/hls/{movie.StreamKey}", "4", "vod");
+                var options = new Dictionary<string, string>
+                {
+                    { "hls_time", "4" },
+                    { "hls_playlist_type", "vod" }
+                };
+                string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, movie.Source, $"/var/hls/{movie.StreamKey}", options);
                 string prepareCommand = $"mkdir /var/hls/{movie.StreamKey}";
                 prepareCommand += $" && cd /var/hls/{movie.StreamKey}";
                 prepareCommand += $" && mkdir 1080p 720p 480p 360p";
