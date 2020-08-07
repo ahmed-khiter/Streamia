@@ -22,6 +22,7 @@ namespace Streamia.Controllers
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Server> serverRepository;
+        private readonly IRepository<MovieServer> movieServerRepository;
         private readonly IRepository<BouquetMovie> bouquetMovieRepository;
         private readonly IRepository<Transcode> transcodeRepository;
 
@@ -30,6 +31,7 @@ namespace Streamia.Controllers
             IRepository<Category> categoryRepository,
             IRepository<Bouquet> bouquetRepository,
             IRepository<Server> serverRepository,
+            IRepository<MovieServer> movieServerRepository,
             IRepository<BouquetMovie> bouquetMovieRepository,
             IRepository<Transcode> transcodeRepository
         )
@@ -38,6 +40,7 @@ namespace Streamia.Controllers
             this.categoryRepository = categoryRepository;
             this.bouquetRepository = bouquetRepository;
             this.serverRepository = serverRepository;
+            this.movieServerRepository = movieServerRepository;
             this.bouquetMovieRepository = bouquetMovieRepository;
             this.transcodeRepository = transcodeRepository;
         }
@@ -75,6 +78,14 @@ namespace Streamia.Controllers
                     model.TranscodeId = null;
                     model.State = StreamState.Ready;
                 } 
+                else
+                {
+                    model.MovieServers.Add(new MovieServer
+                    {
+                        MovieId = model.Id,
+                        ServerId = model.ServerId
+                    });
+                }
                 
                 await movieRepository.Add(model);
 
@@ -96,6 +107,7 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            await movieServerRepository.Delete(m => m.MovieId == id);
             await bouquetMovieRepository.Delete(m => m.MovieId == id);
             await movieRepository.Delete(id);
             return RedirectToAction(nameof(Manage));

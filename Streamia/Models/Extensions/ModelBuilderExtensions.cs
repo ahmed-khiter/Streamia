@@ -28,6 +28,22 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ServerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            // movie servers
+            modelBuilder.Entity<MovieServer>().HasKey(m => new { m.MovieId, m.ServerId });
+            modelBuilder.Entity<MovieServer>().Ignore(m => m.Id);
+
+            modelBuilder.Entity<MovieServer>()
+                .HasOne(ss => ss.Movie)
+                .WithMany(ss => ss.MovieServers)
+                .HasForeignKey(ss => ss.MovieId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<MovieServer>()
+                .HasOne(ss => ss.Server)
+                .WithMany(ss => ss.MovieServers)
+                .HasForeignKey(ss => ss.ServerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
             // series servers
             modelBuilder.Entity<SeriesServer>().HasKey(m => new { m.SeriesId, m.ServerId });
             modelBuilder.Entity<SeriesServer>().Ignore(m => m.Id);
@@ -44,7 +60,7 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ServerId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // series servers
+            // channel servers
             modelBuilder.Entity<ChannelServer>().HasKey(m => new { m.ChannelId, m.ServerId });
             modelBuilder.Entity<ChannelServer>().Ignore(m => m.Id);
 
