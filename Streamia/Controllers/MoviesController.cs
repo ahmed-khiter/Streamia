@@ -80,11 +80,14 @@ namespace Streamia.Controllers
                 } 
                 else
                 {
-                    model.MovieServers.Add(new MovieServer
+                    if (!Uri.IsWellFormedUriString(model.Source, UriKind.Absolute))
                     {
-                        MovieId = model.Id,
-                        ServerId = model.ServerId
-                    });
+                        model.MovieServers.Add(new MovieServer
+                        {
+                            MovieId = model.Id,
+                            ServerId = model.ServerId
+                        });
+                    }
                 }
                 
                 await movieRepository.Add(model);
