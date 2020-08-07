@@ -30,8 +30,6 @@ namespace Streamia.Models
 
         public ICollection<StreamServer> StreamServers { get; set; }
 
-        public ICollection<MovieServer> MovieServers { get; set; }
-
         public ICollection<SeriesServer> SeriesServers { get; set; }
 
         public ICollection<ChannelServer> ChannelServers { get; set; }

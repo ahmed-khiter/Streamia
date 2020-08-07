@@ -16,14 +16,11 @@ namespace Streamia.Models
         [NotMapped]
         public int ServerId { get; set; } = 0;
 
-        public ICollection<MovieServer> MovieServers { get; set; }
-
         public ICollection<BouquetMovie> BouquetMovies { get; set; }
 
         public Movie()
         {
             State = StreamState.Transcoding;
-            MovieServers = new List<MovieServer>();
             BouquetMovies = new List<BouquetMovie>();
         }
 

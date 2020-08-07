@@ -35,8 +35,6 @@ namespace Streamia.Models.Contexts
 
         public DbSet<StreamServer> StreamServers { get; set; }
 
-        public DbSet<MovieServer> MovieServers { get; set; }
-
         public DbSet<SeriesServer> SeriesServers { get; set; }
 
         public DbSet<BouquetStream> BouquetStreams { get; set; }
