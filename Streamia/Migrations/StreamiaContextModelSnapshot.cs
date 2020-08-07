@@ -945,10 +945,10 @@ namespace Streamia.Migrations
                     b.Property<int>("Delay")
                         .HasColumnType("int");
 
-                    b.Property<bool>("EnableRtmp")
+                    b.Property<bool>("EnablePts")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("GeneratePts")
+                    b.Property<bool>("EnableRtmp")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")

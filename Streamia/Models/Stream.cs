@@ -16,8 +16,8 @@ namespace Streamia.Models
         [Required]
         public string Source { get; set; }
 
-        [Display(Name = "Generate PTS")]
-        public bool GeneratePts { get; set; } = true;
+        [Display(Name = "Enable PTS")]
+        public bool EnablePts { get; set; } = true;
 
         [Display(Name = "Enable RTMP")]
         public bool EnableRtmp { get; set; }

@@ -100,7 +100,6 @@
             });
             connection.start();
             $(".stream-state-btn").on("click", function () {
-                var currentHTML = $(this).html();
                 var streamId = parseInt($(this).attr("data-stream-id"));
                 var streamState = parseInt($(this).attr("data-stream-state"));
                 $(this).attr("disabled", "disabled").html('<i class="fa fa-fw fa-spinner fa-pulse"></i>');
