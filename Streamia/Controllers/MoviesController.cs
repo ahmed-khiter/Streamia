@@ -82,11 +82,20 @@ namespace Streamia.Controllers
                 {
                     if (!Uri.IsWellFormedUriString(model.Source, UriKind.Absolute))
                     {
-                        model.MovieServers.Add(new MovieServer
+                        model.ServerIds.Add(model.ServerId);
+                        if (model.ServerIds.Count == 0)
                         {
-                            MovieId = model.Id,
-                            ServerId = model.ServerId
-                        });
+                            ModelState.AddModelError("ServerIds", "Please select one server to transcode from external link");
+                            return View(model);
+                        }
+                        foreach (var serverId in model.ServerIds)
+                        {
+                            model.MovieServers.Add(new MovieServer
+                            {
+                                MovieId = model.Id,
+                                ServerId = serverId
+                            });
+                        }
                     }
                 }
                 
@@ -95,10 +104,10 @@ namespace Streamia.Controllers
                 if (model.TranscodeId > 0)
                 {
                     var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
-                    var server = await serverRepository.GetById(model.ServerId);
+                    var servers = await serverRepository.Search(m => model.ServerIds.Contains(m.Id) && m.ServerState == ServerState.Online);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/{model.Id}/STATE";
-                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
+                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, servers, callbackUrl));
                 }
 
                 return RedirectToAction(nameof(Manage));
@@ -131,36 +140,39 @@ namespace Streamia.Controllers
             ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
         }
 
-        private async void Transcode(Movie movie, Transcode transcodeProfile, Server server, string callbackUrl)
+        private async void Transcode(Movie movie, Transcode transcodeProfile, IEnumerable<Server> servers, string callbackUrl)
         {
-            var client = new SshClient(server.Ip, "root", server.RootPassword);
-            try
+            foreach (var server in servers)
             {
-                string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
-                var options = new Dictionary<string, string>
+                var client = new SshClient(server.Ip, "root", server.RootPassword);
+                try
                 {
-                    { "hls_time", "4" },
-                    { "hls_playlist_type", "vod" }
-                };
-                string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, movie.Source, $"/var/hls/{movie.StreamKey}", options);
-                string prepareCommand = $"mkdir /var/hls/{movie.StreamKey}";
-                prepareCommand += $" && cd /var/hls/{movie.StreamKey}";
-                prepareCommand += $" && mkdir 1080p 720p 480p 360p";
+                    string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
+                    var options = new Dictionary<string, string>
+                    {
+                        { "hls_time", "4" },
+                        { "hls_playlist_type", "vod" }
+                    };
+                    string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, movie.Source, $"/var/hls/{movie.StreamKey}", options);
+                    string prepareCommand = $"mkdir /var/hls/{movie.StreamKey}";
+                    prepareCommand += $" && cd /var/hls/{movie.StreamKey}";
+                    prepareCommand += $" && mkdir 1080p 720p 480p 360p";
 
-                client.Connect();
-                client.RunCommand(prepareCommand);
-                var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
-                var result = cmd.Execute();
-                int pid = int.Parse(result);
-                client.RunCommand($"disown -h {pid}");
-                client.Disconnect();
-                client.Dispose();
-            }
-            catch (Exception)
-            {
-                string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
-                var httpClient = new HttpClient();
-                await httpClient.GetAsync(failCallbackUrl);
+                    client.Connect();
+                    client.RunCommand(prepareCommand);
+                    var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
+                    var result = cmd.Execute();
+                    int pid = int.Parse(result);
+                    client.RunCommand($"disown -h {pid}");
+                    client.Disconnect();
+                    client.Dispose();
+                }
+                catch (Exception)
+                {
+                    string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
+                    var httpClient = new HttpClient();
+                    await httpClient.GetAsync(failCallbackUrl);
+                }
             }
 
         }
