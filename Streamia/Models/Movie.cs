@@ -27,6 +27,7 @@ namespace Streamia.Models
         public Movie()
         {
             State = StreamState.Transcoding;
+            ServerIds = new List<int>();
             MovieServers = new List<MovieServer>();
             BouquetMovies = new List<BouquetMovie>();
         }

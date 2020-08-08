@@ -80,22 +80,25 @@ namespace Streamia.Controllers
                 } 
                 else
                 {
-                    if (!Uri.IsWellFormedUriString(model.Source, UriKind.Absolute))
+                    if (model.ServerId > 0)
                     {
                         model.ServerIds.Add(model.ServerId);
-                        if (model.ServerIds.Count == 0)
+                    }
+                    
+                    if (model.ServerIds.Count == 0)
+                    {
+                        ModelState.AddModelError("ServerIds", "Please select one server to transcode from external link");
+                        await PrepareViewBag();
+                        return View(model);
+                    }
+
+                    foreach (var serverId in model.ServerIds)
+                    {
+                        model.MovieServers.Add(new MovieServer
                         {
-                            ModelState.AddModelError("ServerIds", "Please select one server to transcode from external link");
-                            return View(model);
-                        }
-                        foreach (var serverId in model.ServerIds)
-                        {
-                            model.MovieServers.Add(new MovieServer
-                            {
-                                MovieId = model.Id,
-                                ServerId = serverId
-                            });
-                        }
+                            MovieId = model.Id,
+                            ServerId = serverId
+                        });
                     }
                 }
                 
