@@ -74,6 +74,7 @@ namespace Streamia.Controllers
 
                 if (model.TranscodeId == 0)
                 {
+                    model.TranscodeId = null;
                     model.State = StreamState.Live;
                 }
 

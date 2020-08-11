@@ -55,7 +55,7 @@ namespace Streamia.Realtime
                 {
                     sshClient.Connect();
                 }
-                var command = remoteConnection.ConnectionsList[$"{id}"].CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$|\\.mkv$|\\.flv$|\\.avi$|\\.mpg$' ; ls -d */");
+                var command = remoteConnection.ConnectionsList[$"{id}"].CreateCommand($"cd {path} && ls | egrep -i '\\.mp4$|\\.mkv$|\\.flv$|\\.avi$|\\.mpg|\\.mov$' ; ls -d */");
                 command.Execute();
                 directoryList = command.Result;
             }
