@@ -47,17 +47,12 @@ namespace Streamia
                 option.Password.RequireDigit = false;
             });
 
-            services.AddIdentity<AppUser, IdentityRole>(option =>
-            {
-                option.Password.RequiredLength = 3;
-                option.Password.RequireUppercase = false;
-                option.Password.RequireNonAlphanumeric = false;
-                option.SignIn.RequireConfirmedEmail = false;
-                option.SignIn.RequireConfirmedEmail = true;
-                option.Password.RequireDigit = false;
-            }).AddEntityFrameworkStores<StreamiaContext>()
-              .AddRoles<IdentityRole>()
-              .AddDefaultTokenProviders();
+           
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                  .AddEntityFrameworkStores<StreamiaContext>()
+                  .AddRoles<IdentityRole>()
+                  .AddDefaultTokenProviders();
 
             services.AddRazorPages();
             services.AddMvc();
@@ -66,7 +61,6 @@ namespace Streamia
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddSingleton(typeof(IRemoteConnection), typeof(SshContainer));
-            services.AddSingleton<IAuthorizationHandler, AdminHandler>();
             services.AddControllersWithViews(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
@@ -74,6 +68,14 @@ namespace Streamia
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
             }).AddXmlSerializerFormatters();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CreateSubReseller", policy => 
+                    policy.AddRequirements(new BuildingEntryRequirement()));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, CanCreateSubResellerHandler>();
 
             // add local AppClaimsPrincipalFactory class to customize user
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Security
 {
-    public class ManageAdminRolesAndClaimsRequirement: IAuthorizationRequirement
+    public class BuildingEntryRequirement : IAuthorizationRequirement
     {
     }
 }

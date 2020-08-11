@@ -1147,13 +1147,15 @@ namespace Streamia.Migrations
                             MinBitrate_480 = 0L,
                             MinBitrate_720 = 0L,
                             Name = "Basic: H264/AAC",
+                            Preset = "default",
                             Probsize = 0L,
                             Threads = 0L,
                             VideoBitrate_1080 = 5000L,
                             VideoBitrate_360 = 800L,
                             VideoBitrate_480 = 1400L,
                             VideoBitrate_720 = 2800L,
-                            VideoCodec = "h264"
+                            VideoCodec = "h264",
+                            VideoProfile = "none"
                         });
                 });
 
