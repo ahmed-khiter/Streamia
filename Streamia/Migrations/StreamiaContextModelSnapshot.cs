@@ -237,6 +237,9 @@ namespace Streamia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("Points")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
 
                     b.ToTable("Bouquets");

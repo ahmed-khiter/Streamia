@@ -13,25 +13,17 @@ namespace Streamia.Controllers
     [Authorize(Roles = "Admin")]
     public class SettingsController : Controller
     {
+        private readonly IRepository<Setting> settingRepository;
 
-        private UserManager<AppUser> userManager { get; }
-        private readonly IRepository<Setting> settingRepo;
-
-        public SettingsController(
-            UserManager<AppUser> userManager
-            , IRepository<Setting> settingRepo
-            )
+        public SettingsController (IRepository<Setting> settingRepository)
         {
-            this.userManager = userManager;
-            this.settingRepo = settingRepo;
+            this.settingRepository = settingRepository;
         }
 
         [HttpGet]
         public async Task<IActionResult> General()
         {
-            var user = await userManager.GetUserAsync(User);
-            var setting = settingRepo.GetById(user.Setting.Id);
-            return View(setting);
+            return View();
         }
 
         [HttpPost]
@@ -39,9 +31,7 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await userManager.GetUserAsync(User);
-                var setting = await settingRepo.GetById(user.Setting.Id);
-                await settingRepo.Edit(setting);
+                //await settingRepository.Edit(setting);
                 return RedirectToAction(nameof(General));
             }
 

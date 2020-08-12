@@ -30,7 +30,7 @@ namespace Streamia.Models
         public string Notes { get; set; }
 
         [Required]
-        [Display(Name = "Bouqet")]
+        [Display(Name = "Bouquet")]
         public uint BouquetId { get; set; }
 
         public Bouquet Bouquet { get; set; }
