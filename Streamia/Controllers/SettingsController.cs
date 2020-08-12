@@ -23,7 +23,17 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> General()
         {
-            return View();
+            var model = await settingRepository.GetById(1);
+            if (model == null)
+            {
+                model = await settingRepository.Add(new Setting
+                {
+                    Id = 1,
+                    PointsPerMoney = 100,
+                    PointsPerCreatedUser = 10
+                });
+            }
+            return View(model);
         }
 
         [HttpPost]
@@ -31,10 +41,9 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                //await settingRepository.Edit(setting);
-                return RedirectToAction(nameof(General));
+                model.Id = 1;
+                await settingRepository.Edit(model);
             }
-
             return RedirectToAction(nameof(General));
         }
 

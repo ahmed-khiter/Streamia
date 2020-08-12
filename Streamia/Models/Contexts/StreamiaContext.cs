@@ -54,6 +54,7 @@ namespace Streamia.Models.Contexts
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ConfigRelationships();
+            modelBuilder.SeedSetting();
             modelBuilder.SeedCategories();
             modelBuilder.SeedTranscodes();
         }

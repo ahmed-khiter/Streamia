@@ -927,12 +927,23 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("Credit")
+                    b.Property<long>("PointsPerCreatedUser")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("PointsPerMoney")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
                     b.ToTable("Settings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PointsPerCreatedUser = 10L,
+                            PointsPerMoney = 100L
+                        });
                 });
 
             modelBuilder.Entity("Streamia.Models.Stream", b =>

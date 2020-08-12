@@ -68,6 +68,16 @@ namespace Streamia.Models.Extensions
             }
         }
 
+        public static void SeedSetting(this ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Setting>().HasData(new Setting
+            {
+                Id = 1,
+                PointsPerMoney = 100,
+                PointsPerCreatedUser = 10
+            });
+        }
+
         public static void SeedTranscodes(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Transcode>().HasData(new Transcode { 

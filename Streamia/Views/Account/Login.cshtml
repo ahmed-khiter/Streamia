@@ -10,26 +10,28 @@
             <div class="col-md-4"></div>
             <div class="col-md-4">
                 <div class="login-box">
-                    <h3 class="font-weight-bold text-center text-secondary">Login to Streamia</h3>
+                    <h3 class="text-primary font-weight-bold">Streamia Login</h3>
+                    <hr />
                     <form method="post">
-                        <div class="form-group">
-                            <label asp-for="Email"></label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                        <div class="form-group form-row">
+                            <label asp-for="Email" class="col-form-label col-md-3"></label>
+                            <div class="col-md-9">
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="Password"></label>
-                            <input asp-for="Password" class="form-control" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                        <div class="form-group form-row">
+                            <label asp-for="Password" class="col-form-label col-md-3"></label>
+                            <div class="col-md-9">
+                                <input asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe" />
-                                @Html.DisplayNameFor(m => m.RememberMe)
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-secondary">
-                            <i class="fa fa-lock"></i> Login
+
+                        <hr />
+
+                        <button type="submit" class="main-btn">
+                            <i class="fa fa-check"></i> Login
                         </button>
                     </form>
                 </div>

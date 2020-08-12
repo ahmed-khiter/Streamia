@@ -1,3 +1,38 @@
-﻿@{
-    ViewData["Title"] = "General Settings";
+﻿@model Setting
+@{
+    ViewData["Title"] = "Settings";
 }
+
+<form method="post">
+
+    <h6 class="font-weight-bold text-primary"><i class="fa fa-sliders"></i> General</h6>
+
+    <hr />
+
+    <div class="row">
+
+        <div class="form-group col-md-6">
+
+            <label asp-for="PointsPerMoney"></label>
+            <input asp-for="PointsPerMoney" class="form-control" />
+            <span class="text-danger" asp-validation-for="PointsPerMoney"></span>
+
+        </div>
+
+        <div class="form-group col-md-6">
+
+            <label asp-for="PointsPerCreatedUser"></label>
+            <input asp-for="PointsPerCreatedUser" class="form-control" />
+            <span class="text-danger" asp-validation-for="PointsPerCreatedUser"></span>
+
+        </div>
+
+    </div>
+
+    <hr />
+
+    <button class="main-btn">
+        <i class="fa fa-save"></i> Save
+    </button>
+
+</form>
