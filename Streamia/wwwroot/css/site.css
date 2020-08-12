@@ -123,7 +123,7 @@ a svg
     transition: all 0.3s;
     overflow: hidden;
     background-color: #e3e3e3;
-    background-image: url('../images/content-bg.jpg');
+    background-image: url('../images/background.jpg');
     background-repeat: no-repeat;
     background-position: center center;
     background-size: cover;
@@ -164,7 +164,7 @@ a svg
     left: 0;
     right: 0;
     z-index: 999999;
-    background-image: url('../images/login.jpg');
+    background-image: url('../images/background.jpg');
     background-position: center center;
     background-size: cover;
 }
