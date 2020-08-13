@@ -37,7 +37,6 @@ namespace Streamia.Controllers
         [AllowAnonymous]
         public IActionResult Add()
         {
-
             if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
             {
                 return RedirectToAction("AccessDenied");
@@ -66,26 +65,36 @@ namespace Streamia.Controllers
                         Email = model.Email,
                         ProfilePicture = profilePicture,
                         Name = model.Name,
+                        GenerateMAG = model.GenerateMAG,
+                        GenerateEnigma = model.GenerateEnigma,
+                        MAGOnly = model.MAGOnly,
+                        EnigmaOnly = model.EnigmaOnly,
+                        LockSTB = model.LockSTB,
+                        Restream = model.Restream
                     };
 
-                    var result = await userManager.CreateAsync(user, model.Password);
+                    var createResult = await userManager.CreateAsync(user, model.Password);
 
-                    if (result.Succeeded)
+                    if (user.GenerateMAG) {
+                        
+                    }
+
+                    if (createResult.Succeeded)
                     {
-                        var result2 = await userManager.AddToRoleAsync(user, "Reseller");
-                        if (result2.Succeeded)
+                        var addToRoleResult = await userManager.AddToRoleAsync(user, "Reseller");
+                        if (addToRoleResult.Succeeded)
                         {
                             return RedirectToAction("index", "Home");
                         }
                         else
                         {
-                            foreach (var error in result.Errors)
+                            foreach (var error in createResult.Errors)
                             {
                                 ModelState.AddModelError("", error.Description);
                             }
                         }                
                     }
-                    foreach (var error in result.Errors)
+                    foreach (var error in createResult.Errors)
                     {
                         ModelState.AddModelError("", error.Description);
                     }

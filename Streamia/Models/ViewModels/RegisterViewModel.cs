@@ -29,6 +29,22 @@ namespace Streamia.ViewModels
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
+        [Display(Name = "Generate MAG")]
+        public bool GenerateMAG { get; set; }
+
+        [Display(Name = "Generate Enigma")]
+        public bool GenerateEnigma { get; set; }
+
+        [Display(Name = "MAG Only")]
+        public bool MAGOnly { get; set; }
+
+        [Display(Name = "Enigma Only")]
+        public bool EnigmaOnly { get; set; }
+
+        [Display(Name = "Lock STB Device")]
+        public bool LockSTB { get; set; }
+        public bool Restream { get; set; }
+
         public IFormFile ProfilePicture { get; set; }
     }
 }
