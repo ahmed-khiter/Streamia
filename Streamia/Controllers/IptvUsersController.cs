@@ -62,11 +62,22 @@ namespace Streamia.Controllers
 
                     if (totalCharge > user.Credit)
                     {
-                        ModelState.AddModelError("", "Your credit is not enough to create this user");
+                        ModelState.AddModelError(string.Empty, "Your credit is not enough to create this user");
                         return View(model);
                     }
 
-                    // logic goes here
+                    user.Credit -= totalCharge;
+
+                    var result = await userManager.UpdateAsync(user);
+
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            ModelState.AddModelError(string.Empty, error.Description);
+                        }
+                        return View(model);
+                    }
                 }
                 
                 await iptvRepository.Add(model);
