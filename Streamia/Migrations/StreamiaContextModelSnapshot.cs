@@ -162,6 +162,9 @@ namespace Streamia.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("Credit")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -169,11 +172,26 @@ namespace Streamia.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("EnigmaOnly")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("GenerateEnigma")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("GenerateMAG")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockSTB")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("MAGOnly")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -198,11 +216,11 @@ namespace Streamia.Migrations
                     b.Property<string>("ProfilePicture")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("Restream")
+                        .HasColumnType("bit");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("SettingId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -220,8 +238,6 @@ namespace Streamia.Migrations
                         .IsUnique()
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("SettingId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -1241,13 +1257,6 @@ namespace Streamia.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Streamia.Models.AppUser", b =>
-                {
-                    b.HasOne("Streamia.Models.Setting", "Setting")
-                        .WithMany()
-                        .HasForeignKey("SettingId");
                 });
 
             modelBuilder.Entity("Streamia.Models.BouquetChannel", b =>

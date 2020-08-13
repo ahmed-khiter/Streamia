@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Streamia.Models;
@@ -19,14 +20,21 @@ namespace Streamia.Controllers
 
         private readonly IRepository<IptvUser> iptvRepository;
         private readonly IRepository<Bouquet> bouquetRepository;
+        private readonly IRepository<Setting> settingRepository;
+        private readonly UserManager<AppUser> userManager;
 
-        public IptvUsersController(
+        public IptvUsersController
+        (
             IRepository<IptvUser> iptvRepository,
-            IRepository<Bouquet> bouquetRepository
+            IRepository<Bouquet> bouquetRepository,
+            IRepository<Setting> settingRepository,
+            UserManager<AppUser> userManager
         )
         {
             this.iptvRepository = iptvRepository;
             this.bouquetRepository = bouquetRepository;
+            this.settingRepository = settingRepository;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -41,6 +49,22 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await userManager.GetUserAsync(User);
+                
+                if (await userManager.IsInRoleAsync(user, "Reseller"))
+                {
+                    var settings = await settingRepository.GetById(1);
+                    //var bouquets
+
+                    if (settings.PointsPerCreatedUser > user.Credit)
+                    {
+                        ModelState.AddModelError("", "Your credit is not enough to create this user");
+                        return View(model);
+                    }
+
+                    // logic goes here
+                }
+                
                 await iptvRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }
