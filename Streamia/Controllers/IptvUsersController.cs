@@ -56,9 +56,11 @@ namespace Streamia.Controllers
                 if (await userManager.IsInRoleAsync(user, "Reseller"))
                 {
                     var settings = await settingRepository.GetById(1);
-                    //var bouquets
+                    uint totalCharge = settings.PointsPerCreatedUser;
+                    var bouquet = await bouquetRepository.GetById(model.BouquetId);
+                    totalCharge += bouquet.Points;
 
-                    if (settings.PointsPerCreatedUser > user.Credit)
+                    if (totalCharge > user.Credit)
                     {
                         ModelState.AddModelError("", "Your credit is not enough to create this user");
                         return View(model);
