@@ -98,10 +98,18 @@
 
         <div id="content">
             <div class="content-overlay">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
-                    <span class="page-title"><strong>@ViewData["Title"]</strong></span>
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item active profile-container">
+                <div class="bg-light mb-3 p-2">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <strong>@ViewData["Title"]</strong>
+                        </div>
+                        <div class="col-md-4">
+                            @if (!ViewData.ContainsKey("DisableSearch"))
+                            {
+                                <partial name="~/Views/Partials/_Search.cshtml" />
+                            }
+                        </div>
+                        <div class="col-md-4 text-right">
                             @{
                                 string profileName = User.Identity.GetName();
                                 string profilePicture = User.Identity.ProfilePicture();
@@ -117,9 +125,9 @@
                             }
                             <span class="profile-name">@profileName</span>
                             <img class="profile-picture" src="~/images/@profilePicture" />
-                        </li>
-                    </ul>
-                </nav>
+                        </div>
+                    </div>
+                </div>
                 <div class="main-content">
                     @RenderBody()
                 </div>
