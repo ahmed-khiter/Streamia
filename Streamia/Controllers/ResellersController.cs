@@ -17,7 +17,7 @@ namespace Streamia.Controllers
     {
         private readonly IWebHostEnvironment _hostingEnviroment;
 
-        public UserManager<AppUser> UserManager { get; }
+        public UserManager<AppUser> userManager { get; }
 
         public SignInManager<AppUser> SignInManager { get; }
 
@@ -25,7 +25,7 @@ namespace Streamia.Controllers
             SignInManager<AppUser> signInManager
             , IWebHostEnvironment env)
         {
-            UserManager = userManager;
+            this.userManager = userManager;
             SignInManager = signInManager;
             _hostingEnviroment = env;
         }
@@ -65,11 +65,11 @@ namespace Streamia.Controllers
                         Name = model.Name,
                     };
 
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var result = await userManager.CreateAsync(user, model.Password);
 
                     if (result.Succeeded)
                     {
-                        var result2 = await UserManager.AddToRoleAsync(user, "Reseller");
+                        var result2 = await userManager.AddToRoleAsync(user, "Reseller");
                         if (result2.Succeeded)
                         {
                             return RedirectToAction("index", "Home");
@@ -91,5 +91,10 @@ namespace Streamia.Controllers
             }
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Manage()
+        {
+            return View(await userManager.GetUsersInRoleAsync("Reseller"));
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<Streamia.Models.Bouquet>
 @{
-    ViewData["Title"] = "Manage Bouquets";
+    ViewData["Title"] = "Manage Resellers";
 }
 
 <partial name="~/Views/Partials/_Navigation.cshtml" />
@@ -9,24 +9,7 @@
     @foreach (var bouquet in Model)
     {
         <div class="col-sm-3 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bold">@bouquet.Name</h5>
-                    <p class="card-text">
-                        <i class="fa fa-money text-primary"></i> <span class="text-secondary">@bouquet.Points</span> Points
-                    </p>
-                    <hr />
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@bouquet.Id" title="Edit"><i class="fa fa-edit"></i></a>
-                    <form asp-action="Delete"
-                          asp-route-id="@bouquet.Id"
-                          style="display:inline"
-                          onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-secondary" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
+            <h1>Resellers</h1>
         </div>
     }
 </div>

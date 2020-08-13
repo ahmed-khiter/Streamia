@@ -23,14 +23,14 @@ namespace Streamia.Models.Repositories
 
         public async Task<T> Add(T entity)
         {
-            entitySet.Add(entity);
+            await entitySet.AddAsync(entity);
             await context.SaveChangesAsync();
             return entity;
         }
 
         public async Task<IEnumerable<T>> Add(IEnumerable<T> entities)
         {
-            entitySet.AddRange(entities);
+            await entitySet.AddRangeAsync(entities);
             await context.SaveChangesAsync();
             return entities;
         }
