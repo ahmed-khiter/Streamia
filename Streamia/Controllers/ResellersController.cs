@@ -15,19 +15,22 @@ namespace Streamia.Controllers
 {
     public class ResellersController : Controller
     {
-        private readonly IWebHostEnvironment _hostingEnviroment;
+        private readonly IWebHostEnvironment hostEnvironment;
 
         public UserManager<AppUser> userManager { get; }
 
         public SignInManager<AppUser> SignInManager { get; }
 
-        public ResellersController(UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager
-            , IWebHostEnvironment env)
+        public ResellersController
+        (
+            UserManager<AppUser> userManager,
+            SignInManager<AppUser> signInManager,
+            IWebHostEnvironment hostEnvironment
+        )
         {
             this.userManager = userManager;
             SignInManager = signInManager;
-            _hostingEnviroment = env;
+            this.hostEnvironment = hostEnvironment;
         }
 
         [HttpGet]
@@ -56,7 +59,7 @@ namespace Streamia.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string profilePicture = Upload.UploadProfilePicture(model, _hostingEnviroment);
+                    string profilePicture = Upload.UploadProfilePicture(model, hostEnvironment);
                     var user = new AppUser
                     {
                         UserName = model.Email,
