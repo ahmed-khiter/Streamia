@@ -38,7 +38,16 @@
                     </p>
                     <hr />
                     <a class="btn btn-secondary" asp-action="download" asp-route-id="@iptvUser.Id" title="Download"><i class="fa fa-download"></i></a>
-                    <a class="btn btn-secondary" asp-action="ban" asp-route-id="@iptvUser.Id" title="Ban"><i class="fa fa-ban"></i></a>
+                    <form asp-action="Ban" asp-route-id="@iptvUser.Id" method="post" style="display:inline">
+                        @if (iptvUser.Banned)
+                        {
+                            <button class="btn btn-secondary" title="Activate"><i class="fa fa-check"></i></button>
+                        }
+                        else
+                        {
+                            <button class="btn btn-secondary" title="Ban"><i class="fa fa-ban"></i></button>
+                        }
+                    </form>
                     <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@iptvUser.Id" title="Edit"><i class="fa fa-edit"></i></a>
                     <form asp-action="Delete"
                           asp-route-id="@iptvUser.Id"

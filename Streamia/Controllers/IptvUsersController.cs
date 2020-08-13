@@ -71,6 +71,18 @@ namespace Streamia.Controllers
             return View(data);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Ban(int id)
+        {
+            var user = await iptvRepository.GetById(id);
+            if (user != null)
+            {
+                user.Banned = !user.Banned;
+                await iptvRepository.Edit(user);
+            }
+            return RedirectToAction(nameof(Manage));
+        }
+
         [HttpGet]
         public async Task<IActionResult> Download(int id)
         {
