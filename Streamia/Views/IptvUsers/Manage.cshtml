@@ -8,39 +8,48 @@
 
 <hr />
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Username</th>
-            <th>Bouquet</th>
-            <th>Connections</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var iptvUser in Model)
-        {
-            <tr id="@iptvUser.Id">
-                <td>@iptvUser.Username</td>
-                <td>@iptvUser.Bouquet.Name</td>
-                <td>@iptvUser.Connections</td>
-                <td>
-                    <a class="btn btn-success" asp-action="Download" asp-route-id="@iptvUser.Id">
-                        <i class="fa fa-download"></i>
-                    </a>
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@iptvUser.Id">
-                        <i class="fa fa-edit"></i>
-                    </a>
+<div class="row">
+    @foreach (var iptvUser in Model)
+    {
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">@iptvUser.Username</h5>
+                    <p class="card-text">
+                        <div class="text-secondary">
+                            <i class="fa fa-cubes text-primary"></i> Bouquet: @iptvUser.Bouquet.Name
+                        </div>
+                        <div class="text-secondary">
+                            <i class="fa fa-plug text-primary"></i> Connections: @iptvUser.Connections
+                        </div>
+                        <div class="text-secondary">
+                            <i class="fa fa-clock-o text-primary"></i> Subscription: @iptvUser.DaysToExpire
+                        </div>
+                        <div class="text-secondary">
+                            @if (iptvUser.Banned)
+                            {
+                                <i class="fa fa-ban text-danger"></i> <span>Banned</span>
+                            }
+                            else
+                            {
+                                <i class="fa fa-check text-success"></i> <span>Active</span>
+                            }
+                        </div>
+                    </p>
+                    <hr />
+                    <a class="btn btn-secondary" asp-action="download" asp-route-id="@iptvUser.Id" title="Download"><i class="fa fa-download"></i></a>
+                    <a class="btn btn-secondary" asp-action="ban" asp-route-id="@iptvUser.Id" title="Ban"><i class="fa fa-ban"></i></a>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@iptvUser.Id" title="Edit"><i class="fa fa-edit"></i></a>
                     <form asp-action="Delete"
                           asp-route-id="@iptvUser.Id"
                           style="display:inline"
                           onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-danger">
+                        <button class="btn btn-secondary" title="Delete">
                             <i class="fa fa-trash"></i>
                         </button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>

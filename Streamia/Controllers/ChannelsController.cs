@@ -58,8 +58,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            var model = 0;
-            return View(model);
+            return View(await channelRepository.GetAll());
         }
 
         private async Task PrepareViewBag()

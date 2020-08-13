@@ -34,10 +34,10 @@
                             <i class="fa fa-sliders"></i> System
                         </a>
                         <div class="collapse list-unstyled" id="panelSubmenu">
-                            <a asp-controller="servers" asp-action="add">
+                            <a asp-controller="servers" asp-action="manage">
                                 <i class="fa fa-server"></i> Servers
                             </a>
-                            <a asp-controller="Transcodes" asp-action="add">
+                            <a asp-controller="Transcodes" asp-action="manage">
                                 <i class="fa fa-code"></i> Transcodes
                             </a>
                             <a asp-controller="logs" asp-action="general">
@@ -50,16 +50,16 @@
                             <i class="fa fa-film"></i> Media
                         </a>
                         <div class="collapse list-unstyled" id="mediaSubmenu">
-                            <a asp-controller="streams" asp-action="add">
+                            <a asp-controller="streams" asp-action="manage">
                                 <i class="fa fa-tv"></i> Streams
                             </a>
-                            <a asp-controller="movies" asp-action="add">
+                            <a asp-controller="movies" asp-action="manage">
                                 <i class="fa fa-video-camera"></i> Movies
                             </a>
-                            <a asp-controller="serieses" asp-action="add">
+                            <a asp-controller="serieses" asp-action="manage">
                                 <i class="fa fa-play"></i> Serieses
                             </a>
-                            <a asp-controller="channels" asp-action="add">
+                            <a asp-controller="channels" asp-action="manage">
                                 <i class="fa fa-podcast"></i> Channles
                             </a>
                         </div>
@@ -70,16 +70,16 @@
                             <i class="fa fa-bank"></i> Business
                         </a>
                         <div class="collapse list-unstyled" id="businessSubmenu">
-                            <a asp-controller="bouquets" asp-action="add">
+                            <a asp-controller="bouquets" asp-action="manage">
                                 <i class="fa fa-cubes"></i> Bouquets
                             </a>
-                            <a asp-controller="iptvusers" asp-action="add">
+                            <a asp-controller="iptvusers" asp-action="manage">
                                 <i class="fa fa-user"></i> IPTV Users
                             </a>
-                            <a asp-controller="categories" asp-action="add">
+                            <a asp-controller="categories" asp-action="manage">
                                 <i class="fa fa-share-alt"></i> Categories
                             </a>
-                            <a asp-controller="resellers" asp-action="add">
+                            <a asp-controller="resellers" asp-action="manage">
                                 <i class="fa fa-users"></i> Resellers
                             </a>
                         </div>
@@ -108,7 +108,7 @@
 
                                 if (string.IsNullOrEmpty(profileName))
                                 {
-                                    profileName = "DEV ACCOUNT";
+                                    profileName = "Beta Build v1.0.0";
                                 }
                                 if (string.IsNullOrEmpty(profilePicture))
                                 {

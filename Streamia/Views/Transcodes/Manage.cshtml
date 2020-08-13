@@ -8,38 +8,35 @@
 
 <hr />
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-
-            <th>Name</th>
-            <th>Video Codec</th>
-            <th>Audio Codec</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var transcode in Model)
-        {
-            <tr id="@transcode.Id">
-                <td>@transcode.Name</td>
-                <td>@transcode.VideoCodec</td>
-                <td>@transcode.AudioCodec</td>
-                <td>
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@transcode.Id">
-                        <i class="fa fa-edit"></i>
-                    </a>
+<div class="row">
+    @foreach (var transcode in Model)
+    {
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">@transcode.Name</h5>
+                    <p class="card-text">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <i class="fa fa-video-camera text-primary"></i> <span class="text-secondary">@transcode.VideoCodec</span>
+                            </div>
+                            <div class="col-md-6">
+                                <i class="fa fa-volume-up text-primary"></i> <span class="text-secondary">@transcode.AudioCodec</span>
+                            </div>
+                        </div>
+                    </p>
+                    <hr />
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@transcode.Id" title="Edit"><i class="fa fa-edit"></i></a>
                     <form asp-action="Delete"
                           asp-route-id="@transcode.Id"
                           style="display:inline"
                           onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-danger">
+                        <button class="btn btn-secondary" title="Delete">
                             <i class="fa fa-trash"></i>
                         </button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
+                </div>
+            </div>
+        </div>
+    }
+</div>

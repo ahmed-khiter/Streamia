@@ -8,49 +8,48 @@
 
 <hr />
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Ip</th>
-            <th>State</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var server in Model)
-        {
-            <tr>
-                <td>@server.Name</td>
-                <td>@server.Ip</td>
-                <td id="@server.Id">
-                    @{ string stateClass = "warning"; }
-                    @if (server.ServerState == ServerState.Online)
-                    {
-                        stateClass = "success";
-                    }
-                    else if (server.ServerState == ServerState.Offline || server.ServerState == ServerState.ConfigureFailed)
-                    {
-                        stateClass = "danger";
-                    }
-                    <i class="fa fa-circle text-@stateClass"></i> @server.ServerState
-                </td>
-                <td>
-                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@server.Id"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-success" asp-action="edit" asp-route-id="@server.Id"><i class="fa fa-edit"></i></a>
-                    <form asp-action="delete"
+<div class="row">
+    @foreach (var server in Model)
+    {
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">@server.Name</h5>
+                    <p class="card-text">
+                        @{ string stateClass = "warning"; }
+                        @if (server.ServerState == ServerState.Online)
+                        {
+                            stateClass = "success";
+                        }
+                        else if (server.ServerState == ServerState.Offline || server.ServerState == ServerState.ConfigureFailed)
+                        {
+                            stateClass = "danger";
+                        }
+                        <div id="@server.Id" class="text-secondary">
+                            <i class="fa fa-circle text-@stateClass"></i> @server.ServerState
+                        </div>
+                        <div class="text-secondary">
+                            <i class="fa fa-server text-primary"></i> <span class="text-secondary">@server.Ip</span>
+                        </div>
+                        <div class="text-secondary">
+                            <i class="fa fa-plug text-primary"></i> <span class="text-secondary">SSH Port @server.SshPort</span>
+                        </div>
+                    </p>
+                    <hr />
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@server.Id" title="Edit"><i class="fa fa-edit"></i></a>
+                    <form asp-action="Delete"
                           asp-route-id="@server.Id"
                           style="display:inline"
                           onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-danger">
+                        <button class="btn btn-secondary" title="Delete">
                             <i class="fa fa-trash"></i>
                         </button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 @section Scripts{
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>

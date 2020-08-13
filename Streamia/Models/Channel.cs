@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Streamia.Models
 {
-    public class Channel : BaseEntity
+    public class Channel : StreamBase
     {
         [Required]
         public string Name { get; set; }

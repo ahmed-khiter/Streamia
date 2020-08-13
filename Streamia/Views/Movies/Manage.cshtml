@@ -8,51 +8,43 @@
 
 <hr />
 
-<table class="table table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Category</th>
-            <th>State</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var movie in Model)
+<div class="row">
+    @foreach (var movie in Model)
+    {
+        string stateClass = "warning";
+        if (movie.State == StreamState.Ready)
         {
-            <tr>
-                <td>@movie.Name</td>
-                <td>@movie.Category.Name</td>
-                <td id="state-@movie.Id">
-                    @{
-                        string stateClass = "warning";
-                        if (movie.State == StreamState.Ready)
-                        {
-                            stateClass = "success";
-                        } 
-                        else if (movie.State == StreamState.Error)
-                        {
-                            stateClass = "danger";
-                        }
-                    }
-                    <i class="fa fa-circle text-@stateClass"></i> @movie.State
-                </td>
-                <td>
-                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@movie.Id"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-success" asp-action="edit" asp-route-id="@movie.Id"><i class="fa fa-edit"></i></a>
-                    <form asp-action="delete"
+            stateClass = "success";
+        }
+        else if (movie.State == StreamState.Error)
+        {
+            stateClass = "danger";
+        }
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">@movie.Name</h5>
+                    <p class="card-text">
+                        <div id="state-@movie.Id" class="text-secondary">
+                            <i class="fa fa-circle text-@stateClass"></i> @movie.State
+                        </div>
+                    </p>
+                    <hr />
+                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@movie.Id" title="Info"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@movie.Id" title="Edit"><i class="fa fa-edit"></i></a>
+                    <form asp-action="Delete"
                           asp-route-id="@movie.Id"
                           style="display:inline"
                           onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-danger">
+                        <button class="btn btn-secondary" title="Delete">
                             <i class="fa fa-trash"></i>
                         </button>
                     </form>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                </div>
+            </div>
+        </div>
+    }
+</div>
 
 @section Scripts {
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>

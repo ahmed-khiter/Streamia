@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -31,7 +32,9 @@ namespace Streamia.Models
 
         [Required]
         [Display(Name = "Bouquet")]
-        public uint BouquetId { get; set; }
+        public int BouquetId { get; set; }
+
+        public bool Banned { get; set; }
 
         public Bouquet Bouquet { get; set; }
     }

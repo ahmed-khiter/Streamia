@@ -1,1 +1,65 @@
-﻿
+﻿@model IEnumerable<Channel>
+@{
+    ViewData["Title"] = "Manage Channels";
+}
+
+<partial name="~/Views/Partials/_Navigation.cshtml" />
+<partial name="~/Views/Partials/_Search.cshtml" />
+
+<hr />
+
+<div class="row">
+    @foreach (var channel in Model)
+    {
+        string stateClass = "warning";
+        if (channel.State == StreamState.Live)
+        {
+            stateClass = "success";
+        }
+        else if (channel.State == StreamState.Error)
+        {
+            stateClass = "danger";
+        }
+        <div class="col-sm-3 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title font-weight-bold">@channel.Name</h5>
+                    <p class="card-text">
+                        <div id="state-@channel.Id" class="text-secondary">
+                            <i class="fa fa-circle text-@stateClass"></i> @channel.State
+                        </div>
+                    </p>
+                    <hr />
+                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@channel.Id" title="Info"><i class="fa fa-info-circle"></i></a>
+                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@channel.Id" title="Edit"><i class="fa fa-edit"></i></a>
+                    <form asp-action="Delete"
+                          asp-route-id="@channel.Id"
+                          style="display:inline"
+                          onsubmit="return confirm('Are you sure you want to proceed?')">
+                        <button class="btn btn-secondary" title="Delete">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
+    <script>
+        window.addEventListener('load', function () {
+            var connection = new signalR.HubConnectionBuilder().withUrl("/channel-status-hub").build();
+            connection.start();
+            connection.on("UpdateSignal", function (data) {
+                var stateIndicator = $(`#state-${data.id}`);
+                if (data.state === 3) {
+                    stateIndicator.html('<i class="fa fa-circle text-success"></i> Live');
+                } else if (data.state === 4) {
+                    stateIndicator.html('<i class="fa fa-circle text-danger"></i> Error');
+                }
+            });
+        });
+    </script>
+}
