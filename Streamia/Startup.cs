@@ -37,7 +37,6 @@ namespace Streamia
 
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.Configure<IdentityOptions>(option =>
             {
                 option.Password.RequiredLength = 3;
@@ -47,20 +46,24 @@ namespace Streamia
                 option.Password.RequireDigit = false;
             });
 
-           
-
             services.AddIdentity<AppUser, IdentityRole>()
                   .AddEntityFrameworkStores<StreamiaContext>()
                   .AddRoles<IdentityRole>()
                   .AddDefaultTokenProviders();
 
             services.AddRazorPages();
+
             services.AddMvc();
+
             services.AddSignalR(options => options.EnableDetailedErrors = true);
+
             services.AddDbContextPool<StreamiaContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
+
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
             services.AddSingleton(typeof(IRemoteConnection), typeof(SshContainer));
+
             services.AddControllersWithViews(config =>
             {
                 var policy = new AuthorizationPolicyBuilder()
