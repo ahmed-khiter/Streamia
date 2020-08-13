@@ -70,7 +70,7 @@ namespace Streamia
                                  .RequireAuthenticatedUser()
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
-            }).AddXmlSerializerFormatters();
+            });
 
             services.AddAuthorization(options =>
             {
@@ -84,8 +84,12 @@ namespace Streamia
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env
-                    , UserManager<AppUser> userManager, RoleManager<IdentityRole> role)
+        public void Configure
+        (
+            IApplicationBuilder app, IWebHostEnvironment env,
+            UserManager<AppUser> userManager,
+            RoleManager<IdentityRole> role
+        )
         {
             if (env.IsDevelopment())
             {
