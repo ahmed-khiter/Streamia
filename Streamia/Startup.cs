@@ -74,6 +74,7 @@ namespace Streamia
 
             services.AddAuthorization(options =>
             {
+                options.AddPolicy("Admin", p => p.RequireClaim("IsAdmin", "true"));
             });
 
             // add local AppClaimsPrincipalFactory class to customize user
