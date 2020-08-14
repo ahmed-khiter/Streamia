@@ -22,7 +22,6 @@ using Streamia.Realtime;
 using Streamia.Realtime.Containers;
 using Streamia.Realtime.Interfaces;
 using Streamia.Security;
-using Streamia.Utilies;
 
 namespace Streamia
 {
@@ -76,16 +75,13 @@ namespace Streamia
             {
                 options.AddPolicy("Admin", p => p.RequireClaim("IsAdmin", "true"));
             });
-
-            // add local AppClaimsPrincipalFactory class to customize user
-            services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
         }
 
         public void Configure
         (
-            IApplicationBuilder app, IWebHostEnvironment env,
-            UserManager<AppUser> userManager,
-            RoleManager<IdentityRole> role
+            IApplicationBuilder app, 
+            IWebHostEnvironment env,
+            UserManager<AppUser> userManager
         )
         {
             if (env.IsDevelopment())
@@ -98,7 +94,6 @@ namespace Streamia
                 app.UseHsts();
             }
 
-            SeedDataExtensions.SeedRoles(role);
             SeedDataExtensions.SeedUsers(userManager);
             //app.UseHttpsRedirection();
             app.UseStaticFiles();

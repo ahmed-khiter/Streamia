@@ -4,6 +4,7 @@ using Streamia.Models.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 
@@ -11,32 +12,6 @@ namespace Streamia.Models.Extensions
 {
     public static class SeedDataExtensions
     {
-        public static void SeedRoles(RoleManager<IdentityRole> roleManager)
-        {
-            if (roleManager.FindByNameAsync("Admin").Result == null
-                || roleManager.FindByNameAsync("Reseller").Result == null)
-            {
-                if (roleManager.FindByNameAsync("Admin").Result == null)
-                {
-                    IdentityRole identityRoleAdmin = new IdentityRole
-                    {
-                        Name = "Admin",
-                        NormalizedName = "ADMIN"
-                    };
-                    roleManager.CreateAsync(identityRoleAdmin).Wait();
-                }
-                else
-                {
-                    IdentityRole identityRoleCompany = new IdentityRole
-                    {
-                        Name = "Reseller",
-                        NormalizedName = "RESELLER"
-                    };
-                    roleManager.CreateAsync(identityRoleCompany).Wait();
-                }
-            }
-        }
-
         public static void SeedUsers(UserManager<AppUser> userManager)
         {
             if (userManager.FindByEmailAsync("dev@streamia.com").Result == null)
@@ -51,19 +26,19 @@ namespace Streamia.Models.Extensions
                     Id = guidString,
                     UserName = "dev@streamia.com",
                     Email = "dev@streamia.com",
-
                     EmailConfirmed = true,
-
                     NormalizedEmail = "DEV@STREAMIA.COM",
                     NormalizedUserName = "DEV@STREAMIA.COM",
                     PhoneNumberConfirmed = true,
                     PhoneNumber = "0123456789",
 
                 };
+
                 IdentityResult result = userManager.CreateAsync(user, "Streamia0123456789").Result;
+
                 if (result.Succeeded)
                 {
-                    userManager.AddToRoleAsync(user, "Admin").Wait();
+                    userManager.AddClaimAsync(user, new Claim("IsAdmin", "true")).Wait();
                 }
             }
         }
