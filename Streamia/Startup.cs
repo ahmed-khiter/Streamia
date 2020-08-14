@@ -21,7 +21,6 @@ using Streamia.Models.Repositories;
 using Streamia.Realtime;
 using Streamia.Realtime.Containers;
 using Streamia.Realtime.Interfaces;
-using Streamia.Security;
 
 namespace Streamia
 {

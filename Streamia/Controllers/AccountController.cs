@@ -97,7 +97,7 @@ namespace Streamia.Controllers
                 {
                     await signInManager.SignInAsync(user, isPersistent: false);
 
-                    return RedirectToAction("index", "Home");
+                    return RedirectToAction("Index", "Home");
                 }
 
                 foreach (var error in result.Errors)
@@ -188,7 +188,7 @@ namespace Streamia.Controllers
         {
             await signInManager.SignOutAsync();
 
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Login", "Account");
         }
 
         [HttpGet]
