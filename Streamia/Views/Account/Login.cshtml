@@ -2,42 +2,52 @@
 
 @{
     Layout = "_Main";
-    ViewData["Title"] = "Login";
+    ViewData["DisableNavbar"] = string.Empty;
 }
 
-<div class="login-container">
-    <div class="login-overlay">
+@section Styles {
+    <style>
+        .ex-header {
+            padding-top: 7rem;
+            padding-bottom: 7rem;
+        }
+    </style>
+}
+
+<!-- Header -->
+<header id="header" class="ex-header">
+    <div class="container">
         <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <div class="login-box">
-                    <h3 class="text-primary font-weight-bold">Streamia Login</h3>
-                    <hr />
+            <div class="col-md-12">
+                <h1>Streamia Login</h1>
+            </div> <!-- end of col -->
+        </div> <!-- end of row -->
+    </div> <!-- end of container -->
+</header> <!-- end of ex-header -->
+<!-- end of header -->
+
+<div class="ex-basic-2">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 offset-lg-3">
+                <div class="text-container">
                     <form method="post">
-                        <div class="form-group form-row">
-                            <label asp-for="Email" class="col-form-label col-md-3"></label>
-                            <div class="col-md-9">
-                                <input asp-for="Email" class="form-control" />
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
+
+                        <div class="form-group">
+                            <input asp-for="Email" class="form-control-input" required>
+                            <label asp-for="Email" class="label-control"></label>
+                            <span class="help-block with-errors" asp-validation-for="Email"></span>
                         </div>
-                        <div class="form-group form-row">
-                            <label asp-for="Password" class="col-form-label col-md-3"></label>
-                            <div class="col-md-9">
-                                <input asp-for="Password" class="form-control" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
+                        <div class="form-group">
+                            <input asp-for="Password" class="form-control-input" required>
+                            <label asp-for="Password" class="label-control"></label>
+                            <span class="help-block with-errors" asp-validation-for="Password"></span>
                         </div>
 
-                        <hr />
-
-                        <button type="submit" class="main-btn">
-                            <i class="fa fa-check"></i> Login
-                        </button>
+                        <button type="submit" class="form-control-submit-button">LOGIN</button>
                     </form>
                 </div>
             </div>
-            <div class="col-md-4"></div>
         </div>
     </div>
 </div>
