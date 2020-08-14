@@ -15,21 +15,17 @@ namespace Streamia.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ILogger<AccountController> _logger;
-        private readonly IWebHostEnvironment _hostingEnviroment;
-        public UserManager<AppUser> UserManager { get; }
-        public SignInManager<AppUser> SignInManager { get; }
+        private readonly UserManager<AppUser> userManager;
+        private readonly SignInManager<AppUser> signInManager;
 
-
-        public AccountController(UserManager<AppUser> userManager,
+        public AccountController
+        (
+            UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager
-            , IWebHostEnvironment env,
-            ILogger<AccountController> logger)
+        )
         {
-            UserManager = userManager;
-            SignInManager = signInManager;
-            _hostingEnviroment = env;
-            _logger = logger;
+            this.userManager = userManager;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
@@ -43,12 +39,15 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.GetUserAsync(User);
+                var user = await userManager.GetUserAsync(User);
+
                 if (user == null)
                 {
                     return RedirectToAction(nameof(LogIn));
                 }
-                var result = await UserManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
+                var result = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+
                 if (!result.Succeeded)
                 {
                     foreach (var error in result.Errors)
@@ -56,78 +55,57 @@ namespace Streamia.Controllers
                         ModelState.AddModelError(string.Empty, error.Description);
                     }
                 }
-                await SignInManager.RefreshSignInAsync(user);
-                return RedirectToAction("Index", "Settings");
+
+                await signInManager.RefreshSignInAsync(user);
+
+                return RedirectToAction("Dashboard", "Home");
             }
             return View(model);
-        }
-
-       
-
-        [AcceptVerbs("Get", "Post")]
-        [AllowAnonymous]
-        public async Task<IActionResult> IsEmailInUse([Bind("Email", Prefix = "Email")]string email)
-        {
-            var User = await UserManager.Users.FirstOrDefaultAsync(p => p.Email == email);
-            if (User == null)
-            {
-                return Json(true);
-            }
-            else
-            {
-                return Json($"E-mail: {email} is already in use ");
-            }
         }
 
         [HttpGet]
         [AllowAnonymous]
         public  IActionResult Register()
         {
-            
-            if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
+            if (signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("AccessDenied");
+                return RedirectToAction("Dashboard", "Home");
             }
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
+            if (signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("AccessDenied");
+                return RedirectToAction("Dashboard", "Home");
             }
-            else
+
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var user = new AppUser
                 {
-                    var user = new AppUser
-                    {
-                        UserName = model.Email,
-                        Email = model.Email,                       
-                    };
+                    UserName = model.Email,
+                    Email = model.Email,                       
+                };
 
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                var result = await userManager.CreateAsync(user, model.Password);
 
-                    if (result.Succeeded)
-                    {
-                        if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
-                        {
-                            return RedirectToAction("Index", "Home");
-                        }
-                        await SignInManager.SignInAsync(user, isPersistent: false);
-                        return RedirectToAction("index", "Home");
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                if (result.Succeeded)
+                {
+                    await signInManager.SignInAsync(user, isPersistent: false);
+
+                    return RedirectToAction("index", "Home");
                 }
-                return View();
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
+            return View();
         }
 
         [HttpGet]
@@ -141,37 +119,35 @@ namespace Streamia.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string token)
         {
-            if (userId == null || token == null)
+            var user = await userManager.FindByIdAsync(userId);
+
+            if (userId == null || token == null || user == null)
             {
-                return RedirectToAction("services", "service");
-            }
-            var user = await UserManager.FindByIdAsync(userId);
-            if (user == null)
-            {
-                ViewBag.ErrorMessage = $"The user Id {userId} is invalid";
-                return View("NotFound");
+                return NotFound();
             }
 
-            var result = await UserManager.ConfirmEmailAsync(user, token);
+            var result = await userManager.ConfirmEmailAsync(user, token);
+
             if (result.Succeeded)
             {
-                await SignInManager.SignInAsync(user, true);
+                await signInManager.SignInAsync(user, true);
                 return View();
             }
-            ViewBag.ErrorTitle = "Email cannot be confirmed";
-            return View("Error");
 
+            ViewData["Error"] = "Couldn't confirm your Email";
+
+            return View("Error");
         }
 
         [HttpGet]
         [AllowAnonymous]
         public IActionResult LogIn()
         {
-            ViewBag.Login = "active";
-            if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
+            if (signInManager.IsSignedIn(User))
             {
-                return RedirectToAction("AccessDenied");
+                return RedirectToAction("Dashboard", "Home");
             }
+
             return View();
         }
 
@@ -180,19 +156,17 @@ namespace Streamia.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogIn(LoginViewModel model, string returnUrl = null)
         {
-            ViewBag.Login = "active";
             if (ModelState.IsValid)
             {
-                var checkState = await UserManager.FindByEmailAsync(model.Email);
+                var user = await userManager.FindByEmailAsync(model.Email);
 
-                if (checkState == null)
+                if (user == null)
                 {
-                    ModelState.AddModelError(String.Empty, "Invalid Login ");
+                    ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
                     return View(model);
                 }                
 
-                var result = await SignInManager
-                    .PasswordSignInAsync(checkState.UserName, model.Password, model.RememberMe, true);
+                var result = await signInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, true);
 
                 if (result.Succeeded)
                 {
@@ -200,30 +174,24 @@ namespace Streamia.Controllers
                     {
                         return LocalRedirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("services", "Service");
-                    }
+
+                    return RedirectToAction("Dashboard", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError(String.Empty, "Password or Email is wrong!!");
-                }
+
+                ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
             return View(model);
         }
 
-
-        [Authorize(Roles = "Admin")]
-        [AllowAnonymous]
+        [HttpPost]
         public async Task<IActionResult> LogOut()
         {
-            await SignInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            await signInManager.SignOutAsync();
+
+            return RedirectToAction("Login", "Home");
         }
 
         [HttpGet]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
@@ -231,22 +199,20 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByEmailAsync(model.Email);
-                if (user != null && await UserManager.IsEmailConfirmedAsync(user))
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user != null && await userManager.IsEmailConfirmedAsync(user))
                 {
                     #region send Email 
-                    var token = await UserManager.GeneratePasswordResetTokenAsync(user);
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
                     var passwordResetLink = Url.Action("ResetPassword", "Account",
                                                        new { email = model.Email, token = token }, Request.Scheme);
-                    _logger.Log(LogLevel.Warning, passwordResetLink);
 
-                    if (SignInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                    if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
                     {
                         return RedirectToAction("Index", "Home");
                     }
@@ -274,10 +240,9 @@ namespace Streamia.Controllers
 
                     return View("ForgotPasswordConfirmation");
                     #endregion
-
                 }
-                return View("ForgotPasswordConfirmation");
             }
+
             return View(model);
         }
 
@@ -287,7 +252,7 @@ namespace Streamia.Controllers
         {
             if (token == null || email == null)
             {
-                ModelState.AddModelError("", "Invalid password reset token");
+                return NotFound();
             }
             return View();
         }
@@ -298,22 +263,28 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByEmailAsync(model.Email);
+                var user = await userManager.FindByEmailAsync(model.Email);
+
                 if (user != null)
                 {
-                    var result = await UserManager.ResetPasswordAsync(user, model.Token, model.Password);
+                    var result = await userManager.ResetPasswordAsync(user, model.Token, model.Password);
+
                     if (result.Succeeded)
                     {
                         return View("ResetPasswordConfirmation");
                     }
+
                     foreach (var error in result.Errors)
                     {
-                        ModelState.AddModelError("", error.Description);
+                        ModelState.AddModelError(string.Empty, error.Description);
                     }
+
                     return View(model);
                 }
+
                 return View("ResetPasswordConfirmation");
             }
+
             return View(model);
         }
     }

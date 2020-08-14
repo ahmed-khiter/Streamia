@@ -15,92 +15,70 @@ namespace Streamia.Controllers
 {
     public class ResellersController : Controller
     {
-        private readonly IWebHostEnvironment hostEnvironment;
+        private readonly SignInManager<AppUser> signInManager;
 
         public UserManager<AppUser> userManager { get; }
-
-        public SignInManager<AppUser> SignInManager { get; }
 
         public ResellersController
         (
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            IWebHostEnvironment hostEnvironment
+            SignInManager<AppUser> signInManager
         )
         {
             this.userManager = userManager;
-            SignInManager = signInManager;
-            this.hostEnvironment = hostEnvironment;
+            this.signInManager = signInManager;
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public IActionResult Add()
         {
-            if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
-            {
-                return RedirectToAction("AccessDenied");
-            }
             return View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Add(RegisterViewModel model)
         {
-            if (SignInManager.IsSignedIn(User) && !(User.IsInRole("Admin")))
+            if (ModelState.IsValid)
             {
-                return RedirectToAction("AccessDenied");
-            }
-
-            else
-            {
-                if (ModelState.IsValid)
+                var user = new AppUser
                 {
-                    string profilePicture = Upload.UploadProfilePicture(model, hostEnvironment);
-                    var user = new AppUser
-                    {
-                        UserName = model.Email,
-                        Email = model.Email,
-                        ProfilePicture = profilePicture,
-                        Name = model.Name,
-                        GenerateMAG = model.GenerateMAG,
-                        GenerateEnigma = model.GenerateEnigma,
-                        MAGOnly = model.MAGOnly,
-                        EnigmaOnly = model.EnigmaOnly,
-                        LockSTB = model.LockSTB,
-                        Restream = model.Restream
-                    };
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Name = model.Name,
+                    GenerateMAG = model.GenerateMAG,
+                    GenerateEnigma = model.GenerateEnigma,
+                    MAGOnly = model.MAGOnly,
+                    EnigmaOnly = model.EnigmaOnly,
+                    LockSTB = model.LockSTB,
+                    Restream = model.Restream
+                };
 
-                    var createResult = await userManager.CreateAsync(user, model.Password);
+                var createResult = await userManager.CreateAsync(user, model.Password);
 
-                    if (user.GenerateMAG) {
-                        
-                    }
-
-                    if (createResult.Succeeded)
-                    {
-                        var addToRoleResult = await userManager.AddToRoleAsync(user, "Reseller");
-                        if (addToRoleResult.Succeeded)
-                        {
-                            return RedirectToAction("index", "Home");
-                        }
-                        else
-                        {
-                            foreach (var error in createResult.Errors)
-                            {
-                                ModelState.AddModelError("", error.Description);
-                            }
-                        }                
-                    }
-                    foreach (var error in createResult.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                if (user.GenerateMAG) {
                 }
-                return View();
+
+                if (createResult.Succeeded)
+                {
+                    var addToRoleResult = await userManager.AddToRoleAsync(user, "Reseller");
+                    if (addToRoleResult.Succeeded)
+                    {
+                        return RedirectToAction("index", "Home");
+                    }
+                    else
+                    {
+                        foreach (var error in createResult.Errors)
+                        {
+                            ModelState.AddModelError("", error.Description);
+                        }
+                    }                
+                }
+                foreach (var error in createResult.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
             }
+            return View();
         }
 
         [HttpGet]

@@ -9,16 +9,10 @@ namespace Streamia.Security
 {
     public static class IdentityExtensions
     {
-        public static string GetName(this IIdentity identity)
+        public static string Name(this IIdentity identity)
         {
-            var claim = ((ClaimsIdentity)identity).FindFirst("Name");
-            return (claim != null) ? claim.Value : string.Empty;
-        }
-
-        public static string ProfilePicture(this IIdentity identity)
-        {
-            var claim = ((ClaimsIdentity)identity).FindFirst("ProfilePicture");
-            return (claim != null) ? claim.Value : string.Empty;
+            var claim = ( (ClaimsIdentity) identity).FindFirst("Name");
+            return claim.Value ?? string.Empty;
         }
     }
 }

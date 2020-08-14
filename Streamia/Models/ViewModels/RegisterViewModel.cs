@@ -24,8 +24,7 @@ namespace Streamia.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-        [Required, DataType(DataType.Password)
-         , Compare("Password", ErrorMessage = "Passwords don't match")]
+        [Required, DataType(DataType.Password), Compare("Password", ErrorMessage = "Passwords don't match")]
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
@@ -44,7 +43,5 @@ namespace Streamia.ViewModels
         [Display(Name = "Lock STB Device")]
         public bool LockSTB { get; set; }
         public bool Restream { get; set; }
-
-        public IFormFile ProfilePicture { get; set; }
     }
 }

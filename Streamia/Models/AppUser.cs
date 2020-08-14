@@ -11,7 +11,6 @@ namespace Streamia.Models
     public class AppUser : IdentityUser
     {
         public string Name { get; set; }
-        public string ProfilePicture { get; set; }
         public uint Credit { get; set; }
         public bool GenerateMAG { get; set; }
         public bool GenerateEnigma { get; set; }

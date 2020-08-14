@@ -110,21 +110,7 @@
                             }
                         </div>
                         <div class="col-md-4 text-right">
-                            @{
-                                string profileName = User.Identity.GetName();
-                                string profilePicture = User.Identity.ProfilePicture();
-
-                                if (string.IsNullOrEmpty(profileName))
-                                {
-                                    profileName = "Beta Build v1.0.0";
-                                }
-                                if (string.IsNullOrEmpty(profilePicture))
-                                {
-                                    profilePicture = "user.png";
-                                }
-                            }
-                            <span class="profile-name">@profileName</span>
-                            <img class="profile-picture" src="~/images/@profilePicture" />
+                            <span class="profile-name">@(User.Identity.Name() ?? "BETA BUILD")</span>
                         </div>
                     </div>
                 </div>

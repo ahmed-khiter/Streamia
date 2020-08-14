@@ -74,11 +74,7 @@ namespace Streamia
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("CreateSubReseller", policy => 
-                    policy.AddRequirements(new BuildingEntryRequirement()));
             });
-
-            services.AddSingleton<IAuthorizationHandler, CanCreateSubResellerHandler>();
 
             // add local AppClaimsPrincipalFactory class to customize user
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, AppClaimsPrincipalFactory>();
