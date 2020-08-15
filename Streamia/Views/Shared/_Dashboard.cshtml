@@ -26,7 +26,7 @@
                     <a asp-controller="home" asp-action="dashboard"><i class="fa fa-home"></i> Home</a>
                 </li>
 
-                @if (signInManager.IsSignedIn(User))
+                @if (signInManager.IsSignedIn(User) && ((ClaimsIdentity)User.Identity).HasClaim("IsAdmin", "true"))
                 {
                     <li>
                         <a href="#panelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
@@ -83,11 +83,6 @@
                             </a>
                         </div>
                     </li>
-                }
-
-
-                @if (signInManager.IsSignedIn(User))
-                {
                     <li>
                         <a asp-controller="settings" asp-action="general"><i class="fa fa-cog"></i> Settings</a>
                     </li>

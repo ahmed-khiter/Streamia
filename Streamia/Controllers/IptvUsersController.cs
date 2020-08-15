@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -49,8 +50,8 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.GetUserAsync(User);
-                
-                if (await userManager.IsInRoleAsync(user, "Reseller"))
+
+                if (((ClaimsIdentity)User.Identity).HasClaim("IsReseller", "true"))
                 {
                     var settings = await settingRepository.GetById(1);
                     uint totalCharge = settings.PointsPerCreatedUser;

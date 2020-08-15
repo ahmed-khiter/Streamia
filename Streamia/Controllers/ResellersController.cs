@@ -85,6 +85,8 @@ namespace Streamia.Controllers
                         claims.Add(new Claim("AddEnigma", "true"));
                     }
 
+                    claims.Add(new Claim("IsReseller", "true"));
+
                     var addClaimsResult = await userManager.AddClaimsAsync(user, claims);
 
                     if (addClaimsResult.Succeeded)

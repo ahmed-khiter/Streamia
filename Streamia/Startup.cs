@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Streamia.Middlewares;
 using Streamia.Models;
 using Streamia.Models.Contexts;
 using Streamia.Models.Extensions;
@@ -70,6 +71,7 @@ namespace Streamia
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin", p => p.RequireClaim("IsAdmin", "true"));
+                options.AddPolicy("Reseller", p => p.RequireClaim("IsReseller", "true"));
                 options.AddPolicy("Mag", p => p.RequireClaim("AddMag", "true"));
                 options.AddPolicy("Enigma", p => p.RequireClaim("AddEnigma", "true"));
             });
@@ -98,6 +100,7 @@ namespace Streamia
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseMiddleware<Trial>();
 
             app.UseEndpoints(endpoints =>
             {
