@@ -15,7 +15,6 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class MoviesController : Controller
     {
         private readonly IRepository<Movie> movieRepository;

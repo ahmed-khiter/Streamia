@@ -16,7 +16,6 @@ using Streamia.Realtime;
 
 namespace Streamia.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class ServersController : Controller
     {
         private readonly IRepository<Server> serverRepository;

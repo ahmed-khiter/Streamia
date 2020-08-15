@@ -12,11 +12,14 @@ namespace Streamia.Models
     {
         public string Name { get; set; }
         public uint Credit { get; set; }
-        public bool GenerateMAG { get; set; }
-        public bool GenerateEnigma { get; set; }
-        public bool MAGOnly { get; set; }
-        public bool EnigmaOnly { get; set; }
+        public bool AddMAG { get; set; }
+        public bool AddEnigma { get; set; }
+        public bool MonitorMagOnly { get; set; }
+        public bool MonitorEnigmaOnly { get; set; }
         public bool LockSTB { get; set; }
         public bool Restream { get; set; }
+        public bool TrialAccount { get; set; }
+        public uint TrialDays { get; set; }
+        public DateTime CreationDateTime { get; set; } = DateTime.Now;
     }
 }

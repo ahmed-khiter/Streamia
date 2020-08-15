@@ -12,7 +12,6 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class StreamsController : Controller
     {
         private readonly IRepository<Stream> streamRepository;

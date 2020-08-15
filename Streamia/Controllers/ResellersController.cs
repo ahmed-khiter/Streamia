@@ -10,14 +10,17 @@ using Microsoft.Extensions.Logging;
 using Streamia.Models;
 using Streamia.Helpers;
 using Streamia.ViewModels;
+using System.Net;
+using Microsoft.AspNetCore.Mvc.Diagnostics;
+using System.Security.Claims;
+using Microsoft.EntityFrameworkCore;
 
 namespace Streamia.Controllers
 {
     public class ResellersController : Controller
     {
+        private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
-
-        public UserManager<AppUser> userManager { get; }
 
         public ResellersController
         (
@@ -32,7 +35,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public IActionResult Add()
         {
-            return View();
+            return View(new RegisterViewModel());
         }
 
         [HttpPost]
@@ -45,46 +48,70 @@ namespace Streamia.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     Name = model.Name,
-                    GenerateMAG = model.GenerateMAG,
-                    GenerateEnigma = model.GenerateEnigma,
-                    MAGOnly = model.MAGOnly,
-                    EnigmaOnly = model.EnigmaOnly,
+                    AddMAG = model.AddMag,
+                    AddEnigma = model.AddEnigma,
+                    MonitorMagOnly = model.MonitorMagOnly,
+                    MonitorEnigmaOnly = model.MonitorEnigmaOnly,
                     LockSTB = model.LockSTB,
                     Restream = model.Restream
                 };
 
-                var createResult = await userManager.CreateAsync(user, model.Password);
+                if (model.TrialAccount)
+                {
+                    user.TrialAccount = true;
 
-                if (user.GenerateMAG) {
+                    if (model.TrialDays < 1)
+                    {
+                        ModelState.AddModelError("TrialDays", "Trial period should be at least 1 day");
+                        return View(model);
+                    }
+
+                    user.TrialDays = model.TrialDays;
                 }
+
+                var createResult = await userManager.CreateAsync(user, model.Password);
 
                 if (createResult.Succeeded)
                 {
-                    var addToRoleResult = await userManager.AddToRoleAsync(user, "Reseller");
-                    if (addToRoleResult.Succeeded)
+                    var claims = new List<Claim>();
+
+                    if (user.AddMAG)
                     {
-                        return RedirectToAction("index", "Home");
+                        claims.Add(new Claim("AddMag", "true"));
                     }
-                    else
+
+                    if (user.AddEnigma)
                     {
-                        foreach (var error in createResult.Errors)
-                        {
-                            ModelState.AddModelError("", error.Description);
-                        }
-                    }                
+                        claims.Add(new Claim("AddEnigma", "true"));
+                    }
+
+                    var addClaimsResult = await userManager.AddClaimsAsync(user, claims);
+
+                    if (addClaimsResult.Succeeded)
+                    {
+                        return RedirectToAction(nameof(Manage));
+                    }
+
+                    foreach (var error in addClaimsResult.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
+
                 foreach (var error in createResult.Errors)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            return View();
+
+            return View(model);
         }
 
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await userManager.GetUsersInRoleAsync("Reseller"));
+            var resellers = await userManager.Users.ToListAsync();
+            return View(resellers);
         }
     }
 }

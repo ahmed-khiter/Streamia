@@ -11,6 +11,8 @@
 
 <partial name="~/Views/Partials/_Navigation.cshtml" />
 
+<div asp-validation-summary="All" class="text-danger"></div>
+
 <form method="post">
     <div class="row">
         <div class="col-md-3">
@@ -39,6 +41,46 @@
                 <label asp-for="ConfirmPassword"></label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label asp-for="TrialAccount"></label>
+            <div>
+                <input asp-for="TrialAccount" class="js-switch" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label asp-for="TrialDays"></label>
+            <input asp-for="TrialDays" class="form-control"/>
+            <span class="text-danger" asp-validation-for="TrialDays"></span>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="form-group col-md-3">
+            <label asp-for="AddMag"></label>
+            <div>
+                <input asp-for="AddMag" class="js-switch" />
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="AddEnigma"></label>
+            <div>
+                <input asp-for="AddEnigma" class="js-switch" />
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="MonitorMagOnly"></label>
+            <div>
+                <input asp-for="MonitorMagOnly" class="js-switch" />
+            </div>
+        </div>
+        <div class="form-group col-md-3">
+            <label asp-for="MonitorEnigmaOnly"></label>
+            <div>
+                <input asp-for="MonitorEnigmaOnly" class="js-switch" />
             </div>
         </div>
     </div>

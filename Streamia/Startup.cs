@@ -35,19 +35,16 @@ namespace Streamia
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.Configure<IdentityOptions>(option =>
+            services.AddIdentity<AppUser, IdentityRole>(options =>
             {
-                option.Password.RequiredLength = 3;
-                option.Password.RequireUppercase = false;
-                option.Password.RequireNonAlphanumeric = false;
-                option.SignIn.RequireConfirmedEmail = false;
-                option.Password.RequireDigit = false;
-            });
-
-            services.AddIdentity<AppUser, IdentityRole>()
-                  .AddEntityFrameworkStores<StreamiaContext>()
-                  .AddRoles<IdentityRole>()
-                  .AddDefaultTokenProviders();
+                options.Password.RequiredLength = 3;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.Password.RequireDigit = false;
+            })
+            .AddEntityFrameworkStores<StreamiaContext>()
+            .AddDefaultTokenProviders();
 
             services.AddRazorPages();
 
@@ -73,6 +70,8 @@ namespace Streamia
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin", p => p.RequireClaim("IsAdmin", "true"));
+                options.AddPolicy("Mag", p => p.RequireClaim("AddMag", "true"));
+                options.AddPolicy("Enigma", p => p.RequireClaim("AddEnigma", "true"));
             });
         }
 

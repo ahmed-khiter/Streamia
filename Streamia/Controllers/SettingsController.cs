@@ -10,7 +10,6 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-    [Authorize(Roles = "Admin")]
     public class SettingsController : Controller
     {
         private readonly IRepository<Setting> settingRepository;

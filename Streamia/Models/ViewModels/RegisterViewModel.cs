@@ -17,7 +17,6 @@ namespace Streamia.ViewModels
 
         [Required, DataType(DataType.EmailAddress)]
         [Display(Name = "Email")]
-        [Remote(action: "IsEmailInUse", controller: "Account")]
         public string Email { get; set; }
 
         [Required]
@@ -28,17 +27,23 @@ namespace Streamia.ViewModels
         [Display(Name = "Confirm Password")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Generate MAG")]
-        public bool GenerateMAG { get; set; }
+        [Display(Name = "Trial Period In Days")]
+        public uint TrialDays { get; set; }
 
-        [Display(Name = "Generate Enigma")]
-        public bool GenerateEnigma { get; set; }
+        [Display(Name = "Trial Account")]
+        public bool TrialAccount { get; set; }
 
-        [Display(Name = "MAG Only")]
-        public bool MAGOnly { get; set; }
+        [Display(Name = "Add MAG Device")]
+        public bool AddMag { get; set; }
 
-        [Display(Name = "Enigma Only")]
-        public bool EnigmaOnly { get; set; }
+        [Display(Name = "Add Enigma Device")]
+        public bool AddEnigma { get; set; }
+
+        [Display(Name = "Monitor MAG Devices Only")]
+        public bool MonitorMagOnly { get; set; }
+
+        [Display(Name = "Monitor Enigma Devices Only")]
+        public bool MonitorEnigmaOnly { get; set; }
 
         [Display(Name = "Lock STB Device")]
         public bool LockSTB { get; set; }

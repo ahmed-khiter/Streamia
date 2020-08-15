@@ -23,12 +23,11 @@
             </div>
             <ul class="list-unstyled components">
                 <li>
-                    <a href="/"><i class="fa fa-home"></i> Home</a>
+                    <a asp-controller="home" asp-action="dashboard"><i class="fa fa-home"></i> Home</a>
                 </li>
 
-                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                @if (signInManager.IsSignedIn(User))
                 {
-
                     <li>
                         <a href="#panelSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                             <i class="fas fa-sliders-h"></i> System
@@ -87,7 +86,7 @@
                 }
 
 
-                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                @if (signInManager.IsSignedIn(User))
                 {
                     <li>
                         <a asp-controller="settings" asp-action="general"><i class="fa fa-cog"></i> Settings</a>

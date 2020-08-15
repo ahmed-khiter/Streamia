@@ -158,9 +158,18 @@ namespace Streamia.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<bool>("AddEnigma")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("AddMAG")
+                        .HasColumnType("bit");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreationDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<long>("Credit")
                         .HasColumnType("bigint");
@@ -172,15 +181,6 @@ namespace Streamia.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("EnigmaOnly")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("GenerateEnigma")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("GenerateMAG")
-                        .HasColumnType("bit");
-
                     b.Property<bool>("LockSTB")
                         .HasColumnType("bit");
 
@@ -190,7 +190,10 @@ namespace Streamia.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool>("MAGOnly")
+                    b.Property<bool>("MonitorEnigmaOnly")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("MonitorMagOnly")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -218,6 +221,12 @@ namespace Streamia.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TrialAccount")
+                        .HasColumnType("bit");
+
+                    b.Property<long>("TrialDays")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");

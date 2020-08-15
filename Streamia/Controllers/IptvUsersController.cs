@@ -13,7 +13,6 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-   
     public class IptvUsersController : Controller
     {
         public IEnumerable<Bouquet> Bouquets { get; set; }
@@ -38,7 +37,6 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        [Authorize(Policy = "")]
         public async Task<IActionResult> Add()
         {
             ViewBag.Bouquets = await bouquetRepository.GetAll();
@@ -46,7 +44,6 @@ namespace Streamia.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "CanAddIPTVUser")]
         public async Task<IActionResult> Add(IptvUser model)
         {
             if (ModelState.IsValid)

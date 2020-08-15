@@ -11,7 +11,6 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-    [Authorize(Roles ="Admin")]
     public class BouquetsController : Controller
     {
         private readonly IRepository<Bouquet> bouquetRepository;

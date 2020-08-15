@@ -11,7 +11,6 @@ using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
-    [Authorize(Roles ="Admin")]
     public class CategoriesController : Controller
     {
         private readonly IRepository<Category> categoryRepository;
