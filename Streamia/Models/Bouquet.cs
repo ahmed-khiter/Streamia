@@ -35,6 +35,7 @@ namespace Streamia.Models
         public ICollection<BouquetMovie> BouquetMovies { get; set; }
         public ICollection<BouquetSeries> BouquetSeries { get; set; }
         public ICollection<BouquetChannel> BouquetChannels { get; set; }
+        public ICollection<ResellerBouquet> ResellerBouquets { get; set; }
 
         public Bouquet()
         {

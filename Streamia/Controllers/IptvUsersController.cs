@@ -61,6 +61,7 @@ namespace Streamia.Controllers
                     if (totalCharge > user.Credit)
                     {
                         ModelState.AddModelError(string.Empty, "Your credit is not enough to create this user");
+                        ViewBag.Bouquets = await bouquetRepository.GetAll();
                         return View(model);
                     }
 

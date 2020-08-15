@@ -45,16 +45,21 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label asp-for="TrialAccount"></label>
             <div>
                 <input asp-for="TrialAccount" class="js-switch" />
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <label asp-for="TrialDays"></label>
             <input asp-for="TrialDays" class="form-control"/>
             <span class="text-danger" asp-validation-for="TrialDays"></span>
+        </div>
+        <div class="col-md-4">
+            <label asp-for="BouquetIds"></label>
+            <select class="form-control" asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets, "Id", "Name"))"></select>
+            <span class="text-danger" asp-validation-for="BouquetIds"></span>
         </div>
     </div>
     <hr />

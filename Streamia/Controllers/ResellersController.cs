@@ -14,6 +14,7 @@ using System.Net;
 using Microsoft.AspNetCore.Mvc.Diagnostics;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
+using Streamia.Models.Interfaces;
 
 namespace Streamia.Controllers
 {
@@ -21,20 +22,24 @@ namespace Streamia.Controllers
     {
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
+        private readonly IRepository<Bouquet> bouquetRepository;
 
         public ResellersController
         (
             UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager
+            SignInManager<AppUser> signInManager,
+            IRepository<Bouquet> bouquetRepository
         )
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.bouquetRepository = bouquetRepository;
         }
 
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
+            ViewBag.Bouquets = await bouquetRepository.GetAll();
             return View(new RegisterViewModel());
         }
 
@@ -67,6 +72,17 @@ namespace Streamia.Controllers
                     }
 
                     user.TrialDays = model.TrialDays;
+                }
+
+                user.ResellerBouquets = new List<ResellerBouquet>();
+
+                foreach (var bouquetId in model.BouquetIds)
+                {
+                    user.ResellerBouquets.Add(new ResellerBouquet
+                    {
+                        ResellerId = user.Id,
+                        BouquetId = bouquetId
+                    });
                 }
 
                 var createResult = await userManager.CreateAsync(user, model.Password);

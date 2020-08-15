@@ -21,5 +21,6 @@ namespace Streamia.Models
         public bool TrialAccount { get; set; }
         public uint TrialDays { get; set; }
         public DateTime CreationDateTime { get; set; } = DateTime.Now;
+        public ICollection<ResellerBouquet> ResellerBouquets { get; set; }
     }
 }

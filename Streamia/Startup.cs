@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Streamia.Helpers;
 using Streamia.Middlewares;
 using Streamia.Models;
 using Streamia.Models.Contexts;
@@ -57,7 +58,6 @@ namespace Streamia
             options.UseSqlServer(Configuration.GetConnectionString("StreamiaMasterSQL")));
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-
             services.AddSingleton(typeof(IRemoteConnection), typeof(SshContainer));
 
             services.AddControllersWithViews(config =>

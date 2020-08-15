@@ -140,16 +140,21 @@ namespace Streamia.Models.Extensions
                 .HasForeignKey(ss => ss.ChannelId)
                 .OnDelete(DeleteBehavior.NoAction);
 
-            // admin setting
-            //modelBuilder.Entity<Setting>().HasKey(m => new { m.AdminUserId });
-            //modelBuilder.Entity<Setting>().Ignore(m => m.Id);
+            // reseller bouquets
+            modelBuilder.Entity<ResellerBouquet>().HasKey(m => new { m.ResellerId, m.BouquetId });
+            modelBuilder.Entity<ResellerBouquet>().Ignore(m => m.Id);
 
-            //modelBuilder.Entity<AppUser>()
-            //    .HasOne(ss => ss.Setting)
-            //    .WithOne(ss => ss.AdminUser)
-            //    .HasForeignKey<Setting>(ss => ss.AdminUserId)
-            //    .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<ResellerBouquet>()
+                .HasOne(ss => ss.Bouquet)
+                .WithMany(ss => ss.ResellerBouquets)
+                .HasForeignKey(ss => ss.BouquetId)
+                .OnDelete(DeleteBehavior.NoAction);
 
+            modelBuilder.Entity<ResellerBouquet>()
+                .HasOne(ss => ss.Reseller)
+                .WithMany(ss => ss.ResellerBouquets)
+                .HasForeignKey(ss => ss.ResellerId)
+                .OnDelete(DeleteBehavior.NoAction);
         }  
     }
 }

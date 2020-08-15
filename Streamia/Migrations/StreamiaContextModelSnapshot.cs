@@ -857,6 +857,21 @@ namespace Streamia.Migrations
                     b.ToTable("MovieServers");
                 });
 
+            modelBuilder.Entity("Streamia.Models.ResellerBouquet", b =>
+                {
+                    b.Property<string>("ResellerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("BouquetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ResellerId", "BouquetId");
+
+                    b.HasIndex("BouquetId");
+
+                    b.ToTable("ResellerBouquet");
+                });
+
             modelBuilder.Entity("Streamia.Models.Series", b =>
                 {
                     b.Property<int>("Id")
@@ -1395,6 +1410,21 @@ namespace Streamia.Migrations
                     b.HasOne("Streamia.Models.Server", "Server")
                         .WithMany("MovieServers")
                         .HasForeignKey("ServerId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Streamia.Models.ResellerBouquet", b =>
+                {
+                    b.HasOne("Streamia.Models.Bouquet", "Bouquet")
+                        .WithMany("ResellerBouquets")
+                        .HasForeignKey("BouquetId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Streamia.Models.AppUser", "Reseller")
+                        .WithMany("ResellerBouquets")
+                        .HasForeignKey("ResellerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });

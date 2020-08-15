@@ -48,5 +48,9 @@ namespace Streamia.ViewModels
         [Display(Name = "Lock STB Device")]
         public bool LockSTB { get; set; }
         public bool Restream { get; set; }
+
+        [Required]
+        [Display(Name = "Bouquets")]
+        public int[] BouquetIds { get; set; }
     }
 }

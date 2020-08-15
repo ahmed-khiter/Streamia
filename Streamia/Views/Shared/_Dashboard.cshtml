@@ -1,4 +1,5 @@
 ﻿@inject SignInManager<AppUser> signInManager;
+@inject UserManager<AppUser> userManager;
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,6 +105,11 @@
                             }
                         </div>
                         <div class="col-md-4 text-right">
+                            @if (((ClaimsIdentity) User.Identity).HasClaim("IsReseller", "true"))
+                            {
+                                var user = await userManager.GetUserAsync(User);
+                                <strong class="text-success">$@user.Credit</strong>
+                            }
                             <span class="profile-name">@(User.Identity.Name ?? "BETA BUILD")</span>
                             <form class="d-inline" method="post" asp-controller="account" asp-action="logout">
                                 <button class="btn btn-outline-danger">Logout</button>
