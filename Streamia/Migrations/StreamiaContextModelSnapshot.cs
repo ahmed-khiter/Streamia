@@ -864,18 +864,6 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("OrderId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PayerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PaymentToken")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<long>("Points")
                         .HasColumnType("bigint");
 
@@ -884,6 +872,9 @@ namespace Streamia.Migrations
 
                     b.Property<DateTime>("TransactionDateTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("TransactionId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

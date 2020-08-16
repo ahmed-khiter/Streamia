@@ -16,6 +16,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Streamia.Models.Interfaces;
 using Streamia.Models.ViewModels;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Streamia.Controllers
 {
@@ -25,19 +26,22 @@ namespace Streamia.Controllers
         private readonly SignInManager<AppUser> signInManager;
         private readonly IRepository<Bouquet> bouquetRepository;
         private readonly IRepository<Setting> settingRepository;
+        private readonly IRepository<Recharge> rechargeRepository;
 
         public ResellersController
         (
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             IRepository<Bouquet> bouquetRepository,
-            IRepository<Setting> settingRepository
+            IRepository<Setting> settingRepository,
+            IRepository<Recharge> rechargeRepository
         )
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.bouquetRepository = bouquetRepository;
             this.settingRepository = settingRepository;
+            this.rechargeRepository = rechargeRepository;
         }
 
         [HttpGet]
@@ -141,6 +145,31 @@ namespace Streamia.Controllers
         {
             var settings = await settingRepository.GetById(1);
             return View(new RechargeViewModel { Setting = settings });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Recharge(RechargeViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                // LOGIC NEEDED TO MAKE SURE TRANSACTION EXISTS ON PAYPAL
+                var user = await userManager.GetUserAsync(User);
+
+                var recharge = new Recharge
+                {
+                    ResellerId = user.Id,
+                    TransactionId = model.TransactionId,
+                    Points = model.Points
+                };
+
+                user.Credit = model.Points;
+
+                await rechargeRepository.Add(recharge);
+                await userManager.UpdateAsync(user);
+
+                return RedirectToAction("Dashboard", "Home");
+            }
+            return View(model);
         }
     }
 }

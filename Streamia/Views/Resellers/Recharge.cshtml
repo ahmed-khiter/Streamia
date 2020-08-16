@@ -5,26 +5,25 @@
 }
 
 <pre class="pre">
-    Price: <strong>$@Model.Setting.PointPrice.ToString("0.0")</strong>
+    Price per 1 point: <strong>$@Model.Setting.PointPrice.ToString("0.0")</strong>
 </pre>
+
+<div class="alert alert-success d-none">
+    <i class="fas fa-check"></i> You have successfully recharged your credit, Please wait while finalizing payment... <i class="fas fa-hourglass-half"></i>
+</div>
 
 <div class="payment-container">
     <div class="payment-loader text-center">
         <i class="fa fa-fw fa-spinner fa-3x fa-pulse text-primary"></i>
     </div>
     <form method="post" id="recharge-form">
-        <input type="hidden" asp-for="Recharge.PaymentId" id="PaymentId" />
-        <input type="hidden" asp-for="Recharge.PaymentToken" id="PaymentToken" />
-        <input type="hidden" asp-for="Recharge.PayerId" id="PayerId" />
-        <input type="hidden" asp-for="Recharge.OrderId" id="OrderId" />
-        <input type="hidden" asp-for="Recharge.Points" id="Recharge.Points" />
+        <input type="hidden" asp-for="TransactionId" id="TransactionId" />
         <div class="form-group">
             <label asp-for="Points"></label>
             <input asp-for="Points" class="form-control"/>
             <span class="text-danger" asp-validation-for="Points"></span>
         </div>
     </form>
-
     <div id="paypal-button-container"></div>
 </div>
 
@@ -55,9 +54,9 @@
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    console.warn(details);
-                    document.getElementById('Recharge.Points').value = document.getElementById("Points").value;
-                    alert('Transaction completed by ' + details.payer.name.given_name);
+                    document.querySelector('.alert').classList.remove('d-none');
+                    document.getElementById('TransactionId').value = details["purchase_units"][0]["payments"]["captures"][0]["id"];
+                    document.getElementById('recharge-form').submit();
                 }).catch(() => { });
             },
             onError: function (err) {
