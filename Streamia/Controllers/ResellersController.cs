@@ -162,7 +162,7 @@ namespace Streamia.Controllers
                     Points = model.Points
                 };
 
-                user.Credit = model.Points;
+                user.Credit += model.Points;
 
                 await rechargeRepository.Add(recharge);
                 await userManager.UpdateAsync(user);

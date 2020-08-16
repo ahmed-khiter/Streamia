@@ -114,7 +114,7 @@
                             @if (((ClaimsIdentity) User.Identity).HasClaim("IsReseller", "true"))
                             {
                                 var user = await userManager.GetUserAsync(User);
-                                <strong class="text-success">$@user.Credit</strong>
+                                <strong class="text-success">Credit: @user.Credit</strong> <span>|</span>
                             }
                             <span class="profile-name">@(User.Identity.Name ?? "BETA BUILD")</span>
                             <form class="d-inline" method="post" asp-controller="account" asp-action="logout">

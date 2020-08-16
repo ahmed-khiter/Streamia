@@ -57,7 +57,7 @@
                     document.querySelector('.alert').classList.remove('d-none');
                     document.getElementById('TransactionId').value = details["purchase_units"][0]["payments"]["captures"][0]["id"];
                     document.getElementById('recharge-form').submit();
-                }).catch(() => { });
+                });
             },
             onError: function (err) {
                 toggleLoader(false);
