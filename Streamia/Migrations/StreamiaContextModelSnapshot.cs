@@ -857,6 +857,41 @@ namespace Streamia.Migrations
                     b.ToTable("MovieServers");
                 });
 
+            modelBuilder.Entity("Streamia.Models.Recharge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("OrderId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PayerId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PaymentToken")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("Points")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("ResellerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("TransactionDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResellerId");
+
+                    b.ToTable("Recharges");
+                });
+
             modelBuilder.Entity("Streamia.Models.ResellerBouquet", b =>
                 {
                     b.Property<string>("ResellerId")
@@ -869,7 +904,7 @@ namespace Streamia.Migrations
 
                     b.HasIndex("BouquetId");
 
-                    b.ToTable("ResellerBouquet");
+                    b.ToTable("ResellerBouquets");
                 });
 
             modelBuilder.Entity("Streamia.Models.Series", b =>
@@ -983,10 +1018,10 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("PointsPerCreatedUser")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("PointPrice")
+                        .HasColumnType("decimal(18,4)");
 
-                    b.Property<long>("PointsPerMoney")
+                    b.Property<long>("PointsPerCreatedUser")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -997,8 +1032,8 @@ namespace Streamia.Migrations
                         new
                         {
                             Id = 1,
-                            PointsPerCreatedUser = 10L,
-                            PointsPerMoney = 100L
+                            PointPrice = 0.1m,
+                            PointsPerCreatedUser = 10L
                         });
                 });
 
@@ -1412,6 +1447,13 @@ namespace Streamia.Migrations
                         .HasForeignKey("ServerId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Streamia.Models.Recharge", b =>
+                {
+                    b.HasOne("Streamia.Models.AppUser", "Reseller")
+                        .WithMany()
+                        .HasForeignKey("ResellerId");
                 });
 
             modelBuilder.Entity("Streamia.Models.ResellerBouquet", b =>

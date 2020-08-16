@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc.Diagnostics;
 using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 using Streamia.Models.Interfaces;
+using Streamia.Models.ViewModels;
 
 namespace Streamia.Controllers
 {
@@ -23,17 +24,20 @@ namespace Streamia.Controllers
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
         private readonly IRepository<Bouquet> bouquetRepository;
+        private readonly IRepository<Setting> settingRepository;
 
         public ResellersController
         (
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            IRepository<Bouquet> bouquetRepository
+            IRepository<Bouquet> bouquetRepository,
+            IRepository<Setting> settingRepository
         )
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
             this.bouquetRepository = bouquetRepository;
+            this.settingRepository = settingRepository;
         }
 
         [HttpGet]
@@ -130,6 +134,13 @@ namespace Streamia.Controllers
         {
             var resellers = await userManager.Users.ToListAsync();
             return View(resellers);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Recharge()
+        {
+            var settings = await settingRepository.GetById(1);
+            return View(new RechargeViewModel { Setting = settings });
         }
     }
 }

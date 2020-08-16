@@ -45,10 +45,13 @@ namespace Streamia.Models.Contexts
 
         public DbSet<BouquetSeries> BouquetSeries { get; set; }
 
+        public DbSet<ResellerBouquet> ResellerBouquets { get; set; }
+
         public DbSet<Transcode> Transcodes { get; set; }
 
         public DbSet<Setting> Settings { get; set; }
 
+        public DbSet<Recharge> Recharges { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

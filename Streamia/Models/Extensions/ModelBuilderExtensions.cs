@@ -155,6 +155,11 @@ namespace Streamia.Models.Extensions
                 .WithMany(ss => ss.ResellerBouquets)
                 .HasForeignKey(ss => ss.ResellerId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            // setting decimal
+            modelBuilder.Entity<Setting>()
+                .Property(p => p.PointPrice)
+                .HasColumnType("decimal(18,4)");
         }  
     }
 }

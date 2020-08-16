@@ -28,7 +28,7 @@ namespace Streamia.Controllers
                 model = await settingRepository.Add(new Setting
                 {
                     Id = 1,
-                    PointsPerMoney = 100,
+                    PointPrice = 0.1m,
                     PointsPerCreatedUser = 10
                 });
             }
@@ -40,6 +40,11 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.PointPrice < 0.1m)
+                {
+                    ModelState.AddModelError("PointPrice", "Price should be at least $0.1");
+                    return View(model);
+                }
                 model.Id = 1;
                 await settingRepository.Edit(model);
             }

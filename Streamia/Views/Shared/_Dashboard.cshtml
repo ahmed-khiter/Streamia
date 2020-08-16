@@ -88,6 +88,12 @@
                         <a asp-controller="settings" asp-action="general"><i class="fa fa-cog"></i> Settings</a>
                     </li>
                 }
+                @if (((ClaimsIdentity)User.Identity).HasClaim("IsReseller", "true"))
+                {
+                    <li>
+                        <a asp-controller="resellers" asp-action="recharge"><i class="fas fa-dollar-sign"></i> Recharge</a>
+                    </li>
+                }
             </ul>
         </nav>
 

@@ -8,13 +8,9 @@ namespace Streamia.Models
 {
     public class Setting : BaseEntity
     {
-        [Display(
-            Name = "Points Per Dollar",
-            Description = "How many points to be added to reseller credit per dollar, EX: 50 points per $1"
-        )]
+        [Display(Name = "Point Price")]
         [Required]
-        [Range(1, uint.MaxValue)]
-        public uint PointsPerMoney { get; set; }
+        public decimal PointPrice { get; set; }
 
         [Required]
         [Range(1, uint.MaxValue)]

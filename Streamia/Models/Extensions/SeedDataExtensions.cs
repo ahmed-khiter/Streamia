@@ -48,7 +48,7 @@ namespace Streamia.Models.Extensions
             modelBuilder.Entity<Setting>().HasData(new Setting
             {
                 Id = 1,
-                PointsPerMoney = 100,
+                PointPrice = 0.1m,
                 PointsPerCreatedUser = 10
             });
         }
