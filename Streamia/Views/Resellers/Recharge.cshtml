@@ -3,7 +3,13 @@
     ViewData["Title"] = "Recharge Credit";
     ViewData["DisableSearch"] = string.Empty;
 }
-
+@section Styles{ 
+    <style>
+        #paypal-button-container {
+            width: 130px
+        }
+    </style>
+}
 <pre class="pre">
     Price per 1 point: <strong>$@Model.Setting.PointPrice.ToString("0.0")</strong>
 </pre>
