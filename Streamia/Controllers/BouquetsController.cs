@@ -96,9 +96,12 @@ namespace Streamia.Controllers
                 }
 
                 await bouquetRepository.Add(model);
+
                 return RedirectToAction(nameof(Manage));
             }
+
             await PrepareViewBag();
+
             return View(model);
         }
 
@@ -106,10 +109,14 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             Bouquet bouquet = await bouquetRepository.GetById(id);
+
             if (bouquet == null)
             {
                 return NotFound();
             }
+
+            await PrepareViewBag();
+
             return View(bouquet);
         }
 
@@ -119,8 +126,12 @@ namespace Streamia.Controllers
             if (ModelState.IsValid)
             {
                 await bouquetRepository.Edit(model);
+
                 return RedirectToAction(nameof(Manage));
             }
+
+            await PrepareViewBag();
+
             return View();
         }
 
@@ -135,6 +146,7 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Manage(string keyword)
         {
             IEnumerable<Bouquet> data;
+
             if (keyword != null)
             {
                 data = await bouquetRepository.Search(m => m.Name.Contains(keyword));
@@ -144,6 +156,7 @@ namespace Streamia.Controllers
             {
                 data = await bouquetRepository.GetAll();
             }
+
             return View(data);
         }
 

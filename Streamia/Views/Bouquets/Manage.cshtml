@@ -1,33 +1,39 @@
 ﻿@model IEnumerable<Streamia.Models.Bouquet>
 @{
-    ViewData["Title"] = "Manage Resellers";
+    ViewData["Title"] = "Manage Bouquets";
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
-
-<div class="row">
-    @foreach (var bouquet in Model)
-    {
-        <div class="col-sm-3 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bold">@bouquet.Name</h5>
-                    <p class="card-text">
-                        Costs: @bouquet.Points point
-                    </p>
-                    <hr />
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@bouquet.Id" title="Edit"><i class="fa fa-edit"></i></a>
-                    <form asp-action="Delete"
-                          asp-route-id="@bouquet.Id"
-                          style="display:inline"
-                          onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-secondary" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    }
+<div class="card">
+    <div class="content">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Points</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    <tr>
+                        <td>@record.Name</td>
+                        <td>@record.Points</td>
+                        <td>
+                            <a class="btn btn-info btn-fill" asp-action="Details" asp-route-id="@record.Id" title="Details"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-warning btn-fill" asp-action="Edit" asp-route-id="@record.Id" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                            <form asp-action="Delete"
+                                  asp-route-id="@record.Id"
+                                  style="display:inline"
+                                  onsubmit="return confirm('Are you sure you want to proceed?')">
+                                <button class="btn btn-danger btn-fill" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
-
