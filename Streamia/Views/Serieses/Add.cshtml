@@ -14,18 +14,16 @@
 
                 <div class="col-md-6">
 
-                    <h4 class="text-info"><i class="fas fa-sliders-h"></i> General</h4>
-
                     <div class="row">
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="CategoryId"></label>
                             <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
                             </select>
                             <span class="text-danger" asp-validation-for="CategoryId"></span>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="BouquetIds"></label>
                             <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
                             <span class="text-danger" asp-validation-for="BouquetIds"></span>
@@ -33,13 +31,9 @@
 
                     </div>
 
-                    <hr />
-
-                    <h4 class="text-info"><i class="fas fa-file-video"></i> Series Data (TMDB Fetched)</h4>
-
                     <div class="row">
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="Name"></label>
                             <div id="searchia">
                                 <input asp-for="Name" class="form-control" autocomplete="off" />
@@ -47,7 +41,7 @@
                             <span class="text-danger" asp-validation-for="Name"></span>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="PosterUrl"></label>
                             <input asp-for="PosterUrl" class="form-control" />
                             <span class="text-danger" asp-validation-for="PosterUrl"></span>
@@ -57,13 +51,13 @@
 
                     <div class="row">
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="Cast"></label>
                             <input asp-for="Cast" class="form-control" />
                             <span class="text-danger" asp-validation-for="Cast"></span>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="Gener"></label>
                             <input asp-for="Gener" class="form-control" />
                             <span class="text-danger" asp-validation-for="Gener"></span>
@@ -73,13 +67,13 @@
 
                     <div class="row">
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="ReleaseDate"></label>
                             <input asp-for="ReleaseDate" class="form-control" />
                             <span class="text-danger" asp-validation-for="ReleaseDate"></span>
                         </div>
 
-                        <div class="form-group col-md-6">
+                        <div class="col-md-6">
                             <label asp-for="Rating"></label>
                             <input asp-for="Rating" class="form-control" />
                             <span class="text-danger" asp-validation-for="Rating"></span>
@@ -89,7 +83,7 @@
 
                     <div class="row">
 
-                        <div class="form-group col-md-12">
+                        <div class="col-md-12">
                             <label asp-for="Overview"></label>
                             <textarea asp-for="Overview" class="form-control"></textarea>
                             <span class="text-danger" asp-validation-for="Overview"></span>
@@ -101,23 +95,10 @@
 
                 <div class="col-md-6">
                     <div id="seasons-area">
-                        @*<div class="text-center" style="padding-top:30vh">
-                            <i class="fas fa-file-video fa-3x text-info"></i>
+                        <div class="text-center" style="padding-top:25vh">
+                            <i class="fas fa-file-video fa-3x text-secondary"></i>
                         </div>
-                        <h3 class="text-info text-center" >Episodes data will show here</h3>*@
-                        <div class="card">
-                            <div class="header">
-                                <div class="row">
-                                    <div class="col-md-8">
-                                        <input type="text" value="Season 1 - 15 Episodes" class="form-control" disabled/>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <button class="btn btn-primary btn-block">Browse</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="content"><div class="alert alert-success">15 Episodes added</div></div>
-                        </div>
+                        <h3 class="text-secondary text-center" >Episodes data will show here</h3>
                     </div>
                 </div>
 
@@ -145,12 +126,6 @@
     <script>
         window.addEventListener('load', function () {
             $('select:not(.ex-server-dropdown)').select2();
-
-            let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-            elems.forEach(function (html) {
-                new Switchery(html);
-            });
         });
 
         let currentSelectedSeason = null;
@@ -185,19 +160,18 @@
                     let episodeCount = season.episode_count;
                     if (seasonNumber > 0) {
                         let template = `
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="mb-0">
-                                        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#season-${seasonNumber}">
-                                            <i class="fa fa-files-o"></i> Season ${seasonNumber} - ${episodeCount} Episodes
-                                        </button>
-                                    </h5>
-                                </div>
-                                <div id="season-${seasonNumber}" class="collapse" data-parent="#seasons-area">
-                                    <div class="card-body">
-                                        <button type="button" class="main-btn" onclick="browse(${seasonNumber},${episodeCount})">
-                                            <i class="fa fa-folder-open"></i> Browse Season ${seasonNumber} Episodes
-                                        </button>
+                            <div class="card" id="season-${seasonNumber}">
+                                <div class="header">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" value="Season ${seasonNumber} - ${episodeCount} Episodes" class="form-control" disabled/>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary btn-block" onclick="browse(${seasonNumber},${episodeCount})">
+                                                <i class="fa fa-folder-open"></i> Browse
+                                            </button>
+                                        </div>
+                                    </div>
                         `;
                         for (let i = 0; i < episodeCount; i++) {
                             let episodeNumber = i + 1;
@@ -215,7 +189,7 @@
                             `;
                             globalEpisodeIndexer++;
                         }
-                        template += '</div></div></div>';
+                        template += '</div></div>';
                         $('#seasons-area').append(template);
                         tmdb.find(`tv/${id}/season/${seasonNumber}`, '', data => {
                             data.episodes.forEach(episode => {
@@ -265,7 +239,7 @@
 
         exploreia.onPickButtonClick(function (files) {
             let season = $(`#season-${currentSelectedSeason}`);
-            season.append(`<span class="text-success">${files.length}</span> episodes selected`);
+            season.append(`<div class="content"><div class="alert alert-success"><i class="fas fa-check"></i> ${files.length} episodes selected</div></div>`);
             files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
                 let episodeNumber = i + 1;
@@ -273,7 +247,7 @@
             });
             exploreia.close();
             if (files.length < currentSelectedSeasonEpisodeCount) {
-                season.append('<div class="alert alert-warning"><i class="fa fa-exclamation-triangle"></i> Please note that selected episodes count are not the same as this season epiosdes count</div>');
+                season.append(`<div class="content"><div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ${files.length} episodes selected don't match season epiosdes count, they will be added anyways</div></div>`);
             }
         });
 
