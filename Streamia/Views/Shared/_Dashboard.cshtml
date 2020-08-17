@@ -1,5 +1,10 @@
 ﻿@inject SignInManager<AppUser> signInManager;
 @inject UserManager<AppUser> userManager;
+@{ 
+    bool userIsAdmin = ((ClaimsIdentity)User.Identity).HasClaim("IsAdmin", "true");
+    bool userIsReseller = ((ClaimsIdentity)User.Identity).HasClaim("IsReseller", "true");
+    bool userIsSubReseller = ((ClaimsIdentity)User.Identity).HasClaim("IsSubReseller", "true");
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,72 +44,95 @@
                             <p>Home</p>
                         </a>
                     </li>
-                    <li>
-                        <a asp-controller="servers" asp-action="manage">
-                            <i class="fas fa-server"></i>
-                            <p>Servers</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="streams" asp-action="manage">
-                            <i class="fas fa-wave-square"></i>
-                            <p>Streams</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="movies" asp-action="manage">
-                            <i class="fas fa-film"></i>
-                            <p>Movies</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="serieses" asp-action="manage">
-                            <i class="fas fa-file-video"></i>
-                            <p>Serieses</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="channels" asp-action="manage">
-                            <i class="fas fa-tv"></i>
-                            <p>Channels</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="transcodes" asp-action="manage">
-                            <i class="fas fa-code"></i>
-                            <p>Transcodes</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="categories" asp-action="manage">
-                            <i class="fas fa-tags"></i>
-                            <p>Categories</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="bouquets" asp-action="manage">
-                            <i class="fas fa-cubes"></i>
-                            <p>Bouquets</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="iptvusers" asp-action="manage">
-                            <i class="fas fa-users"></i>
-                            <p>IPTV Users</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="resellers" asp-action="manage">
-                            <i class="fas fa-users-slash"></i>
-                            <p>Resellers</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-controller="settings" asp-action="general">
-                            <i class="fas fa-cog"></i>
-                            <p>Settings</p>
-                        </a>
-                    </li>
+
+                    @if (userIsAdmin)
+                    {
+                        <li>
+                            <a asp-controller="servers" asp-action="manage">
+                                <i class="fas fa-server"></i>
+                                <p>Servers</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="streams" asp-action="manage">
+                                <i class="fas fa-wave-square"></i>
+                                <p>Streams</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="movies" asp-action="manage">
+                                <i class="fas fa-film"></i>
+                                <p>Movies</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="serieses" asp-action="manage">
+                                <i class="fas fa-file-video"></i>
+                                <p>Serieses</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="channels" asp-action="manage">
+                                <i class="fas fa-tv"></i>
+                                <p>Channels</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="transcodes" asp-action="manage">
+                                <i class="fas fa-code"></i>
+                                <p>Transcodes</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="categories" asp-action="manage">
+                                <i class="fas fa-tags"></i>
+                                <p>Categories</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="bouquets" asp-action="manage">
+                                <i class="fas fa-cubes"></i>
+                                <p>Bouquets</p>
+                            </a>
+                        </li>
+                    }
+
+                    @if (userIsReseller || userIsAdmin)
+                    {
+                        <li>
+                            <a asp-controller="iptvusers" asp-action="manage">
+                                <i class="fas fa-users"></i>
+                                <p>IPTV Users</p>
+                            </a>
+                        </li>
+                    }
+
+                    @if (userIsReseller)
+                    {
+                        <li>
+                            <a asp-controller="resellers" asp-action="recharge">
+                                <i class="fas fa-dollar-sign"></i>
+                                <p>Recharge</p>
+                            </a>
+                        </li>
+                    }
+
+                    @if (userIsAdmin)
+                    {
+                        <li>
+                            <a asp-controller="resellers" asp-action="manage">
+                                <i class="fas fa-users-cog"></i>
+                                <p>Resellers</p>
+                            </a>
+                        </li>
+                        <li>
+                            <a asp-controller="settings" asp-action="general">
+                                <i class="fas fa-cog"></i>
+                                <p>Settings</p>
+                            </a>
+                        </li>
+                    }
+
                 </ul>
             </div>
             <div class="sidebar-background" style="background-image: url('/images/background.jpg')"></div>
@@ -156,6 +184,13 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
+                            @if (userIsReseller)
+                            {
+                                var user = await userManager.GetUserAsync(User);
+                                <li>
+                                    <a onclick="event.preventDefault()">Credit: @user.Credit</a>
+                                </li>
+                            }
                             <li>
                                 <a onclick="event.preventDefault()">@User.Identity.Name</a>
                             </li>
