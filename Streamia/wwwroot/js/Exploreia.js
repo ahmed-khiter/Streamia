@@ -37,7 +37,7 @@
 
         if (this.options.pickDirectory === true) {
             exPickButton = document.createElement('button');
-            exPickButton.classList.add('main-btn', 'ex-hidden');
+            exPickButton.classList.add('btn', 'btn-success', 'btn-fill', 'ex-hidden');
             exPickButton.innerHTML = '<i class="fa fa-check"></i> Select this folder';
             exButtons.appendChild(exPickButton);
             this.pickButton = exPickButton;

@@ -106,7 +106,7 @@
 
             <hr />
 
-            <button class="btn btn-success">
+            <button class="btn btn-success btn-fill">
                 <i class="fas fa-check"></i> Add
             </button>
 
@@ -167,7 +167,7 @@
                                             <input type="text" value="Season ${seasonNumber} - ${episodeCount} Episodes" class="form-control" disabled/>
                                         </div>
                                         <div class="col-md-4">
-                                            <button class="btn btn-primary btn-block" onclick="browse(${seasonNumber},${episodeCount})">
+                                            <button type="button" class="btn btn-primary btn-block" onclick="browse(${seasonNumber},${episodeCount})">
                                                 <i class="fa fa-folder-open"></i> Browse
                                             </button>
                                         </div>
@@ -239,7 +239,6 @@
 
         exploreia.onPickButtonClick(function (files) {
             let season = $(`#season-${currentSelectedSeason}`);
-            season.append(`<div class="content"><div class="alert alert-success"><i class="fas fa-check"></i> ${files.length} episodes selected</div></div>`);
             files.forEach((file, i) => {
                 let fullFilePath = exploreia.createFullServerFilePath(file);
                 let episodeNumber = i + 1;
@@ -248,6 +247,8 @@
             exploreia.close();
             if (files.length < currentSelectedSeasonEpisodeCount) {
                 season.append(`<div class="content"><div class="alert alert-warning"><i class="fas fa-exclamation-triangle"></i> ${files.length} episodes selected don't match season epiosdes count, they will be added anyways</div></div>`);
+            } else {
+                season.append(`<div class="content"><div class="alert alert-success"><i class="fas fa-check"></i> ${files.length} episodes selected</div></div>`);
             }
         });
 
