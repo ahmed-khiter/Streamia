@@ -3,61 +3,71 @@
     ViewData["Title"] = "Manage Streams";
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
+<div class="card">
+    <div class="content">
 
-<div class="row">
-    @foreach (var stream in Model)
-    {
-        string stateClass = "danger";
-        string iconName = null;
-        int currentStreamState = (int)StreamState.Live;
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    string stateClass = "danger";
+                    string iconName = null;
+                    int currentStreamState = (int)StreamState.Live;
 
-        if (stream.State == StreamState.Live)
-        {
-            stateClass = "success";
-        }
+                    if (record.State == StreamState.Live)
+                    {
+                        stateClass = "success";
+                    }
 
-        if (stream.State == StreamState.Live)
-        {
-            iconName = "pause";
-            currentStreamState = (int)StreamState.Stopped;
-        }
-        else if (stream.State == StreamState.Stopped)
-        {
-            iconName = "play";
-            currentStreamState = (int)StreamState.Live;
-        }
-        <div class="col-sm-3 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bold">@stream.Name</h5>
-                    <p class="card-text">
-                        <div id="@stream.Id" class="text-secondary">
-                            <i class="fa fa-circle text-@stateClass"></i> @stream.State
-                        </div>
-                    </p>
-                    <hr />
-                    <button id="btn-@stream.Id"
-                            class="stream-state-btn btn btn-secondary"
-                            data-stream-id="@stream.Id"
-                            data-stream-state="@currentStreamState"
-                            title="Start / Stop Stream">
-                        <i class="fa fa-@iconName"></i>
-                    </button>
-                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@stream.Id" title="Info"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@stream.Id" title="Edit"><i class="fa fa-edit"></i></a>
-                    <form asp-action="Delete"
-                          asp-route-id="@stream.Id"
-                          style="display:inline"
-                          onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-secondary" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    }
+                    if (record.State == StreamState.Live)
+                    {
+                        iconName = "pause";
+                        currentStreamState = (int)StreamState.Stopped;
+                    }
+                    else if (record.State == StreamState.Stopped)
+                    {
+                        iconName = "play";
+                        currentStreamState = (int)StreamState.Live;
+                    }
+                    <tr>
+                        <td>@record.Name</td>
+                        <td>@record.Category.Name</td>
+                        <td id="@record.Id">
+                            <i class="fa fa-circle text-@stateClass"></i> @record.State
+                        </td>
+                        <td>
+                            <button id="btn-@record.Id"
+                                    class="stream-state-btn btn btn-secondary"
+                                    data-stream-id="@record.Id"
+                                    data-stream-state="@currentStreamState"
+                                    title="Start / Stop Stream">
+                                <i class="fas fa-@iconName"></i>
+                            </button>
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@record.Id" title="Details"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@record.Id" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                            <form asp-action="Delete"
+                                  asp-route-id="@record.Id"
+                                  style="display:inline"
+                                  onsubmit="return confirm('Are you sure you want to proceed?')">
+                                <button class="btn btn-danger" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
 </div>
 
 @section Scripts {

@@ -1,115 +1,93 @@
 ﻿@model Stream
 @{
-    ViewData["Title"] = "Edit Stream";
+    ViewData["Title"] = "Add Stream";
 }
 
 @section Styles {
     <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
+<div class="card">
+    <div class="content">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            <div class="row">
+                <div class="col-md-4">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
+                    </select>
+                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="TranscodeId"></label>
+                    <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles,"Id","Name"))" class="form-control">
+                        <option value="0" selected>Stream Directly (No Processing)</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <label asp-for="BouquetIds"></label>
+                    <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="BouquetIds"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="ServerIds"></label>
+                    <select asp-for="ServerIds" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="ServerIds"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="Delay"></label>
+                    <input asp-for="Delay" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Delay"></span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label asp-for="Source"></label>
+                    <input asp-for="Source" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Source"></span>
+                </div>
+            </div>
 
-<form method="post">
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="StreamKey" />
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <input asp-for="EnablePts" />
+                    <label asp-for="EnablePts"></label>
+                </div>
+                <div class="form-group col-md-3">
+                    <input asp-for="EnableRtmp" />
+                    <label asp-for="EnableRtmp"></label>
+                </div>
+                <div class="form-group col-md-3">
+                    <input asp-for="Record" />
+                    <label asp-for="Record"></label>
+                </div>
+                <div class="form-group col-md-3">
+                    <input asp-for="StartNow" />
+                    <label asp-for="StartNow"></label>
+                </div>
+            </div>
 
-    <h6 class="font-weight-bold text-primary"><i class="fa fa-info-circle"></i> Information</h6>
+            <hr />
 
-    <div class="row">
-        <div class="form-group col-md-4">
-            <label asp-for="Name"></label>
-            <input asp-for="Name" class="form-control" />
-            <span class="text-danger" asp-validation-for="Name"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="CategoryId"></label>
-            <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
-            </select>
-            <span class="text-danger" asp-validation-for="CategoryId"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="TranscodeId"></label>
-            <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles,"Id","Name"))" class="form-control">
-                <option value="0" selected>Stream Directly (No Processing)</option>
-            </select>
-            <span class="text-danger" asp-validation-for="CategoryId"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="BouquetIds"></label>
-            <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
-            <span class="text-danger" asp-validation-for="BouquetIds"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="ServerIds"></label>
-            <select asp-for="ServerIds" asp-items="@(new SelectList(ViewBag.Servers,"Id","Name"))" class="form-control" multiple></select>
-            <span class="text-danger" asp-validation-for="ServerIds"></span>
-        </div>
-        <div class="form-group col-md-4">
-            <label asp-for="Delay"></label>
-            <input asp-for="Delay" class="form-control" />
-            <span class="text-danger" asp-validation-for="Delay"></span>
-        </div>
-        <div class="form-group col-md-12">
-            <label asp-for="Source"></label>
-            <input asp-for="Source" class="form-control" />
-            <span class="text-danger" asp-validation-for="Source"></span>
-        </div>
+            <button class="btn btn-success">
+                <i class="fas fa-check"></i> Add
+            </button>
+
+        </form>
     </div>
+</div>
 
-    <hr />
-
-    <h6 class="font-weight-bold text-primary"><i class="fa fa-sliders"></i> Options</h6>
-
-    <div class="row">
-        <div class="form-group col-md-3">
-            <label asp-for="EnablePts"></label>
-            <div>
-                <input asp-for="EnablePts" class="js-switch" />
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="EnableRtmp"></label>
-            <div>
-                <input asp-for="EnableRtmp" class="js-switch" />
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="Record"></label>
-            <div>
-                <input asp-for="Record" class="js-switch" />
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="StartNow"></label>
-            <div>
-                <input asp-for="StartNow" class="js-switch" />
-            </div>
-        </div>
-    </div>
-
-    <hr />
-
-    <button class="main-btn">
-        <i class="fa fa-pencil"></i> Edit
-    </button>
-
-</form>
 @section Scripts {
     <script src="~/lib/select2/js/select2.full.min.js"></script>
-    <script src="~/lib/switchery/switchery.js"></script>
     <script>
-        $('select:not(#Stream_Category)').select2({
-            theme: 'bootstrap4'
-        });
-
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-        elems.forEach(function (html) {
-            new Switchery(html);
-        });
+        $('select').select2();
     </script>
 }
-
-

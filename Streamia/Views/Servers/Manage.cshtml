@@ -18,19 +18,19 @@
             <tbody>
                 @foreach (var record in Model)
                 {
+                    string stateClass = "warning";
+                    if (record.ServerState == ServerState.Online)
+                    {
+                        stateClass = "success";
+                    }
+                    else if (record.ServerState == ServerState.Offline || record.ServerState == ServerState.ConfigureFailed)
+                    {
+                        stateClass = "danger";
+                    }
                     <tr>
                         <td>@record.Name</td>
                         <td>@record.Ip</td>
                         <td id="@record.Id">
-                            @{ string stateClass = "warning"; }
-                            @if (record.ServerState == ServerState.Online)
-                            {
-                                stateClass = "success";
-                            }
-                            else if (record.ServerState == ServerState.Offline || record.ServerState == ServerState.ConfigureFailed)
-                            {
-                                stateClass = "danger";
-                            }
                             <i class="fa fa-circle text-@stateClass"></i> @record.ServerState
                         </td>
                         <td>
