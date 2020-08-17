@@ -48,8 +48,6 @@ namespace Streamia
             .AddEntityFrameworkStores<StreamiaContext>()
             .AddDefaultTokenProviders();
 
-            services.AddRazorPages();
-
             services.AddMvc();
 
             services.AddSignalR(options => options.EnableDetailedErrors = true);
@@ -66,7 +64,7 @@ namespace Streamia
                                  .RequireAuthenticatedUser()
                                  .Build();
                 config.Filters.Add(new AuthorizeFilter(policy));
-            });
+            }).AddRazorRuntimeCompilation();
 
             services.AddAuthorization(options =>
             {
