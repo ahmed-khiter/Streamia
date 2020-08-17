@@ -60,6 +60,7 @@ button.close {
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     font-weight: 300;
+    margin: 0;
 }
 
 h1, .h1 {
@@ -133,6 +134,10 @@ h1 .subtitle {
 
 .text-danger, .text-danger:hover {
     color: #FF4A55 !important;
+}
+
+.alert {
+    margin: 0;
 }
 
 /*     General overwrite     */
@@ -2243,7 +2248,7 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .card .header {
-    padding: 15px 15px 0;
+    padding: 0 10px 0;
 }
 
 .card .category,

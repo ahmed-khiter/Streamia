@@ -5,119 +5,146 @@
 
 @section Styles {
     <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
-
-<form method="post" id="series-form">
-    <div class="row">
-
-        <div class="col-md-6">
-
-            <h6 class="font-weight-bold text-primary"><i class="fa fa-sliders"></i> General</h6>
-
+<div class="card">
+    <div class="content">
+        <form method="post" id="series-form">
             <div class="row">
 
-                <div class="form-group col-md-6">
-                    <label asp-for="CategoryId"></label>
-                    <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
-                    </select>
-                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                <div class="col-md-6">
+
+                    <h4 class="text-info"><i class="fas fa-sliders-h"></i> General</h4>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="CategoryId"></label>
+                            <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control">
+                            </select>
+                            <span class="text-danger" asp-validation-for="CategoryId"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="BouquetIds"></label>
+                            <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
+                            <span class="text-danger" asp-validation-for="BouquetIds"></span>
+                        </div>
+
+                    </div>
+
+                    <hr />
+
+                    <h4 class="text-info"><i class="fas fa-file-video"></i> Series Data (TMDB Fetched)</h4>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="Name"></label>
+                            <div id="searchia">
+                                <input asp-for="Name" class="form-control" autocomplete="off" />
+                            </div>
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="PosterUrl"></label>
+                            <input asp-for="PosterUrl" class="form-control" />
+                            <span class="text-danger" asp-validation-for="PosterUrl"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="Cast"></label>
+                            <input asp-for="Cast" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Cast"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="Gener"></label>
+                            <input asp-for="Gener" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Gener"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="ReleaseDate"></label>
+                            <input asp-for="ReleaseDate" class="form-control" />
+                            <span class="text-danger" asp-validation-for="ReleaseDate"></span>
+                        </div>
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="Rating"></label>
+                            <input asp-for="Rating" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Rating"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="form-group col-md-12">
+                            <label asp-for="Overview"></label>
+                            <textarea asp-for="Overview" class="form-control"></textarea>
+                            <span class="text-danger" asp-validation-for="Overview"></span>
+                        </div>
+
+                    </div>
+
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label asp-for="BouquetIds"></label>
-                    <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
-                    <span class="text-danger" asp-validation-for="BouquetIds"></span>
+                <div class="col-md-6">
+                    <div id="seasons-area">
+                        @*<div class="text-center" style="padding-top:30vh">
+                            <i class="fas fa-file-video fa-3x text-info"></i>
+                        </div>
+                        <h3 class="text-info text-center" >Episodes data will show here</h3>*@
+                        <div class="card">
+                            <div class="header">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <input type="text" value="Season 1 - 15 Episodes" class="form-control" disabled/>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary btn-block">Browse</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content"><div class="alert alert-success">15 Episodes added</div></div>
+                        </div>
+                    </div>
                 </div>
 
             </div>
 
             <hr />
 
-            <h6 class="font-weight-bold text-primary"><i class="fa fa-info-circle"></i> Series Data (TMDB Fetched)</h6>
+            <button class="btn btn-success">
+                <i class="fas fa-check"></i> Add
+            </button>
 
-            <div class="row">
-
-                <div class="form-group col-md-6">
-                    <label asp-for="Name"></label>
-                    <div id="searchia">
-                        <input asp-for="Name" class="form-control" autocomplete="off" />
-                    </div>
-                    <span class="text-danger" asp-validation-for="Name"></span>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label asp-for="PosterUrl"></label>
-                    <input asp-for="PosterUrl" class="form-control" />
-                    <span class="text-danger" asp-validation-for="PosterUrl"></span>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label asp-for="Cast"></label>
-                    <input asp-for="Cast" class="form-control" />
-                    <span class="text-danger" asp-validation-for="Cast"></span>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label asp-for="Gener"></label>
-                    <input asp-for="Gener" class="form-control" />
-                    <span class="text-danger" asp-validation-for="Gener"></span>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label asp-for="ReleaseDate"></label>
-                    <input asp-for="ReleaseDate" class="form-control" />
-                    <span class="text-danger" asp-validation-for="ReleaseDate"></span>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label asp-for="Rating"></label>
-                    <input asp-for="Rating" class="form-control" />
-                    <span class="text-danger" asp-validation-for="Rating"></span>
-                </div>
-
-                <div class="form-group col-md-12">
-                    <label asp-for="Overview"></label>
-                    <textarea asp-for="Overview" class="form-control"></textarea>
-                    <span class="text-danger" asp-validation-for="Overview"></span>
-                </div>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6">
-            <div id="seasons-area">
-                <h2 class="text-secondary text-center" style="padding-top:25vh">Episodes data will show here</h2>
-                <div class="text-center">
-                    <i class="fa fa-info-circle fa-4x text-secondary"></i>
-                </div>
-            </div>
-        </div>
+        </form>
 
     </div>
-    <hr />
-    <button class="main-btn">
-        <i class="fa fa-plus"></i> Add
-    </button>
-</form>
+</div>
+
 
 @section Scripts
 {
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
-    <script src="~/lib/switchery/switchery.js"></script>
     <script src="~/js/Searchia.js" asp-append-version="true"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script>
         window.addEventListener('load', function () {
-            $('select:not(.ex-server-dropdown)').select2({
-                theme: 'bootstrap4'
-            });
+            $('select:not(.ex-server-dropdown)').select2();
 
             let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
 
