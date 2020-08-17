@@ -60,7 +60,6 @@ button.close {
 
 h1, .h1, h2, .h2, h3, .h3, h4, .h4 {
     font-weight: 300;
-    margin: 30px 0 15px;
 }
 
 h1, .h1 {
@@ -3186,6 +3185,35 @@ fieldset[disabled] .btn-neutral.active {
     left: 0;
 }
 
+.exploriable {
+    position: relative;
+}
+
+    .exploriable button {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+.payment-container {
+    position: relative;
+}
+
+.payment-container .payment-loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 999999;
+    background-color: rgba(255,255,255,.6);
+    display: none;
+}
+
+.payment-container .payment-loader {
+    padding-top: 50px;
+}
+
 @media (min-width: 992px) {
     .navbar-form {
         margin-top: 21px;
@@ -3262,7 +3290,7 @@ fieldset[disabled] .btn-neutral.active {
     }
 }
 
-/*          Changes for small display      */
+
 @media (max-width: 991px) {
     .main-panel {
         width: 100%;

@@ -3,44 +3,50 @@
     ViewData["Title"] = "Manage Movies";
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
-
-<div class="row">
-    @foreach (var movie in Model)
-    {
-        string stateClass = "warning";
-        if (movie.State == StreamState.Ready)
-        {
-            stateClass = "success";
-        }
-        else if (movie.State == StreamState.Error)
-        {
-            stateClass = "danger";
-        }
-        <div class="col-sm-3 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bold">@movie.Name</h5>
-                    <p class="card-text">
-                        <div id="state-@movie.Id" class="text-secondary">
-                            <i class="fa fa-circle text-@stateClass"></i> @movie.State
-                        </div>
-                    </p>
-                    <hr />
-                    <a class="btn btn-secondary" asp-action="details" asp-route-id="@movie.Id" title="Info"><i class="fa fa-info-circle"></i></a>
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@movie.Id" title="Edit"><i class="fa fa-edit"></i></a>
-                    <form asp-action="Delete"
-                          asp-route-id="@movie.Id"
-                          style="display:inline"
-                          onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-secondary" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    }
+<div class="card">
+    <div class="content">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var record in Model)
+                {
+                    string stateClass = "warning";
+                    if (record.State == StreamState.Ready)
+                    {
+                        stateClass = "success";
+                    }
+                    else if (record.State == StreamState.Error)
+                    {
+                        stateClass = "danger";
+                    }
+                    <tr>
+                        <td>@record.Name</td>
+                        <td>@record.Category.Name</td>
+                        <td id="@record.Id"><i class="fa fa-circle text-@stateClass"></i> @record.State</td>
+                        <td>
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@record.Id" title="Details"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@record.Id" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                            <form asp-action="Delete"
+                                  asp-route-id="@record.Id"
+                                  style="display:inline"
+                                  onsubmit="return confirm('Are you sure you want to proceed?')">
+                                <button class="btn btn-danger" title="Delete">
+                                    <i class="fa fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts {

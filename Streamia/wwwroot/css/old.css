@@ -166,32 +166,3 @@ a svg
     top: 0;
     right: 0;
 }
-
-.exploriable {
-    position: relative;
-}
-
-.exploriable button {
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.payment-container {
-    position: relative;
-}
-
-.payment-container .payment-loader {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 999999;
-    background-color: rgba(255,255,255,.6);
-    display: none;
-}
-
-.payment-container .payment-loader {
-    padding-top: 50px;
-}
