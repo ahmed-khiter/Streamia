@@ -34,7 +34,8 @@
                             <i class="fa fa-circle text-@stateClass"></i> @record.ServerState
                         </td>
                         <td>
-                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@record.Id" title="Edit"><i class="fa fa-edit"></i></a>
+                            <a class="btn btn-info" asp-action="Details" asp-route-id="@record.Id" title="Details"><i class="fas fa-info-circle"></i></a>
+                            <a class="btn btn-warning" asp-action="Edit" asp-route-id="@record.Id" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                             <form asp-action="Delete"
                                   asp-route-id="@record.Id"
                                   style="display:inline"
