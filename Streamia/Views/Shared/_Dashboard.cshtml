@@ -214,7 +214,21 @@
 
             <footer class="footer">
                 <div class="container-fluid">
-                    <p class="copyright">
+                    <nav class="pull-left">
+                        <ul>
+                            <li>
+                                <a asp-action="Add" class="navigation-link">
+                                    <i class="fas fa-plus"></i> Add
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-action="Manage" class="navigation-link">
+                                    <i class="fas fa-list-ol"></i> Manage
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <p class="copyright pull-right">
                         &copy;
                         <script>document.write(new Date().getFullYear())</script> <a href="https://streamia.io">Streamia</a> ALL RIGHTS RESERVED
                     </p>
@@ -246,6 +260,12 @@
                 (currentHref.includes(urlPart) && urlPart != '')
             ) {
                 $(this).parent().addClass('active');
+            }
+        });
+        $('.navigation-link').each(function () {
+            let currentHref = $(this).attr('href').toLowerCase();
+            if (window.location.pathname.toLowerCase() === currentHref) {
+                $(this).addClass('active');
             }
         });
     </script>
