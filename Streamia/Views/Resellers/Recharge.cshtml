@@ -3,6 +3,7 @@
     ViewData["Title"] = "Recharge Credit";
     ViewData["DisableSearch"] = string.Empty;
 }
+
 @section Styles{ 
     <style>
         #paypal-button-container {
@@ -10,29 +11,30 @@
         }
     </style>
 }
-<pre class="pre">
-    Price per 1 point: <strong>$@Model.Setting.PointPrice.ToString("0.0")</strong>
-</pre>
 
-<div class="alert alert-success d-none">
-    <i class="fas fa-check"></i> You have successfully recharged your credit, Please wait while finalizing payment... <i class="fas fa-hourglass-half"></i>
-</div>
-
-<div class="payment-container">
-    <div class="payment-loader text-center">
-        <i class="fa fa-fw fa-spinner fa-3x fa-pulse text-primary"></i>
-    </div>
-    <form method="post" id="recharge-form">
-        <input type="hidden" asp-for="TransactionId" id="TransactionId" />
-        <div class="form-group">
-            <label asp-for="Points"></label>
-            <input asp-for="Points" class="form-control"/>
-            <span class="text-danger" asp-validation-for="Points"></span>
+<div class="card">
+    <div class="content">
+        <span class="label label-default">Price per 1 point: <strong>$@Model.Setting.PointPrice.ToString("0.0")</strong></span>
+        <hr />
+        <div class="payment-container">
+            <div class="alert alert-success" style="display:none">
+                <i class="fas fa-check"></i> You have successfully recharged your credit, Please wait while finalizing payment... <i class="fas fa-hourglass-half"></i>
+            </div>
+            <div class="payment-loader text-center">
+                <i class="fa fa-fw fa-spinner fa-3x fa-pulse text-primary"></i>
+            </div>
+            <form method="post" id="recharge-form">
+                <input type="hidden" asp-for="TransactionId" id="TransactionId" />
+                <div class="form-group">
+                    <label asp-for="Points"></label>
+                    <input asp-for="Points" class="form-control" />
+                    <span class="text-danger" asp-validation-for="Points"></span>
+                </div>
+            </form>
+            <div id="paypal-button-container"></div>
         </div>
-    </form>
-    <div id="paypal-button-container"></div>
+    </div>
 </div>
-
 
 @section Scripts {
     <script src="https://www.paypal.com/sdk/js?client-id=Ad5ZUB4yHxOhwj3t9_bZTGskZfRc6NzN09yyhreebNKWcKLEDLMXZhLeFbc8vUVRfEee45mtr694-ITn"></script>
@@ -60,7 +62,7 @@
             },
             onApprove: function (data, actions) {
                 return actions.order.capture().then(function (details) {
-                    document.querySelector('.alert').classList.remove('d-none');
+                    document.querySelector('.alert').style.display = 'block';
                     document.getElementById('TransactionId').value = details["purchase_units"][0]["payments"]["captures"][0]["id"];
                     document.getElementById('recharge-form').submit();
                 });

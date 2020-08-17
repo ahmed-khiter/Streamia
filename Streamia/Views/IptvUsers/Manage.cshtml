@@ -3,59 +3,62 @@
     ViewData["Title"] = "Manage IPTV Users";
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
-
-<div class="row">
-    @foreach (var iptvUser in Model)
-    {
-        <div class="col-sm-3 mb-3">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title font-weight-bold">@iptvUser.Username</h5>
-                    <p class="card-text">
-                        <div class="text-secondary">
-                            <i class="fa fa-cubes text-primary"></i> Bouquet: @iptvUser.Bouquet.Name
-                        </div>
-                        <div class="text-secondary">
-                            <i class="fa fa-plug text-primary"></i> Connections: @iptvUser.Connections
-                        </div>
-                        <div class="text-secondary">
-                            <i class="fa fa-clock-o text-primary"></i> Subscription: @iptvUser.DaysToExpire
-                        </div>
-                        <div class="text-secondary">
-                            @if (iptvUser.Banned)
+<div class="card">
+    <div class="content">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Bouquet</th>
+                    <th>Connections</th>
+                    <th>Subscription</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var record in Model)
+                {
+                    <tr>
+                        <td>@record.Username</td>
+                        <td>@record.Bouquet.Name</td>
+                        <td>@record.Connections</td>
+                        <td>@record.DaysToExpire</td>
+                        <td>
+                            @if (record.Banned)
                             {
-                                <i class="fa fa-ban text-danger"></i> <span>Banned</span>
+                                <i class="fas fa-ban text-danger"></i> <span>Banned</span>
                             }
                             else
                             {
-                                <i class="fa fa-check text-success"></i> <span>Active</span>
+                                <i class="fas fa-check text-success"></i> <span>Active</span>
                             }
-                        </div>
-                    </p>
-                    <hr />
-                    <a class="btn btn-secondary" asp-action="download" asp-route-id="@iptvUser.Id" title="Download"><i class="fa fa-download"></i></a>
-                    <form asp-action="Ban" asp-route-id="@iptvUser.Id" method="post" style="display:inline">
-                        @if (iptvUser.Banned)
-                        {
-                            <button class="btn btn-secondary" title="Activate"><i class="fa fa-check"></i></button>
-                        }
-                        else
-                        {
-                            <button class="btn btn-secondary" title="Ban"><i class="fa fa-ban"></i></button>
-                        }
-                    </form>
-                    <a class="btn btn-secondary" asp-action="Edit" asp-route-id="@iptvUser.Id" title="Edit"><i class="fa fa-edit"></i></a>
-                    <form asp-action="Delete"
-                          asp-route-id="@iptvUser.Id"
-                          style="display:inline"
-                          onsubmit="return confirm('Are you sure you want to proceed?')">
-                        <button class="btn btn-secondary" title="Delete">
-                            <i class="fa fa-trash"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    }
+                        </td>
+                        <td>
+                            <a class="btn btn-success btn-fill" asp-action="download" asp-route-id="@record.Id" title="Download"><i class="fas fa-download"></i></a>
+                            <form asp-action="Ban" asp-route-id="@record.Id" method="post" style="display:inline">
+                                @if (record.Banned)
+                                {
+                                    <button class="btn btn-success btn-fill" title="Activate"><i class="fas fa-check"></i></button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-danger btn-fill" title="Ban"><i class="fas fa-ban"></i></button>
+                                }
+                            </form>
+                            <a class="btn btn-warning btn-fill" asp-action="Edit" asp-route-id="@record.Id" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+                            <form asp-action="Delete"
+                                  asp-route-id="@record.Id"
+                                  style="display:inline"
+                                  onsubmit="return confirm('Are you sure you want to proceed?')">
+                                <button class="btn btn-danger btn-fill" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

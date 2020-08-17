@@ -5,108 +5,84 @@
 
 @section Styles {
     <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
+<div class="card">
+    <div class="content">
 
-<div asp-validation-summary="All" class="text-danger"></div>
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-<form method="post">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Name"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+        <form method="post">
+            <div class="row">
+                <div class="col-md-3">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="Password"></label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="col-md-3">
+                    <label asp-for="ConfirmPassword"></label>
+                    <input asp-for="ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-4">
+                    <input asp-for="TrialAccount"/>
+                    <label asp-for="TrialAccount"></label>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="TrialDays"></label>
+                    <input asp-for="TrialDays" class="form-control"/>
+                    <span class="text-danger" asp-validation-for="TrialDays"></span>
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="BouquetIds"></label>
+                    <select class="form-control" asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets, "Id", "Name"))"></select>
+                    <span class="text-danger" asp-validation-for="BouquetIds"></span>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="Password"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
+            <div class="row">
+                <div class="col-md-3">
+                    <input asp-for="AddMag" />
+                    <label asp-for="AddMag"></label>
+                </div>
+                <div class="col-md-3">
+                    <input asp-for="AddEnigma" />
+                    <label asp-for="AddEnigma"></label>
+                </div>
+                <div class="col-md-3">
+                    <input asp-for="MonitorMagOnly" />
+                    <label asp-for="MonitorMagOnly"></label>
+                </div>
+                <div class="col-md-3">
+                    <input asp-for="MonitorEnigmaOnly" />
+                    <label asp-for="MonitorEnigmaOnly"></label>
+                </div>
             </div>
-        </div>
-        <div class="col-md-3">
-            <div class="form-group">
-                <label asp-for="ConfirmPassword"></label>
-                <input asp-for="ConfirmPassword" class="form-control" />
-                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-            </div>
-        </div>
+            <hr />
+            <button type="submit" class="btn btn-success btn-fill">
+                <i class="fas fa-check"></i> Add
+            </button>
+        </form>
+
     </div>
-    <div class="row">
-        <div class="col-md-4">
-            <label asp-for="TrialAccount"></label>
-            <div>
-                <input asp-for="TrialAccount" class="js-switch" />
-            </div>
-        </div>
-        <div class="col-md-4">
-            <label asp-for="TrialDays"></label>
-            <input asp-for="TrialDays" class="form-control"/>
-            <span class="text-danger" asp-validation-for="TrialDays"></span>
-        </div>
-        <div class="col-md-4">
-            <label asp-for="BouquetIds"></label>
-            <select class="form-control" asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets, "Id", "Name"))"></select>
-            <span class="text-danger" asp-validation-for="BouquetIds"></span>
-        </div>
-    </div>
-    <hr />
-    <div class="row">
-        <div class="form-group col-md-3">
-            <label asp-for="AddMag"></label>
-            <div>
-                <input asp-for="AddMag" class="js-switch" />
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="AddEnigma"></label>
-            <div>
-                <input asp-for="AddEnigma" class="js-switch" />
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="MonitorMagOnly"></label>
-            <div>
-                <input asp-for="MonitorMagOnly" class="js-switch" />
-            </div>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="MonitorEnigmaOnly"></label>
-            <div>
-                <input asp-for="MonitorEnigmaOnly" class="js-switch" />
-            </div>
-        </div>
-    </div>
-    <hr />
-    <button type="submit" class="main-btn">
-        <i class="fa fa-plus"></i> Add
-    </button>
-</form>
+</div>
 
 @section Scripts {
     <script src="~/lib/select2/js/select2.full.min.js"></script>
-    <script src="~/lib/switchery/switchery.js"></script>
     <script>
-        $('select').select2({
-            theme: 'bootstrap4'
-        });
-
-        var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-
-        elems.forEach(function (html) {
-            new Switchery(html);
+        window.addEventListener('load', function () {
+            $('select').select2();
         });
     </script>
 }
