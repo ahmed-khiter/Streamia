@@ -2041,7 +2041,6 @@ fieldset[disabled] .btn-neutral.active {
 }
 
 .footer:not(.footer-big) nav > ul a {
-    padding: 10px 0px;
     margin: 10px 10px 10px 0px;
 }
 
@@ -3217,6 +3216,14 @@ fieldset[disabled] .btn-neutral.active {
 
 .payment-container .payment-loader {
     padding-top: 50px;
+}
+
+.footer {
+    position: sticky;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
 }
 
 @media (min-width: 992px) {
