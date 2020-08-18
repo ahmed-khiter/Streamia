@@ -22,6 +22,7 @@ namespace Streamia.Controllers
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Transcode> transcodeRepository;
         private readonly IRepository<BouquetChannel> bouquetChannelRepository;
+        private readonly IRepository<ChannelServer> channelServerRepository;
 
         public ChannelsController(
             IRepository<Channel> channelRepository,
@@ -29,7 +30,8 @@ namespace Streamia.Controllers
             IRepository<Server> serverRepository,
             IRepository<Category> categoryRepository,
             IRepository<Transcode> transcodeRepository,
-            IRepository<BouquetChannel> bouquetChannelRepository
+            IRepository<BouquetChannel> bouquetChannelRepository,
+            IRepository<ChannelServer> channelServerRepository
         )
         {
             this.channelRepository = channelRepository;
@@ -38,6 +40,7 @@ namespace Streamia.Controllers
             this.categoryRepository = categoryRepository;
             this.transcodeRepository = transcodeRepository;
             this.bouquetChannelRepository = bouquetChannelRepository;
+            this.channelServerRepository = channelServerRepository;
         }
 
 
@@ -98,6 +101,7 @@ namespace Streamia.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             await bouquetChannelRepository.Delete(m => m.ChannelId == id);
+            await channelServerRepository.Delete(m => m.ChannelId == id);
             await channelRepository.Delete(id);
             return RedirectToAction(nameof(Manage));
         }
