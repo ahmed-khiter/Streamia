@@ -16,6 +16,10 @@ namespace Streamia.Models
 
         public string Source { get; set; }
 
+        public int SourceCount { get; set; }
+
+        public int SourceTranscodedCount { get; set; }
+
         [Required]
         [Display(Name = "Transcode")]
         public override int? TranscodeId { get; set; }

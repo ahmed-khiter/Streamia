@@ -21,13 +21,15 @@ namespace Streamia.Controllers
         private readonly IRepository<Server> serverRepository;
         private readonly IRepository<Category> categoryRepository;
         private readonly IRepository<Transcode> transcodeRepository;
+        private readonly IRepository<BouquetChannel> bouquetChannelRepository;
 
         public ChannelsController(
             IRepository<Channel> channelRepository,
             IRepository<Bouquet> bouquetRepository,
             IRepository<Server> serverRepository,
             IRepository<Category> categoryRepository,
-            IRepository<Transcode> transcodeRepository
+            IRepository<Transcode> transcodeRepository,
+            IRepository<BouquetChannel> bouquetChannelRepository
         )
         {
             this.channelRepository = channelRepository;
@@ -35,6 +37,7 @@ namespace Streamia.Controllers
             this.serverRepository = serverRepository;
             this.categoryRepository = categoryRepository;
             this.transcodeRepository = transcodeRepository;
+            this.bouquetChannelRepository = bouquetChannelRepository;
         }
 
 
@@ -66,7 +69,8 @@ namespace Streamia.Controllers
                     });
                 }
 
-                model.State = StreamState.Live;
+                model.SourceCount = model.SourcePath.Length;
+                model.State = StreamState.Transcoding;
                 model.Source = $"/var/hls/{model.StreamKey}/source_list.txt";
 
                 await channelRepository.Add(model);
@@ -87,6 +91,7 @@ namespace Streamia.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
         {
+            await bouquetChannelRepository.Delete(m => m.ChannelId == id);
             await channelRepository.Delete(id);
             return RedirectToAction(nameof(Manage));
         }
@@ -112,37 +117,33 @@ namespace Streamia.Controllers
                 var client = new SshClient(server.Ip, "root", server.RootPassword);
                 try
                 {
-                    string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
+                    string successCallbackUrl = callbackUrl.Replace("/STATE", string.Empty);
 
-                    var options = new Dictionary<string, string>
-                    {
-                        { "-f", "concat" },
-                        { "-safe", "0" },
-                        { "hls_time", "4" },
-                        { "hls_playlist_type", "event" },
-                        { "hls_flags", "delete_segments" }
-                    };
-
-                    string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, channel.Source, $"/var/hls/{channel.StreamKey}", options);
                     string prepareCommand = $"mkdir /var/hls/{channel.StreamKey}";
                     prepareCommand += $" && cd /var/hls/{channel.StreamKey}";
-                    prepareCommand += " && mkdir 1080p 720p 480p 360p";
+                    prepareCommand += " && mkdir 1080p 720p 480p 360p sources";
 
                     StringBuilder sourcePathString = new StringBuilder();
 
-                    foreach (string path in channel.SourcePath)
+                    for (int i = 0; i < channel.SourcePath.Length; i++)
                     {
-                        sourcePathString.Append($"file {path}\n");
+                        sourcePathString.Append($"file /var/hls/{channel.StreamKey}/sources/{i}.ts");
                     }
 
                     prepareCommand += $" && printf \"{sourcePathString}\" > source_list.txt";
 
                     client.Connect();
                     client.RunCommand(prepareCommand);
-                    var cmd = client.CreateCommand($"nohup {transcoder} >/dev/null 2>&1 & echo $!");
-                    var result = cmd.Execute();
-                    int pid = int.Parse(result);
-                    client.RunCommand($"disown -h {pid}");
+
+                    for (int i = 0; i < channel.SourcePath.Length; i++)
+                    {
+                        string transcoder = FFMPEGCommand.ChannelPrepareCommand(transcodeProfile, channel.SourcePath[i], $"/var/hls/{channel.StreamKey}/sources/{i}.ts");
+                        var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
+                        var result = cmd.Execute();
+                        int pid = int.Parse(result);
+                        client.RunCommand($"disown -h {pid}");
+                    }
+
                     client.Disconnect();
                     client.Dispose();
                 }

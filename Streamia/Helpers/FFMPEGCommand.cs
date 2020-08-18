@@ -85,5 +85,16 @@ namespace Streamia.Helpers
 
             return command.ToString();
         }
+
+        public static string ChannelPrepareCommand(Transcode transcodeProfile, string input, string output)
+        {
+            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -i {input}");
+
+            command.Append($" -c:a {transcodeProfile.AudioCodec ?? "copy"}");
+            command.Append($" -c:v {transcodeProfile.VideoCodec ?? "copy"}");
+            command.Append($" -f mpegts {output}");
+
+            return command.ToString();
+        }
     }
 }

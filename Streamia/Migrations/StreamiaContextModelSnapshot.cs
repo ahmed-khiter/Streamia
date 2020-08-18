@@ -698,6 +698,12 @@ namespace Streamia.Migrations
                     b.Property<string>("Source")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SourceCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SourceTranscodedCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 
@@ -705,6 +711,7 @@ namespace Streamia.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TranscodeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -1418,7 +1425,9 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId");
+                        .HasForeignKey("TranscodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Streamia.Models.ChannelServer", b =>
