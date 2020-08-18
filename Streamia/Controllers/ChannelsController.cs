@@ -80,7 +80,6 @@ namespace Streamia.Controllers
 
                 model.SourceCount = model.SourcePath.Length;
                 model.State = StreamState.Transcoding;
-                model.Source = $"/var/hls/{model.StreamKey}/source_list.txt";
 
                 await channelRepository.Add(model);
 
@@ -128,26 +127,46 @@ namespace Streamia.Controllers
                 try
                 {
                     string successCallbackUrl = callbackUrl.Replace("/STATE", string.Empty);
+                    string streamDirectory = $"/var/hls/{channel.StreamKey}";
+                    string prepareCommand = $"mkdir {streamDirectory}";
 
-                    string prepareCommand = $"mkdir /var/hls/{channel.StreamKey}";
-                    prepareCommand += $" && cd /var/hls/{channel.StreamKey}";
+                    prepareCommand += $" && cd {streamDirectory}";
                     prepareCommand += " && mkdir 1080p 720p 480p 360p sources";
+                    prepareCommand += " && cd sources";
+                    prepareCommand += " && mkdir 1080p 720p 480p 360p";
 
-                    StringBuilder sourcePathString = new StringBuilder();
+                    StringBuilder sourcePathString_1080 = new StringBuilder();
+                    StringBuilder sourcePathString_720 = new StringBuilder();
+                    StringBuilder sourcePathString_480 = new StringBuilder();
+                    StringBuilder sourcePathString_360 = new StringBuilder();
 
                     for (int i = 0; i < channel.SourcePath.Length; i++)
                     {
-                        sourcePathString.Append($"file /var/hls/{channel.StreamKey}/sources/{i}.ts\n");
+                        sourcePathString_1080.Append($"file {streamDirectory}/sources/1080p/{i}.ts\n");
+                        sourcePathString_720.Append($"file {streamDirectory}/sources/720p/{i}.ts\n");
+                        sourcePathString_480.Append($"file {streamDirectory}/sources/480p/{i}.ts\n");
+                        sourcePathString_360.Append($"file {streamDirectory}/sources/360p/{i}.ts\n");
                     }
 
-                    prepareCommand += $" && printf \"{sourcePathString}\" > source_list.txt";
+                    prepareCommand += $" && printf \"{sourcePathString_1080}\" > {streamDirectory}/sources/1080p/source_list.txt";
+                    prepareCommand += $" && printf \"{sourcePathString_720}\" > {streamDirectory}/sources/720p/source_list.txt";
+                    prepareCommand += $" && printf \"{sourcePathString_480}\" > {streamDirectory}/sources/480p/source_list.txt";
+                    prepareCommand += $" && printf \"{sourcePathString_360}\" > {streamDirectory}/sources/360p/source_list.txt";
 
                     client.Connect();
                     client.RunCommand(prepareCommand);
 
                     for (int i = 0; i < channel.SourcePath.Length; i++)
                     {
-                        string transcoder = FFMPEGCommand.ChannelPrepareCommand(transcodeProfile, channel.SourcePath[i], $"/var/hls/{channel.StreamKey}/sources/{i}.ts");
+                        var options = new Dictionary<string, string>
+                        {
+                            { "custom_output", string.Empty },
+                            { "custom_output_1080p", $"{streamDirectory}/sources/1080p/{i}.ts" },
+                            { "custom_output_720p", $"{streamDirectory}/sources/720p/{i}.ts" },
+                            { "custom_output_480p", $"{streamDirectory}/sources/480p/{i}.ts" },
+                            { "custom_output_360p", $"{streamDirectory}/sources/360p/{i}.ts" }
+                        };
+                        string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, channel.SourcePath[i], string.Empty, options);
                         var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
                         var result = cmd.Execute();
                         int pid = int.Parse(result);

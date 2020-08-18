@@ -14,8 +14,6 @@ namespace Streamia.Models
 
         public string Logo { get; set; }
 
-        public string Source { get; set; }
-
         public int SourceCount { get; set; }
 
         public int SourceTranscodedCount { get; set; }
