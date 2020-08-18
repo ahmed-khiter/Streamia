@@ -99,7 +99,7 @@ namespace Streamia.Helpers
 
         public static string ChannelCommand(string input, string output)
         {
-            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -i {input}");
+            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -safe 0 -i {input}");
 
             // 1920x1080
             command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
