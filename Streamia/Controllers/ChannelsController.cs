@@ -67,7 +67,7 @@ namespace Streamia.Controllers
                 }
 
                 model.State = StreamState.Live;
-                model.Source = $"/var/hls/{model.StreamKey}/{model.Name}";
+                model.Source = $"/var/hls/{model.StreamKey}/source_list.txt";
 
                 await channelRepository.Add(model);
 
@@ -117,6 +117,7 @@ namespace Streamia.Controllers
                     var options = new Dictionary<string, string>
                     {
                         { "-f", "concat" },
+                        { "-safe", "0" },
                         { "hls_time", "4" },
                         { "hls_playlist_type", "event" },
                         { "hls_flags", "delete_segments" }
@@ -134,7 +135,7 @@ namespace Streamia.Controllers
                         sourcePathString.Append($"file {path}\n");
                     }
 
-                    prepareCommand += $" && printf {sourcePathString} > {channel.Name}";
+                    prepareCommand += $" && printf \"{sourcePathString}\" > source_list.txt";
 
                     client.Connect();
                     client.RunCommand(prepareCommand);

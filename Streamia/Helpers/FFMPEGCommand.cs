@@ -12,6 +12,7 @@ namespace Streamia.Helpers
         public static string MakeCommand(Transcode transcodeProfile, string input, string output, IDictionary<string, string> options)
         {
             string inputOption = options.ContainsKey("-f") ? $"-f {options["-f"]}" : string.Empty;
+            inputOption += options.ContainsKey("-safe") ? $" -safe {options["-safe"]}" : string.Empty;
             StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner {inputOption} -i {input}");
 
             // 1920x1080
