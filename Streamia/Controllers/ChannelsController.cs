@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Renci.SshNet;
+using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -61,9 +66,17 @@ namespace Streamia.Controllers
                     });
                 }
 
-                model.State = StreamState.Transcoding;
+                model.State = StreamState.Live;
+                model.Source = $"/var/hls/{model.StreamKey}/{model.Name}";
 
                 await channelRepository.Add(model);
+
+                var transcodeProfile = await transcodeRepository.GetById((int)model.TranscodeId);
+                var servers = await serverRepository.Search(m => m.Id == model.ServerId && m.ServerState == ServerState.Online);
+                var host = $"{Request.Scheme}://{Request.Host}";
+                var callbackUrl = $"{host}/api/channelstatus/edit/{model.Id}/STATE";
+                ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, servers, callbackUrl));
+
                 return RedirectToAction(nameof(Manage));
             }
 
@@ -90,6 +103,56 @@ namespace Streamia.Controllers
             ViewBag.Categories = await categoryRepository.Search(m => m.CategoryType == CategoryType.Channels);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
             ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
+        }
+
+        private async void Transcode(Channel channel, Transcode transcodeProfile, IEnumerable<Server> servers, string callbackUrl)
+        {
+            foreach (var server in servers)
+            {
+                var client = new SshClient(server.Ip, "root", server.RootPassword);
+                try
+                {
+                    string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
+
+                    var options = new Dictionary<string, string>
+                    {
+                        { "-f", "concat" },
+                        { "hls_time", "4" },
+                        { "hls_playlist_type", "event" },
+                        { "hls_flags", "delete_segments" }
+                    };
+
+                    string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, channel.Source, $"/var/hls/{channel.StreamKey}", options);
+                    string prepareCommand = $"mkdir /var/hls/{channel.StreamKey}";
+                    prepareCommand += $" && cd /var/hls/{channel.StreamKey}";
+                    prepareCommand += " && mkdir 1080p 720p 480p 360p";
+
+                    StringBuilder sourcePathString = new StringBuilder();
+
+                    foreach (string path in channel.SourcePath)
+                    {
+                        sourcePathString.Append($"file {path}\n");
+                    }
+
+                    prepareCommand += $" && printf {sourcePathString} > {channel.Name}";
+
+                    client.Connect();
+                    client.RunCommand(prepareCommand);
+                    var cmd = client.CreateCommand($"nohup {transcoder} >/dev/null 2>&1 & echo $!");
+                    var result = cmd.Execute();
+                    int pid = int.Parse(result);
+                    client.RunCommand($"disown -h {pid}");
+                    client.Disconnect();
+                    client.Dispose();
+                }
+                catch (Exception)
+                {
+                    string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
+                    var httpClient = new HttpClient();
+                    await httpClient.GetAsync(failCallbackUrl);
+                }
+            }
+
         }
     }
 }

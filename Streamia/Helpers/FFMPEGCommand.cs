@@ -11,7 +11,8 @@ namespace Streamia.Helpers
     {
         public static string MakeCommand(Transcode transcodeProfile, string input, string output, IDictionary<string, string> options)
         {
-            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -i {input}");
+            string inputOption = options.ContainsKey("-f") ? $"-f {options["-f"]}" : string.Empty;
+            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner {inputOption} -i {input}");
 
             // 1920x1080
             command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
