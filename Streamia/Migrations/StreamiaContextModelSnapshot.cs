@@ -367,276 +367,312 @@ namespace Streamia.Migrations
                         new
                         {
                             Id = 4,
-                            CategoryType = 1,
-                            Name = "Action"
+                            CategoryType = 3,
+                            Name = "Science"
                         },
                         new
                         {
                             Id = 5,
-                            CategoryType = 1,
-                            Name = "Adventure"
+                            CategoryType = 3,
+                            Name = "Action"
                         },
                         new
                         {
                             Id = 6,
-                            CategoryType = 1,
-                            Name = "Comedy"
+                            CategoryType = 3,
+                            Name = "News"
                         },
                         new
                         {
                             Id = 7,
-                            CategoryType = 1,
-                            Name = "Crime"
+                            CategoryType = 3,
+                            Name = "Series"
                         },
                         new
                         {
                             Id = 8,
-                            CategoryType = 1,
-                            Name = "Drama"
+                            CategoryType = 3,
+                            Name = "Movies"
                         },
                         new
                         {
                             Id = 9,
-                            CategoryType = 1,
-                            Name = "Fantasy"
+                            CategoryType = 3,
+                            Name = "Documentary"
                         },
                         new
                         {
                             Id = 10,
                             CategoryType = 1,
-                            Name = "Historical"
+                            Name = "Action"
                         },
                         new
                         {
                             Id = 11,
                             CategoryType = 1,
-                            Name = "Horror"
+                            Name = "Adventure"
                         },
                         new
                         {
                             Id = 12,
                             CategoryType = 1,
-                            Name = "Mystery"
+                            Name = "Comedy"
                         },
                         new
                         {
                             Id = 13,
                             CategoryType = 1,
-                            Name = "Philosophical"
+                            Name = "Crime"
                         },
                         new
                         {
                             Id = 14,
                             CategoryType = 1,
-                            Name = "Political"
+                            Name = "Drama"
                         },
                         new
                         {
                             Id = 15,
                             CategoryType = 1,
-                            Name = "Saga"
+                            Name = "Fantasy"
                         },
                         new
                         {
                             Id = 16,
                             CategoryType = 1,
-                            Name = "Thriller"
+                            Name = "Historical"
                         },
                         new
                         {
                             Id = 17,
                             CategoryType = 1,
-                            Name = "Western"
+                            Name = "Horror"
                         },
                         new
                         {
                             Id = 18,
                             CategoryType = 1,
-                            Name = "Crime Thriller"
+                            Name = "Mystery"
                         },
                         new
                         {
                             Id = 19,
                             CategoryType = 1,
-                            Name = "Disaster Thriller"
+                            Name = "Philosophical"
                         },
                         new
                         {
                             Id = 20,
                             CategoryType = 1,
-                            Name = "Psychological Thriller"
+                            Name = "Political"
                         },
                         new
                         {
                             Id = 21,
                             CategoryType = 1,
-                            Name = "Techno Thriller"
+                            Name = "Saga"
                         },
                         new
                         {
                             Id = 22,
                             CategoryType = 1,
-                            Name = "Science Fiction"
+                            Name = "Thriller"
                         },
                         new
                         {
                             Id = 23,
                             CategoryType = 1,
-                            Name = "Suspense"
+                            Name = "Western"
                         },
                         new
                         {
                             Id = 24,
                             CategoryType = 1,
-                            Name = "Animation"
+                            Name = "Crime Thriller"
                         },
                         new
                         {
                             Id = 25,
-                            CategoryType = 2,
-                            Name = "Action"
+                            CategoryType = 1,
+                            Name = "Disaster Thriller"
                         },
                         new
                         {
                             Id = 26,
-                            CategoryType = 2,
-                            Name = "Adventure"
+                            CategoryType = 1,
+                            Name = "Psychological Thriller"
                         },
                         new
                         {
                             Id = 27,
-                            CategoryType = 2,
-                            Name = "Comedy"
+                            CategoryType = 1,
+                            Name = "Techno Thriller"
                         },
                         new
                         {
                             Id = 28,
-                            CategoryType = 2,
-                            Name = "Crime"
+                            CategoryType = 1,
+                            Name = "Science Fiction"
                         },
                         new
                         {
                             Id = 29,
-                            CategoryType = 2,
-                            Name = "Drama"
+                            CategoryType = 1,
+                            Name = "Suspense"
                         },
                         new
                         {
                             Id = 30,
-                            CategoryType = 2,
-                            Name = "Fantasy"
+                            CategoryType = 1,
+                            Name = "Animation"
                         },
                         new
                         {
                             Id = 31,
                             CategoryType = 2,
-                            Name = "Historical"
+                            Name = "Action"
                         },
                         new
                         {
                             Id = 32,
                             CategoryType = 2,
-                            Name = "Horror"
+                            Name = "Adventure"
                         },
                         new
                         {
                             Id = 33,
                             CategoryType = 2,
-                            Name = "Mystery"
+                            Name = "Comedy"
                         },
                         new
                         {
                             Id = 34,
                             CategoryType = 2,
-                            Name = "Philosophical"
+                            Name = "Crime"
                         },
                         new
                         {
                             Id = 35,
                             CategoryType = 2,
-                            Name = "Political"
+                            Name = "Drama"
                         },
                         new
                         {
                             Id = 36,
                             CategoryType = 2,
-                            Name = "Saga"
+                            Name = "Fantasy"
                         },
                         new
                         {
                             Id = 37,
                             CategoryType = 2,
-                            Name = "Thriller"
+                            Name = "Historical"
                         },
                         new
                         {
                             Id = 38,
                             CategoryType = 2,
-                            Name = "Western"
+                            Name = "Horror"
                         },
                         new
                         {
                             Id = 39,
                             CategoryType = 2,
-                            Name = "Crime Thriller"
+                            Name = "Mystery"
                         },
                         new
                         {
                             Id = 40,
                             CategoryType = 2,
-                            Name = "Disaster Thriller"
+                            Name = "Philosophical"
                         },
                         new
                         {
                             Id = 41,
                             CategoryType = 2,
-                            Name = "Psychological Thriller"
+                            Name = "Political"
                         },
                         new
                         {
                             Id = 42,
                             CategoryType = 2,
-                            Name = "Techno Thriller"
+                            Name = "Saga"
                         },
                         new
                         {
                             Id = 43,
                             CategoryType = 2,
-                            Name = "Science Fiction"
+                            Name = "Thriller"
                         },
                         new
                         {
                             Id = 44,
                             CategoryType = 2,
-                            Name = "Suspense"
+                            Name = "Western"
                         },
                         new
                         {
                             Id = 45,
                             CategoryType = 2,
-                            Name = "Animation"
+                            Name = "Crime Thriller"
                         },
                         new
                         {
                             Id = 46,
                             CategoryType = 2,
-                            Name = "Documentary"
+                            Name = "Disaster Thriller"
                         },
                         new
                         {
                             Id = 47,
                             CategoryType = 2,
-                            Name = "Family"
+                            Name = "Psychological Thriller"
                         },
                         new
                         {
                             Id = 48,
                             CategoryType = 2,
-                            Name = "Children"
+                            Name = "Techno Thriller"
                         },
                         new
                         {
                             Id = 49,
+                            CategoryType = 2,
+                            Name = "Science Fiction"
+                        },
+                        new
+                        {
+                            Id = 50,
+                            CategoryType = 2,
+                            Name = "Suspense"
+                        },
+                        new
+                        {
+                            Id = 51,
+                            CategoryType = 2,
+                            Name = "Animation"
+                        },
+                        new
+                        {
+                            Id = 52,
+                            CategoryType = 2,
+                            Name = "Documentary"
+                        },
+                        new
+                        {
+                            Id = 53,
+                            CategoryType = 2,
+                            Name = "Family"
+                        },
+                        new
+                        {
+                            Id = 54,
+                            CategoryType = 2,
+                            Name = "Children"
+                        },
+                        new
+                        {
+                            Id = 55,
                             CategoryType = 2,
                             Name = "Sport"
                         });
@@ -652,8 +688,14 @@ namespace Streamia.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Logo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Source")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("State")

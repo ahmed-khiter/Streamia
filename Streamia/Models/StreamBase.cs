@@ -24,7 +24,7 @@ namespace Streamia.Models
         [Required]
         [Display(Name = "Bouquets")]
         public virtual List<int> BouquetIds { get; set; }
-        public DateTime Uptime { get; set; } = DateTime.Now;
+        public DateTime Uptime { get; set; }
         public virtual Category Category { get; set; }
         public virtual Transcode Transcode { get; set; }
         public virtual StreamState State { get; set; }

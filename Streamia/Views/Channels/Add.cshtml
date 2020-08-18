@@ -1,53 +1,102 @@
-﻿@model Movie
+﻿@model Channel
 @{
     ViewData["Title"] = "Add Channel";
 }
 
 @section Styles {
     <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
-    <link href="~/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.min.css" rel="stylesheet" />
-    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
 }
 
-<partial name="~/Views/Partials/_Navigation.cshtml" />
-
-<form method="post">
-    <input type="hidden" asp-for="ServerId" />
-    <div class="row">
-        <div class="form-group col-md-3">
-            <label asp-for="Name"></label>
-            <div id="searchia">
-                <input asp-for="Name" class="form-control" autocomplete="off" />
+<div class="card">
+    <div class="content">
+        <form method="post" id="channel-form">
+            <input type="hidden" asp-for="ServerId" />
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name" class="form-control" autocomplete="off" />
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="BouquetIds"></label>
+                    <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="BouquetIds"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="CategoryId"></label>
+                    <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.Categories,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="CategoryId"></span>
+                </div>
+                <div class="form-group col-md-3">
+                    <label asp-for="TranscodeId"></label>
+                    <select asp-for="TranscodeId" asp-items="@(new SelectList(ViewBag.TranscodeProfiles,"Id","Name"))" class="form-control" multiple></select>
+                    <span class="text-danger" asp-validation-for="TranscodeId"></span>
+                </div>
             </div>
-            <span class="text-danger" asp-validation-for="Name"></span>
-        </div>
-        <div class="form-group col-md-3">
-            <label asp-for="BouquetIds"></label>
-            <select asp-for="BouquetIds" asp-items="@(new SelectList(ViewBag.Bouquets,"Id","Name"))" class="form-control" multiple></select>
-            <span class="text-danger" asp-validation-for="BouquetIds"></span>
-        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label asp-for="Source"></label>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary btn-fill btn-block" onclick="exploreia.open()">
+                                <i class="fa fa-folder-open"></i> Browse Channel Files
+                            </button>
+                        </div>
+                        <div class="col-md-9" id="selected-files"></div>
+                    </div>
+                    <span class="text-danger" asp-validation-for="Source"></span>
+                </div>
+            </div>
+            <hr />
+            <button class="btn btn-success btn-fill">
+                <i class="fas fa-check"></i> Add
+            </button>
+        </form>
     </div>
-    <hr />
-    <button class="main-btn">
-        <i class="fa fa-plus"></i> Add
-    </button>
-</form>
+</div>
 
 @section Scripts
 {
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
-    <script src="~/lib/switchery/switchery.js"></script>
+    <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script>
         window.addEventListener('load', function () {
-            $('select:not(.ex-server-dropdown)').select2({
-                theme: 'bootstrap4'
+            $('select:not(.ex-server-dropdown)').select2();
+        });
+
+        const exploreia = new Exploreia({
+            pickDirectory: true
+        });
+
+        exploreia.render(@Html.Raw(Json.Serialize(ViewBag.Servers)));
+
+        const connection = new signalR.HubConnectionBuilder().withUrl("/directory-browser-hub").build();
+        connection.start();
+
+        connection.on('DirectoryList', function (data) {
+            exploreia.renderDirectories(data.directoryList);
+        });
+
+        exploreia.onChange(function (server, path) {
+            connection.invoke('ListServerDirectory', server, path).catch(() => {
+                exploreia.onError();
             });
+        });
 
-            let elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+        exploreia.onPickButtonClick(function (files) {
+            files.forEach(file => {
+                let fullFilePath = exploreia.createPath() + file;
+                $('#ServerId').val(exploreia.currentServer);
+                $('#channel-form').append(`<input type="hidden" name="SourcePath[]" value="${fullFilePath}" />`);
+            });
+            $('#selected-files').html(`<div class="alert alert-success"><i class="fas fa-check"></i> ${files.length} videos selected</div>`);
+            exploreia.close();
+        });
 
-            elems.forEach(function (html) {
-                new Switchery(html);
+        exploreia.onDispose(server => {
+            connection.invoke('DisposeConnection', server).catch(() => {
+                exploreia.onError();
             });
         });
     </script>

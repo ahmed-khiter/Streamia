@@ -11,6 +11,7 @@ namespace Streamia.Models.Enums
         [Display(Name = "Live Streams")]
         LiveStreams,
         Movies,
-        Serieses
+        Serieses,
+        Channels
     }
 }

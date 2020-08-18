@@ -74,6 +74,16 @@ namespace Streamia.Models.Extensions
                 "News"
             };
 
+            string[] channelCategories = new string[]
+            {
+                "Science",
+                "Action",
+                "News",
+                "Series",
+                "Movies",
+                "Documentary"
+            };
+
             string[] moviesCategories = new string[]
             {
                 "Action",
@@ -134,6 +144,12 @@ namespace Streamia.Models.Extensions
             foreach (string categoryName in liveCategories)
             {
                 seedList.Add(new Category { Id = idCounter, CategoryType = CategoryType.LiveStreams, Name = categoryName });
+                idCounter++;
+            }
+
+            foreach (string categoryName in channelCategories)
+            {
+                seedList.Add(new Category { Id = idCounter, CategoryType = CategoryType.Channels, Name = categoryName });
                 idCounter++;
             }
 
