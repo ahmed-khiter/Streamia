@@ -44,6 +44,11 @@ namespace Streamia.Api
 
             if (channel != null)
             {
+                if (channel.SourceTranscodedCount < channel.SourceCount)
+                {
+                    channel.SourceTranscodedCount++;
+                }
+
                 if (channel.SourceCount == channel.SourceTranscodedCount)
                 {
                     var server = await serverRepository.GetById(channel.ChannelServers.FirstOrDefault().ServerId);
@@ -67,10 +72,6 @@ namespace Streamia.Api
                     channel.State = StreamState.Live;
                     await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int) StreamState.Live });
                 } 
-                else
-                {
-                    channel.SourceTranscodedCount++;
-                }
 
                 await channelRepository.Edit(channel);
             }
