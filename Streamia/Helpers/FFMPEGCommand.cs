@@ -111,7 +111,7 @@ namespace Streamia.Helpers
             command.Append($" -hls_segment_filename {output}/1080p/1080p_%d.ts {output}/1080p/1080p.m3u8");
 
             // 1280x720
-            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease");
             command.Append(" -c:a copy");
             command.Append(" -c:v copy");
             command.Append(" -hls_time 4");
@@ -120,7 +120,7 @@ namespace Streamia.Helpers
             command.Append($" -hls_segment_filename {output}/720p/720p_%d.ts {output}/720p/720p.m3u8");
 
             // 842x480
-            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -vf scale=w=842:h=480:force_original_aspect_ratio=decrease");
             command.Append(" -c:a copy");
             command.Append(" -c:v copy");
             command.Append(" -hls_time 4");
@@ -129,7 +129,7 @@ namespace Streamia.Helpers
             command.Append($" -hls_segment_filename {output}/480p/480p_%d.ts {output}/480p/480p.m3u8");
 
             // 640x360
-            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -vf scale=w=640:h=360:force_original_aspect_ratio=decrease");
             command.Append(" -c:a copy");
             command.Append(" -c:v copy");
             command.Append(" -hls_time 4");
