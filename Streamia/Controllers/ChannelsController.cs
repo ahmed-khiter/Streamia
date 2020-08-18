@@ -69,6 +69,12 @@ namespace Streamia.Controllers
                     });
                 }
 
+                model.ChannelServers.Add(new ChannelServer
+                {
+                    ChannelId = model.Id,
+                    ServerId = (int) model.ServerId
+                });
+
                 model.SourceCount = model.SourcePath.Length;
                 model.State = StreamState.Transcoding;
                 model.Source = $"/var/hls/{model.StreamKey}/source_list.txt";
@@ -99,7 +105,7 @@ namespace Streamia.Controllers
         [HttpGet]
         public async Task<IActionResult> Manage()
         {
-            return View(await channelRepository.GetAll());
+            return View(await channelRepository.GetAll(new string[] { "Category" }));
         }
 
         private async Task PrepareViewBag()
@@ -127,7 +133,7 @@ namespace Streamia.Controllers
 
                     for (int i = 0; i < channel.SourcePath.Length; i++)
                     {
-                        sourcePathString.Append($"file /var/hls/{channel.StreamKey}/sources/{i}.ts");
+                        sourcePathString.Append($"file /var/hls/{channel.StreamKey}/sources/{i}.ts\n");
                     }
 
                     prepareCommand += $" && printf \"{sourcePathString}\" > source_list.txt";

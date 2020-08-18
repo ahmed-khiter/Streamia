@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Renci.SshNet;
+using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -19,23 +22,48 @@ namespace Streamia.Api
     public class ChannelStatusController : ControllerBase
     {
         private readonly IRepository<Channel> channelRepository;
+        private readonly IRepository<Server> serverRepository;
         private readonly IHubContext<ChannelStatusHub> hub;
 
-        public ChannelStatusController(IRepository<Channel> channelRepository, IHubContext<ChannelStatusHub> hub)
+        public ChannelStatusController
+        (
+            IRepository<Channel> channelRepository,
+            IRepository<Server> serverRepository,
+            IHubContext<ChannelStatusHub> hub
+        )
         {
             this.channelRepository = channelRepository;
+            this.serverRepository = serverRepository;
             this.hub = hub;
         }
 
         [Route("edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var channel = await channelRepository.GetById(id);
+            var channel = await channelRepository.GetById(id, new string[] { "ChannelServers" });
 
             if (channel != null)
             {
                 if (channel.SourceCount == channel.SourceTranscodedCount)
                 {
+                    var server = await serverRepository.GetById(channel.ChannelServers.FirstOrDefault().ServerId);
+                    ThreadPool.QueueUserWorkItem(queue => {
+                        try
+                        {
+                            string transcoder = FFMPEGCommand.ChannelCommand(channel.Source, $"/var/hls/{channel.StreamKey}");
+                            var client = new SshClient(server.Ip, "root", server.RootPassword);
+                            client.Connect();
+                            var cmd = client.CreateCommand($"nohup {transcoder} >/dev/null 2>&1 & echo $!");
+                            var result = cmd.Execute();
+                            int pid = int.Parse(result);
+                            client.RunCommand($"disown -h {pid}");
+                            client.Disconnect();
+                            client.Dispose();
+                        } catch
+                        {
+
+                        }
+                    });
                     channel.State = StreamState.Live;
                     await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int) StreamState.Live });
                 } 

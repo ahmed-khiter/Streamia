@@ -96,5 +96,48 @@ namespace Streamia.Helpers
 
             return command.ToString();
         }
+
+        public static string ChannelCommand(string input, string output)
+        {
+            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -i {input}");
+
+            // 1920x1080
+            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -c:a copy");
+            command.Append(" -c:v copy");
+            command.Append(" -hls_time 4");
+            command.Append(" -hls_playlist_type event");
+            command.Append(" -hls_flags delete_segments");
+            command.Append($" -hls_segment_filename {output}/1080p/1080p_%d.ts {output}/1080p/1080p.m3u8");
+
+            // 1280x720
+            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -c:a copy");
+            command.Append(" -c:v copy");
+            command.Append(" -hls_time 4");
+            command.Append(" -hls_playlist_type event");
+            command.Append(" -hls_flags delete_segments");
+            command.Append($" -hls_segment_filename {output}/720p/720p_%d.ts {output}/720p/720p.m3u8");
+
+            // 842x480
+            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -c:a copy");
+            command.Append(" -c:v copy");
+            command.Append(" -hls_time 4");
+            command.Append(" -hls_playlist_type event");
+            command.Append(" -hls_flags delete_segments");
+            command.Append($" -hls_segment_filename {output}/480p/480p_%d.ts {output}/480p/480p.m3u8");
+
+            // 640x360
+            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
+            command.Append(" -c:a copy");
+            command.Append(" -c:v copy");
+            command.Append(" -hls_time 4");
+            command.Append(" -hls_playlist_type event");
+            command.Append(" -hls_flags delete_segments");
+            command.Append($" -hls_segment_filename {output}/360p/360p_%d.ts {output}/360p/360p.m3u8");
+
+            return command.ToString();
+        }
     }
 }
