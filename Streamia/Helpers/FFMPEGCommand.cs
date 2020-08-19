@@ -118,47 +118,30 @@ namespace Streamia.Helpers
             return command.ToString();
         }
 
-        public static string ChannelCommand(string input, string output)
+        public static List<string> ChannelCommand(string input, string output)
         {
-            StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -safe 0 -i {input}");
+            List<string> commands = new List<string>();
+            string[] resolutions = new string[]
+            {
+                "1080",
+                "720",
+                "480",
+                "360"
+            };
 
-            // 1920x1080
-            command.Append(" -vf scale=w=1920:h=1080:force_original_aspect_ratio=decrease");
-            command.Append(" -c:a copy");
-            command.Append(" -c:v copy");
-            command.Append(" -hls_time 4");
-            command.Append(" -hls_playlist_type event");
-            command.Append(" -hls_flags delete_segments");
-            command.Append($" -hls_segment_filename {output}/1080p/1080p_%d.ts {output}/1080p/1080p.m3u8");
+            foreach (string resolution in resolutions)
+            {
+                StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -safe 0 -i { input.Replace("RESOLUTION", resolution + 'p') }");
+                command.Append(" -c:a copy");
+                command.Append(" -c:v copy");
+                command.Append(" -hls_time 4");
+                command.Append(" -hls_playlist_type event");
+                command.Append(" -hls_flags delete_segments");
+                command.Append($" -hls_segment_filename {output}/{resolution}p/{resolution}p_%d.ts {output}/{resolution}p/{resolution}p.m3u8");
+                commands.Add(command.ToString());
+            }
 
-            // 1280x720
-            command.Append(" -vf scale=w=1280:h=720:force_original_aspect_ratio=decrease");
-            command.Append(" -c:a copy");
-            command.Append(" -c:v copy");
-            command.Append(" -hls_time 4");
-            command.Append(" -hls_playlist_type event");
-            command.Append(" -hls_flags delete_segments");
-            command.Append($" -hls_segment_filename {output}/720p/720p_%d.ts {output}/720p/720p.m3u8");
-
-            // 842x480
-            command.Append(" -vf scale=w=842:h=480:force_original_aspect_ratio=decrease");
-            command.Append(" -c:a copy");
-            command.Append(" -c:v copy");
-            command.Append(" -hls_time 4");
-            command.Append(" -hls_playlist_type event");
-            command.Append(" -hls_flags delete_segments");
-            command.Append($" -hls_segment_filename {output}/480p/480p_%d.ts {output}/480p/480p.m3u8");
-
-            // 640x360
-            command.Append(" -vf scale=w=640:h=360:force_original_aspect_ratio=decrease");
-            command.Append(" -c:a copy");
-            command.Append(" -c:v copy");
-            command.Append(" -hls_time 4");
-            command.Append(" -hls_playlist_type event");
-            command.Append(" -hls_flags delete_segments");
-            command.Append($" -hls_segment_filename {output}/360p/360p_%d.ts {output}/360p/360p.m3u8");
-
-            return command.ToString();
+            return commands;
         }
     }
 }

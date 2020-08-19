@@ -23,6 +23,7 @@ namespace Streamia.Models
         public override int? TranscodeId { get; set; }
 
         [NotMapped]
+        [Display(Name = "Source")]
         public string[] SourcePath { get; set; }
 
         [NotMapped]

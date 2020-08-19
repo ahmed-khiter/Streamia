@@ -695,9 +695,6 @@ namespace Streamia.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SourceCount")
                         .HasColumnType("int");
 

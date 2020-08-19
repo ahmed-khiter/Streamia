@@ -58,7 +58,7 @@ namespace Streamia.Controllers
             {
                 if (model.SourcePath.Length == 0)
                 {
-                    ModelState.AddModelError("Source", "Please select a folder from one of your servers");
+                    ModelState.AddModelError("SourcePath", "Please select a folder from one of your servers");
                     await PrepareViewBag();
                     return View(model);
                 }

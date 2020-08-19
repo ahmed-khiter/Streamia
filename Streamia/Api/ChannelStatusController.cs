@@ -55,16 +55,24 @@ namespace Streamia.Api
                     ThreadPool.QueueUserWorkItem(queue => {
                         try
                         {
-                            //string transcoder = FFMPEGCommand.ChannelCommand(channel.Source, $"/var/hls/{channel.StreamKey}");
-                            //var client = new SshClient(server.Ip, "root", server.RootPassword);
-                            //client.Connect();
-                            //var cmd = client.CreateCommand($"nohup {transcoder} >/dev/null 2>&1 & echo $!");
-                            //var result = cmd.Execute();
-                            //int pid = int.Parse(result);
-                            //client.RunCommand($"disown -h {pid}");
-                            //client.Disconnect();
-                            //client.Dispose();
-                        } catch
+                            string input = $"/var/hls/{channel.StreamKey}/sources/RESOLUTION/source_list.txt";
+                            string output = $"/var/hls/{channel.StreamKey}";
+                            List<string> transcoders = FFMPEGCommand.ChannelCommand(input, output);
+                            var client = new SshClient(server.Ip, "root", server.RootPassword);
+                            client.Connect();
+
+                            foreach (var transcoder in transcoders)
+                            {
+                                var cmd = client.CreateCommand($"nohup {transcoder} >/dev/null 2>&1 & echo $!");
+                                var result = cmd.Execute();
+                                int pid = int.Parse(result);
+                                client.RunCommand($"disown -h {pid}");
+                            }
+
+                            client.Disconnect();
+                            client.Dispose();
+                        } 
+                        catch
                         {
 
                         }
