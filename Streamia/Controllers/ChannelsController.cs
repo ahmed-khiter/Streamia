@@ -148,7 +148,7 @@ namespace Streamia.Controllers
 
                         for (int i = 0; i < channel.SourcePath.Length; i++)
                         {
-                            sourceList.Append($"file {streamDirectory}/sources/{resolution}/{i}.ts\n");
+                            sourceList.Append($"file '{streamDirectory}/sources/{resolution}/{i}.ts'\n");
                         }
 
                         prepareCommand += $" && printf \"{sourceList}\" > {streamDirectory}/sources/{resolution}/source_list.txt";
