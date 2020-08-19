@@ -123,21 +123,21 @@ namespace Streamia.Helpers
             List<string> commands = new List<string>();
             string[] resolutions = new string[]
             {
-                "1080",
-                "720",
-                "480",
-                "360"
+                "1080p",
+                "720p",
+                "480p",
+                "360p"
             };
 
             foreach (string resolution in resolutions)
             {
-                StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -safe 0 -i { input.Replace("RESOLUTION", resolution + 'p') }");
+                StringBuilder command = new StringBuilder($"ffmpeg -y -nostdin -hide_banner -f concat -safe 0 -i { input.Replace("RESOLUTION", resolution) }");
                 command.Append(" -c:a copy");
                 command.Append(" -c:v copy");
                 command.Append(" -hls_time 4");
                 command.Append(" -hls_playlist_type event");
                 command.Append(" -hls_flags delete_segments");
-                command.Append($" -hls_segment_filename {output}/{resolution}p/{resolution}p_%d.ts {output}/{resolution}p/{resolution}p.m3u8");
+                command.Append($" -hls_segment_filename {output}/{resolution}/{resolution}_%d.ts {output}/{resolution}/{resolution}.m3u8");
                 commands.Add(command.ToString());
             }
 

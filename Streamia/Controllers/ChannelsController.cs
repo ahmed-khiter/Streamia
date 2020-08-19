@@ -129,29 +129,30 @@ namespace Streamia.Controllers
                     string successCallbackUrl = callbackUrl.Replace("/STATE", string.Empty);
                     string streamDirectory = $"/var/hls/{channel.StreamKey}";
                     string prepareCommand = $"mkdir {streamDirectory}";
+                    string[] resolutions = new string[]
+                    {
+                        "1080p",
+                        "720p",
+                        "480p",
+                        "360p"
+                    };
 
                     prepareCommand += $" && cd {streamDirectory}";
                     prepareCommand += " && mkdir 1080p 720p 480p 360p sources";
                     prepareCommand += " && cd sources";
                     prepareCommand += " && mkdir 1080p 720p 480p 360p";
-
-                    StringBuilder sourcePathString_1080 = new StringBuilder();
-                    StringBuilder sourcePathString_720 = new StringBuilder();
-                    StringBuilder sourcePathString_480 = new StringBuilder();
-                    StringBuilder sourcePathString_360 = new StringBuilder();
-
-                    for (int i = 0; i < channel.SourcePath.Length; i++)
+                    
+                    foreach (string resolution in resolutions)
                     {
-                        sourcePathString_1080.Append($"file {streamDirectory}/sources/1080p/{i}.ts\n");
-                        sourcePathString_720.Append($"file {streamDirectory}/sources/720p/{i}.ts\n");
-                        sourcePathString_480.Append($"file {streamDirectory}/sources/480p/{i}.ts\n");
-                        sourcePathString_360.Append($"file {streamDirectory}/sources/360p/{i}.ts\n");
-                    }
+                        StringBuilder sourceList = new StringBuilder();
 
-                    prepareCommand += $" && printf \"{sourcePathString_1080}\" > {streamDirectory}/sources/1080p/source_list.txt";
-                    prepareCommand += $" && printf \"{sourcePathString_720}\" > {streamDirectory}/sources/720p/source_list.txt";
-                    prepareCommand += $" && printf \"{sourcePathString_480}\" > {streamDirectory}/sources/480p/source_list.txt";
-                    prepareCommand += $" && printf \"{sourcePathString_360}\" > {streamDirectory}/sources/360p/source_list.txt";
+                        for (int i = 0; i < channel.SourcePath.Length; i++)
+                        {
+                            sourceList.Append($"file {streamDirectory}/sources/{resolution}/{i}.ts\n");
+                        }
+
+                        prepareCommand += $" && printf \"{sourceList}\" > {streamDirectory}/sources/{resolution}/source_list.txt";
+                    }
 
                     client.Connect();
                     client.RunCommand(prepareCommand);
