@@ -640,7 +640,7 @@ fieldset[disabled] .btn-primary.active {
 }
 
 .btn-success {
-    border-color: #87CB16;
+    border-color: #20b84f;
     color: #87CB16;
 }
 
@@ -659,12 +659,12 @@ fieldset[disabled] .btn-success.focus,
 fieldset[disabled] .btn-success:active,
 fieldset[disabled] .btn-success.active {
     background-color: transparent;
-    border-color: #87CB16;
+    border-color: #20b84f;
 }
 
 .btn-success.btn-fill {
     color: #FFFFFF;
-    background-color: #87CB16;
+    background-color: #20b84f;
     opacity: 1;
     filter: alpha(opacity=100);
 }
