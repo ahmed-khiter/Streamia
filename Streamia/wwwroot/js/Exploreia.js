@@ -182,12 +182,12 @@
                 let exIcon = document.createElement('i');
                 let exFile = document.createElement('span');
 
-                exIcon.classList.add('fa');
+                exIcon.classList.add('fas');
                 if (this.isDirectory(dir)) {
                     exIcon.classList.add('fa-folder', 'text-warning');
                 } else {
                     this.fileStack.push(fileFolder);
-                    exIcon.classList.add('fa-file-video-o', 'text-secondary');
+                    exIcon.classList.add('fa-file-video', 'text-secondary');
                 }
 
                 exFile.innerHTML = fileFolder;

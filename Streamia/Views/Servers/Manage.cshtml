@@ -30,7 +30,7 @@
                     <tr>
                         <td>@record.Name</td>
                         <td>@record.Ip</td>
-                        <td id="@record.Id">
+                        <td id="state-@record.Id">
                             <i class="fa fa-circle text-@stateClass"></i> @record.ServerState
                         </td>
                         <td>
@@ -70,7 +70,7 @@
                 className = 'danger';
                 statusName = 'Fail';
             }
-            $(`#${data.id}`).html(`<i class="fa fa-circle text-${className}"></i> ${statusName}`);
+            $(`#state-${data.id}`).html(`<i class="fa fa-circle text-${className}"></i> ${statusName}`);
         });
         connection.start();
     </script>
