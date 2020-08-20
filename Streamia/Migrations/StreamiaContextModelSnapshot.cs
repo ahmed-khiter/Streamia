@@ -976,6 +976,12 @@ namespace Streamia.Migrations
                     b.Property<string>("ReleaseDate")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SourceCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SourceTranscodedCount")
+                        .HasColumnType("int");
+
                     b.Property<int>("State")
                         .HasColumnType("int");
 

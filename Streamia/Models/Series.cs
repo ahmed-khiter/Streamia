@@ -14,6 +14,10 @@ namespace Streamia.Models
         public ICollection<SeriesServer> SeriesServers { get; set; }
         public List<Episode> Episodes { get; set; }
 
+        public int SourceCount { get; set; }
+
+        public int SourceTranscodedCount { get; set; }
+
         [NotMapped]
         public override int Runtime { get; set; }
 

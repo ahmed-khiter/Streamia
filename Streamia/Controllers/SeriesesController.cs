@@ -88,6 +88,8 @@ namespace Streamia.Controllers
 
                 }
 
+                model.SourceCount = model.Episodes.Count;
+
                 await seriesRepository.Add(model);
                 return RedirectToAction(nameof(Manage));
             }

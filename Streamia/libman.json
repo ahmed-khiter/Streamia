@@ -3,14 +3,6 @@
   "defaultProvider": "cdnjs",
   "libraries": [
     {
-      "provider": "jsdelivr",
-      "library": "@ttskch/select2-bootstrap4-theme@1.4.0",
-      "destination": "wwwroot/ttskch/select2-bootstrap4-theme/",
-      "files": [
-        "dist/select2-bootstrap4.min.css"
-      ]
-    },
-    {
       "library": "Swiper@4.4.6",
       "destination": "wwwroot/lib/Swiper/",
       "files": [
@@ -78,23 +70,6 @@
       "files": [
         "dist/css/bootstrap.min.css",
         "dist/js/bootstrap.min.js"
-      ]
-    },
-    {
-      "provider": "jsdelivr",
-      "library": "select2-bootstrap-theme@0.1.0-beta.10",
-      "destination": "wwwroot/lib/select2-bootstrap-theme/",
-      "files": [
-        "dist/select2-bootstrap.css",
-        "dist/select2-bootstrap.min.css"
-      ]
-    },
-    {
-      "provider": "unpkg",
-      "library": "select2-bootstrap-theme@0.1.0-beta.10",
-      "destination": "wwwroot/lib/select2-bootstrap-theme/",
-      "files": [
-        "dist/select2-bootstrap.min.css"
       ]
     }
   ]
