@@ -28,7 +28,7 @@
         exLoaderIcon.classList.add('fa', 'fa-fw', 'fa-pulse', 'fa-spinner', 'fa-3x');
         exContent.classList.add('ex-content');
         exServerList.classList.add('ex-server-list');
-        exServerDropdown.classList.add('ex-server-dropdown', 'form-control');
+        exServerDropdown.classList.add('ex-server-dropdown', 'no-select', 'form-control');
         exCurrentPath.classList.add('ex-current-path');
         exFolders.classList.add('ex-folders');
         exButtons.classList.add('ex-buttons');

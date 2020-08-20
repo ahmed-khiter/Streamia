@@ -140,6 +140,12 @@ h1 .subtitle {
     margin: 0;
 }
 
+.select2-selection,
+.select2-selection--single {
+    height: 39px!important;
+    padding: 8px 12px!important;
+}
+
 /*     General overwrite     */
 body,
 .wrapper {

@@ -79,6 +79,23 @@
         "dist/css/bootstrap.min.css",
         "dist/js/bootstrap.min.js"
       ]
+    },
+    {
+      "provider": "jsdelivr",
+      "library": "select2-bootstrap-theme@0.1.0-beta.10",
+      "destination": "wwwroot/lib/select2-bootstrap-theme/",
+      "files": [
+        "dist/select2-bootstrap.css",
+        "dist/select2-bootstrap.min.css"
+      ]
+    },
+    {
+      "provider": "unpkg",
+      "library": "select2-bootstrap-theme@0.1.0-beta.10",
+      "destination": "wwwroot/lib/select2-bootstrap-theme/",
+      "files": [
+        "dist/select2-bootstrap.min.css"
+      ]
     }
   ]
 }

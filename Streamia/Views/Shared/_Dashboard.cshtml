@@ -22,6 +22,8 @@
     <link href="~/css/dashboard.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/css/select2-bootstrap.min.css" rel="stylesheet" />
 
     @RenderSection("Styles", required: false)
 </head>
@@ -213,18 +215,21 @@
             <footer class="footer">
                 <div class="container-fluid">
                     <nav class="pull-left">
-                        <ul>
-                            <li>
-                                <a asp-action="Add" class="btn btn-success btn-fill">
-                                    <i class="fas fa-plus"></i> Add
-                                </a>
-                            </li>
-                            <li>
-                                <a asp-action="Manage" class="btn btn-warning btn-fill">
-                                    <i class="fas fa-list-ol"></i> Manage
-                                </a>
-                            </li>
-                        </ul>
+                        @if (!ViewData.ContainsKey("DisableNavigation"))
+                        {
+                            <ul>
+                                <li>
+                                    <a asp-action="Add" class="btn btn-success btn-fill">
+                                        <i class="fas fa-plus"></i> Add
+                                    </a>
+                                </li>
+                                <li>
+                                    <a asp-action="Manage" class="btn btn-warning btn-fill">
+                                        <i class="fas fa-list-ol"></i> Manage
+                                    </a>
+                                </li>
+                            </ul>
+                        }
                     </nav>
                     <p class="copyright pull-right">
                         &copy;
@@ -240,6 +245,7 @@
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap-3/bootstrap.min.js"></script>
+    <script src="~/lib/select2/js/select2.full.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 
@@ -259,6 +265,11 @@
             if (window.location.pathname.toLowerCase() === currentHref) {
                 $(this).addClass('active');
             }
+        });
+        window.addEventListener('load', function () {
+            $('select:not(.no-select)').select2({
+                theme: 'bootstrap'
+            });
         });
     </script>
 </body>

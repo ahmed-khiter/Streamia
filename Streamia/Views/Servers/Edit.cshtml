@@ -3,16 +3,13 @@
     ViewData["Title"] = "Edit Server";
 }
 
-@section Styles {
-    <link href="~/lib/switchery/switchery.css" rel="stylesheet" />
-}
-
 <div class="card">
     <div class="content">
         <form method="post">
             <div class="row">
 
                 <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="ServerState" />
 
                 <div class="col-md-6">
                     <label asp-for="Name"></label>

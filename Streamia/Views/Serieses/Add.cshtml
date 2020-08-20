@@ -3,10 +3,6 @@
     ViewData["Title"] = "Add Series";
 }
 
-@section Styles {
-    <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
-}
-
 <div class="card">
     <div class="content">
         <form method="post" id="series-form">
@@ -119,15 +115,10 @@
 @section Scripts
 {
     <script src="~/lib/signalr/dist/browser/signalr.min.js"></script>
-    <script src="~/lib/select2/js/select2.full.min.js"></script>
     <script src="~/js/Searchia.js" asp-append-version="true"></script>
     <script src="~/js/Exploreia.js" asp-append-version="true"></script>
     <script src="~/js/TMDB.js" asp-append-version="true"></script>
     <script>
-        window.addEventListener('load', function () {
-            $('select:not(.ex-server-dropdown)').select2();
-        });
-
         let currentSelectedSeason = null;
         let currentSelectedSeasonEpisodeCount = null;
 
