@@ -45,10 +45,25 @@ namespace Streamia.Api
                 if (series.SourceCount == series.SourceTranscodedCount)
                 {
                     series.State = StreamState.Ready;
-                    await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int) StreamState.Live });
+                    await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int) StreamState.Ready });
                 }
 
                 await seriesRepository.Edit(series);
+            }
+
+            return Ok();
+        }
+
+        [Route("edit/{id}/{state}")]
+        public async Task<IActionResult> Edit(int id, StreamState state)
+        {
+            var channel = await seriesRepository.GetById(id);
+
+            if (channel != null)
+            {
+                channel.State = state;
+                await seriesRepository.Edit(channel);
+                await hub.Clients.All.SendAsync("UpdateSignal", new { id, state = (int)state });
             }
 
             return Ok();

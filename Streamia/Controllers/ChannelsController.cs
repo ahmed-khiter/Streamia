@@ -84,10 +84,10 @@ namespace Streamia.Controllers
                 await channelRepository.Add(model);
 
                 var transcodeProfile = await transcodeRepository.GetById((int)model.TranscodeId);
-                var servers = await serverRepository.Search(m => m.Id == model.ServerId && m.ServerState == ServerState.Online);
+                var server = await serverRepository.GetById((int) model.ServerId);
                 var host = $"{Request.Scheme}://{Request.Host}";
                 var callbackUrl = $"{host}/api/channelstatus/edit/{model.Id}/STATE";
-                ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, servers, callbackUrl));
+                ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
 
                 return RedirectToAction(nameof(Manage));
             }
@@ -119,72 +119,68 @@ namespace Streamia.Controllers
             ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
         }
 
-        private async void Transcode(Channel channel, Transcode transcodeProfile, IEnumerable<Server> servers, string callbackUrl)
+        private async void Transcode(Channel channel, Transcode transcodeProfile, Server server, string callbackUrl)
         {
-            foreach (var server in servers)
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+            try
             {
-                var client = new SshClient(server.Ip, "root", server.RootPassword);
-                try
+                string successCallbackUrl = callbackUrl.Replace("/STATE", string.Empty);
+                string streamDirectory = $"/var/hls/{channel.StreamKey}";
+                string prepareCommand = $"mkdir {streamDirectory}";
+                string[] resolutions = new string[]
                 {
-                    string successCallbackUrl = callbackUrl.Replace("/STATE", string.Empty);
-                    string streamDirectory = $"/var/hls/{channel.StreamKey}";
-                    string prepareCommand = $"mkdir {streamDirectory}";
-                    string[] resolutions = new string[]
-                    {
-                        "1080p",
-                        "720p",
-                        "480p",
-                        "360p"
-                    };
+                    "1080p",
+                    "720p",
+                    "480p",
+                    "360p"
+                };
 
-                    prepareCommand += $" && cd {streamDirectory}";
-                    prepareCommand += " && mkdir 1080p 720p 480p 360p sources";
-                    prepareCommand += " && cd sources";
-                    prepareCommand += " && mkdir 1080p 720p 480p 360p";
+                prepareCommand += $" && cd {streamDirectory}";
+                prepareCommand += " && mkdir 1080p 720p 480p 360p sources";
+                prepareCommand += " && cd sources";
+                prepareCommand += " && mkdir 1080p 720p 480p 360p";
                     
-                    foreach (string resolution in resolutions)
-                    {
-                        StringBuilder sourceList = new StringBuilder();
-
-                        for (int i = 0; i < channel.SourcePath.Length; i++)
-                        {
-                            sourceList.Append($"file '{streamDirectory}/sources/{resolution}/{i}.ts'\n");
-                        }
-
-                        prepareCommand += $" && printf \"{sourceList}\" > {streamDirectory}/sources/{resolution}/source_list.txt";
-                    }
-
-                    client.Connect();
-                    client.RunCommand(prepareCommand);
+                foreach (string resolution in resolutions)
+                {
+                    StringBuilder sourceList = new StringBuilder();
 
                     for (int i = 0; i < channel.SourcePath.Length; i++)
                     {
-                        var options = new Dictionary<string, string>
-                        {
-                            { "custom_output", string.Empty },
-                            { "custom_output_1080p", $"{streamDirectory}/sources/1080p/{i}.ts" },
-                            { "custom_output_720p", $"{streamDirectory}/sources/720p/{i}.ts" },
-                            { "custom_output_480p", $"{streamDirectory}/sources/480p/{i}.ts" },
-                            { "custom_output_360p", $"{streamDirectory}/sources/360p/{i}.ts" }
-                        };
-                        string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, channel.SourcePath[i], string.Empty, options);
-                        var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
-                        var result = cmd.Execute();
-                        int pid = int.Parse(result);
-                        client.RunCommand($"disown -h {pid}");
+                        sourceList.Append($"file '{streamDirectory}/sources/{resolution}/{i}.ts'\n");
                     }
 
-                    client.Disconnect();
-                    client.Dispose();
+                    prepareCommand += $" && printf \"{sourceList}\" > {streamDirectory}/sources/{resolution}/source_list.txt";
                 }
-                catch (Exception)
-                {
-                    string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
-                    var httpClient = new HttpClient();
-                    await httpClient.GetAsync(failCallbackUrl);
-                }
-            }
 
+                client.Connect();
+                client.RunCommand(prepareCommand);
+
+                for (int i = 0; i < channel.SourcePath.Length; i++)
+                {
+                    var options = new Dictionary<string, string>
+                    {
+                        { "custom_output", string.Empty },
+                        { "custom_output_1080p", $"{streamDirectory}/sources/1080p/{i}.ts" },
+                        { "custom_output_720p", $"{streamDirectory}/sources/720p/{i}.ts" },
+                        { "custom_output_480p", $"{streamDirectory}/sources/480p/{i}.ts" },
+                        { "custom_output_360p", $"{streamDirectory}/sources/360p/{i}.ts" }
+                    };
+                    string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, channel.SourcePath[i], string.Empty, options);
+                    var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
+                    var result = cmd.Execute();
+                    int pid = int.Parse(result);
+                    client.RunCommand($"disown -h {pid}");
+                }
+
+                client.Disconnect();
+                client.Dispose();
+            }
+            catch (Exception)
+            {
+                string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
+                var httpClient = new HttpClient();
+                await httpClient.GetAsync(failCallbackUrl);
+            }
         }
     }
 }

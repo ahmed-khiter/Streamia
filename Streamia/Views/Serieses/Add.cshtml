@@ -6,6 +6,9 @@
 <div class="card">
     <div class="content">
         <form method="post" id="series-form">
+
+            <input type="hidden" asp-for="ServerId"/>
+
             <div class="row">
 
                 <div class="col-md-6">
@@ -231,9 +234,9 @@
         exploreia.onPickButtonClick(function (files) {
             let season = $(`#season-${currentSelectedSeason}`);
             files.forEach((file, i) => {
-                let fullFilePath = exploreia.createFullServerFilePath(file);
                 let episodeNumber = i + 1;
-                $(`#${currentSelectedSeason}_${episodeNumber} .source`).val(fullFilePath);
+                $('#ServerId').val(exploreia.currentServer);
+                $(`#${currentSelectedSeason}_${episodeNumber} .source`).val(file);
             });
             exploreia.close();
             if (files.length < currentSelectedSeasonEpisodeCount) {

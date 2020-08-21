@@ -106,10 +106,10 @@ namespace Streamia.Controllers
                 if (model.TranscodeId > 0)
                 {
                     var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
-                    var servers = await serverRepository.Search(m => model.ServerIds.Contains(m.Id) && m.ServerState == ServerState.Online);
+                    var server = await serverRepository.GetById(model.ServerId);
                     var host = $"{Request.Scheme}://{Request.Host}";
                     var callbackUrl = $"{host}/api/moviestatus/edit/{model.Id}/STATE";
-                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, servers, callbackUrl));
+                    ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
                 }
 
                 return RedirectToAction(nameof(Manage));
@@ -142,41 +142,37 @@ namespace Streamia.Controllers
             ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
         }
 
-        private async void Transcode(Movie movie, Transcode transcodeProfile, IEnumerable<Server> servers, string callbackUrl)
+        private async void Transcode(Movie movie, Transcode transcodeProfile, Server server, string callbackUrl)
         {
-            foreach (var server in servers)
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+            try
             {
-                var client = new SshClient(server.Ip, "root", server.RootPassword);
-                try
+                string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
+                var options = new Dictionary<string, string>
                 {
-                    string successCallbackUrl = callbackUrl.Replace("STATE", StreamState.Ready.ToString());
-                    var options = new Dictionary<string, string>
-                    {
-                        { "hls_time", "4" },
-                        { "hls_playlist_type", "vod" }
-                    };
-                    string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, movie.Source, $"/var/hls/{movie.StreamKey}", options);
-                    string prepareCommand = $"mkdir /var/hls/{movie.StreamKey}";
-                    prepareCommand += $" && cd /var/hls/{movie.StreamKey}";
-                    prepareCommand += $" && mkdir 1080p 720p 480p 360p";
+                    { "hls_time", "4" },
+                    { "hls_playlist_type", "vod" }
+                };
+                string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, movie.Source, $"/var/hls/{movie.StreamKey}", options);
+                string prepareCommand = $"mkdir /var/hls/{movie.StreamKey}";
+                prepareCommand += $" && cd /var/hls/{movie.StreamKey}";
+                prepareCommand += $" && mkdir 1080p 720p 480p 360p";
 
-                    client.Connect();
-                    client.RunCommand(prepareCommand);
-                    var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
-                    var result = cmd.Execute();
-                    int pid = int.Parse(result);
-                    client.RunCommand($"disown -h {pid}");
-                    client.Disconnect();
-                    client.Dispose();
-                }
-                catch (Exception)
-                {
-                    string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
-                    var httpClient = new HttpClient();
-                    await httpClient.GetAsync(failCallbackUrl);
-                }
+                client.Connect();
+                client.RunCommand(prepareCommand);
+                var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
+                var result = cmd.Execute();
+                int pid = int.Parse(result);
+                client.RunCommand($"disown -h {pid}");
+                client.Disconnect();
+                client.Dispose();
             }
-
+            catch (Exception)
+            {
+                string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
+                var httpClient = new HttpClient();
+                await httpClient.GetAsync(failCallbackUrl);
+            }
         }
     }
 }

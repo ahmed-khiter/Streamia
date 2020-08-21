@@ -135,7 +135,6 @@ namespace Streamia.Helpers
                 command.Append(" -c:a copy");
                 command.Append(" -c:v copy");
                 command.Append(" -hls_time 4");
-                command.Append(" -hls_playlist_type event");
                 command.Append(" -hls_flags delete_segments+append_list+omit_endlist");
                 command.Append($" -hls_segment_filename {output}/{resolution}/{resolution}_%d.ts {output}/{resolution}/{resolution}.m3u8");
                 commands.Add(command.ToString());

@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Renci.SshNet;
+using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Enums;
 using Streamia.Models.Interfaces;
@@ -51,6 +55,13 @@ namespace Streamia.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.ServerId == 0)
+                {
+                    ModelState.AddModelError(string.Empty, "Please browse at least 1 Episode");
+                    await PrepareViewBag();
+                    return View(model);
+                }
+
                 foreach (var bouquetId in model.BouquetIds)
                 {
                     model.BouquetSeries.Add(new BouquetSeries
@@ -60,37 +71,27 @@ namespace Streamia.Controllers
                     });
                 }
 
-                List<int> serverIds = new List<int>();
+                model.SeriesServers.Add(new SeriesServer
+                {
+                    SeriesId = model.Id,
+                    ServerId = model.ServerId
+                });
 
                 for (int i = 0; i < model.Episodes.Count; i++)
                 {
                     model.Episodes[i].SeriesId = model.Id;
-
-                    if (model.Episodes[i].Source != null)
-                    {
-                        var sourceComponents = model.Episodes[i].Source.Split('/');
-
-                        if (int.TryParse(sourceComponents[0], out int serverId))
-                        {
-                            if (!serverIds.Contains(serverId))
-                            {
-                                model.SeriesServers.Add(new SeriesServer
-                                {
-                                    SeriesId = model.Id,
-                                    ServerId = serverId
-                                });
-                            }
-                            sourceComponents[0] = string.Empty;
-                            model.Episodes[i].Source = string.Join('/', sourceComponents);
-                            serverIds.Add(serverId);
-                        }
-                    }
-
                 }
 
                 model.SourceCount = model.Episodes.Count;
 
                 await seriesRepository.Add(model);
+
+                var transcodeProfile = await transcodeRepository.GetById((int) model.TranscodeId);
+                var server = await serverRepository.GetById(model.ServerId);
+                var host = $"{Request.Scheme}://{Request.Host}";
+                var callbackUrl = $"{host}/api/moviestatus/edit/{model.Id}/STATE";
+                ThreadPool.QueueUserWorkItem(queue => Transcode(model, transcodeProfile, server, callbackUrl));
+
                 return RedirectToAction(nameof(Manage));
             }
             await PrepareViewBag();
@@ -119,6 +120,46 @@ namespace Streamia.Controllers
             ViewBag.Servers = await serverRepository.Search(m => m.ServerState == ServerState.Online);
             ViewBag.Bouquets = await bouquetRepository.GetAll();
             ViewBag.TranscodeProfiles = await transcodeRepository.GetAll();
+        }
+
+        private async void Transcode(Series series, Transcode transcodeProfile, Server server, string callbackUrl)
+        {
+            var client = new SshClient(server.Ip, "root", server.RootPassword);
+            try
+            {
+                string successCallbackUrl = callbackUrl.Replace("STATE", string.Empty);
+                string streamDirectory = $"/var/hls/{series.StreamKey}";
+                var options = new Dictionary<string, string>
+                {
+                    { "hls_time", "4" },
+                    { "hls_playlist_type", "vod" }
+                };
+
+                string prepareCommand = $"mkdir {streamDirectory}";
+                prepareCommand += $" && cd {streamDirectory}";
+                prepareCommand += $" && mkdir 1080p 720p 480p 360p";
+
+                client.Connect();
+                client.RunCommand(prepareCommand);
+
+                foreach (var episode in series.Episodes)
+                {
+                    string transcoder = FFMPEGCommand.MakeCommand(transcodeProfile, episode.Source, streamDirectory, options);
+                    var cmd = client.CreateCommand($"nohup sh -c '{transcoder} && curl -i -X GET {successCallbackUrl}' >/dev/null 2>&1 & echo $!");
+                    var result = cmd.Execute();
+                    int pid = int.Parse(result);
+                    client.RunCommand($"disown -h {pid}");
+                }
+
+                client.Disconnect();
+                client.Dispose();
+            }
+            catch (Exception)
+            {
+                string failCallbackUrl = callbackUrl.Replace("STATE", StreamState.Error.ToString());
+                var httpClient = new HttpClient();
+                await httpClient.GetAsync(failCallbackUrl);
+            }
         }
     }
 }
