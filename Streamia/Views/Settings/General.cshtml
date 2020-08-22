@@ -11,16 +11,26 @@
 
             <div class="row">
 
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                     <label asp-for="PointPrice"></label>
                     <input asp-for="PointPrice" class="form-control" />
                     <span class="text-danger" asp-validation-for="PointPrice"></span>
                 </div>
 
-                <div class="form-group col-md-6">
+                <div class="col-md-6">
                     <label asp-for="PointsPerCreatedUser"></label>
                     <input asp-for="PointsPerCreatedUser" class="form-control" />
                     <span class="text-danger" asp-validation-for="PointsPerCreatedUser"></span>
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+                    <label asp-for="PayPalClientId"></label>
+                    <input asp-for="PayPalClientId" class="form-control" />
+                    <span class="text-danger" asp-validation-for="PayPalClientId"></span>
                 </div>
 
             </div>

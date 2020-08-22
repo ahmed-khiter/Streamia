@@ -327,6 +327,31 @@ namespace Streamia.Migrations
                     b.ToTable("BouquetStreams");
                 });
 
+            modelBuilder.Entity("Streamia.Models.Case", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ResellerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResellerId");
+
+                    b.ToTable("Cases");
+                });
+
             modelBuilder.Entity("Streamia.Models.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -989,6 +1014,7 @@ namespace Streamia.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("TranscodeId")
+                        .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Uptime")
@@ -1061,6 +1087,10 @@ namespace Streamia.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("PayPalClientId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("PointPrice")
                         .HasColumnType("decimal(18,4)");
 
@@ -1075,6 +1105,7 @@ namespace Streamia.Migrations
                         new
                         {
                             Id = 1,
+                            PayPalClientId = "",
                             PointPrice = 0.1m,
                             PointsPerCreatedUser = 10L
                         });
@@ -1418,6 +1449,13 @@ namespace Streamia.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Streamia.Models.Case", b =>
+                {
+                    b.HasOne("Streamia.Models.AppUser", "Reseller")
+                        .WithMany()
+                        .HasForeignKey("ResellerId");
+                });
+
             modelBuilder.Entity("Streamia.Models.Channel", b =>
                 {
                     b.HasOne("Streamia.Models.Category", "Category")
@@ -1526,7 +1564,9 @@ namespace Streamia.Migrations
 
                     b.HasOne("Streamia.Models.Transcode", "Transcode")
                         .WithMany()
-                        .HasForeignKey("TranscodeId");
+                        .HasForeignKey("TranscodeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Streamia.Models.SeriesServer", b =>

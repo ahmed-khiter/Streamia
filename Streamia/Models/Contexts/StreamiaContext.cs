@@ -53,6 +53,8 @@ namespace Streamia.Models.Contexts
 
         public DbSet<Recharge> Recharges { get; set; }
 
+        public DbSet<Case> Cases { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

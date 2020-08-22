@@ -19,11 +19,12 @@
 
     <link href="~/lib/bootstrap-3/bootstrap.min.css" rel="stylesheet" />
     <link href="~/css/animate.min.css" rel="stylesheet" />
-    <link href="~/css/dashboard.css" rel="stylesheet" asp-append-version="true" />
     <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
     <link href="~/lib/select2/css/select2.min.css" rel="stylesheet" />
     <link href="~/css/select2-bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplebar@5.2.1/dist/simplebar.css" />
+    <link href="~/css/dashboard.css" rel="stylesheet" asp-append-version="true" />
 
     @RenderSection("Styles", required: false)
 </head>
@@ -32,7 +33,7 @@
     <div class="wrapper">
 
         <div class="sidebar" data-color="blue">
-            <div class="sidebar-wrapper">
+            <div class="sidebar-wrapper" data-simplebar>
                 <div class="logo">
                     <a href="http://www.creative-tim.com">
                         <img src="~/images/streamia.png" alt="Streamia" style="width: 120px" />
@@ -117,6 +118,12 @@
                                 <p>Recharge</p>
                             </a>
                         </li>
+                        <li>
+                            <a asp-controller="cases" asp-action="add">
+                                <i class="fas fa-ticket-alt"></i>
+                                <p>Cases</p>
+                            </a>
+                        </li>
                     }
 
                     @if (userIsAdmin)
@@ -133,7 +140,14 @@
                                 <p>Settings</p>
                             </a>
                         </li>
+                        <li>
+                            <a asp-controller="cases" asp-action="manage">
+                                <i class="fas fa-ticket-alt"></i>
+                                <p>Cases</p>
+                            </a>
+                        </li>
                     }
+
 
                 </ul>
             </div>
@@ -246,6 +260,7 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
     <script src="~/lib/bootstrap-3/bootstrap.min.js"></script>
     <script src="~/lib/select2/js/select2.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simplebar@5.2.1/dist/simplebar.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 

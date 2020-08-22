@@ -19,5 +19,9 @@ namespace Streamia.Models
             Description = "How many points to be charged from reseller credit for each user reseller creates, EX: 10 points per created user"
         )]
         public uint PointsPerCreatedUser { get; set; }
+
+        [Required]
+        [Display(Name = "PayPal Client Id")]
+        public string PayPalClientId { get; set; }
     }
 }

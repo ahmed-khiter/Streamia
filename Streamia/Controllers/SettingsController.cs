@@ -23,15 +23,18 @@ namespace Streamia.Controllers
         public async Task<IActionResult> General()
         {
             var model = await settingRepository.GetById(1);
+
             if (model == null)
             {
                 model = await settingRepository.Add(new Setting
                 {
                     Id = 1,
                     PointPrice = 0.1m,
-                    PointsPerCreatedUser = 10
+                    PointsPerCreatedUser = 10,
+                    PayPalClientId = string.Empty
                 });
             }
+
             return View(model);
         }
 
@@ -48,6 +51,7 @@ namespace Streamia.Controllers
                 model.Id = 1;
                 await settingRepository.Edit(model);
             }
+
             return RedirectToAction(nameof(General));
         }
 

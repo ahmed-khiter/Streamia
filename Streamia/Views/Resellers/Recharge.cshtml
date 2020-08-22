@@ -38,7 +38,7 @@
 </div>
 
 @section Scripts {
-    <script src="https://www.paypal.com/sdk/js?client-id=Ad5ZUB4yHxOhwj3t9_bZTGskZfRc6NzN09yyhreebNKWcKLEDLMXZhLeFbc8vUVRfEee45mtr694-ITn"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=@Model.Setting.PayPalClientId"></script>
     <script>
         const rate = @Model.Setting.PointPrice;
         function toggleLoader(shouldShow) {

@@ -49,7 +49,8 @@ namespace Streamia.Models.Extensions
             {
                 Id = 1,
                 PointPrice = 0.1m,
-                PointsPerCreatedUser = 10
+                PointsPerCreatedUser = 10,
+                PayPalClientId = string.Empty
             });
         }
 
