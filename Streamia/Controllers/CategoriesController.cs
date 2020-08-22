@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Streamia.Helpers;
 using Streamia.Models;
 using Streamia.Models.Interfaces;
 
@@ -72,20 +73,22 @@ namespace Streamia.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Manage(string keyword)
+        public async Task<IActionResult> Manage(int? page)
         {
-            IEnumerable<Category> data;
+            //IEnumerable<Category> data;
 
-            if (keyword != null)
-            {
-                data = await categoryRepository.Search(m => m.Name.Contains(keyword));
-                ViewBag.Keyword = keyword;
-            } 
-            else
-            {
-                data = await categoryRepository.GetAll();
-            }
-
+            //if (keyword != null)
+            //{
+            //    data = await categoryRepository.Search(m => m.Name.Contains(keyword));
+            //    ViewBag.Keyword = keyword;
+            //} 
+            //else
+            //{
+            //    data = await categoryRepository.GetAll();
+            //}
+            var pager = new Pager<Category>(categoryRepository, page, 10);
+            var data = await pager.GetPaginatedList();
+            ViewBag.PaginationData = pager.GetPaginationData();
             return View(data);
         }
 

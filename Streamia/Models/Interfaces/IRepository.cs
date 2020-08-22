@@ -19,6 +19,8 @@ namespace Streamia.Models.Interfaces
         Task Delete(int id);
         Task Delete(Expression<Func<T, bool>> expression);
         Task<IEnumerable<T>> Search(Expression<Func<T, bool>> expression);
+        Task<IEnumerable<T>> Paginate(int skip, int take);
         Task<bool> Exists(Expression<Func<T, bool>> expression);
+        Task<int> Count();
     }
 }

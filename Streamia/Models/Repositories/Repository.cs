@@ -108,5 +108,15 @@ namespace Streamia.Models.Repositories
         {
             return await entitySet.AnyAsync(expression);
         }
+
+        public async Task<IEnumerable<T>> Paginate(int skip, int take)
+        {
+            return await entitySet.OrderByDescending(m => m.Id).Skip(skip).Take(take).ToListAsync();
+        }
+
+        public async Task<int> Count()
+        {
+            return await entitySet.CountAsync();
+        }
     }
 }
