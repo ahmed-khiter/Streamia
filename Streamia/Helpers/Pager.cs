@@ -35,7 +35,8 @@ namespace Streamia.Helpers
             {
                 { "HasPrevious", currentPage > 1 },
                 { "HasNext", currentPage <  totalPages },
-                { "CurrentPage", currentPage }
+                { "CurrentPage", currentPage },
+                { "TotalPages", totalPages }
             };
         }
     }
